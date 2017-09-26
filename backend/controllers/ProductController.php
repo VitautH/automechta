@@ -5,6 +5,7 @@ namespace backend\controllers;
 use common\models\Product;
 use common\models\ProductSearch;
 use common\models\ProductType;
+use common\models\ProductMake;
 use common\models\Specification;
 use common\models\ProductSpecification;
 use common\controllers\behaviors\MetaDataBehavior;
@@ -92,6 +93,8 @@ class ProductController extends \yii\web\Controller
             $this->saveProductMetaData($model);
             return $this->redirect(['index']);
         } else {
+            $model->make = key(ProductMake::getMakesList($model->type));
+
             return $this->render('create', [
                 'model' => $model,
                 'productSpecifications' => $productSpecificationModels,
@@ -167,6 +170,7 @@ class ProductController extends \yii\web\Controller
             $model = new Product();
         } else {
             $model->status = $request['Product']['status'];
+            $model->save();
         }
 
 
@@ -178,7 +182,7 @@ class ProductController extends \yii\web\Controller
         $result = ActiveForm::validateMultiple([$model]);
         $result += ActiveForm::validateMultiple($model->getI18nModels());
         $result += ActiveForm::validateMultiple($productSpecificationModels);
-        $model->save();
+
         return $result;
 
     }
