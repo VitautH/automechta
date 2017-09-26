@@ -1,0 +1,126 @@
+.mdl-layout__content {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  background-color: #EFEFEF;
+}
+
+.mdl-layout__header {
+  min-height: 48px;
+}
+
+.mdl-navigation .active .mdl-navigation__link{
+  background-color: $layout-nav-color;
+  font-weight: bold;
+}
+
+.docs-navigation__container {
+  overflow: hidden;
+  height: 54px;
+  width: 100%;
+}
+
+.mdl-layout__drawer>.mdl-layout-title {
+  padding-left: 0;
+  text-align: center;
+}
+
+.mdl-cell{
+  background-color: #FFFFFF;
+}
+
+.mdl-cell--padding {
+  padding: 16px;
+  &>h1, &>h2, &>h3, &>h4, &>h5, &>h6{
+    margin-top: 0;
+  }
+}
+
+////////// Desktop small //////////
+@media screen and (max-width: $layout-screen-size-threshold) {
+  .docs-navigation__container {
+    padding-left: 40px;
+  }
+}
+
+////////// Phone //////////
+
+@media (max-width: $grid-tablet-breakpoint - 1) {
+}
+
+
+////////// Tablet //////////
+
+@media (min-width: $grid-tablet-breakpoint) and (max-width: $grid-desktop-breakpoint - 1) {
+}
+
+.docs-navigation {
+  box-shadow: none!important;
+  border: 0!important;
+  width: 100%;
+  height: 85px;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  padding: 0 16px 0 24px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin-bottom: -16px;
+}
+
+.docs-navigation .mdl-navigation__link {
+  font-weight: 500;
+  font-size: $layout-tab-font-size;
+  text-transform: uppercase;
+  line-height: 56px;
+  padding: 0 16px;
+  color: $layout-header-text-color;
+  box-sizing: border-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-user-select: inherit;
+  -moz-user-select: inherit;
+  -ms-user-select: inherit;
+  user-select: inherit;
+  height: 54px;
+  position: relative;
+
+  &.mdl-navigation__link-login {
+    position: absolute;
+    right: 0;
+  }
+
+  & a {
+    color: $layout-header-text-color;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: $layout-nav-link-font-size;
+    margin: 0;
+  }
+
+  &.active {
+    color: $layout-header-text-color;
+  }
+
+  &.active::after {
+    height: $layout-tab-highlight-thickness;
+    width: 100%;
+    display: block;
+    content: " ";
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    background: $layout-header-tab-highlight;
+    animation: border-expand 0.2s cubic-bezier(0.4, 0.0, 0.4, 1) 0.01s alternate forwards;
+    transition: all 1s cubic-bezier(0.4, 0.0, 1, 1);
+  }
+}

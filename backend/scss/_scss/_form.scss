@@ -1,0 +1,40 @@
+.mdl-form {
+  position: relative;
+  .select2-input  {
+    width: 100%;
+  }
+  .select2-container--default.select2-container--focus .select2-selection--multiple {
+    border: 1px solid rgba(0,0,0, 0.12);
+  }
+  .select2-container--default .select2-selection--multiple {
+    border: 1px solid rgba(0,0,0, 0.12);
+    border-radius: 0;
+  }
+  .select2-search__field {
+    line-height: 1.7em;
+  }
+}
+.mdl-form--submit {
+  position: absolute;
+  right: 36px;
+  top: -30px;
+  z-index: 10;
+}
+.mdl-textfield--full-width {
+  width: 100%;
+}
+.mdl-field-row {
+  position: relative;
+  font-size: $input-text-font-size;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: $input-text-vertical-spacing 0;
+}
+.mdl-textfield .mce-tinymce {
+  margin-top: 25px;
+}
+.mdl-textfield--floating-label.is-focused .wysiwyg+.mdl-textfield__label,
+.mdl-textfield--floating-label.is-dirty .wysiwyg+.mdl-textfield__label {
+  top: 16px;
+}
+

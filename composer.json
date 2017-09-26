@@ -1,0 +1,56 @@
+{
+    "name": "atm",
+    "description": "ATM Minsk",
+    "keywords": [],
+    "homepage": "https://bitbucket.org/goodnickoff/atm",
+    "type": "project",
+    "license": "BSD-3-Clause",
+    "support": {
+    },
+    "minimum-stability": "stable",
+    "repositories": [
+      {
+        "type" : "vcs",
+        "url" : "https://github.com/pear/File_Gettext.git"
+      }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "yiisoft/yii2": ">=2.0.6",
+        "yiisoft/yii2-bootstrap": "*",
+        "yiisoft/yii2-swiftmailer": "*",
+        "yiisoft/yii2-imagine": "~2.0.0",
+        "creocoder/yii2-nested-sets": "0.9.*",
+        "bower-asset/r.js": "dev-master",
+        "bower-asset/require-css": "dev-master",
+        "bower-asset/jquery-ui": "dev-master",
+        "bower-asset/jquery-ui-daterangepicker": "*",
+        "bower-asset/jstree": "*",
+        "bower-asset/moment": "*",
+        "bower-asset/globalize": "*",
+        "bower-asset/dropzone": "*",
+        "bower-asset/select2": "*",
+        "bower-asset/urijs": "*",
+        "npm-asset/material-design-lite": "1.0.6",
+        "yiisoft/yii2-authclient": "^2.1"
+    },
+    "require-dev": {
+        "codeception/codeception": "2.1.*",
+        "codeception/specify": "*",
+        "codeception/verify": "*",
+        "yiisoft/yii2-codeception": "*",
+        "yiisoft/yii2-debug": "*",
+        "yiisoft/yii2-gii": "*",
+        "yiisoft/yii2-faker": "*"
+    },
+    "config": {
+        "process-timeout": 1800,
+        "secure-http" : false
+    },
+    "extra": {
+        "asset-installer-paths": {
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "vendor/bower"
+        }
+    }
+}

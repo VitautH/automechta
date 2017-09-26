@@ -1,0 +1,38 @@
+.comiseo-daterangepicker.ui-widget {
+  border: 0;
+  padding: 0;
+  border-radius: 2px;
+  box-shadow: rgba(0,0,0,0.21961) 0px 16px 28px 0px,rgba(0,0,0,0.20784) 0px 25px 55px 0px;
+  .comiseo-daterangepicker-calendar {
+    border-radius: 2px;
+    border:none;
+    padding: 0;
+    .ui-datepicker {
+      padding: 0;
+    }
+    .ui-datepicker-multi-3 .ui-datepicker-group {
+      width: 33.33333%;
+    }
+  }
+  .comiseo-daterangepicker-presets {
+    display: none;
+  }
+  .comiseo-daterangepicker-main {
+    border-radius: 2px;
+    border:none;
+  }
+  .comiseo-daterangepicker-buttonpanel {
+    text-align: right;
+    float: none;
+    padding: 15px;
+    button {
+      @extend .mdl-button;
+    }
+  }
+  .ui-datepicker-header {
+  }
+}
+.ui-front.comiseo-daterangepicker-mask {
+  background-color: #000;
+  opacity: .7;
+}

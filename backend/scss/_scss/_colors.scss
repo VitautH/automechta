@@ -1,0 +1,5 @@
+$success-color: unquote("rgb(#{$palette-green-500})");
+$success-color-alt: unquote("rgb(#{$color-primary-contrast})");
+
+$error-color: unquote("rgb(#{$palette-red-500})");
+$error-color-alt: unquote("rgb(#{$color-primary-contrast})");

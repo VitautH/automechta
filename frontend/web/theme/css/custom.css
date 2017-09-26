@@ -1,0 +1,119 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////*/
+/* CUSTOM CSS (ADD YOUR CSS HERE!) */
+/*//////////////////////////////////////////////////////////////////////////////////////////*/
+
+.inheritColor,.inheritColor:hover,.inheritColor:focus{
+	color:inherit;
+}
+.btn.m-btn-dark {
+	background-color: #f76d2b;
+    color: #ffffff;
+}
+.btn.m-btn-dark:hover {
+    background-color: #555;
+    color: #fff;
+}
+.btn.m-btn-dark span.fa {
+    background-color: #ffffff;
+    color: #555;
+}
+.b-featured__item .hover-light-img {
+	max-height: 113px;
+}
+.b-items .js-product-list .b-items__cell img{
+	max-height:	160px;
+}
+.b-items__cars-one-info-title{
+	color:#000;
+}
+.b-items__cars-one-info-value,.m-listingsTwo .b-items__cars-one-info-price h3,.m-listTableTwo .b-items__cell-info-price span{
+	color:#555;
+}
+@media (min-width: 1500px) {
+	.btn.header-create-button {
+	    float: right;
+	}
+}
+#product_grid td {
+	vertical-align: middle;
+}
+#product_grid td.button-col {
+    font-size: 20px;
+}
+#product_grid td > a{
+	display: inline-block;
+}
+#product_grid td > a > img,
+#product_grid td > img{
+	width: 100%;
+}
+
+.dropzone .dz-preview.dz-custom-style .dz-title-image{
+	height: 0;
+	width: 0;
+}
+.dropzone .dz-preview.dz-custom-style .dz-title-image::before{
+    content: 'Сделать главной';
+    display: inline-block;
+    position: absolute;
+    left: -86px;
+    top: -20px;
+    height: 20px;
+    right: -32px;
+    color: #fff;
+    text-align: center;
+    background-color: rgba(0,0,0,0.2);
+}
+.dropzone .dz-preview.dz-custom-style .dz-title-image:hover::before{
+    background-color: rgba(0,0,0,0.4);
+}
+.dropzone .dz-preview.dz-custom-style.dz-title .dz-title-image::before {
+	content: 'Главная';
+    display: inline-block;
+    position: absolute;
+    left: -86px;
+    top: -20px;
+    height: 20px;
+    right: -32px;
+    color: #fff;
+    text-align: center;
+    background-color: rgba(0,0,0,0.5);
+}
+.dropzone .dz-preview.dz-custom-style .dz-rotate {
+	display: none;
+    position: absolute;
+    top: 2px;
+    z-index: 1000;
+    right: 0;
+    text-decoration: none;
+    cursor: pointer;
+    opacity: 0.9;
+    color: transparent;
+    background: #fff;
+    height: 24px;
+    width: 24px;
+    right: 30px;
+    background-image: url(/theme/images/elements/icon-rotate.png);
+    background-repeat: no-repeat;
+    background-size: 30px;
+    background-position-x: -3px;
+    background-position: -3px 2px;
+}
+.dropzone .dz-preview.dz-custom-style.dz-complete .dz-rotate {
+	display: block;
+}
+
+.b-detail__main-aside-about a{
+	color:#333;
+}
+.b-detail__main-aside-about a:hover{
+	color:#333;
+	text-decoration: none;
+}
+.b-detail__main-aside-about-call a{
+	color:#fff;
+}
+.b-detail__main-aside-about-call a:hover{
+	color:#fff;
+	text-decoration: none;
+}

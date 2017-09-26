@@ -1,0 +1,14 @@
+.mdl-button .material-icons {
+    margin-right: 5px;
+}
+
+.mdl-button--success.mdl-button--success {
+  color: $success-color-alt;
+  & .mdl-ripple {
+    background: $success-color-alt;
+  }
+  &.mdl-button--raised, &.mdl-button--fab {
+    color: $success-color-alt;
+    background-color: $success-color;
+  }
+}

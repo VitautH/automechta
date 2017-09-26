@@ -1,0 +1,127 @@
+/*! Material design tooltip style */
+.qtip.qtip-mdl{
+  font-size: $card-font-size;
+  font-weight: 400;
+  background: $card-background-color;
+  border-radius: 2px;
+  border-color: $card-border-color;
+  line-height: normal;
+  box-shadow: rgba(0, 0, 0, 0.219608) 0px 16px 28px 0px, rgba(0, 0, 0, 0.207843) 0px 25px 55px 0px;
+  //background-color: #F78B83;
+  //border-color: #D95252;
+  //color: #912323;
+}
+
+.qtip.qtip-mdl .qtip-titlebar{
+  h1, h2, h3 {
+    margin-top: 15px;
+    margin-bottom: 0px;
+  }
+  color: $card-text-color;
+  background-color: $card-background-color;
+  padding: 0 20px 0px 20px;
+}
+.qtip.qtip-mdl .qtip-content{
+  padding: 20px 20px 20px 20px;
+}
+
+.qtip.qtip-mdl .qtip-close .qtip-icon{
+  background-position: -102px 0;
+}
+
+.qtip.qtip-mdl .qtip-icon{
+  border-color: $card-border-color;
+}
+
+.qtip.qtip-mdl .qtip-titlebar .ui-state-hover{
+  border-color: $card-border-color;
+}
+.qtip.qtip-modal{
+  max-width: 80%;
+  min-width: 300px;
+}
+.qtip-footer{
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid $card-border-color;
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-left: 25px;
+  padding-right: 25px;
+  text-align: right;
+  .mdl-button {
+    margin-left: 20px;
+  }
+}
+.qtip-modal>.qtip-tip{
+  display: none !important;
+}
+#qtip-growl-container{
+  position: fixed;
+  z-index: 10000;
+  top: 10px; right: 10px;
+  .qtip{
+    position: static;
+    min-height: 0;
+    overflow: hidden;
+    margin: 0 0 10px 0;
+  }
+  .qtip.jgrowl{
+    border: none;
+    font-size: 14px;
+    .qtip-title{
+      padding: 12px 0px 6px 6px;
+    }
+    .qtip-content{
+      padding: 0 16px 12px 16px;
+      line-height: 1.3em;
+    }
+    .qtip-close{
+      .ui-icon-close{
+        display: none;
+      }
+      margin-top: -16px;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      color: #FFFFFF;
+      &:after{
+        font-size: 20px;
+        @extend .material-icons;
+        content: 'close';
+      }
+    }
+  }
+  .qtip.jgrowl-info{
+    background: #323232;
+    color: #FFFFFF;
+    .qtip-titlebar {
+      background: #323232;
+      color: #FFFFFF;
+    }
+  }
+  .qtip.jgrowl-error{
+    background: #F44336;
+    color: #FFFFFF;
+    .qtip-titlebar {
+      background: #F44336;
+      color: #FFFFFF;
+    }
+  }
+  .qtip.jgrowl-warning{
+    background: #F09300;
+    color: #FFFFFF;
+    .qtip-titlebar {
+      background: #F09300;
+      color: #FFFFFF;
+    }
+  }
+  .qtip.jgrowl-success{
+    background: #4CAF50;
+    color: #FFFFFF;
+    .qtip-titlebar {
+      background: #4CAF50;
+      color: #FFFFFF;
+    }
+  }
+}

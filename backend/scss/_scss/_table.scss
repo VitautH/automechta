@@ -1,0 +1,107 @@
+table.mdl-data-table {
+    white-space: normal;
+}
+.mdl-data-table {
+  td.button-col{
+    width: 1px;
+    white-space: nowrap;
+    padding-top: 6px;
+  }
+}
+.auto-width-col {
+  width: 1px;
+  white-space: nowrap;
+  padding: 10px 15px;
+}
+.mdl-data-table {
+  width: 100%;
+}
+.mdl-data-table th a{
+  color: $text-color-primary;
+  text-decoration: none;
+  font-weight: bold;
+  &.desc:after, &.asc:after {
+    @extend .material-icons;
+    line-height: 18px;
+    height: 18px;
+    vertical-align: top;
+  }
+  &.desc:after {
+    content : 'arrow_drop_down';
+  }
+  &.asc:after {
+    content : 'arrow_drop_up';
+  }
+}
+.mdl-data-table {
+  .mdl-textfield {
+    width: 100%;
+  }
+  .filters td {
+    border-top: none;
+    padding-top: 0;
+  }
+}
+.mdl-data-table--no-border {
+  border: none;
+}
+.mdl-list-table {
+  width:100%;
+  font-size: $data-table-font-size;
+  background-color: unquote("rgb(#{$color-white})");
+  border-collapse: collapse;
+
+  tbody {
+    tr {
+      position: relative;
+      height: $data-table-row-height;
+      @include material-animation-default(0.28s);
+      transition-property: background-color;
+
+      &.is-selected {
+        background-color: $data-table-selection-color;
+      }
+
+      &:hover {
+        background-color: $data-table-hover-color;
+      }
+    }
+  }
+  td, th {
+    padding: 8px $data-table-column-padding 8px $data-table-column-padding;
+
+    &:first-of-type {
+      padding-left: 16px;
+    }
+
+    &:last-of-type {
+      padding-right: 16px;
+    }
+
+    &.mdl-list-table--checkbox-col{
+      width: 48px;
+    }
+  }
+
+  td {
+    position: relative;
+    height: $data-table-row-height;
+    box-sizing: border-box;
+  }
+
+  th {
+    position: relative;
+    text-overflow: ellipsis;
+    @include typo-body-2();
+    height: $data-table-row-height;
+    font-size: $data-table-header-font-size;
+    color: $data-table-header-color;
+    padding-bottom: 8px;
+    box-sizing: border-box;
+  }
+}
+.mdl-grid {
+  .grid-view {
+     overflow: auto;
+  }
+}

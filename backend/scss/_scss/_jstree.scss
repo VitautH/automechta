@@ -1,0 +1,136 @@
+#vakata-dnd {
+  #jstree-dnd .jstree-icon,
+  #jstree-dnd .jstree-copy {
+    display: inline-block;
+    text-decoration: none;
+    margin: 0 2px 0 0;
+    padding: 0;
+    width: 16px;
+    height: 16px;
+  }
+  #jstree-dnd.jstree-default .jstree-ok,
+  #jstree-dnd.jstree-default .jstree-er {
+    &:after {
+      @extend .material-icons;
+    }
+    background-image: none;
+  }
+  #jstree-dnd.jstree-default .jstree-ok {
+    &:after {
+      content: 'check';
+      color: $success-color;
+    }
+  }
+  #jstree-dnd.jstree-default .jstree-er {
+    &:after {
+      color: $error-color;
+      content: 'close';
+    }
+  }
+}
+#jstree-marker {
+  z-index: 10000;
+}
+.mdl-layout__container {
+  .jstree-default .jstree-node {
+    min-height: 48px;
+    line-height: 48px;
+    margin-left: 48px;
+    min-width: 48px;
+  }
+  .jstree-default .jstree-wholerow {
+    height: 48px;
+  }
+  .jstree-default .jstree-wholerow.jstree-wholerow-hovered {
+    background: $default-item-hover-bg-color;
+  }
+  .jstree-default .jstree-wholerow.jstree-wholerow-clicked {
+    background: $default-item-active-bg-color;
+  }
+  .jstree-default .jstree-anchor {
+    line-height: 48px;
+    height: 48px;
+    width: 100%;
+    position: relative;
+    padding-left: 48px;
+    box-sizing: border-box;
+    font-weight: normal;
+  }
+  .jstree-default .jstree-icon:empty {
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+  }
+  .jstree-default .jstree-icon {
+    margin-top: 6px;
+    margin-left: 6px;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    &.jstree-themeicon {
+      border-radius: 50%;
+      margin-right: 12px;
+      @extend .mdl-shadow--2dp;
+      &:after {
+        @extend .material-icons;
+        color: rgba(0,0,0,0.7);
+        font-size: 20px;
+        line-height: 36px;
+      }
+    }
+  }
+
+  .jstree-default .jstree-icon {
+    background-image: none;
+  }
+
+  .jstree-default > .jstree-container-ul .jstree-node > .jstree-ocl {
+    position: relative;
+    z-index: 30;
+    width: 0;
+    left: 12px;
+    margin-left: 0;
+    &:after {
+      @extend .material-icons;
+      font-size: 24px;
+      line-height: 36px;
+      @include material-animation-default();
+      transition-property: transform;
+    }
+  }
+  .jstree-default > .jstree-container-ul .jstree-open > .jstree-ocl {
+      &:after {
+        content : 'expand_more';
+      }
+  }
+  .jstree-default > .jstree-container-ul .jstree-closed > .jstree-ocl {
+
+      &:after {
+        -moz-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        -o-transform: rotate(-90deg);
+        -webkit-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+
+        content : 'expand_more';
+      }
+  }
+  .jstree-default .jstree-node {
+    background-image: none;
+    .jstree-node-button {
+      position: absolute;
+      right: 8px;
+      top: 8px;
+    }
+  }
+  .jstree-default .jstree-node > .jstree-anchor .jstree-themeicon {
+    &:after {
+      content : 'folder';
+    }
+  }
+  .jstree-default .jstree-node.jstree-leaf > .jstree-anchor .jstree-themeicon {
+    &:after {
+      content : 'insert_drive_file';
+    }
+  }
+}

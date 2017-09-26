@@ -1,0 +1,30 @@
+
+.page-header {
+  background-color: unquote("rgb(#{$palette-indigo-400})");
+  position: relative;
+  z-index: 10;
+  color : unquote("rgb(#{$color-primary-contrast})");
+  h1, h2, h3, p {
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+  h4, h5, h6 {
+    margin-top: 12px;
+    margin-bottom: 8px;
+  }
+  &.page-header--error {
+    background-color: $error-color;
+  }
+  .mdl-cell {
+    background-color: transparent;
+  }
+}
+
+
+
+.page-header__fab {
+  position: absolute;
+  right: 36px;
+  bottom: -28px;
+}
+

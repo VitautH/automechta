@@ -1,0 +1,47 @@
+@charset "UTF-8";
+
+
+@import "material-design-lite";
+
+@import "_scss/_colors";
+@import "_scss/_form";
+@import "_scss/_page";
+@import "_scss/_table";
+@import "_scss/_typography";
+@import "_scss/_layout";
+@import "_scss/_breadcrumbs";
+@import "_scss/_button";
+@import "_scss/_shadow";
+@import "_scss/_qtip";
+@import "_scss/_preloader";
+@import "_scss/_pagination";
+@import "_scss/_jquery-ui";
+@import "_scss/_datepicker";
+@import "_scss/_tabs";
+@import "_scss/_jstree";
+@import "_scss/_dropzone";
+@import "_scss/_card";
+
+
+////////// Phone //////////
+
+@media (max-width: $grid-tablet-breakpoint - 1) {
+}
+
+
+////////// Tablet //////////
+
+@media (min-width: $grid-tablet-breakpoint) and (max-width: $grid-desktop-breakpoint - 1) {
+}
+
+
+////////// Desktop //////////
+
+@media (min-width: $grid-desktop-breakpoint) {
+}
+
+
+////////// Desktop small //////////
+@media screen and (max-width: $layout-screen-size-threshold) {
+
+}

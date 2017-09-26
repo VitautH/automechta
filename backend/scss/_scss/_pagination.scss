@@ -1,0 +1,33 @@
+.pagination {
+  list-style-type: none;
+  padding: 0px;
+  text-align: right;
+  .prev span, .prev a {
+    @extend .material-icons;
+  }
+  .next span, .next a {
+    @extend .material-icons;
+  }
+}
+.pagination li {
+  display: inline-block;
+  font-size: 1.3rem;
+  border-radius: 2px;
+  text-align: center;
+}
+.pagination li a, .pagination li span {
+  color: #444;
+  padding: 0 10px;
+  line-height: 30px;
+  text-decoration: none;
+}
+.pagination li.disabled span {
+  cursor: default;
+  color: $button-primary-color-disabled;
+}
+.pagination li.active {
+  background-color: $button-primary-color-alt;
+}
+.pagination li.active a {
+  color: $button-secondary-color-alt;
+}
