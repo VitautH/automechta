@@ -13,7 +13,8 @@ use common\widgets\Alert;
 use yii\captcha\Captcha;
 use common\models\MetaData;
 use yii\widgets\Pjax;
-
+use common\models\Complaint;
+use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $model Product */
 /* @var $provider yii\data\ActiveDataProvider */
@@ -282,7 +283,8 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                                                 <option value="12m"><?= Yii::t('app', 'One year') ?></option>
                                                 <option value="24m"><?= Yii::t('app', '2 years') ?></option>
                                                 <option value="36m"><?= Yii::t('app', '3 years') ?></option>
-                                                <option value="48m" selected><?= Yii::t('app', '4 years') ?></option>
+                                                <option value="48m"><?= Yii::t('app', '4 years') ?></option>
+                                                <option value="60m" selected><?= Yii::t('app', '5 years') ?></option>
                                             </select>
                                             <span class="fa fa-caret-down"></span>
                                         </div>
@@ -298,42 +300,22 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                                     <!--<p><?= Yii::t('app', 'Total Payments') ?>: <span class="js-total-payments"></span></p>-->
                                 </div>
                             </div>
+                                <?php Pjax::begin(['enablePushState' => false]); ?>
                             <span class="complaint" id="complaint_to">Пожаловаться на объявление</span>
                             <div id="complaint_block">
-                                <?php Pjax::begin(); ?>
-                                <?= Html::beginForm(['/catalog/show?id='.$model->id], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+                                <?= Html::beginForm(['/catalog/complaint'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
                                 <?
                                 $modelComplain = new Product();
                                 $modelComplain->setScenario(Product::SCENARIO_COMPLAIN);
                                 ?>
-                                <?= Html::hiddenInput('form','complaint') ?>
                                 <?= Html::hiddenInput('id',$model->id) ?>
-                                <?= Html::textarea('complaint_text','',['rows' => '4', 'placeholder' => 'Жалоба', 'required' => true]) ?>
+                                <?= Html::dropDownList('complaint_type', Complaint::$type_comlaint, Complaint::$type_comlaint)  ?>
+                                <?= Html::textarea('complaint_text','',['rows' => '4', 'placeholder' => 'Введите текст жалобы']) ?>
                                 <?= Html::submitButton('Отправить', ['class' => 'btn m-btn m-btn-dark']) ?>
                                 <?= Html::endForm() ?>
-                                <h3><?= $stringHash ?></h3>
-                                <?php Pjax::end(); ?>
-
-
-
-<!--                                --><?php
-//                                $form = ActiveForm::begin([
-//                                    'id' => 'complain-form',
-//                                    'action' => '/catalog/complaint',
-//                                    'options' => ['class' => 'form-horizontal','data-pjax' => true],
-//                                    'enableClientValidation' => true,
-//                                    'enableAjaxValidation' => true,
-//                                ]);
-//                                $modelComplain = new Product();
-//                                $modelComplain->setScenario(Product::SCENARIO_COMPLAIN);
-//                                ?>
-<!--                                --><?//= $form->field($modelComplain, 'id')->hiddenInput(['value'=> $model->id])->label(false)?>
-<!--                                --><?//= $form->field($modelComplain, 'complain_text')->textarea(['rows' => '4', 'placeholder' => 'Жалоба', 'required' => true])->label(false) ?>
-<!--                                --><?//= Html::submitButton('Отправить', array('class' => "btn m-btn m-btn-dark")) ?>
-<!--                                --><?php //ActiveForm::end(); ?>
-<!--                                --><?php //Pjax::end(); ?>
                             </div>
                         </div>
+                                <?php Pjax::end(); ?>
                     </aside>
                 </div>
             </div>

@@ -6,6 +6,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use common\models\LoginForm;
 use yii\filters\VerbFilter;
+use common\models\Complaint;
 
 /**
  * Site controller
@@ -55,7 +56,9 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $complaint = count(Complaint::find()->where(['=','viewed',0])->all());
+
+        return $this->render('index', ['complaint'=>$complaint]);
     }
 
     public function actionLogin()

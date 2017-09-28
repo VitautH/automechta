@@ -7,6 +7,7 @@ use yii\helpers\Url;
 $this->title = 'My Yii Application';
 $products = Product::find()->notVerified()->orderBy('created_at DESC')->all();
 $creditApplication = CreditApplication::find()->orderBy('created_at DESC')->active()->all();
+
 ?>
 <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--padding mdl-shadow--2dp mdl-cell--12-col">
@@ -56,6 +57,23 @@ $creditApplication = CreditApplication::find()->orderBy('created_at DESC')->acti
                     </div>
                 </div>
             </div>
+            <?php endif; ?>
+
+            <?php if($complaint > 0): ?>
+                <div class="mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet">
+                    <div class="mdl-card-wide mdl-card mdl-shadow--2dp">
+                        <div class="mdl-card__title">
+                            <br>
+                            <br>
+                            <h2 style="overflow: visible;" class="mdl-card__title-text  mdl-badge" data-badge="<?= count($complaint) ?>">Количество жалоб</h2>
+                        </div>
+                        <div class="mdl-card__actions mdl-card--border">
+                            <a href="/complaint" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                Перейти
+                            </a>
+                        </div>
+                    </div>
+                </div>
             <?php endif; ?>
         </div>
     </div>

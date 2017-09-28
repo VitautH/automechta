@@ -22,6 +22,7 @@ use yii\widgets\ActiveForm;
 use yii\web\NotFoundHttpException;
 use yii\web\NotAcceptableHttpException;
 use yii\helpers\Json;
+use common\models\Complaint;
 
 /**
  * Catalog controller
@@ -108,28 +109,17 @@ class CatalogController extends Controller
      */
     public function actionShow($id)
     {
-        $request = Yii::$app->request->post();
-        if (Yii::$app->request->isAjax && $request['form'] == 'complaint') {
-           if($this->complaint($request)){
-               return 'Жалоба отправлена';
-           }
-           else {
-               return $this->complaint($request);
-           }
-        } else {
-            $model = $this->findModel($id);
+        $model = $this->findModel($id);
 
-            if ($model->status !== Product::STATUS_PUBLISHED) {
-                throw new NotFoundHttpException('The requested page does not exist.');
-            }
-
-            $model->increaseViews();
-
-            return $this->render('show', [
-                'model' => $model,
-            ]);
+        if ($model->status !== Product::STATUS_PUBLISHED) {
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
 
+        $model->increaseViews();
+
+        return $this->render('show', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -186,9 +176,7 @@ class CatalogController extends Controller
         $form = new ProductForm(['step' => 2]);
 
         $productSpecificationModels = $this->fillSpecifications($model);
-//var_dump(Yii::$app->request->post());
-//die();
-         $model->setScenario(Product::SCENARIO_DEFAULT);
+        $model->setScenario(Product::SCENARIO_DEFAULT);
         if ($model->loadI18n(Yii::$app->request->post()) && $model->validateI18n()) {
             $model->status = Product::STATUS_TO_BE_VERIFIED;
             $model->priority = 0;
@@ -234,17 +222,27 @@ class CatalogController extends Controller
         }
     }
 
-    private function complaint($request)
+    public function actionComplaint()
     {
-        $request = Yii::$app->request->post();
-        $model = Product::findOne($request['id']);
-        $model->setScenario(Product::SCENARIO_COMPLAIN);
-        $model->complaint_text = $request['complaint_text'];
-        $model->complaint_quantity++;
-        if ($model->save()) {
-            return true;
-        } else {
-            return $model->getErrors();
+        if (Yii::$app->request->isAjax) {
+            $request = Yii::$app->request->post();
+
+            if(empty($request['complaint_text'])){
+                $request['complaint_text']=null;
+            }
+
+            $model = new Complaint();
+            $model->complaint_type = $request['complaint_type'];
+            $model->complaint_text = $request['complaint_text'];
+            $model->product_id= $request['id'];
+            if ($model->save()) {
+                return '<div class="alert alert-success" role="alert" style="margin-top: 10px;">Ваша жалоба на объявление принята</div>';
+            } else {
+                return '<div class="alert alert-danger" role="alert" style="margin-top: 10px;">Произошла ошибка</div>';
+            }
+        }
+        else{
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 
