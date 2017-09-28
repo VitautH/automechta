@@ -61,7 +61,7 @@ class Product extends \yii\db\ActiveRecord
         return [
             [['region', 'phone_provider','phone_provider_2'], 'integer', 'on'=>self::SCENARIO_SELLERCONTACTS],
             [['region', 'last_name', 'first_name', 'phone', 'phone_2','phone_provider','phone_provider_2'], 'safe', 'on'=>self::SCENARIO_SELLERCONTACTS],
-            [['type','make', 'model', 'year', 'price'], 'required', 'on'=>self::SCENARIO_DEFAULT],
+            [['type','make', 'model', 'year', 'price','priority'], 'required', 'on'=>self::SCENARIO_DEFAULT],
             [['model'], 'string', 'max' => 2048],
             [['year'], 'integer', 'min' => 1900, 'max' => date('Y')],
             ['priority', 'safe', 'when' => function ($model) {
@@ -104,6 +104,7 @@ class Product extends \yii\db\ActiveRecord
                 'model',
                 'price',
                 'year',
+                'priority'
             ]
         ];
     }

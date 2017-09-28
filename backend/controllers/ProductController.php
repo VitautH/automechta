@@ -115,6 +115,7 @@ class ProductController extends \yii\web\Controller
         }
 
         $model = $this->findModel($id);
+        $model->loadDefaultValues();
 
         $productSpecificationModels = $this->fillSpecifications($model);
 
