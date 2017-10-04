@@ -67,8 +67,6 @@ class Product extends \yii\db\ActiveRecord
             ['priority', 'safe', 'when' => function ($model) {
                 return Yii::$app->user->can('changeProductPriority');
             }],
-            [['complaint_text'], 'required', 'on' => self::SCENARIO_COMPLAIN],
-            [['complaint_quantity'], 'integer', 'on' => self::SCENARIO_COMPLAIN],
             [['status', 'type', 'make', 'price', 'views', 'created_at', 'updated_at', 'created_by', 'updated_by', 'exchange', 'currency', 'auction'], 'integer'],
         ];
     }
@@ -76,10 +74,6 @@ class Product extends \yii\db\ActiveRecord
     public function scenarios()
     {
         return [
-            self::SCENARIO_COMPLAIN => [
-                'complaint_text',
-                'complaint_quantity',
-            ],
             self::SCENARIO_SELLERCONTACTS => [
                 'first_name',
                 'phone_provider_2',
@@ -104,6 +98,7 @@ class Product extends \yii\db\ActiveRecord
                 'model',
                 'price',
                 'year',
+                'priority'
             ]
         ];
     }
@@ -131,8 +126,6 @@ class Product extends \yii\db\ActiveRecord
             'exchange' => Yii::t('app', 'Exchange'),
             'auction' => Yii::t('app', 'Auction'),
             'currency' => Yii::t('app', 'Currency'),
-            'complaint_text' => 'Жалоба',
-            'complaint_quantity' => 'Количество жалоб',
         ];
     }
 

@@ -168,6 +168,26 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                                 <div class="b-blog__aside-popular-posts-one-date"><span class="fa fa-calendar-o"></span></div>
                             </div>
                         <?php endforeach; ?>
+                        <!-- Yandex.RTB R-A-248508-1 -->
+                        <div id="yandex_rtb_R-A-248508-1"></div>
+                        <script type="text/javascript">
+                            (function(w, d, n, s, t) {
+                                w[n] = w[n] || [];
+                                w[n].push(function() {
+                                    Ya.Context.AdvManager.render({
+                                        blockId: "R-A-248508-1",
+                                        renderTo: "yandex_rtb_R-A-248508-1",
+                                        async: true
+                                    });
+                                });
+                                t = d.getElementsByTagName("script")[0];
+                                s = d.createElement("script");
+                                s.type = "text/javascript";
+                                s.src = "//an.yandex.ru/system/context.js";
+                                s.async = true;
+                                t.parentNode.insertBefore(s, t);
+                            })(this, this.document, "yandexContextAsyncCallbacks");
+                        </script>
                     </div>
                 </aside>
             </div>

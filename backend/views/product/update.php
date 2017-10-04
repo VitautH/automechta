@@ -17,4 +17,3 @@ $this->registerJs("require(['controllers/product/create']);", \yii\web\View::POS
     </div>
 </div>
 <?= $this->render('_form', $_params_) ?>
-

@@ -314,6 +314,12 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
 				});
 			}
 		</script>
+<script data-skip-moving="true"> 
+       (function(w,d,u,b){ 
+               s=d.createElement('script');r=(Date.now()/1000|0);s.async=1;s.src=u+'?'+r; 
+               h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h); 
+       })(window,document,'https://cdn.bitrix24.by/b5147563/crm/site_button/loader_1_cbdawf.js'); 
+</script>
     </body>
 </html>
 <?php $this->endPage() ?>

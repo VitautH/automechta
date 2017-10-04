@@ -44,8 +44,23 @@ class ComplaintController extends Controller
             ],
         ]);
         return $this->render('index', [
-            'dataProvider' =>  $dataProvider
+            'dataProvider' => $dataProvider
         ]);
     }
 
+    public function actionDelete($id)
+    {
+        if (!Yii::$app->user->can('viewProduct')) {
+            Yii::$app->user->denyAccess();
+        }
+
+        if (Yii::$app->request->isAjax) {
+            if (Complaint::findOne($id)->delete()) {
+                return $this->actionIndex();
+
+            }
+
+        }
+
+    }
 }

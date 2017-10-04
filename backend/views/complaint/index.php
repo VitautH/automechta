@@ -11,7 +11,7 @@ use \common\helpers\MdlHtml;
 use \common\models\Product;
 use \common\models\ProductMake;
 use common\models\Complaint;
-
+use yii\widgets\Pjax;
 $currentLang = Yii::$app->language;
 $this->title = "Жалобы";
 ?>
@@ -25,6 +25,7 @@ $this->title = "Жалобы";
 </div>
 <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--padding mdl-cell--12-col mdl-shadow--2dp">
+        <?php Pjax::begin(['id' => 'model-grid', 'enablePushState' => false]); ?>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [
@@ -33,12 +34,33 @@ $this->title = "Жалобы";
                     'attribute' => 'product_id',
                     'format'=>'html',
                     'value'=>function($model){
-            return Html::a('Объявление', '/product/update?id='.$model->product_id);
+            return Html::a($model->product_id, '/product/update?id='.$model->product_id);
+                    }
+                ],
+                [
+                    'attribute' => 'complaint_type',
+                    'format'=>'raw',
+                    'value'=>function($model){
+                        return Complaint::$type_comlaint[$model->complaint_type];
                     }
                 ],
                 'complaint_text',
-                ['class' => 'yii\grid\ActionColumn'],
+                ['class' => 'yii\grid\ActionColumn',
+                    'template' => '{delete}',
+                    'contentOptions' => ['class' => 'action-column'],
+                    'buttons' => [
+                        'delete' => function ($url, $model, $key) {
+                            return Html::a('<span class="glyphicon glyphicon-trash">Удалить жалобу</span>', $url, [
+                                'title' => Yii::t('yii', 'Delete'),
+                                'data-pjax' => '#model-grid',
+                            ]);
+                        },
+                    ],
+                ],
             ],
         ]); ?>
+        <?php
+      Pjax::end();
+        ?>
     </div>
 </div>
