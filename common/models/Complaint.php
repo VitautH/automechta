@@ -29,4 +29,18 @@ class Complaint extends \yii\db\ActiveRecord
     {
         return 'complaint';
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => '#',
+            'product_id' => '№ объявления',
+            'complaint_type' => 'Тип жалобы',
+            'complaint_text' => 'Комментарий',
+        ];
+    }
+
 }

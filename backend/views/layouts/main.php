@@ -15,6 +15,7 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style href="/css/bootstrap.css"></style>
     <script>
         var require = {
             paths : {

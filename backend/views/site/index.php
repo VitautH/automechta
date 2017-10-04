@@ -65,7 +65,7 @@ $creditApplication = CreditApplication::find()->orderBy('created_at DESC')->acti
                         <div class="mdl-card__title">
                             <br>
                             <br>
-                            <h2 style="overflow: visible;" class="mdl-card__title-text  mdl-badge" data-badge="<?= count($complaint) ?>">Количество жалоб</h2>
+                            <h2 style="overflow: visible;" class="mdl-card__title-text  mdl-badge" data-badge="<?= $complaint ?>">Количество жалоб</h2>
                         </div>
                         <div class="mdl-card__actions mdl-card--border">
                             <a href="/complaint" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
