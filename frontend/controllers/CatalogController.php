@@ -24,6 +24,8 @@ use yii\web\NotAcceptableHttpException;
 use yii\helpers\Json;
 use common\models\Complaint;
 
+
+
 /**
  * Catalog controller
  */
@@ -205,6 +207,7 @@ class CatalogController extends Controller
         }
 
         $form = new ProductForm();
+
         $form->load(Yii::$app->request->post());
         $form->step = 3;
 

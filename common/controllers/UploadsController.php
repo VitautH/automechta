@@ -9,7 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use yii\imagine\Image;
-
+use common\models\AppData;
 class UploadsController extends \yii\web\Controller
 {
 
@@ -81,10 +81,11 @@ class UploadsController extends \yii\web\Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         $model->file = UploadedFile::getInstanceByName('file');
+
         $model->setAttributes(Yii::$app->request->get());
 
         if ($model->upload()) {
-            return [
+              return [
                 'status' => 'success',
                 'path' => $model->getAbsoluteUrl(),
                 'id' => $model->id,

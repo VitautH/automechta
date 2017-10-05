@@ -8,6 +8,8 @@ use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\helpers\Url;
 use Imagine\Image\ManipulatorInterface;
+use yii\imagine\Image;
+use common\models\AppData;
 
 /**
  * This is the model class for table "uploads".
@@ -85,7 +87,8 @@ class Uploads extends \yii\db\ActiveRecord
     /**
      * @return array
      */
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             [
                 'class' => TimestampBehavior::className(),
@@ -99,9 +102,7 @@ class Uploads extends \yii\db\ActiveRecord
     public function upload()
     {
         $file = $this->file;
-
         $result = false;
-
         $hash = $this->getHash($file);
         $hashDir = Yii::$app->uploads->getFolderPathByHash($hash);
 
@@ -118,7 +119,7 @@ class Uploads extends \yii\db\ActiveRecord
         ]);
 
         if ($this->validate()) {
-            ini_set('memory_limit', -1 );
+            ini_set('memory_limit', -1);
             $path = $hashDir . DIRECTORY_SEPARATOR . $hash . '.' . $file->extension;
             $result = ($this->save() && $file->saveAs($path));
 
@@ -126,8 +127,22 @@ class Uploads extends \yii\db\ActiveRecord
                 Yii::$app->uploads->limitSize($hash);
             }
         }
+        $this->setWatermark($path);
 
         return $result;
+    }
+
+    /* Watermark
+     *  @return void
+     */
+    public function setWatermark($path)
+    {
+        $appData = AppData::getData();
+        $watermarkfile = Yii::$app->uploads->getThumbnail($appData['logo']->hash, 320, 180, 'inset');
+        $size = getimagesize($path);
+        $dest_x = $size[0] - (320 + 70);
+        $dest_y = $size[1] - (180 * 2);
+        Image::watermark($path, \Yii::getAlias('@webroot') . $watermarkfile, [$dest_x, $dest_y])->save($path);
     }
 
     /**
