@@ -264,7 +264,14 @@ class CatalogController extends Controller
         }
 
         if (empty($request)) {
-            $userModel = User::find()->where('id=:id', [':id' => Yii::$app->user->id])->one();
+
+            if(empty($model->phone)&& empty($model->first_name)&& empty($model->phone_provider)){
+                $userModel = User::find()->where('id=:id', [':id' => Yii::$app->user->id])->one();
+            }
+           else {
+               $userModel = $model;
+           }
+
             if (!$userModel) {
                 throw new NotFoundHttpException('The requested page does not exist.');
             }
