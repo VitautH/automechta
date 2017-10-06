@@ -126,6 +126,13 @@ class Product extends \yii\db\ActiveRecord
             'exchange' => Yii::t('app', 'Exchange'),
             'auction' => Yii::t('app', 'Auction'),
             'currency' => Yii::t('app', 'Currency'),
+            'first_name' => 'Имя',
+            'last_name' => 'Фамилия',
+            'region' =>'Регион',
+            'phone' => 'Телефон',
+            'phone_provider' => 'Оператор',
+            'phone_2' => 'Доп. телефон',
+            'phone_provider_2' => 'Оператор',
         ];
     }
 
