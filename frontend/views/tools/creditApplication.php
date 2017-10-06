@@ -36,9 +36,8 @@ $model->loans_payment = '0';
         'itemTemplate' => "<li class='b-breadCumbs__page'>{link}</li>\n",
         'activeItemTemplate' => "<li class='b-breadCumbs__page m-active'>{link}</li>\n",
     ]) ?>
-</div><!--b-breadCumbs-->
-
-
+</div>
+<!--b-breadCumbs-->
 <section class="b-contacts s-shadow">
     <div class="container">
         <div class="row">
@@ -64,53 +63,54 @@ $model->loans_payment = '0';
                     </header>
                     <div id="success"></div>
                     <div class="col-xs-12">
-                        <?= $form->field($model, 'name', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('name') . ' <span class="text-danger">*</span>')?>
+                        <?= $form->field($model, 'name', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('name')) ?>
                     </div>
                     <div class="col-xs-12">
-                        <?= $form->field($model, 'firstname', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('firstname') . ' <span class="text-danger">*</span>')?>
+                        <?= $form->field($model, 'firstname', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('firstname')) ?>
                     </div>
                     <div class="col-xs-12">
-                        <?= $form->field($model, 'lastname', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('lastname'))?>
+                        <?= $form->field($model, 'lastname', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('lastname')) ?>
                     </div>
                     <div class="col-xs-6">
-                        <?= $form->field($model, 'phone', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('phone') . ' <span class="text-danger">*</span>')?>
+                        <?= $form->field($model, 'phone', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('phone') . ' <span class="text-danger">*</span>') ?>
                         <?= $form->field($model, "sex", ['options' => ['class' => 'b-submit__main-element wow zoomInUp', 'data-wow-delay' => '0.5s']])
-                            ->dropDownList(CreditApplication::getSexList(), ['class' => 'm-select'])->label($model->getAttributeLabel('sex') . ' <span class="text-danger">*</span>')?>
+                            ->dropDownList(CreditApplication::getSexList(), ['class' => 'm-select'])->label($model->getAttributeLabel('sex')) ?>
                         <?= $form->field($model, "previous_conviction", ['options' => ['class' => 'b-submit__main-element wow zoomInUp', 'data-wow-delay' => '0.5s']])
-                            ->dropDownList(CreditApplication::getConvictionList(), ['class' => 'm-select'])->label($model->getAttributeLabel('previous_conviction') . ' <span class="text-danger">*</span>')?>
+                            ->dropDownList(CreditApplication::getConvictionList(), ['class' => 'm-select'])->label($model->getAttributeLabel('previous_conviction')) ?>
                     </div>
                     <div class="col-xs-6">
-                        <?= $form->field($model, 'dob', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('dob') . ' <span class="text-danger">*</span>')?>
+                        <?= $form->field($model, 'dob', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('dob')) ?>
                         <?= $form->field($model, "family_status", ['options' => ['class' => 'b-submit__main-element wow zoomInUp', 'data-wow-delay' => '0.5s']])
-                            ->dropDownList(CreditApplication::getFamilyStatueList(), ['class' => 'm-select'])->label($model->getAttributeLabel('family_status') . ' <span class="text-danger">*</span>')?>
+                            ->dropDownList(CreditApplication::getFamilyStatueList(), ['class' => 'm-select'])->label($model->getAttributeLabel('family_status')) ?>
                         <?= $form->field($model, "information_on_income", ['options' => ['class' => 'b-submit__main-element wow zoomInUp', 'data-wow-delay' => '0.5s']])
-                            ->dropDownList(CreditApplication::getInformationOnIncomeList(), ['class' => 'm-select'])->label($model->getAttributeLabel('information_on_income') . ' <span class="text-danger">*</span>')?>
+                            ->dropDownList(CreditApplication::getInformationOnIncomeList(), ['class' => 'm-select'])->label($model->getAttributeLabel('information_on_income')) ?>
                     </div>
                     <div class="col-xs-6">
-                        <?= $form->field($model, 'job', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('job') . ' <span class="text-danger">*</span>') ?>
+                        <?= $form->field($model, 'job', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('job')) ?>
                     </div>
                     <div class="col-xs-6">
-                        <?= $form->field($model, 'experience', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('experience') . ' <span class="text-danger">*</span>') ?>
+                        <?= $form->field($model, 'experience', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('experience')) ?>
                     </div>
                     <div class="col-xs-12">
-                        <?= $form->field($model, 'salary', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('salary') . ' <span class="text-danger">*</span>') ?>
+                        <?= $form->field($model, 'salary', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('salary')) ?>
                     </div>
                     <div class="col-xs-12">
-                        <?= $form->field($model, 'loans_payment', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('loans_payment') . ' <span class="text-danger">*</span>') ?>
+                        <?= $form->field($model, 'loans_payment', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('loans_payment')) ?>
                     </div>
                     <div class="col-xs-12">
-                        <?= $form->field($model, 'product', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('product') . ' <span class="text-danger">*</span>') ?>
+                        <?= $form->field($model, 'product', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('product')) ?>
                     </div>
                     <div class="col-xs-6">
-                        <?= $form->field($model, 'credit_amount', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('credit_amount') . ' <span class="text-danger">*</span>') ?>
+                        <?= $form->field($model, 'credit_amount', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('credit_amount')) ?>
                     </div>
                     <div class="col-xs-6">
                         <?= $form->field($model, "term", ['options' => ['class' => 'b-submit__main-element wow zoomInUp', 'data-wow-delay' => '0.5s']])
-                            ->dropDownList(CreditApplication::getTermList(), ['class' => 'm-select'])->label($model->getAttributeLabel('term') . ' <span class="text-danger">*</span>')?>
+                            ->dropDownList(CreditApplication::getTermList(), ['class' => 'm-select'])->label($model->getAttributeLabel('term')) ?>
                     </div>
                     <div class="col-xs-12">
                         <div class="form-group">
-                            <button type="submit" class="btn m-btn" name="contact-button"><?= Yii::t('app', 'Submit') ?><span class="fa fa-angle-right"></span></button>
+                            <button type="submit" class="btn m-btn" name="contact-button"><?= Yii::t('app', 'Submit') ?>
+                                <span class="fa fa-angle-right"></span></button>
                         </div>
                     </div>
                 </div>
