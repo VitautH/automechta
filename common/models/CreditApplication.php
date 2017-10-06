@@ -59,7 +59,8 @@ class CreditApplication extends \yii\db\ActiveRecord
     {
         return [
             [['status', 'sex', 'family_status', 'previous_conviction', 'salary', 'loans_payment', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
-            [['name','firstname', 'phone', 'dob', 'sex', 'family_status', 'job', 'experience', 'salary', 'loans_payment', 'product', 'credit_amount', 'term', 'information_on_income'], 'required'],
+            [['phone'],'required'],
+            [['name','firstname', 'dob', 'sex', 'family_status', 'job', 'experience', 'salary', 'loans_payment', 'product', 'credit_amount', 'term', 'information_on_income'], 'safe'],
             [['name', 'lastname', 'firstname', 'job', 'experience', 'product', 'credit_amount', 'information_on_income'], 'string'],
             [['phone', 'dob', 'term'], 'string', 'max' => 256]
         ];
@@ -160,8 +161,8 @@ class CreditApplication extends \yii\db\ActiveRecord
     public static function getInformationOnIncomeList()
     {
         return [
-            self::CONVICTION_NO => Yii::t('app', 'Yes'),
             self::CONVICTION_YES => Yii::t('app', 'No'),
+            self::CONVICTION_NO => Yii::t('app', 'Yes'),
         ];
     }
 
