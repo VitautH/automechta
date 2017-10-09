@@ -136,7 +136,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                 <aside class="b-items__aside">
                     <h2 class="s-title wow zoomInUp" data-wow-delay="0.5s"><?= Yii::t('app', 'REFINE YOUR SEARCH') ?></h2>
                     <div class="b-items__aside-main wow zoomInUp" data-wow-delay="0.5s">
-                        <?= $this->render('_searchFormBrand', $_params_) ?>
+                        <?= $this->render('_searchForm', $_params_) ?>
                     </div>
                     <div class="b-detail__main-aside-about wow zoomInUp" data-wow-delay="0.5s">
                             <h2 class="s-titleDet"><?= Yii::t('app', 'ASK A QUESTION ABOUT THIS VEHICLE') ?></h2>

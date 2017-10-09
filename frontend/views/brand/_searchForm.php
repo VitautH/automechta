@@ -124,7 +124,7 @@ $searchForm->type = $_params_['type'];
             </div>
         </div>
     </div>
-     <footer class="b-items__aside-main-footer">
+    <footer class="b-items__aside-main-footer">
         <!--<a href="/catalog/index"><?= Yii::t('app', 'Advanced search') ?></a>-->
         <button type="submit" class="btn m-btn">Найти <span class="js-main_search_prod_type"></span><span class="fa fa-angle-right"></span></button>
     </footer>

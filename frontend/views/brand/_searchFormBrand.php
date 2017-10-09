@@ -10,30 +10,28 @@ use common\models\User;
 
 $productModel = new Product();
 $searchForm = new ProductSearchForm();
-$searchForm->type = $_params_['type'];
+$searchForm->type = $_params_['productType'];
+$productTypeAsName = ProductType::getTypesAsArray()[$searchForm->type];
+$productModelAsName = ProductMake::getMakesList($searchForm->type)[$_params_['maker']];
+
 ?>
 <form class="js-catalog-search-form">
     <div class="b-items__aside-main-body">
         <div class="b-items__aside-main-body-item">
             <label><?= Yii::t('app', 'VEHICLE TYPE') ?></label>
             <div>
-                <?= Html::dropDownList(
-                    'ProductSearchForm[type]',
-                    $searchForm->type,
-                    ProductType::getTypeAsArray($searchForm->type),
-                    ['class' => 'm-select'])
-                ?>
+                <select class="m-select" name="ProductSearchForm[type]" disabled="true">
+                    <option value="<?=$searchForm->type?>" selected><?=$productTypeAsName?></option>
+                </select>
                 <span class="fa fa-caret-down"></span>
             </div>
         </div>
         <div class="b-items__aside-main-body-item">
             <label><?= Yii::t('app', 'SELECT A MAKE') ?></label>
             <div>
-                <?= Html::dropDownList(
-                    'ProductSearchForm[make]',
-                    $searchForm->make,
-                    ProductMake::getMakesList($searchForm->type),
-                    ['class' => 'm-select', 'prompt' => 'Любая']) ?>
+                <select class="m-select" name="ProductSearchForm[makes]" disabled="true">
+                    <option value="<?=$_params_['maker']?>" selected><?=$productModelAsName?></option>
+                </select>
                 <span class="fa fa-caret-down"></span>
             </div>
         </div>
@@ -42,8 +40,8 @@ $searchForm->type = $_params_['type'];
             <div>
                 <?= Html::dropDownList(
                     'ProductSearchForm[model]',
-                    $searchForm->model,
-                    ProductMake::getModelsList($searchForm->make),
+                    $_params_['ProductSearchForm']['model'],
+                    ProductMake::getModelsList($_params_['maker']),
                     ['class' => 'm-select', 'prompt' => 'Любая']) ?>
                 <span class="fa fa-caret-down"></span>
             </div>
@@ -124,7 +122,7 @@ $searchForm->type = $_params_['type'];
             </div>
         </div>
     </div>
-     <footer class="b-items__aside-main-footer">
+    <footer class="b-items__aside-main-footer">
         <!--<a href="/catalog/index"><?= Yii::t('app', 'Advanced search') ?></a>-->
         <button type="submit" class="btn m-btn">Найти <span class="js-main_search_prod_type"></span><span class="fa fa-angle-right"></span></button>
     </footer>

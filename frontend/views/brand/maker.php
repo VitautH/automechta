@@ -56,7 +56,7 @@ $this->registerMetaTag([
     'content' => 'Большой выбор ' . $h1 . ' с пробегом в Минске. У нас можно купить авто в кредит всего за 1 час, продажа бу ' . $h1 . ' в Минске и Беларуси. Оформление машины в кредит проходит на месте.'
 ]);
 
-$this->registerJs("require(['controllers/site/searchForm']);", \yii\web\View::POS_HEAD);
+$this->registerJs("require(['controllers/brand/searchForm']);", \yii\web\View::POS_HEAD);
 $tableView= false;
 if ($tableView) {
 
