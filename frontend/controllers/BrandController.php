@@ -1,4 +1,5 @@
 <?php
+
 namespace frontend\controllers;
 
 use common\models\ProductType;
@@ -47,8 +48,8 @@ class BrandController extends Controller
         $params = Yii::$app->request->get();
         $searchForm = new ProductSearchForm();
         $query = Product::find()->active();
-        if($productType==3){
-            $params['ProductSearchForm']['type']=3;
+        if ($productType == 3) {
+            $params['ProductSearchForm']['type'] = 3;
         }
 
 
@@ -58,7 +59,7 @@ class BrandController extends Controller
             $searchForm->specifications = $params['ProductSearchForm']['specs'];
         }
 
-        if (!isset($params['sort']) || $params['sort']==='') {
+        if (!isset($params['sort']) || $params['sort'] === '') {
             $query->orderBy('updated_at DESC');
         }
 
@@ -72,7 +73,7 @@ class BrandController extends Controller
             ],
             'sort' => [
                 'attributes' => [
-                    'price'=>[
+                    'price' => [
                         'label' => 'Цене'
                     ],
                     'created_at' => [
@@ -80,7 +81,7 @@ class BrandController extends Controller
                         'desc' => ['created_at' => SORT_ASC],
                         'label' => 'Дате подачи'
                     ],
-                    'year'=>[
+                    'year' => [
                         'label' => 'Году выпуска'
                     ],
                 ]
@@ -99,7 +100,8 @@ class BrandController extends Controller
         ]);
     }
 
-    public function actionIndex(){
+    public function actionIndex()
+    {
         $params = Yii::$app->request->get();
 
         $searchForm = new ProductSearchForm();
@@ -112,7 +114,7 @@ class BrandController extends Controller
             $searchForm->specifications = $params['ProductSearchForm']['specs'];
         }
 
-        if (!isset($params['sort']) || $params['sort']==='') {
+        if (!isset($params['sort']) || $params['sort'] === '') {
             $query->orderBy('updated_at DESC');
         }
 
@@ -126,7 +128,7 @@ class BrandController extends Controller
             ],
             'sort' => [
                 'attributes' => [
-                    'price'=>[
+                    'price' => [
                         'label' => 'Цене'
                     ],
                     'created_at' => [
@@ -134,7 +136,7 @@ class BrandController extends Controller
                         'desc' => ['created_at' => SORT_ASC],
                         'label' => 'Дате подачи'
                     ],
-                    'year'=>[
+                    'year' => [
                         'label' => 'Году выпуска'
                     ],
                 ]
@@ -151,7 +153,9 @@ class BrandController extends Controller
             'metaData' => $this->getMetaData($searchForm),
         ]);
     }
-    public function actionSearch(){
+
+    public function actionSearch()
+    {
         $params = Yii::$app->request->get();
 
         $searchForm = new ProductSearchForm();
@@ -164,7 +168,7 @@ class BrandController extends Controller
             $searchForm->specifications = $params['ProductSearchForm']['specs'];
         }
 
-        if (!isset($params['sort']) || $params['sort']==='') {
+        if (!isset($params['sort']) || $params['sort'] === '') {
             $query->orderBy('updated_at DESC');
         }
 
@@ -178,7 +182,7 @@ class BrandController extends Controller
             ],
             'sort' => [
                 'attributes' => [
-                    'price'=>[
+                    'price' => [
                         'label' => 'Цене'
                     ],
                     'created_at' => [
@@ -186,7 +190,7 @@ class BrandController extends Controller
                         'desc' => ['created_at' => SORT_ASC],
                         'label' => 'Дате подачи'
                     ],
-                    'year'=>[
+                    'year' => [
                         'label' => 'Году выпуска'
                     ],
                 ]
@@ -203,6 +207,7 @@ class BrandController extends Controller
             'metaData' => $this->getMetaData($searchForm),
         ]);
     }
+
     /**
      * @param Product $model
      * @return ProductSpecification[]
@@ -293,25 +298,73 @@ class BrandController extends Controller
 
         return $meta;
     }
+
     /**
-     * @param string  $productType product type id
-     * @param string  $maker product make
+     * @param string $productType product type id
+     * @param string $maker product make
      *
      * @return index
      */
-    public function actionMaker($productType,$maker)
+    public function actionMaker($productType, $maker)
     {
+        $model = $this->findModel($productType,$maker);
+        $params = Yii::$app->request->get();
+        $params['maker']= $model->id;
+        $searchForm = new ProductSearchForm();
+        $searchForm->load($params);
+        $query = Product::find()->where(['AND',['make'=>$model->id],['product.status'=>1]])->orderBy('product.updated_at DESC');
+        if (!empty($params['ProductSearchForm']['specs'])) {
+            $searchForm->specifications = $params['ProductSearchForm']['specs'];
+        }
+        if (!isset($params['sort']) || $params['sort'] === '') {
+            $query->orderBy('updated_at DESC');
+        }
+        $searchForm->search($query);
+
+        $provider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 18,
+            ],
+            'sort' => [
+                'attributes' => [
+                    'price' => [
+                        'label' => 'Цене'
+                    ],
+                    'created_at' => [
+                        'asc' => ['created_at' => SORT_DESC],
+                        'desc' => ['created_at' => SORT_ASC],
+                        'label' => 'Дате подачи'
+                    ],
+                    'year' => [
+                        'label' => 'Году выпуска'
+                    ],
+                ]
+            ]
+        ]);
+
+        if (Yii::$app->request->isAjax) {
+            $this->layout = false;
+        }
+
+        return $this->render('indexBrand', [
+            'provider' => $provider,
+            'searchForm' => $searchForm,
+            'metaData' => $this->getMetaData($searchForm),
+            '_params_'=> $params
+        ]);
 
 //        $params = Yii::$app->request->get();
 //
+//        $model = $this->findModel($productType,$maker);
 //        $searchForm = new ProductSearchForm();
 //        $query = Product::find()->where(['AND',['make'=>$model->id],['product.status'=>1]])->orderBy('product.updated_at DESC');
 //
 //
 //        $searchForm->load($params);
 //
-//        if (!empty($params['ProductSearchForm']['specs'])) {
-//            $searchForm->specifications = $params['ProductSearchForm']['specs'];
+//        if (!empty($params['ProductSearchForm'])) {
+//            $searchForm->specifications = $params['ProductSearchForm'];
 //        }
 //
 //        if (!isset($params['sort']) || $params['sort']==='') {
@@ -320,7 +373,6 @@ class BrandController extends Controller
 //
 //
 //        $searchForm->search($query);
-//
 //        $provider = new ActiveDataProvider([
 //            'query' => $query,
 //            'pagination' => [
@@ -350,25 +402,73 @@ class BrandController extends Controller
 //
 //        return $this->render('maker', [
 //            'provider' => $provider,
+//            'model' => $model,
 //            'searchForm' => $searchForm,
 //            'metaData' => $this->getMetaData($searchForm),
 //        ]);
-
-        $model = $this->findModel($productType,$maker);
-
-        return $this->render('maker', [
-            'model' => $model,
-        ]);
+/////
+//        $model = $this->findModel($productType,$maker);
+//
+//        return $this->render('maker', [
+//            'model' => $model,
+//        ]);
     }
 
-    public function actionModelauto($productType,$maker,$modelauto)
+    public function actionModelauto($productType, $maker, $modelauto)
     {
-        $typeName = ProductMake::find()->where(['id'=>$modelauto])->one();
+//        $typeName = ProductMake::find()->where(['id' => $modelauto])->one();
+//
+//        $model = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $typeName->name], ['product_type' => $productType]])->one();
+//
+//        return $this->render('modelauto', [
+//            'model' => $model,
+//        ]);
 
-        $model = ProductMake::find()->where(['and',['depth'=>2],['name' => $typeName->name],['product_type' => $productType]])->one();
+        $model = $this->findModel($productType,$maker);
+        $params = Yii::$app->request->get();
+        $params['maker']= $model->id;
+        $searchForm = new ProductSearchForm();
+        $searchForm->load($params);
+        $query = Product::find()->where(['AND',['make'=>$model->id],['product.status'=>1]])->orderBy('product.updated_at DESC');
+        if (!empty($params['ProductSearchForm']['specs'])) {
+            $searchForm->specifications = $params['ProductSearchForm']['specs'];
+        }
+        if (!isset($params['sort']) || $params['sort'] === '') {
+            $query->orderBy('updated_at DESC');
+        }
+        $searchForm->search($query);
 
-        return $this->render('modelauto', [
-            'model' => $model,
+        $provider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 18,
+            ],
+            'sort' => [
+                'attributes' => [
+                    'price' => [
+                        'label' => 'Цене'
+                    ],
+                    'created_at' => [
+                        'asc' => ['created_at' => SORT_DESC],
+                        'desc' => ['created_at' => SORT_ASC],
+                        'label' => 'Дате подачи'
+                    ],
+                    'year' => [
+                        'label' => 'Году выпуска'
+                    ],
+                ]
+            ]
+        ]);
+
+        if (Yii::$app->request->isAjax) {
+            $this->layout = false;
+        }
+
+        return $this->render('indexBrand', [
+            'provider' => $provider,
+            'searchForm' => $searchForm,
+            'metaData' => $this->getMetaData($searchForm),
+            '_params_'=> $params
         ]);
     }
 
@@ -379,9 +479,9 @@ class BrandController extends Controller
      * @return Page the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($productType,$alias)
+    protected function findModel($productType, $alias)
     {
-        if (($model = ProductMake::find()->where(['and',['depth'=>1],['name' => $alias],['product_type'=>$productType]])->one()) !== null) {
+        if (($model = ProductMake::find()->where(['and', ['depth' => 1], ['name' => $alias], ['product_type' => $productType]])->one()) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

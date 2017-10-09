@@ -56,7 +56,6 @@ $listView = ListView::begin([
 ]);
 
 $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->all();
-
 ?>
 
 

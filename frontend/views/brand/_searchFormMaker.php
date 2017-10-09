@@ -11,9 +11,8 @@ use common\models\User;
 $productModel = new Product();
 $searchForm = new ProductSearchForm();
 $searchForm->type = $_params_['type'];
-
 ?>
-<form class="js-catalog-search-form" action="/brand/search">
+<form class="js-catalog-search-form">
     <div class="b-items__aside-main-body">
         <div class="b-items__aside-main-body-item">
             <label><?= Yii::t('app', 'VEHICLE TYPE') ?></label>

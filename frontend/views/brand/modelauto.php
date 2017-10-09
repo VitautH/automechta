@@ -35,7 +35,7 @@ $this->registerMetaTag([
         ]);
 
 
-$this->registerJs("require(['controllers/site/searchForm']);", \yii\web\View::POS_HEAD);
+$this->registerJs("require(['controllers/brand/searchForm']);", \yii\web\View::POS_HEAD);
 
 $_params_['type'] = $model->product_type;
 
