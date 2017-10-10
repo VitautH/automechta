@@ -137,12 +137,25 @@ class Uploads extends \yii\db\ActiveRecord
      */
     public function setWatermark($path)
     {
-        $appData = AppData::getData();
-        $watermarkfile = Yii::$app->uploads->getThumbnail($appData['logo']->hash, 320, 180, 'inset');
-        $size = getimagesize($path);
-        $dest_x = $size[0] - (320 + 70);
-        $dest_y = $size[1] - (180 * 2);
-        Image::watermark($path, \Yii::getAlias('@webroot') . $watermarkfile, [$dest_x, $dest_y])->save($path);
+        /*
+         * Watermark Logo (image)
+         */
+//        $appData = AppData::getData();
+//        $size = getimagesize($path);
+//
+//        $watermarkfile = Yii::$app->uploads->getThumbnail($appData['logo']->hash, $size[0]/5, $size[1]/5, 'inset');
+//        Image::watermark($path, \Yii::getAlias('@webroot') . $watermarkfile, ['30', '30'])->save($path);
+//
+        /*
+         * Watermark Text
+         */
+        $handle = ImageCreateFromjpeg($path);
+        $color = imagecolorallocate($handle, 247, 109, 43);
+        imagettftext($handle, 16, 0, 70, 40, $color,
+            \Yii::getAlias('@webroot') . '/fonts/Oswald-Bold.ttf', 'Продажа автомобилей в кредит в Беларуси Automechta.by');
+        Imagejpeg($handle, $path);
+        Image::getImagine()->open($path)->save($path, ['quality' => 100]);
+        ImageDestroy($handle);
     }
 
     /**
