@@ -138,3 +138,24 @@ margin-top: 0!important;
     background-color: #555;
     color: #fff;
 }
+#complaint_block form select {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px 10px;
+    font: 400 12px 'Open Sans',sans-serif;
+    border: 1px solid #eeeeee;
+    text-transform: uppercase;
+    border-radius: 30px;
+}
+#complaint_block form textarea {
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    fill: #fff;
+    width: 100%;
+    padding: 7px;
+}
+.b24-widget-button-crmform {
+display:none!important;
+}
