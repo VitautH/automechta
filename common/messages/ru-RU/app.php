@@ -88,7 +88,7 @@ return [
     '6 month' => '6 месяцев',
     '7 days' => '7 дней',
     'ADD YOUR VEHICLE' => 'Подать обьявление',
-    'ASK A QUESTION ABOUT THIS VEHICLE' => 'Задайте вопрос по кредитованию',
+    'ASK A QUESTION ABOUT THIS VEHICLE' => 'ЗАДАЙТЕ ВОПРОС ПО КРЕДИТУ',
     'About Us' => 'О нас',
     'About us' => 'О нас',
     'Account' => 'Личный кабинет',

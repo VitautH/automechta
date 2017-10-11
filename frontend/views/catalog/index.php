@@ -340,7 +340,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
 
                         </div>
 
-                    <h2 class="s-title wow zoomInUp" data-wow-delay="0.5s">Популярные статьи</h2>
+                    <h2 class="s-title wow zoomInUp" data-wow-delay="0.5s">Услуги компании</h2>
 
                     <div class="b-blog__aside-popular-posts">
 
