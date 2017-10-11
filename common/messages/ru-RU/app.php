@@ -101,7 +101,7 @@ return [
     'Adress' => 'Адрес',
     'Advanced search' => 'Расширенный поиск',
     'Alias' => 'Псевдоним',
-    'All about credit' => 'Все о кредитовании',
+    'All about credit' => 'ИНФОРМАЦИЯ ПО КРЕДИТУ',
     'Any' => 'Любой',
     'Application administrator' => 'Администратор приложения',
     'Application data' => 'Данные приложения',
