@@ -94,7 +94,6 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
         <h1 class="wow zoomInLeft" data-wow-delay="0.5s"> <?= $model->getFullTitle() ?></h1>
     </div>
 </section><!--b-pageHeader-->
-
 <div class="b-breadCumbs s-shadow">
     <?= Breadcrumbs::widget([
         'links' => [
@@ -117,16 +116,32 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
         'activeItemTemplate' => "<li class='b-breadCumbs__page m-active'>{link}</li>\n",
     ]) ?>
 </div><!--b-breadCumbs-->
-
 <div class="b-infoBar">
     <div class="container">
         <div class="row wow zoomInUp" data-wow-delay="0.5s">
-            <div class="col-xs-12">
+            <div class="col-md-7">
                 <span class="b-product-info"><span>№</span> : <?= $model->id ?></span>
                 <span class="b-product-info"><span><?= Yii::t('app', 'Published') ?></span> : <?= Yii::$app->formatter->asDate($model->created_at) ?></span>
                 <span class="b-product-info"><span><?= Yii::t('app', 'Updated') ?></span> : <?= Yii::$app->formatter->asDate($model->updated_at) ?></span>
-                <span class="b-product-info"><span
-                            class="fa fa-eye"></span> <?= Yii::t('app', '{n,plural,=0{# Views} =1{# View} one{# View} other{# Views}}', ['n' => $model->views]) ?></span>
+                <span class="b-product-info"><span class="fa fa-eye"></span> <?= Yii::t('app', '{n,plural,=0{# Views} =1{# View} one{# View} other{# Views}}', ['n' => $model->views]) ?></span>
+            </div>
+            <div class="col-md-3 col-md-offset-2">
+                <?php Pjax::begin(['enablePushState' => false]); ?>
+                <span class="complaint" id="complaint_to">Пожаловаться на объявление</span>
+                <div id="complaint_block">
+                    <?= Html::beginForm(['/catalog/complaint'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+                    <?
+                    $modelComplain = new Product();
+                    $modelComplain->setScenario(Product::SCENARIO_COMPLAIN);
+                    ?>
+                    <?= Html::hiddenInput('id',$model->id) ?>
+                    <?= Html::dropDownList('complaint_type', Complaint::$type_comlaint, Complaint::$type_comlaint)  ?>
+                    <?= Html::textarea('complaint_text','',['rows' => '6', 'placeholder' => 'Введите текст жалобы']) ?>
+                    <?= Html::submitButton('Отправить', ['class' => 'btn m-btn m-btn-dark']) ?>
+                    <?= Html::endForm() ?>
+                </div>
+            </div>
+            <?php Pjax::end(); ?>
             </div>
         </div>
     </div>
@@ -300,29 +315,12 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                                     <!--<p><?= Yii::t('app', 'Total Payments') ?>: <span class="js-total-payments"></span></p>-->
                                 </div>
                             </div>
-                                <?php Pjax::begin(['enablePushState' => false]); ?>
-                            <span class="complaint" id="complaint_to">Пожаловаться на объявление</span>
-                            <div id="complaint_block">
-                                <?= Html::beginForm(['/catalog/complaint'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
-                                <?
-                                $modelComplain = new Product();
-                                $modelComplain->setScenario(Product::SCENARIO_COMPLAIN);
-                                ?>
-                                <?= Html::hiddenInput('id',$model->id) ?>
-                                <?= Html::dropDownList('complaint_type', Complaint::$type_comlaint, Complaint::$type_comlaint)  ?>
-                                <?= Html::textarea('complaint_text','',['rows' => '4', 'placeholder' => 'Введите текст жалобы']) ?>
-                                <?= Html::submitButton('Отправить', ['class' => 'btn m-btn m-btn-dark']) ?>
-                                <?= Html::endForm() ?>
-                            </div>
-                        </div>
-                                <?php Pjax::end(); ?>
                     </aside>
                 </div>
             </div>
         </div>
     </div>
 </section><!--b-detail-->
-
 <?php if (!empty($similarProducts)): ?>
     <section class="b-related m-home">
         <div class="container">
@@ -357,8 +355,7 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                                     </span>
                                     <?php endforeach; ?>
                                 <?php else: ?>
-                                    <span class="m-number">
-                                        &nbsp;
+                                    <span class="m-number">&nbsp;
                                     </span>
                                 <?php endif; ?>
                                 <div class="b-featured__item-links m-auto">
@@ -376,4 +373,3 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
         </div>
     </section><!--"b-related-->
 <?php endif; ?>
-
