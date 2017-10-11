@@ -159,3 +159,6 @@ margin-top: 0!important;
 .b24-widget-button-crmform {
 display:none!important;
 }
+.b-makers__item a:hover {
+text-decoration:underline;
+}
