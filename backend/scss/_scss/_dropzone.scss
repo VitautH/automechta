@@ -334,6 +334,8 @@
   display: block;
   z-index: 10; }
 .dropzone .dz-preview .dz-image img {
+  height:120px;
+  width: 120px;
   display: block; }
 .dropzone .dz-preview.dz-success .dz-success-mark .mdl-button{
   bottom: auto;

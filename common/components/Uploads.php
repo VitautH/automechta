@@ -74,7 +74,7 @@ class Uploads extends Component
         $data = $query->all();
 
         foreach ($data as &$item) {
-            $item['path'] = $this->getFolderUrlByHash($item['hash']) . '/' . $item['hash'] . '.' . $item['extension'];
+            $item['path'] = 'http://automechta.by'.$this->getFolderUrlByHash($item['hash']) . '/' . $item['hash'] . '.' . $item['extension'];
         }
         
         return $data;
