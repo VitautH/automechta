@@ -196,7 +196,14 @@ class Uploads extends \yii\db\ActiveRecord
     {
         return Yii::$app->uploads->getThumbnail($this->hash, $width, $height, $mode);
     }
-
+    /**
+     * @param $mode
+     * @return string
+     */
+    public function getImage()
+    {
+        return Yii::$app->uploads->getThumbnail($this->hash);
+    }
     /**
      * @return boolean
      */

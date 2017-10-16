@@ -15,6 +15,7 @@ use common\models\MetaData;
 use yii\widgets\Pjax;
 use common\models\Complaint;
 use yii\helpers\ArrayHelper;
+
 /* @var $this yii\web\View */
 /* @var $model Product */
 /* @var $provider yii\data\ActiveDataProvider */
@@ -22,6 +23,13 @@ use yii\helpers\ArrayHelper;
 $tableView = filter_var(Yii::$app->request->get('tableView', 'false'), FILTER_VALIDATE_BOOLEAN);
 
 $this->registerJs("require(['controllers/catalog/show']);", \yii\web\View::POS_HEAD);
+$this->registerCssFile("@web/css/jquery.fancybox.min.css", [
+    'depends' => [\yii\bootstrap\BootstrapAsset::className()],
+]);
+$this->registerJsFile(
+    '@web/js/jquery.fancybox.min.js',
+    ['depends' => [\yii\web\JqueryAsset::className()]]
+);
 $appData = AppData::getData();
 $uploads = $model->getUploads();
 $similarProducts = Product::find()
@@ -89,7 +97,8 @@ $this->registerMetaData($metaData);
 $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $model->model], ['product_type' => $model->type]])->one()->id;
 
 ?>
-<section class="b-pageHeader" style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
+<section class="b-pageHeader"
+         style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
     <div class="container">
         <h1 class="wow zoomInLeft" data-wow-delay="0.5s"> <?= $model->getFullTitle() ?></h1>
     </div>
@@ -123,7 +132,8 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                 <span class="b-product-info"><span>№</span> : <?= $model->id ?></span>
                 <span class="b-product-info"><span><?= Yii::t('app', 'Published') ?></span> : <?= Yii::$app->formatter->asDate($model->created_at) ?></span>
                 <span class="b-product-info"><span><?= Yii::t('app', 'Updated') ?></span> : <?= Yii::$app->formatter->asDate($model->updated_at) ?></span>
-                <span class="b-product-info"><span class="fa fa-eye"></span> <?= Yii::t('app', '{n,plural,=0{# Views} =1{# View} one{# View} other{# Views}}', ['n' => $model->views]) ?></span>
+                <span class="b-product-info"><span
+                            class="fa fa-eye"></span> <?= Yii::t('app', '{n,plural,=0{# Views} =1{# View} one{# View} other{# Views}}', ['n' => $model->views]) ?></span>
             </div>
             <div class="col-md-3 col-md-offset-2">
                 <?php Pjax::begin(['enablePushState' => false]); ?>
@@ -134,17 +144,17 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                     $modelComplain = new Product();
                     $modelComplain->setScenario(Product::SCENARIO_COMPLAIN);
                     ?>
-                    <?= Html::hiddenInput('id',$model->id) ?>
-                    <?= Html::dropDownList('complaint_type', Complaint::$type_comlaint, Complaint::$type_comlaint)  ?>
-                    <?= Html::textarea('complaint_text','',['rows' => '6', 'placeholder' => 'Введите текст жалобы']) ?>
+                    <?= Html::hiddenInput('id', $model->id) ?>
+                    <?= Html::dropDownList('complaint_type', Complaint::$type_comlaint, Complaint::$type_comlaint) ?>
+                    <?= Html::textarea('complaint_text', '', ['rows' => '6', 'placeholder' => 'Введите текст жалобы']) ?>
                     <?= Html::submitButton('Отправить', ['class' => 'btn m-btn m-btn-dark']) ?>
                     <?= Html::endForm() ?>
                 </div>
             </div>
             <?php Pjax::end(); ?>
-            </div>
         </div>
     </div>
+</div>
 </div><!--b-infoBar-->
 
 <section class="b-detail s-shadow">
@@ -190,9 +200,22 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                                         data-mode-pager="vertical" data-pager-qty="5">
                                         <?php foreach ($uploads as $upload): ?>
                                             <li class="s-relative">
-                                                <img class="img-responsive center-block"
-                                                     src="<?= $upload->getThumbnail(620, 420) ?>"
-                                                     alt="<?= $model->i18n()->title ?>"/>
+                                                <a href="<?= $upload->getImage() ?>" data-fancybox
+                                                   data-caption="<?= $model->i18n()->title ?>">
+                                                    <div style="
+
+   position: absolute;
+    right: 0;
+    margin-top: 5px;
+    margin-right: 10px;
+"><span class="glyphicon glyphicon-zoom-in" style="
+    color: #e0e24e;
+    text-align: center;
+    display: block;
+    font-size: 30px;
+"></span></div>   <img src="<?= $upload->getThumbnail(770, 420) ?>"
+                                                         alt="<?= $model->i18n()->title ?>"/>
+                                                </a>
                                             </li>
                                         <?php endforeach; ?>
                                     </ul>
@@ -202,7 +225,8 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                                         <?php foreach ($uploads as $key => $upload): ?>
                                             <a href="#" data-slide-index="<?= $key ?>"
                                                class="b-detail__main-info-images-small-one">
-                                                <img class="img-responsive" src="<?= $upload->getThumbnail(115, 85) ?>"
+                                                <img class="img-responsive"
+                                                     src="<?= $upload->getThumbnail(115, 85) ?>"
                                                      alt="<?= $model->i18n()->title ?>"/>
                                             </a>
                                         <?php endforeach; ?>
@@ -210,10 +234,12 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                                 </div>
                             </div>
                         </div>
-                        <div class="wow zoomInUp b-detail__main-aside-desc hidden-md hidden-lg" data-wow-delay="0.5s">
+                        <div class="wow zoomInUp b-detail__main-aside-desc hidden-md hidden-lg"
+                             data-wow-delay="0.5s">
                             <?= $this->render('_productDescription', ['model' => $model, 'productSpecificationsMain' => $productSpecificationsMain]) ?>
                         </div>
-                        <div class="wow zoomInUp b-detail__main-aside-desc hidden-md hidden-lg" data-wow-delay="0.5s">
+                        <div class="wow zoomInUp b-detail__main-aside-desc hidden-md hidden-lg"
+                             data-wow-delay="0.5s">
                             <?= $this->render('_sellerData', ['phone' => $phone, 'phone_provider' => $phone_provider, 'phone_2' => $phone_2, 'phone_provider_2' => $phone_provider_2, 'first_name' => $first_name, 'region' => $region]) ?>
                         </div>
                         <div class="b-detail__main-info-text wow zoomInUp" data-wow-delay="0.5s">
@@ -251,7 +277,8 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                 </div>
                 <div class="col-md-4 col-xs-12">
                     <aside class="b-detail__main-aside">
-                        <div class="b-detail__main-aside-desc wow zoomInUp hidden-sm hidden-xs" data-wow-delay="0.5s">
+                        <div class="b-detail__main-aside-desc wow zoomInUp hidden-sm hidden-xs"
+                             data-wow-delay="0.5s">
                             <?= $this->render('_productDescription', ['model' => $model, 'productSpecificationsMain' => $productSpecificationsMain]) ?>
                         </div>
                         <?php if ($model->priority != 1): ?>
@@ -290,7 +317,8 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                                                value="<?= $model->getByrPrice() ?>" name="price"/>
                                         <label><?= Yii::t('app', 'RATE IN') ?> %</label>
                                         <input type="text" placeholder="<?= Yii::t('app', 'RATE IN') ?> %"
-                                               value="<?= $appData['loanRate'] ?>%" name="rate" disabled="disabled"/>
+                                               value="<?= $appData['loanRate'] ?>%" name="rate"
+                                               disabled="disabled"/>
                                         <label><?= Yii::t('app', 'LOAN TERM') ?></label>
                                         <div class="s-relative">
                                             <select name="term" class="m-select">
@@ -299,17 +327,20 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                                                 <option value="24m"><?= Yii::t('app', '2 years') ?></option>
                                                 <option value="36m"><?= Yii::t('app', '3 years') ?></option>
                                                 <option value="48m"><?= Yii::t('app', '4 years') ?></option>
-                                                <option value="60m" selected><?= Yii::t('app', '5 years') ?></option>
+                                                <option value="60m"
+                                                        selected><?= Yii::t('app', '5 years') ?></option>
                                             </select>
                                             <span class="fa fa-caret-down"></span>
                                         </div>
-                                        <button type="submit" class="btn m-btn"><?= Yii::t('app', 'ESTIMATE PAYMENT') ?>
+                                        <button type="submit"
+                                                class="btn m-btn"><?= Yii::t('app', 'ESTIMATE PAYMENT') ?>
                                             <span class="fa fa-angle-right"></span></button>
                                     </form>
                                 </div>
                                 <div class="b-detail__main-aside-about-call js-loan-results">
                                     <span class="fa fa-calculator"></span>
-                                    <div><span class="js-per-month"></span> BYN <p><?= Yii::t('app', 'PER MONTH') ?></p>
+                                    <div><span class="js-per-month"></span> BYN
+                                        <p><?= Yii::t('app', 'PER MONTH') ?></p>
                                     </div>
                                     <p>&nbsp;</p>
                                     <!--<p><?= Yii::t('app', 'Total Payments') ?>: <span class="js-total-payments"></span></p>-->
@@ -373,3 +404,65 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
         </div>
     </section><!--"b-related-->
 <?php endif; ?>
+<script>
+    $( document ).ready(function() {
+        $().fancybox({
+            defaults {
+
+                // Enable infinite gallery navigation
+                loop: false,
+
+                // Space around image, ignored if zoomed-in or viewport width is smaller than 800px
+                margin: [44, 0],
+
+                // Horizontal space between slides
+                gutter: 50,
+
+                // Enable keyboard navigation
+                keyboard: true,
+
+                // Should display navigation arrows at the screen edges
+                arrows: true,
+
+                // Should display infobar (counter and arrows at the top)
+                infobar: false,
+
+                // Should display toolbar (buttons at the top)
+                toolbar: true,
+
+                // What buttons should appear in the top right corner.
+                // Buttons will be created using templates from `btnTpl` option
+                // and they will be placed into toolbar (class="fancybox-toolbar"` element)
+                buttons: [
+                    'slideShow',
+                    'fullScreen',
+                    'thumbs',
+                    'close'
+                ],
+                baseTpl: '<div class="fancybox-container" role="dialog" tabindex="-1">' +
+                '<div class="fancybox-bg"></div>' +
+                '<div class="fancybox-inner">' +
+                '<div class="fancybox-infobar">' +
+                '<button data-fancybox-prev title="{{PREV}}" class="fancybox-button fancybox-button--left"></button>' +
+                '<div class="fancybox-infobar__body">' +
+                '<span data-fancybox-index></span>&nbsp;/&nbsp;<span data-fancybox-count></span>' +
+                '</div>' +
+                '<button data-fancybox-next title="{{NEXT}}" class="fancybox-button fancybox-button--right"></button>' +
+                '</div>' +
+                '<div class="fancybox-toolbar">' +
+                '{{BUTTONS}}' +
+                '</div>' +
+                '<div class="fancybox-navigation">' +
+                '<button data-fancybox-prev title="{{PREV}}" class="fancybox-arrow fancybox-arrow--left" />' +
+                '<button data-fancybox-next title="{{NEXT}}" class="fancybox-arrow fancybox-arrow--right" />' +
+                '</div>' +
+                '<div class="fancybox-stage"></div>' +
+                '<div class="fancybox-caption-wrap">' +
+                '<div class="fancybox-caption"></div>' +
+                '</div>' +
+                '</div>' +
+                '</div>',
+
+    });
+    });
+</script>
