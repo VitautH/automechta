@@ -22,6 +22,7 @@ AppAsset::register($this);
 $appData = AppData::getData();
 $latestNews = Page::find()->active()->news()->orderBy('id DESC')->limit(3)->all();
 $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE>
@@ -57,10 +58,10 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
 		<meta name="yandex-verification" content="72e8b482df4f7fef" />
 		<meta name="google-site-verification" content="ranTAzl9yo_biTr4iGmT5Y7uqnuCrENWMYyUOHNAUdc" />
 	</head>
-    <body class="m-index" data-scrolling-animations="true">
+    <body class="m-index" data-scrolling-animations="false">
 
 		<!-- Loader -->
-		<div id="page-preloader"><span class="spinner"></span></div>
+		<!--<div id="page-preloader"><span class="spinner"></span></div>-->
 		<!-- Loader end -->
 		
 		<header class="b-topBar wow slideInDown" data-wow-delay="0.7s">
@@ -313,13 +314,14 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
 				  $(this).css('font-size', $(this).data('fontSize'));
 				});
 			}
-		</script>
-<script data-skip-moving="true"> 
-       (function(w,d,u,b){ 
-               s=d.createElement('script');r=(Date.now()/1000|0);s.async=1;s.src=u+'?'+r; 
-               h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h); 
-       })(window,document,'https://cdn.bitrix24.by/b5147563/crm/site_button/loader_1_cbdawf.js'); 
 </script>
+<script data-skip-moving="true"> 
+(function(w,d,u,b){ 
+s=d.createElement('script');r=(Date.now()/1000|0);s.async=1;s.src=u+'?'+r; 
+h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h); 
+})(window,document,'https://cdn.bitrix24.by/b5147563/crm/site_button/loader_3_yfnk0g.js'); 
+</script>
+
     </body>
 </html>
 <?php $this->endPage() ?>

@@ -26,10 +26,12 @@ $this->registerJs("require(['controllers/catalog/show']);", \yii\web\View::POS_H
 $this->registerCssFile("@web/css/jquery.fancybox.min.css", [
     'depends' => [\yii\bootstrap\BootstrapAsset::className()],
 ]);
+$this->registerJsFile("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js");
 $this->registerJsFile(
     '@web/js/jquery.fancybox.min.js',
     ['depends' => [\yii\web\JqueryAsset::className()]]
 );
+
 $appData = AppData::getData();
 $uploads = $model->getUploads();
 $similarProducts = Product::find()
@@ -195,20 +197,14 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                         <div class="b-detail__main-info-images wow zoomInUp" data-wow-delay="0.5s">
                             <div class="row m-smallPadding">
                                 <div class="col-xs-12">
-                                    <ul class="b-detail__main-info-images-big bxslider enable-bx-slider"
+                                    <ul  class="gallery b-detail__main-info-images-big bxslider enable-bx-slider"
                                         data-pager-custom="#bx-pager" data-mode="horizontal" data-pager-slide="true"
                                         data-mode-pager="vertical" data-pager-qty="5">
                                         <?php foreach ($uploads as $upload): ?>
                                             <li class="s-relative">
-                                                <a href="<?= $upload->getImage() ?>" data-fancybox
+                                                <a data-fancybox="gallery" href="<?= $upload->getImage() ?>" data-fancybox
                                                    data-caption="<?= $model->i18n()->title ?>">
-                                                    <div style="
-
-   position: absolute;
-    right: 0;
-    margin-top: 5px;
-    margin-right: 10px;
-"><span class="glyphicon glyphicon-zoom-in" style="
+                                                    <div class="zoom"><span class="glyphicon glyphicon-zoom-in" style="
     color: #e0e24e;
     text-align: center;
     display: block;
