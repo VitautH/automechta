@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\base\Exception;
 use yii\web\UploadedFile;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
@@ -127,7 +128,15 @@ class Uploads extends \yii\db\ActiveRecord
                 Yii::$app->uploads->limitSize($hash);
             }
         }
-        $this->setWatermark($path);
+
+        try {
+            $this->setWatermark($path);
+        } catch (Throwable $t) {
+            return $result;
+        } catch (Exception $e) {
+              return $result;
+        }
+
 
         return $result;
     }
@@ -135,27 +144,19 @@ class Uploads extends \yii\db\ActiveRecord
     /* Watermark
      *  @return void
      */
-    public function setWatermark($path)
+   private function setWatermark($path)
     {
         /*
          * Watermark Logo (image)
          */
-//        $appData = AppData::getData();
-//        $size = getimagesize($path);
-//
-//        $watermarkfile = Yii::$app->uploads->getThumbnail($appData['logo']->hash, $size[0]/5, $size[1]/5, 'inset');
-//        Image::watermark($path, \Yii::getAlias('@webroot') . $watermarkfile, ['30', '30'])->save($path);
-//
-        /*
-         * Watermark Text
-         */
-        $handle = ImageCreateFromjpeg($path);
-        $color = imagecolorallocate($handle, 247, 109, 43);
-        imagettftext($handle, 16, 0, 70, 40, $color,
-            \Yii::getAlias('@webroot') . '/fonts/Oswald-Bold.ttf', 'Продажа автомобилей в кредит в Беларуси Automechta.by');
-        Imagejpeg($handle, $path);
-        Image::getImagine()->open($path)->save($path, ['quality' => 100]);
-        ImageDestroy($handle);
+       $appData = AppData::getData();
+        $photosize = getimagesize($path);
+        $watermarkfile = Yii::$app->uploads->getThumbnail($appData['logo']->hash, 220, 180, 'inset');
+        $watermarksize = getimagesize($watermarkfile);
+       $posX= ($photosize[0] / 2) - ($watermarksize[0] / 2);
+       $posY= ($photosize[1]/ 2) - ($watermarksize[1] / 2);
+
+        Image::watermark($path, \Yii::getAlias('@webroot') . $watermarkfile, [$posX, $posY])->save($path);
     }
 
     /**
