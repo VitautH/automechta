@@ -58,6 +58,10 @@ class SiteController extends Controller
                     'logout' => ['post'],
                 ],
             ],
+            [
+                'class' => 'yii\filters\PageCache',
+                'duration' => 360,
+            ],
         ];
     }
 
@@ -91,7 +95,6 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $sliders = Slider::find()->orderBy('lft')->published()->all();
-
         return $this->render('index', [
             'sliders' => $sliders,
         ]);
