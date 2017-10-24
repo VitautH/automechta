@@ -34,12 +34,13 @@ $this->registerJsFile(
 
 $appData = AppData::getData();
 $uploads = $model->getUploads();
+
 $similarProducts = Product::find()
     ->active()
     ->orderBy('RAND()')
-    ->where('make=:make or (year>:year_from and year<:year_to)', [':make' => $model->make, 'year_from' => ($model->year - 1), 'year_to' => ($model->year + 1)])
+    ->where(['make'=>$model->make])
+    ->andWhere(['model'=>$model->model])
     ->limit(4)->all();
-
 $this->title = Yii::t('app', 'Catalog') . ' | ' . $model->getFullTitle();
 $contactForm = new ContactForm();
 $contactForm->id = $model->id;
