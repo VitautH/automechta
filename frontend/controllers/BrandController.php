@@ -34,7 +34,7 @@ class BrandController extends Controller
         return [
             [
                 'class' => UploadsBehavior::className(),
-            ],
+            ]
         ];
     }
 

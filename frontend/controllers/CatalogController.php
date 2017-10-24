@@ -38,7 +38,7 @@ class CatalogController extends Controller
         return [
             [
                 'class' => UploadsBehavior::className(),
-            ],
+            ]
         ];
     }
 
