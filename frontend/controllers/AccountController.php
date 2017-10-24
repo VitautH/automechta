@@ -107,7 +107,7 @@ class AccountController extends Controller
 
         if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['status' => 'success'];
+            return ['status' => 'success', 'id'=>$id];
         } else {
             return $this->redirect(['index']);
         }
