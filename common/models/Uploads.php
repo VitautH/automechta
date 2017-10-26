@@ -153,10 +153,11 @@ class Uploads extends \yii\db\ActiveRecord
         $photosize = getimagesize($path);
         $watermarkfile = Yii::$app->uploads->getThumbnail($appData['logo']->hash, 220, 180, 'inset');
         $watermarksize = getimagesize($watermarkfile);
-       $posX= ($photosize[0] / 2) - ($watermarksize[0] / 2);
-       $posY= ($photosize[1]/ 2) - ($watermarksize[1] / 2);
-
-        Image::watermark($path, \Yii::getAlias('@webroot') . $watermarkfile, [$posX, $posY])->save($path);
+        $posX = ($photosize[0] / 2) - ($watermarksize[0] / 2);
+        $posY = ($photosize[1] / 2) - ($watermarksize[1] / 2);
+        if ($photosize[0] > 1725) {
+            Image::watermark($path, \Yii::getAlias('@frontend') . '/web' . $watermarkfile, [$posX, $posY])->save($path);
+        }
     }
 
     /**
