@@ -307,12 +307,12 @@ class BrandController extends Controller
      */
     public function actionMaker($productType, $maker)
     {
-        $model = $this->findModel($productType,$maker);
+        $model = $this->findModel($productType, $maker);
         $params = Yii::$app->request->get();
-        $params['maker']= $model->id;
+        $params['maker'] = $model->id;
         $searchForm = new ProductSearchForm();
         $searchForm->load($params);
-        $query = Product::find()->where(['AND',['make'=>$model->id],['product.status'=>1]])->orderBy('product.updated_at DESC');
+        $query = Product::find()->where(['AND', ['make' => $model->id], ['product.status' => 1]])->orderBy('product.updated_at DESC');
         if (!empty($params['ProductSearchForm']['specs'])) {
             $searchForm->specifications = $params['ProductSearchForm']['specs'];
         }
@@ -347,11 +347,12 @@ class BrandController extends Controller
             $this->layout = false;
         }
 
-        return $this->render('indexBrand', [
+        return $this->render('maker', [
             'provider' => $provider,
+            'model' => $model,
             'searchForm' => $searchForm,
             'metaData' => $this->getMetaData($searchForm),
-            '_params_'=> $params
+            '_params_' => $params
         ]);
 
 //        $params = Yii::$app->request->get();
@@ -416,20 +417,17 @@ class BrandController extends Controller
 
     public function actionModelauto($productType, $maker, $modelauto)
     {
-//        $typeName = ProductMake::find()->where(['id' => $modelauto])->one();
-//
-//        $model = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $typeName->name], ['product_type' => $productType]])->one();
-//
-//        return $this->render('modelauto', [
-//            'model' => $model,
-//        ]);
-
-        $model = $this->findModel($productType,$maker);
+        $typeName = ProductMake::find()->where(['id' => $modelauto])->one();
+        $maker = ProductMake::find()->where(['name' => $maker])->one();
+        $model = $this->findModel($productType, $maker);
         $params = Yii::$app->request->get();
-        $params['maker']= $model->id;
+        $params['maker'] = $model->id;
+        $params['type'] = $productType;
+        $params['model_id'] = $typeName->id;
+        $params['model_name'] = $typeName->name;
         $searchForm = new ProductSearchForm();
         $searchForm->load($params);
-        $query = Product::find()->where(['AND',['make'=>$model->id],['product.status'=>1]])->orderBy('product.updated_at DESC');
+        $query = Product::find()->where(['AND', ['make' => $maker->id], ['model' => $typeName->name], ['product.status' => 1]])->orderBy('product.updated_at DESC');
         if (!empty($params['ProductSearchForm']['specs'])) {
             $searchForm->specifications = $params['ProductSearchForm']['specs'];
         }
@@ -464,11 +462,12 @@ class BrandController extends Controller
             $this->layout = false;
         }
 
-        return $this->render('indexBrand', [
+        return $this->render('modelauto', [
             'provider' => $provider,
+            'model' => $model,
             'searchForm' => $searchForm,
             'metaData' => $this->getMetaData($searchForm),
-            '_params_'=> $params
+            '_params_' => $params
         ]);
     }
 
