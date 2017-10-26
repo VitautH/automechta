@@ -17,6 +17,15 @@ use yii\grid\GridView;
 $this->title = Yii::t('app', 'Account');
 $this->params['breadcrumbs'][] = $this->title;
 $appData = AppData::getData();
+
+$this->registerCss("span.update {    
+font-size: 14px;
+font-weight: bold; }
+span.error{
+font-size: 14px;
+font-weight: bold;
+color:red;
+}", \yii\web\View::POS_HEAD);
 $this->registerJs("
 $( document ).ready(function() {
 $('.js-delete-row').on('click',function(e){
@@ -27,6 +36,23 @@ var delete_url = $(this).data('delete_url');
             type: 'POST',
              success: function(data) {
                 $('tr[data-key=' + data['id'] + ']').fadeOut();
+             }
+         });
+})
+$('.js-up-row').on('click',function(e){
+e.preventDefault();
+var up_url = $(this).data('up_url');
+  $.ajax({
+            url: up_url,
+            type: 'POST',
+             success: function(data) {
+              if(data['status']=='success'){
+              $('<br><span class=\"update\">Объявление поднято</span>').insertAfter('#'+data['id']);
+              $('#'+data['id']).fadeOut();
+              }
+              if(data['status']=='failed'){
+              $('<br><span class=\"error\">Произошла ошибка</span>').insertAfter('#'+data['id']);       
+              }
              }
          });
 })
@@ -210,6 +236,7 @@ var delete_url = $(this).data('delete_url');
                                         $result = Html::a('<span class="">UP</span>', '#',
                                             [
                                                 'class' => 'js-up-row',
+                                                'id' => $model->id,
                                                 'data-up_url' => Url::to(['account/up-product', 'id' => $model->id]),
                                                 'title' => 'Поднять объявление',
                                             ]
