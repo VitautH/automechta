@@ -17,7 +17,21 @@ use yii\grid\GridView;
 $this->title = Yii::t('app', 'Account');
 $this->params['breadcrumbs'][] = $this->title;
 $appData = AppData::getData();
-$this->registerJs("require(['controllers/account/index']);", \yii\web\View::POS_HEAD);
+$this->registerJs("
+$( document ).ready(function() {
+$('.js-delete-row').on('click',function(e){
+e.preventDefault();
+var delete_url = $(this).data('delete_url');
+  $.ajax({
+            url: delete_url,
+            type: 'POST',
+             success: function(data) {
+                $('tr[data-key=' + data['id'] + ']').fadeOut();
+             }
+         });
+})
+});
+", \yii\web\View::POS_END);
 ?>
 <section class="b-pageHeader" style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
     <div class="container">
@@ -71,7 +85,8 @@ $this->registerJs("require(['controllers/account/index']);", \yii\web\View::POS_
                                 ->textInput(['maxlength' => true, 'class' => '']) ?>
                         </div>
                         <div class="col-xs-5">
-                            <label class="control-label" for="user-phone"><?= $model->getAttributeLabel('phone_provider') ?></label>
+                            <label class="control-label"
+                                   for="user-phone"><?= $model->getAttributeLabel('phone_provider') ?></label>
                             <div class='s-relative'>
                                 <?= Html::activeDropDownList(
                                     $model,
@@ -88,7 +103,8 @@ $this->registerJs("require(['controllers/account/index']);", \yii\web\View::POS_
                                 ->textInput(['maxlength' => true, 'class' => '']) ?>
                         </div>
                         <div class="col-xs-5">
-                            <label class="control-label" for="user-phone"><?= $model->getAttributeLabel('phone_provider') ?></label>
+                            <label class="control-label"
+                                   for="user-phone"><?= $model->getAttributeLabel('phone_provider') ?></label>
                             <div class='s-relative'>
                                 <?= Html::activeDropDownList(
                                     $model,
@@ -100,13 +116,15 @@ $this->registerJs("require(['controllers/account/index']);", \yii\web\View::POS_
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn m-btn" name="contact-button"><?= Yii::t('app', 'Save') ?><span class="fa fa-angle-right"></span></button>
+                        <button type="submit" class="btn m-btn" name="contact-button"><?= Yii::t('app', 'Save') ?><span
+                                    class="fa fa-angle-right"></span></button>
                     </div>
                     <?php ActiveForm::end(); ?>
                 </div>
             </div>
             <div class="col-xs-8">
-                <header class="b-contacts__form-header s-lineDownLeft wow zoomInUp" data-wow-delay="0.5s" style="visibility: visible; animation-delay: 0.5s; animation-name: zoomInUp;">
+                <header class="b-contacts__form-header s-lineDownLeft wow zoomInUp" data-wow-delay="0.5s"
+                        style="visibility: visible; animation-delay: 0.5s; animation-name: zoomInUp;">
                     <h2 class="s-titleDet"><?= Yii::t('app', 'Your ads') ?></h2>
                 </header>
                 <p class="hint-block">Объявление может быть поднято не чаще чем один раз в 24 часа.</p>
@@ -120,8 +138,8 @@ $this->registerJs("require(['controllers/account/index']);", \yii\web\View::POS_
                     'id' => 'product_grid',
                     'dataProvider' => $dataProvider,
                     'tableOptions' => [
-                        'class'=>'table table-condensed',
-                        'style'=>'table-layout: fixed;',
+                        'class' => 'table table-condensed',
+                        'style' => 'table-layout: fixed;',
                     ],
                     'layout' => "\n{items}\n{pager}",
                     'pager' => [
@@ -188,7 +206,7 @@ $this->registerJs("require(['controllers/account/index']);", \yii\web\View::POS_
                                     );
                                 },
                                 'up' => function ($url, $model, $key) {
-                                    if ($model->updated_at < (time() - (1*24*60*60))) {
+                                    if ($model->updated_at < (time() - (1 * 24 * 60 * 60))) {
                                         $result = Html::a('<span class="">UP</span>', '#',
                                             [
                                                 'class' => 'js-up-row',
@@ -197,7 +215,7 @@ $this->registerJs("require(['controllers/account/index']);", \yii\web\View::POS_
                                             ]
                                         );
                                     } else {
-                                        $timeToUp = $model->updated_at + (1*24*60*60);
+                                        $timeToUp = $model->updated_at + (1 * 24 * 60 * 60);
                                         $result = Html::a('<span style="opacity: 0.5;" class="">UP</span>', '#',
                                             [
                                                 'title' => 'Может быть поднято ' . Yii::$app->formatter->asDatetime($timeToUp),

@@ -37,9 +37,9 @@ $uploads = $model->getUploads();
 $similarProducts = Product::find()
     ->active()
     ->orderBy('RAND()')
-    ->where('make=:make or (year>:year_from and year<:year_to)', [':make' => $model->make, 'year_from' => ($model->year - 1), 'year_to' => ($model->year + 1)])
+    ->where(['make'=>$model->make])
+    ->andWhere(['model'=>$model->model])
     ->limit(4)->all();
-
 $this->title = Yii::t('app', 'Catalog') . ' | ' . $model->getFullTitle();
 $contactForm = new ContactForm();
 $contactForm->id = $model->id;
@@ -137,7 +137,12 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                 <span class="b-product-info"><span
                             class="fa fa-eye"></span> <?= Yii::t('app', '{n,plural,=0{# Views} =1{# View} one{# View} other{# Views}}', ['n' => $model->views]) ?></span>
             </div>
-            <div class="col-md-3 col-md-offset-2">
+            <div class="col-md-2">
+                <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+                <script src="//yastatic.net/share2/share.js"></script>
+                <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,gplus"></div>
+            </div>
+            <div class="col-md-3">
                 <?php Pjax::begin(['enablePushState' => false]); ?>
                 <span class="complaint" id="complaint_to">Пожаловаться на объявление</span>
                 <div id="complaint_block">
