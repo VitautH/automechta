@@ -81,9 +81,9 @@ class AccountController extends Controller
         $time = time() - (1*24*60*60);
 
         if ($model->updated_at < $time && $model->save()) {
-            return ['status' => 'success'];
+            return ['status' => 'success', 'id'=>$id];
         } else {
-            return ['status' => 'failed'];
+            return ['status' => 'failed', 'id'=>$id];
         }
     }
 
