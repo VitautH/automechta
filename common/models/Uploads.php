@@ -153,30 +153,13 @@ class Uploads extends \yii\db\ActiveRecord
         $photosize = getimagesize($path);
         $watermarkfile = Yii::$app->uploads->getThumbnail($appData['logo']->hash, 220, 180, 'inset');
         $watermarksize = getimagesize($watermarkfile);
-       $posX= ($photosize[0] / 2) - ($watermarksize[0] / 2);
-       $posY= ($photosize[1]/ 2) - ($watermarksize[1] / 2);
 
-        Image::watermark($path, \Yii::getAlias('@frontend').'/web' . $watermarkfile, [$posX, $posY])->save($path);
+        $posX = ($photosize[0] / 2) - ($watermarksize[0] / 2);
+        $posY = ($photosize[1] / 2) - ($watermarksize[1] / 2);
+        if ($photosize[0] > 1725) {
+            Image::watermark($path, \Yii::getAlias('@frontend') . '/web' . $watermarkfile, [$posX, $posY])->save($path);
+        }
 
-        /*
-         * Watermark Text
-         */
-//       $photosize = getimagesize($path);
-//        $image = ImageCreateFromjpeg($path);
-//       // загружаем в php наш водяной знак
-//       $watermark = imagecreatefrompng(Yii::$app->uploads->getThumbnail($appData['logo']->hash, 220, 180, 'inset'));
-//       $watermarksize = getimagesize($watermark);
-//       // определяем координаты левого верхнего угла водяного знака
-//       $pos_x = ($photosize[0] - $watermarksize[0]) / 2;
-//       $pos_y = ($photosize[1] - $watermarksize[1]) / 2;
-//
-//       // помещаем водяной знак на изображение
-//       imagecopy($image, $watermark, $pos_x, $pos_y, 0, 0, $watermarksize[0],
-//           $watermarksize[1]);
-//
-//        Imagejpeg($image, $path);
-//        Image::getImagine()->open($path)->save($path, ['quality' => 100]);
-//        ImageDestroy($image);
     }
 
     /**
