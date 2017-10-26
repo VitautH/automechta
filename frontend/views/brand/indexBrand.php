@@ -70,8 +70,6 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
             </div>
         </div>
     </section><!--b-pageHeader-->
-
-
     <div class="b-breadCumbs s-shadow">
         <?= Breadcrumbs::widget([
             'links' => [
@@ -107,30 +105,30 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
         <div class="container">
             <div class="row col-lg-12">
                 <div class="b-makers__list">
-                    <?php
-                    foreach (ProductMake::getMakesListWithId(2,true) as $maker) {
-                        ?>
-                        <div class="b-makers__item">
-                            <a href='<?php echo '/brand/2/' . $maker['name']; ?>'>
-                                <?php echo $maker['name']; ?>
-                                <span class="b-makers__item-number"><?php echo Product::find()->where(['AND',['make'=>$maker['id']],['status'=>1]])->count(); ?></span>
-                            </a>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                    <?php
-                    foreach (ProductMake::getMakesListWithId(3,true) as $maker) {
-                        ?>
-                        <div class="b-makers__item">
-                            <a href='<?php echo '/brand/3/' . $maker['name']; ?>'>
-                                <?php echo $maker['name']; ?>
-                                <span class="b-makers__item-number"><?php echo Product::find()->where(['AND',['make'=>$maker['id']],['status'=>1]])->count(); ?></span>
-                            </a>
-                        </div>
-                        <?php
-                    }
-                    ?>
+<!--                    --><?php
+//                    foreach (ProductMake::getMakesListWithId(2,true) as $maker) {
+//                        ?>
+<!--                        <div class="b-makers__item">-->
+<!--                            <a href='--><?php //echo '/brand/2/' . $maker['name']; ?><!--'>-->
+<!--                                --><?php //echo $maker['name']; ?>
+<!--                                <span class="b-makers__item-number">--><?php //echo Product::find()->where(['AND',['make'=>$maker['id']],['status'=>1]])->count(); ?><!--</span>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        --><?php
+//                    }
+//                    ?>
+<!--                    --><?php
+//                    foreach (ProductMake::getMakesListWithId(3,true) as $maker) {
+//                        ?>
+<!--                        <div class="b-makers__item">-->
+<!--                            <a href='--><?php //echo '/brand/3/' . $maker['name']; ?><!--'>-->
+<!--                                --><?php //echo $maker['name']; ?>
+<!--                                <span class="b-makers__item-number">--><?php //echo Product::find()->where(['AND',['make'=>$maker['id']],['status'=>1]])->count(); ?><!--</span>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        --><?php
+//                    }
+//                    ?>
                 </div>
             </div>
         </div>

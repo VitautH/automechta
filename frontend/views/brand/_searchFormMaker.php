@@ -11,40 +11,35 @@ use common\models\User;
 $productModel = new Product();
 $searchForm = new ProductSearchForm();
 $searchForm->type = $_params_['type'];
+$productTypeAsName = ProductType::getTypesAsArray()[$searchForm->type];
+$productModelAsName = ProductMake::getMakesList($searchForm->type)[$_params_['maker']];
 ?>
 <form class="js-catalog-search-form">
     <div class="b-items__aside-main-body">
         <div class="b-items__aside-main-body-item">
             <label><?= Yii::t('app', 'VEHICLE TYPE') ?></label>
             <div>
-                <?= Html::dropDownList(
-                    'ProductSearchForm[type]',
-                    $searchForm->type,
-                    ProductType::getTypeAsArray($searchForm->type),
-                    ['class' => 'm-select'])
-                ?>
+                <select class="m-select" name="ProductSearchForm[type]" disabled="true">
+                    <option value="<?=$searchForm->type?>" selected><?=$productTypeAsName?></option>
+                </select>
                 <span class="fa fa-caret-down"></span>
             </div>
         </div>
         <div class="b-items__aside-main-body-item">
             <label><?= Yii::t('app', 'SELECT A MAKE') ?></label>
             <div>
-                <?= Html::dropDownList(
-                    'ProductSearchForm[makes]',
-                    $_params_['model']->id,
-                    ProductMake::getMakeList($_params_['model']->id),
-                    ['class' => 'm-select']) ?>
+                <select class="m-select" name="ProductSearchForm[makes]" disabled="true">
+                    <option value="<?=$_params_['maker']?>" selected><?=$productModelAsName?></option>
+                </select>
                 <span class="fa fa-caret-down"></span>
             </div>
         </div>
         <div class="b-items__aside-main-body-item">
             <label><?= Yii::t('app', 'SELECT A MODEL') ?></label>
             <div>
-                <?= Html::dropDownList(
-                    'ProductSearchForm[model]',
-                    $searchForm->model,
-                    ProductMake::getModelsList($_params_['model']->id),
-                    ['class' => 'm-select', 'prompt' => 'Любая']) ?>
+                <select class="m-select" name="ProductSearchForm[model]" disabled="true">
+                    <option value="<?=$_params_['model_id']?>" selected><?=$_params_['model_name']?></option>
+                </select>
                 <span class="fa fa-caret-down"></span>
             </div>
         </div>
