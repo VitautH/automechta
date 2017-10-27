@@ -287,12 +287,9 @@ class CatalogController extends Controller
         } else {
             $product = Product::findOne($id);
             $product->first_name = $request['User']['first_name'];
-            $product->last_name = $request['User']['last_name'];
             $product->region = $request['User']['region'];
             $product->phone = $request['User']['phone'];
             $product->phone_provider = $request['User']['phone_provider'];
-            $product->phone_2 = $request['User']['phone_2'];
-            $product->phone_provider_2 = $request['User']['phone_provider_2'];
             if ($product->save()) {
                 return $this->redirect(['product-saved', 'id' => $model->id]);
             } else {

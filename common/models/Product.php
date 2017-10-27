@@ -59,9 +59,10 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['region', 'phone_provider','phone_provider_2'], 'integer', 'on'=>self::SCENARIO_SELLERCONTACTS],
-            [['region', 'last_name', 'first_name', 'phone', 'phone_2','phone_provider','phone_provider_2'], 'safe', 'on'=>self::SCENARIO_SELLERCONTACTS],
+            [['region', 'phone_provider'], 'integer', 'on'=>self::SCENARIO_SELLERCONTACTS],
+            [['region', 'last_name', 'first_name', 'phone', 'phone_provider',], 'safe', 'on'=>self::SCENARIO_SELLERCONTACTS],
             [['type','make', 'model', 'year', 'price','priority'], 'required', 'on'=>self::SCENARIO_DEFAULT],
+            [['first_name','phone_provider', 'phone', 'region'], 'required', 'on'=>self::SCENARIO_SELLERCONTACTS],
             [['model'], 'string', 'max' => 2048],
             [['year'], 'integer', 'min' => 1900, 'max' => date('Y')],
             ['priority', 'safe', 'when' => function ($model) {
@@ -76,21 +77,14 @@ class Product extends \yii\db\ActiveRecord
         return [
             self::SCENARIO_SELLERCONTACTS => [
                 'first_name',
-                'phone_provider_2',
-                'phone_2',
                 'phone_provider',
                 'phone',
-                'last_name',
-                'city',
                 'region',
             ],
             self::SCENARIO_DEFAULT => [
                 'username',
                 'email',
                 'first_name',
-                'last_name',
-                'phone_provider_2',
-                'phone_2',
                 'phone_provider',
                 'phone',
                 'type',

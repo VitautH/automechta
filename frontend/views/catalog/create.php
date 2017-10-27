@@ -8,13 +8,10 @@ use yii\helpers\Html;
 use common\widgets\Alert;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
-
 /* @var $this yii\web\View */
 /* @var $provider yii\data\ActiveDataProvider */
 /* @var $productSpecifications common\models\ProductSpecification[] */
-
 $tableView = filter_var(Yii::$app->request->get('tableView', 'false'), FILTER_VALIDATE_BOOLEAN);
-
 $this->registerJs("require(['controllers/catalog/create']);", \yii\web\View::POS_HEAD);
 $productModel = new Product();
 $appData = AppData::getData();
@@ -61,60 +58,60 @@ $this->title = Yii::t('app', 'ADD YOUR VEHICLE');
                                 <h4><?= Yii::t('app', 'Select type') ?></h4>
                                 <p><?= Yii::t('app', 'Select type of your vehicle') ?></p>
                                 <?php if ($form->step == 1): ?>
-                                <div class="b-submit__aside-step-inner-info-triangle"></div>
+                                    <div class="b-submit__aside-step-inner-info-triangle"></div>
                                 <?php endif; ?>
                             </div>
                         </div>
                     </div>
                     <?php if ($form->step <= 2): ?>
                     <div class="b-submit__aside-step <?php if ($form->step == 2): ?>m-active<?php endif; ?> wow zoomInUp" data-wow-delay="0.5s">
-                    <?php endif; ?>
-                    <?php if ($form->step >2): ?>
-                    <a href="/catalog/update?id=<?= $model->id ?>" class="b-submit__aside-step <?php if ($form->step == 2): ?>m-active<?php endif; ?> wow zoomInUp" data-wow-delay="0.5s">
-                    <?php endif; ?>
-                        <h3><?= Yii::t('app', 'Step') ?> 2</h3>
-                        <div class="b-submit__aside-step-inner clearfix <?php if ($form->step == 2): ?>m-active<?php endif; ?>">
-                            <div class="b-submit__aside-step-inner-icon">
-                                <span class="fa fa-list-ul"></span>
+                        <?php endif; ?>
+                        <?php if ($form->step >2): ?>
+                        <a href="/catalog/update?id=<?= $model->id ?>" class="b-submit__aside-step <?php if ($form->step == 2): ?>m-active<?php endif; ?> wow zoomInUp" data-wow-delay="0.5s">
+                            <?php endif; ?>
+                            <h3><?= Yii::t('app', 'Step') ?> 2</h3>
+                            <div class="b-submit__aside-step-inner clearfix <?php if ($form->step == 2): ?>m-active<?php endif; ?>">
+                                <div class="b-submit__aside-step-inner-icon">
+                                    <span class="fa fa-list-ul"></span>
+                                </div>
+                                <div class="b-submit__aside-step-inner-info">
+                                    <h4><?= Yii::t('app', 'Select details') ?></h4>
+                                    <p><?= Yii::t('app', 'Choose vehicle specifications') ?></p>
+                                    <?php if ($form->step == 2): ?>
+                                        <div class="b-submit__aside-step-inner-info-triangle"></div>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                            <div class="b-submit__aside-step-inner-info">
-                                <h4><?= Yii::t('app', 'Select details') ?></h4>
-                                <p><?= Yii::t('app', 'Choose vehicle specifications') ?></p>
-                                <?php if ($form->step == 2): ?>
-                                    <div class="b-submit__aside-step-inner-info-triangle"></div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    <?php if ($form->step <= 2): ?>
+                            <?php if ($form->step <= 2): ?>
                     </div>
-                    <?php endif; ?>
+                <?php endif; ?>
                     <?php if ($form->step > 2): ?>
-                    </a>
+                        </a>
                     <?php endif; ?>
                     <?php if ($form->step <= 3): ?>
                     <div class="b-submit__aside-step <?php if ($form->step == 3): ?>m-active<?php endif; ?> wow zoomInUp" data-wow-delay="0.5s">
-                    <?php endif; ?>
-                    <?php if ($form->step > 3): ?>
-                    <a href="/catalog/uploads?id=<?= $model->id ?>" class="b-submit__aside-step <?php if ($form->step == 3): ?>m-active<?php endif; ?> wow zoomInUp" data-wow-delay="0.5s">
-                    <?php endif; ?>
-                        <h3><?= Yii::t('app', 'Step') ?> 3</h3>
-                        <div class="b-submit__aside-step-inner clearfix <?php if ($form->step == 3): ?>m-active<?php endif; ?>">
-                            <div class="b-submit__aside-step-inner-icon">
-                                <span class="fa fa-photo"></span>
+                        <?php endif; ?>
+                        <?php if ($form->step > 3): ?>
+                        <a href="/catalog/uploads?id=<?= $model->id ?>" class="b-submit__aside-step <?php if ($form->step == 3): ?>m-active<?php endif; ?> wow zoomInUp" data-wow-delay="0.5s">
+                            <?php endif; ?>
+                            <h3><?= Yii::t('app', 'Step') ?> 3</h3>
+                            <div class="b-submit__aside-step-inner clearfix <?php if ($form->step == 3): ?>m-active<?php endif; ?>">
+                                <div class="b-submit__aside-step-inner-icon">
+                                    <span class="fa fa-photo"></span>
+                                </div>
+                                <div class="b-submit__aside-step-inner-info">
+                                    <h4><?= Yii::t('app', 'Photos') ?></h4>
+                                    <p><?= Yii::t('app', 'Add images of vehicle') ?></p>
+                                    <?php if ($form->step == 3): ?>
+                                        <div class="b-submit__aside-step-inner-info-triangle"></div>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                            <div class="b-submit__aside-step-inner-info">
-                                <h4><?= Yii::t('app', 'Photos') ?></h4>
-                                <p><?= Yii::t('app', 'Add images of vehicle') ?></p>
-                                <?php if ($form->step == 3): ?>
-                                    <div class="b-submit__aside-step-inner-info-triangle"></div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    <?php if ($form->step <= 3): ?>
+                            <?php if ($form->step <= 3): ?>
                     </div>
-                    <?php endif; ?>
+                <?php endif; ?>
                     <?php if ($form->step > 3): ?>
-                    </a>
+                        </a>
                     <?php endif; ?>
                     <div class="b-submit__aside-step <?php if ($form->step == 4): ?>m-active<?php endif; ?> wow zoomInUp" data-wow-delay="0.5s">
                         <h3><?= Yii::t('app', 'Step') ?> 4</h3>
@@ -143,17 +140,17 @@ $this->title = Yii::t('app', 'ADD YOUR VEHICLE');
                             'method' => $form->step == 1 ? 'get' : 'post',
                             'options' => ['class' => 's-submit clearfix create-product-form'],
                         ]); ?>
-                          <?php
-                              $stepParams = $_params_;
-                              $stepParams['formWidget'] = $formWidget;
-                          ?>
-                            <?php if ($form->step == 1): ?>
-                                <?= $this->render('_create_step_1', $stepParams) ?>
-                            <?php endif; ?>
-                            <?php if ($form->step == 2): ?>
-                                <?= $this->render('_create_step_2', $stepParams) ?>
-                            <?php endif; ?>
-                            <button type="submit" class="btn m-btn pull-right wow zoomInUp" data-wow-delay="0.5s"><?= Yii::t('app', 'Next') ?><span class="fa fa-angle-right"></span></button>
+                        <?php
+                        $stepParams = $_params_;
+                        $stepParams['formWidget'] = $formWidget;
+                        ?>
+                        <?php if ($form->step == 1): ?>
+                            <?= $this->render('_create_step_1', $stepParams) ?>
+                        <?php endif; ?>
+                        <?php if ($form->step == 2): ?>
+                            <?= $this->render('_create_step_2', $stepParams) ?>
+                        <?php endif; ?>
+                        <button type="submit" class="btn m-btn pull-right wow zoomInUp" data-wow-delay="0.5s"><?= Yii::t('app', 'Next') ?><span class="fa fa-angle-right"></span></button>
                         <?php ActiveForm::end(); ?>
                     <?php endif; ?>
 

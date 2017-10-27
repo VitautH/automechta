@@ -16,8 +16,6 @@ $formWidget->validationUrl = Url::to(['catalog/validate-seller', 'id' => $userMo
     <div class="col-md-6 col-xs-12">
         <?= $formWidget->field($userModel, "first_name", ['options' => ['class' => 'b-submit__main-element wow zoomInUp', 'data-wow-delay' => '0.5s']])
             ->textInput(['maxlength' => true, 'class' => '', 'required' =>true]) ?>
-        <?= $formWidget->field($userModel, "last_name", ['options' => ['class' => 'b-submit__main-element wow zoomInUp', 'data-wow-delay' => '0.5s']])
-            ->textInput(['maxlength' => true, 'class' => '', 'required' =>true]) ?>
         <div class="b-submit__main-element wow zoomInUp field-user-last_name required" data-wow-delay="0.5s">
             <label class="control-label" for="user-phone"><?= $userModel->getAttributeLabel('region') ?></label>
             <div class='s-relative'>
@@ -40,23 +38,6 @@ $formWidget->validationUrl = Url::to(['catalog/validate-seller', 'id' => $userMo
                     <?= Html::activeDropDownList(
                         $userModel,
                         'phone_provider',
-                        User::getPhoneProviders(),
-                        ['class' => 'm-select']) ?>
-                    <span class="fa fa-caret-down"></span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-7">
-                <?= $formWidget->field($userModel, "phone_2", ['options' => ['class' => 'b-submit__main-element wow zoomInUp', 'data-wow-delay' => '0.5s']])
-                    ->textInput(['maxlength' => true, 'class' => ''])->label($userModel->getAttributeLabel('phone_2')) ?>
-            </div>
-            <div class="col-xs-5">
-                <label class="control-label" for="user-phone"><?= $userModel->getAttributeLabel('phone_provider') ?></label>
-                <div class='s-relative'>
-                    <?= Html::activeDropDownList(
-                        $userModel,
-                        'phone_provider_2',
                         User::getPhoneProviders(),
                         ['class' => 'm-select']) ?>
                     <span class="fa fa-caret-down"></span>
