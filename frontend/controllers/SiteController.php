@@ -58,10 +58,11 @@ class SiteController extends Controller
                     'logout' => ['post'],
                 ],
             ],
-            [
-                'class' => 'yii\filters\PageCache',
-                'duration' => 360,
-            ],
+//            [
+//                'class' => 'yii\filters\PageCache',
+//                'duration' => 60,
+//             'only'=> ['index'],
+//            ],
         ];
     }
 
