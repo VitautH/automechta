@@ -307,12 +307,37 @@ class BrandController extends Controller
      */
     public function actionMaker($productType, $maker)
     {
+
         $model = $this->findModel($productType, $maker);
+
         $params = Yii::$app->request->get();
+        $params['ProductSearchForm']['type'] = $productType;
+        $params['ProductSearchForm']['make'] = $model->id;
         $params['maker'] = $model->id;
+        $meta = [
+            'title' => '',
+        ];
+
+
+        $meta['title'] =  $model->name;
+
+        $meta['title'] =  'Купить '.$meta['title'] . ' в Беларуси в кредит - цены, характеристики, фото. Продажа '.$meta['title'].' в автосалоне АвтоМечта';
+
+        $meta['description'] ='Большой выбор '.$meta['title'].' с пробегом в Минске. У нас можно купить авто в кредит всего за 1 час, продажа бу '.$meta['title'].' в Минске и Беларуси. Оформление машины в кредит проходит на месте';
+
+
         $searchForm = new ProductSearchForm();
         $searchForm->load($params);
-        $query = Product::find()->where(['AND', ['make' => $model->id], ['product.status' => 1]])->orderBy('product.updated_at DESC');
+
+        switch ($productType){
+            case 2 :
+                $query = Product::find()->where(['AND',['type' => 2], ['make' => $model->id], ['product.status' => 1]])->orderBy('product.updated_at DESC');
+                break;
+            case 3 :
+                $query = Product::find()->where(['type' => 3]);
+                break;
+        }
+
         if (!empty($params['ProductSearchForm']['specs'])) {
             $searchForm->specifications = $params['ProductSearchForm']['specs'];
         }
@@ -351,7 +376,7 @@ class BrandController extends Controller
             'provider' => $provider,
             'model' => $model,
             'searchForm' => $searchForm,
-            'metaData' => $this->getMetaData($searchForm),
+            'metaData' => $meta,
             '_params_' => $params
         ]);
 
@@ -417,6 +442,7 @@ class BrandController extends Controller
 
     public function actionModelauto($productType, $maker, $modelauto)
     {
+        $maker_auto = $maker;
         $typeName = ProductMake::find()->where(['id' => $modelauto])->one();
         $maker = ProductMake::find()->where(['name' => $maker])->one();
         $model = $this->findModel($productType, $maker);
@@ -425,9 +451,32 @@ class BrandController extends Controller
         $params['type'] = $productType;
         $params['model_id'] = $typeName->id;
         $params['model_name'] = $typeName->name;
+        $meta = [
+            'title' => '',
+        ];
+
+
+        $meta['title'] = $maker_auto.' '.$typeName->name;
+
+        $meta['title'] =  'Купить '.$meta['title'] . ' в Беларуси в кредит - цены, характеристики, фото. Продажа '.$meta['title'].' в автосалоне АвтоМечта';
+
+        $meta['description'] ='Большой выбор '.$meta['title'].' с пробегом в Минске. У нас можно купить авто в кредит всего за 1 час, продажа бу '.$meta['title'].' в Минске и Беларуси. Оформление машины в кредит проходит на месте';
+
+        //$meta['keywords'] = $meta['title'] . ' купить в кредит в Минске и в Беларуси';
+
         $searchForm = new ProductSearchForm();
+        $params['ProductSearchForm']['type'] = $productType;
+        $params['ProductSearchForm']['make'] = $model->id;
+        $params['ProductSearchForm']['model'] = $typeName->name;
         $searchForm->load($params);
-        $query = Product::find()->where(['AND', ['make' => $maker->id], ['model' => $typeName->name], ['product.status' => 1]])->orderBy('product.updated_at DESC');
+        switch ($productType){
+            case 2 :
+                $query = Product::find()->where(['AND', ['type' => $productType],['make' => $maker->id], ['model' => $typeName->name], ['product.status' => 1]])->orderBy('product.updated_at DESC');
+                break;
+            case 3 :
+                $query = Product::find()->where(['type' => 3]);
+                break;
+        }
         if (!empty($params['ProductSearchForm']['specs'])) {
             $searchForm->specifications = $params['ProductSearchForm']['specs'];
         }
@@ -466,7 +515,7 @@ class BrandController extends Controller
             'provider' => $provider,
             'model' => $model,
             'searchForm' => $searchForm,
-            'metaData' => $this->getMetaData($searchForm),
+            'metaData' =>$meta,
             '_params_' => $params
         ]);
     }
