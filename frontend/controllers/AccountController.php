@@ -46,7 +46,7 @@ class AccountController extends Controller
         /** @var ActiveDataProvider $dataProvider */
         $dataProvider = $searchModel->search();
 
-        $dataProvider->query->orderBy('id');
+        $dataProvider->query->orderBy('product.updated_at DESC');
         $dataProvider->sort = false;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success',  Yii::t('app', 'Saved'));
@@ -79,11 +79,17 @@ class AccountController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         $time = time() - (1*24*60*60);
-
-        if ($model->updated_at < $time && $model->save()) {
-            return ['status' => 'success', 'id'=>$id];
-        } else {
-            return ['status' => 'failed', 'id'=>$id];
+        if($model->updated_at < $time) {
+            $model->updated_at = $time;
+            //$model->updated_at < $time &&
+            if ($model->save()) {
+                return ['status' => 'success', 'id' => $id];
+            } else {
+                return ['status' => 'failed', 'id' => $id];
+            }
+        }
+        else {
+            return ['status' => 'failed', 'id' => $id];
         }
     }
 
