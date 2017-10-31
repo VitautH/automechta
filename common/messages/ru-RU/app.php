@@ -257,7 +257,7 @@ return [
     'Minsk Region' => 'Минская обл.',
     'Model' => 'Модель',
     'Mogilev Region' => 'Могилевская обл.',
-    'More articles' => 'Статьи по Теме',
+    'More articles' => 'Услуги компании',
     'Name' => 'Имя',
     'New' => 'Новый',
     'News' => 'Новости',
