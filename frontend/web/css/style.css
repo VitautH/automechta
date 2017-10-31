@@ -181,3 +181,12 @@ div.dz-message span.upload {
     margin-top: -15px;
     clear: both;
 }
+
+#complaint_block {
+    position: absolute;
+    top: 40px;
+    z-index: 222;
+    background-color: #f5f5f5;
+    padding: 10px;
+    border: 1px solid darkgrey;
+}
