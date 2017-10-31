@@ -90,7 +90,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                 <div class="b-infoBar__select wow zoomInUp" data-wow-delay="0.5s">
                     <form method="post" action="/">
                         <div class="b-infoBar__select-one js-sorter">
-                            <span class="b-infoBar__select-one-title"><?= Yii::t('app', 'SORT BY') ?></span>
+                            <span class="b-infoBar__select-one-title"><?= Yii::t('app', 'SORT BY') ?> :</span>
                             <?= $listView->renderSorter() ?>
                         </div>
                         <div class="b-infoBar__select-one">
