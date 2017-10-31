@@ -64,7 +64,9 @@ if ($this->beginCache($id)) {
             <div class="row col-lg-12">
                 <div class="b-makers__list">
                     <?php
-                    foreach (ProductMake::getMakesListWithId(2, true) as $maker) {
+                    $modelAuto = ProductMake::getMakesListWithId(2, true);
+                    sort($modelAuto);
+                    foreach ($modelAuto as $maker) {
                         ?>
                         <div class="b-makers__item">
                             <a href='<?php echo '/brand/2/' . $maker['name']; ?>'>
@@ -74,9 +76,12 @@ if ($this->beginCache($id)) {
                         </div>
                         <?php
                     }
+                    unset($modelAuto);
                     ?>
                     <?php
-                    foreach (ProductMake::getMakesListWithId(3, true) as $maker) {
+                    $modelMotorbike= ProductMake::getMakesListWithId(3, true);
+                    sort($modelMotorbike);
+                    foreach ($modelMotorbike as $maker) {
                         ?>
                         <div class="b-makers__item">
                             <a href='<?php echo '/brand/3/' . $maker['name']; ?>'>
@@ -86,6 +91,7 @@ if ($this->beginCache($id)) {
                         </div>
                         <?php
                     }
+                    unset($modelMotorbike);
                     ?>
                 </div>
             </div>

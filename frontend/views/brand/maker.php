@@ -116,7 +116,9 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
             <div class="row col-lg-12">
                 <div class="b-makers__list">
                     <?php
-                    foreach (ProductMake::getModelsListWithId($model->id, $model->product_type, true) as $type) {
+                    $modelAuto=ProductMake::getModelsListWithId($model->id, $model->product_type, true);
+                    sort($modelAuto);
+                    foreach ($modelAuto as $type) {
                         ?>
                         <div class="b-makers__item">
                             <a href='<?php echo '/brand/' . $model->product_type . '/' . $model->name . '/' . $type['id']; ?>'>
