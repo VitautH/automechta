@@ -65,7 +65,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
 
 <section class="b-pageHeader" style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
     <div class="container">
-        <h1 class="wow zoomInLeft" data-wow-delay="0.5s"></h1>
+        <h1 class="wow zoomInLeft" data-wow-delay="0.5s"><?=$metaData['title']?></h1>
         <div class="b-pageHeader__search wow zoomInRight" data-wow-delay="0.5s">
             <h3><?= Yii::t('app', 'Your search returned {n,plural,=0{# result} =1{# result} one{# results} other{# results}} ', ['n'=>$provider->getTotalCount()]) ?></h3>
         </div>
