@@ -9,6 +9,8 @@ use yii\helpers\Html;
     <?= Html::activeHiddenInput($form, 'submitted', ['value' => '1'])?>
     <?= Html::activeHiddenInput($model, 'id')?>
     <div class="mdl-textfield mdl-textfield--full-width mdl-textfield--floating-label is-dirty">
-        <div class="js-dropzone" data-uploaded-files="<?= htmlspecialchars(json_encode(Yii::$app->uploads->getUploadsDataByModel($model)), ENT_QUOTES, 'UTF-8') ?>"></div>
+        <div class="js-dropzone" data-uploaded-files="<?= htmlspecialchars(json_encode(Yii::$app->uploads->getUploadsDataByModel($model)), ENT_QUOTES, 'UTF-8') ?>">
+            <div class="dz-default dz-message">    <span class="upload btn m-btn">Загрузить фотографию</span>  <span class="drop">или перетащите изображения для загрзуки </span></div>
+        </div>
     </div>
 </div>
