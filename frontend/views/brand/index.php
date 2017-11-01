@@ -64,7 +64,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
 
 <section class="b-pageHeader" style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
     <div class="container">
-        <h1 class="wow zoomInLeft" data-wow-delay="0.5s"></h1>
+        <h1 class="wow zoomInLeft" data-wow-delay="0.5s">Поиск по каталогу</h1>
         <div class="b-pageHeader__search wow zoomInRight" data-wow-delay="0.5s">
             <h3><?= Yii::t('app', 'Your search returned {n,plural,=0{# result} =1{# result} one{# results} other{# results}} ', ['n'=>$provider->getTotalCount()]) ?></h3>
         </div>
@@ -89,7 +89,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                 <div class="b-infoBar__select wow zoomInUp" data-wow-delay="0.5s">
                     <form method="post" action="/">
                         <div class="b-infoBar__select-one js-sorter">
-                            <span class="b-infoBar__select-one-title"><?= Yii::t('app', 'SORT BY') ?></span>
+                            <span class="b-infoBar__select-one-title"><?= Yii::t('app', 'SORT BY') ?> :</span>
                             <?= $listView->renderSorter() ?>
                         </div>
                         <div class="b-infoBar__select-one">
@@ -109,6 +109,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
             <div class="b-makers__list">
                 <?php
                 $makerAuto = ProductMake::getMakesListWithId(2,true);
+                sort($makerAuto);
                 foreach ($makerAuto as $maker) {
                     ?>
                     <div class="b-makers__item">
