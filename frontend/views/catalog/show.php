@@ -209,12 +209,10 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                                             <li class="s-relative">
                                                 <a data-fancybox="gallery" href="<?= $upload->getImage() ?>" data-fancybox
                                                    data-caption="<?= $model->i18n()->title ?>">
-                                                    <div class="zoom"><span class="glyphicon glyphicon-zoom-in" style="
-    color: #e0e24e;
-    text-align: center;
-    display: block;
-    font-size: 30px;
-"></span></div>   <img src="<?= $upload->getThumbnail(770, 420) ?>"
+                                                    <div class="zoom"><span class="glyphicon glyphicon-zoom-in"></span></div>
+                                                    <div class="prev"><span class="glyphicon glyphicon-circle-arrow-left"></span></div>
+                                                    <div class="next"><span class="glyphicon glyphicon-circle-arrow-right"></span></div>
+                                                    <img src="<?= $upload->getThumbnail(770, 420) ?>"
                                                          alt="<?= $model->i18n()->title ?>"/>
                                                 </a>
                                             </li>
