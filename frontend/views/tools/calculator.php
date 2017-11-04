@@ -58,6 +58,7 @@ $this->title = 'Кредитный калькулятор';
                                                             <option value="24m"><?= Yii::t('app', '2 years') ?></option>
                                                             <option value="36m"><?= Yii::t('app', '3 years') ?></option>
                                                             <option value="48m" selected><?= Yii::t('app', '4 years') ?></option>
+                                                            <option value="60m" selected><?= Yii::t('app', '5 years') ?></option>
                                                         </select>
                                                         <span class="fa fa-caret-down"></span>
                                                     </div>

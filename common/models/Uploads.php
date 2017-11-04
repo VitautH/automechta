@@ -134,7 +134,7 @@ class Uploads extends \yii\db\ActiveRecord
         } catch (Throwable $t) {
             return $result;
         } catch (Exception $e) {
-              return $result;
+            return $result;
         }
 
 
@@ -144,22 +144,30 @@ class Uploads extends \yii\db\ActiveRecord
     /* Watermark
      *  @return void
      */
-   private function setWatermark($path)
+    private function setWatermark($path)
     {
         /*
          * Watermark Logo (image)
          */
-       $appData = AppData::getData();
+        $appData = AppData::getData();
         $photosize = getimagesize($path);
         $watermarkfile = Yii::$app->uploads->getThumbnail($appData['logo']->hash, 220, 180, 'inset');
-        $watermarksize = getimagesize($watermarkfile);
 
-        $posX = ($photosize[0] / 2) - ($watermarksize[0] / 2);
-        $posY = ($photosize[1] / 2) - ($watermarksize[1] / 2);
-        if ($photosize[0] > 1725) {
+        /*
+         * Watermark position Center
+         */
+        $watermarksize = getimagesize($watermarkfile);
+       // $posX = ($photosize[0] / 2) - ($watermarksize[0] / 2);
+       // $posY = ($photosize[1] / 2) - ($watermarksize[1] / 2);
+
+        /*
+         * Watermark position Top-left
+         */
+        $posX = 20;
+        $posY = 5;
+        if ($photosize[0] > 850) {
             Image::watermark($path, \Yii::getAlias('@frontend') . '/web' . $watermarkfile, [$posX, $posY])->save($path);
         }
-
     }
 
     /**
@@ -200,6 +208,7 @@ class Uploads extends \yii\db\ActiveRecord
     {
         return Yii::$app->uploads->getThumbnail($this->hash, $width, $height, $mode);
     }
+
     /**
      * @param $mode
      * @return string
@@ -208,6 +217,7 @@ class Uploads extends \yii\db\ActiveRecord
     {
         return Yii::$app->uploads->getThumbnail($this->hash);
     }
+
     /**
      * @return boolean
      */

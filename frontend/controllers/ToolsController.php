@@ -11,15 +11,7 @@ use common\models\CreditApplication;
 class ToolsController extends Controller
 {
     public $layout = 'index';
-
-    public function behaviors()
-    {
-        return [
-                'class' => 'yii\filters\PageCache',
-                'duration' => 60,
-            ];
-
-    }
+  
 
     /**
      * @return index

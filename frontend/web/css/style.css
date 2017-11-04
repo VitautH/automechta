@@ -1426,6 +1426,9 @@
     padding: 5px;
     text-align: center;
 }
+#complaint_block {
+    display: none;
+}
 
 #complaint_block .field-product-complain_text {
     margin-bottom: 0 !important;

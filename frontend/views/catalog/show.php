@@ -31,7 +31,10 @@ $this->registerJsFile(
     '@web/js/jquery.fancybox.min.js',
     ['depends' => [\yii\web\JqueryAsset::className()]]
 );
-
+$this->registerJs("	
+$(document).ready(function() {
+$('b-detail__main-info-images').show();
+});");
 $appData = AppData::getData();
 $uploads = $model->getUploads();
 $similarProducts = Product::find()
@@ -44,7 +47,6 @@ $this->title = Yii::t('app', 'Catalog') . ' | ' . $model->getFullTitle();
 $contactForm = new ContactForm();
 $contactForm->id = $model->id;
 $seller = User::findOne($model->created_by);
-
 if (empty($model->phone)) {
     $phone = $seller->phone;
     $phone_provider = $seller->phone_provider;
@@ -95,7 +97,6 @@ foreach ($productSpecificationsAdditional as $key => $productSpecification) {
 $metaData = MetaData::getModels($model);
 
 $this->registerMetaData($metaData);
-
 $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $model->model], ['product_type' => $model->type]])->one()->id;
 
 ?>
@@ -213,23 +214,25 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                                                     <div class="prev"><span class="glyphicon glyphicon-circle-arrow-left"></span></div>
                                                     <div class="next"><span class="glyphicon glyphicon-circle-arrow-right"></span></div>
                                                     <img src="<?= $upload->getThumbnail(770, 420) ?>"
-                                                         alt="<?= $model->i18n()->title ?>"/>
+                                                         alt="<?= $this->title ?>" title="<?= $this->title ?>"/>
                                                 </a>
                                             </li>
                                         <?php endforeach; ?>
                                     </ul>
                                 </div>
                                 <div class="col-xs-12 pagerSlider pagerVertical">
+
                                     <div class="b-detail__main-info-images-small" id="bx-pager">
                                         <?php foreach ($uploads as $key => $upload): ?>
                                             <a href="#" data-slide-index="<?= $key ?>"
                                                class="b-detail__main-info-images-small-one">
                                                 <img class="img-responsive"
                                                      src="<?= $upload->getThumbnail(115, 85) ?>"
-                                                     alt="<?= $model->i18n()->title ?>"/>
+                                                     alt="<?= $this->title ?>" title="<?= $this->title ?>"/>
                                             </a>
                                         <?php endforeach; ?>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

@@ -24,7 +24,7 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
 
 ?>
 <?php $this->beginPage() ?>
-<!DOCTYPE>
+    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="<?= Yii::$app->language ?>">
 	<head>
         <meta charset="<?= Yii::$app->charset ?>">
@@ -314,12 +314,12 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
 				});
 			}
 </script>
-<script data-skip-moving="true"> 
-(function(w,d,u,b){ 
-s=d.createElement('script');r=(Date.now()/1000|0);s.async=1;s.src=u+'?'+r; 
-h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h); 
-})(window,document,'/js/bitrix.js'); 
-</script>
+        <script data-skip-moving="true">
+            (function(w,d,u,b){
+                s=d.createElement('script');r=(Date.now()/1000|0);s.async=1;s.src=u+'?'+r;
+                h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+            })(window,document,'/js/bitrix.js');
+        </script>
     </body>
 </html>
 

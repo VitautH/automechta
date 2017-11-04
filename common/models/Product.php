@@ -68,6 +68,7 @@ class Product extends \yii\db\ActiveRecord
             ['priority', 'safe', 'when' => function ($model) {
                 return Yii::$app->user->can('changeProductPriority');
             }],
+           // [['phone'],'required'],
             [['status', 'type', 'make', 'price', 'views', 'created_at', 'updated_at', 'created_by', 'updated_by', 'exchange', 'currency', 'auction'], 'integer'],
         ];
     }

@@ -89,7 +89,7 @@ $model->loans_payment = '0';
                         <?= $form->field($model, 'job', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('job')) ?>
                     </div>
                     <div class="col-xs-6">
-                        <?= $form->field($model, 'experience', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('experience')) ?>
+                        <?= $form->field($model, 'experience', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label('Стаж на последнем месте работы') ?>
                     </div>
                     <div class="col-xs-12">
                         <?= $form->field($model, 'salary', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('salary')) ?>

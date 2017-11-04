@@ -41,6 +41,7 @@ class ProductSearch extends Product
             'status',
             'type',
             'make',
+            'phone',
             'model',
             'price',
             'year',
@@ -75,7 +76,7 @@ class ProductSearch extends Product
         if ($params !== null) {
             $this->load($params);
         }
-
+        $query->andFilterWhere(['phone' => $this->phone]);
         $query->andFilterWhere(['created_by' => $this->created_by]);
         $query->andFilterWhere(['priority' => $this->priority]);
         $query->andFilterWhere(['status' => $this->status]);
@@ -87,7 +88,6 @@ class ProductSearch extends Product
         }
 
         $this->fillDateRangeAttributes($query);
-
         return $dataProvider;
     }
 }

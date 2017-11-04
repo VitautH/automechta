@@ -19,10 +19,10 @@ $this->params['breadcrumbs'][] = $this->title;
 $appData = AppData::getData();
 
 $this->registerCss("span.update {    
-font-size: 14px;
+font-size: 12px;
 font-weight: bold; }
 span.error{
-font-size: 14px;
+font-size: 12px;
 font-weight: bold;
 color:red;
 }", \yii\web\View::POS_HEAD);
@@ -30,6 +30,9 @@ $this->registerJs("
 $( document ).ready(function() {
 $('.js-delete-row').on('click',function(e){
 e.preventDefault();
+
+var r = confirm('Вы действительно хотите удалить объявление?');
+if (r == true) {
 var delete_url = $(this).data('delete_url');
   $.ajax({
             url: delete_url,
@@ -38,6 +41,7 @@ var delete_url = $(this).data('delete_url');
                 $('tr[data-key=' + data['id'] + ']').fadeOut();
              }
          });
+}
 })
 $('.js-up-row').on('click',function(e){
 e.preventDefault();
@@ -51,7 +55,8 @@ var up_url = $(this).data('up_url');
               $('#'+data['id']).fadeOut();
               }
               if(data['status']=='failed'){
-              $('<br><span class=\"error\">Произошла ошибка</span>').insertAfter('#'+data['id']);       
+              $('<br><span class=\"error\">Извините, Вы не можете поднять объявление</span>').insertAfter('#'+data['id']); 
+              $('#'+data['id']).fadeOut();
               }
              }
          });

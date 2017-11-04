@@ -72,6 +72,7 @@ ksort($makesList);
                     'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
                     'filter' => MdlHtml::activeInput('text', $searchModel, 'model')
                 ],
+
                 [
                     'label' => $searchModel->getAttributeLabel('year'),
                     'value' => function ($model, $key, $index, $column) {
@@ -101,6 +102,16 @@ ksort($makesList);
                     'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
                     'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
                     'filter' => MdlHtml::activeDropDownList($searchModel, 'status', Product::getStatuses(), ['prompt'=>Yii::t('app', 'Any')]),
+                ],
+                [
+                    'label' => $searchModel->getAttributeLabel('phone'),
+                    'value' => function ($model, $key, $index, $column) {
+                        return $model->phone;
+                    },
+                    'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                    'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                    'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                    'filter' => MdlHtml::activeInput('text', $searchModel, 'phone')
                 ],
                 [
                     'attribute' => 'created_at',

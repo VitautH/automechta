@@ -38,4 +38,8 @@ function (application, $, preloader, i18nForm, tinymceHelper, uploader) {
             }
         });
     }
+
+    if ($('#product-phone').length) {
+        $('#product-phone').mask("+375 (99) 999-99-99");
+    }
 });

@@ -11,19 +11,13 @@ use common\models\Product;
 use common\models\ProductMake;
 use common\models\User;
 use backend\widgets\MetaDataWidget;
-
+use yii\widgets\MaskedInput;
 if (!$model->isNewRecord) {
     $user = User::find()->where('id=' . $model->created_by)->one();
 } else {
     $user = null;
 }
-
-if (empty($user->phone)) {
-    $phone = $model->phone;
-} else {
-    $phone = $user->phone;
-}
-
+$this->registerCss("input#product-phone {font-weight: bolder; font-size: 16px;}");
 ?>
 
 <?php
@@ -68,7 +62,11 @@ $form = ActiveForm::begin([
         <div class="mdl-textfield mdl-textfield--full-width mdl-js-textfield">
             <label>Логин пользователя: </label> <b><?= $user->username ?></b><br>
             <label>Email: </label> <b><?= $user->email ?></b><br>
-            <label>Телефон: </label> <b><?= $phone ?></b><br>
+            <label>Телефон:   </label><b> <b><?= $form->field($model, 'phone')->widget(\yii\widgets\MaskedInput::className(), [
+                'mask' => '+375 (99) 999-99-99',
+            ])->label(false); ?>
+            </b>
+
         </div>
     <?php endif; ?>
     <?= $form->field($model, 'id')->textInput(['name' => 'id', 'disabled' => 'disabled']) ?>

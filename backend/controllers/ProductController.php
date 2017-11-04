@@ -113,13 +113,13 @@ class ProductController extends \yii\web\Controller
         if (!Yii::$app->user->can('updateProduct')) {
             Yii::$app->user->denyAccess();
         }
-
         $model = $this->findModel($id);
         $model->loadDefaultValues();
 
         $productSpecificationModels = $this->fillSpecifications($model);
-
-        if ($model->loadI18n(Yii::$app->request->post()) && $model->validateI18n()) {
+        $request = Yii::$app->request->post();
+        if ($model->loadI18n($request) && $model->validateI18n()) {
+            $model->phone = $request['Product']['phone'];
             $model->save();
             $this->saveUploads($model);
             $this->saveSpecifications($model);
