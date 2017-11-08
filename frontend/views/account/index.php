@@ -21,11 +21,22 @@ $appData = AppData::getData();
 $this->registerCss("span.update {    
 font-size: 12px;
 font-weight: bold; }
+
 span.error{
 font-size: 12px;
 font-weight: bold;
 color:red;
-}", \yii\web\View::POS_HEAD);
+}
+
+span.nextUp {
+font-size: 12px;
+}
+
+a.js-up-row {
+color: #f76d2b;
+}
+", \yii\web\View::POS_HEAD);
+
 $this->registerJs("
 $( document ).ready(function() {
 $('.js-delete-row').on('click',function(e){
@@ -63,6 +74,7 @@ var up_url = $(this).data('up_url');
 })
 });
 ", \yii\web\View::POS_END);
+
 ?>
 <section class="b-pageHeader" style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
     <div class="container">
@@ -183,7 +195,6 @@ var up_url = $(this).data('up_url');
                     ],
                     'columns' => [
                         [
-                            'label' => Yii::t('app', 'Photo'),
                             'value' => function (Product $model, $key, $index, $column) {
                                 $foto = Html::img($model->getTitleImageUrl(270, 150));
                                 if ($model->status === Product::STATUS_PUBLISHED) {
@@ -197,17 +208,43 @@ var up_url = $(this).data('up_url');
                             'contentOptions' => ['class' => ''],
                         ],
                         [
-                            'label' => $searchModel->getAttributeLabel('make'),
+                            'attribute' => 'Модель',
                             'value' => function (Product $model, $key, $index, $column) {
                                 $make = $model->getMake0()->one();
-                                return $make->name;
+                                return $make->name . ' ' . $model->model;
                             },
                             'headerOptions' => ['class' => ''],
                             'filterOptions' => ['class' => ''],
                             'contentOptions' => ['class' => ''],
                         ],
                         [
-                            'attribute' => 'model',
+                            'attribute' => 'Стоимость',
+                            'value' => function (Product $model, $key, $index, $column) {
+                                $make = $model->getMake0()->one();
+                                return $model->price . ' $';
+                            },
+                            'headerOptions' => ['class' => ''],
+                            'filterOptions' => ['class' => ''],
+                            'contentOptions' => ['class' => ''],
+                        ],
+                        [
+                            'attribute' => 'Дата подачи',
+                            'value' => function (Product $model, $key, $index, $column) {
+                                $make = $model->getMake0()->one();
+                                return Yii::$app->formatter->asDate($model->created_at);
+                            },
+                            'headerOptions' => ['class' => ''],
+                            'filterOptions' => ['class' => ''],
+                            'contentOptions' => ['class' => ''],
+                        ],
+                        [
+                            'attribute' => 'Дата обновления',
+                            'value' => function (Product $model, $key, $index, $column) {
+                                $make = $model->getMake0()->one();
+                                return Yii::$app->formatter->asDate($model->updated_at);
+                            },
+                            'headerOptions' => ['class' => ''],
+                            'filterOptions' => ['class' => ''],
                             'contentOptions' => ['class' => ''],
                         ],
                         [
@@ -250,10 +287,15 @@ var up_url = $(this).data('up_url');
                                         $timeToUp = $model->updated_at + (1 * 24 * 60 * 60);
                                         $result = Html::a('<span style="opacity: 0.5;" class="">UP</span>', '#',
                                             [
+                                                'onclick' => 'return false;',
                                                 'title' => 'Может быть поднято ' . Yii::$app->formatter->asDatetime($timeToUp),
                                                 'class' => 'js-up-disabled',
                                             ]
                                         );
+                                        $now = new DateTime();
+                                        $timeLeft =  explode('/',Yii::$app->formatter->asDuration(($timeToUp - $now->getTimestamp()),'/'));
+
+                                        $result .= '<br><span class="nextUp">Следующее обновление через ' .$timeLeft[0] . '</span>';
                                     }
                                     return $result;
                                 },
