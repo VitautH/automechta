@@ -17,7 +17,7 @@ if (!$model->isNewRecord) {
 } else {
     $user = null;
 }
-$this->registerCss("input#product-phone {font-weight: bolder; font-size: 16px;}");
+$this->registerCss("input#product-phone,input#product-phone_2 {font-weight: bolder; font-size: 16px;}");
 ?>
 
 <?php
@@ -67,6 +67,10 @@ $form = ActiveForm::begin([
             ])->label(false); ?>
             </b>
 
+                <label>Доп. телефон:   </label><b><?= $form->field($model, 'phone_2')->widget(\yii\widgets\MaskedInput::className(), [
+                            'mask' => '+375 (99) 999-99-99',
+                        ])->label(false); ?>
+                    </b>
         </div>
     <?php endif; ?>
     <?= $form->field($model, 'id')->textInput(['name' => 'id', 'disabled' => 'disabled']) ?>

@@ -120,6 +120,7 @@ class ProductController extends \yii\web\Controller
         $request = Yii::$app->request->post();
         if ($model->loadI18n($request) && $model->validateI18n()) {
             $model->phone = $request['Product']['phone'];
+            $model->phone_2 = $request['Product']['phone_2'];
             $model->save();
             $this->saveUploads($model);
             $this->saveSpecifications($model);
