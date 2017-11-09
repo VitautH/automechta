@@ -182,6 +182,7 @@ class CatalogController extends Controller
         if ($model->loadI18n(Yii::$app->request->post()) && $model->validateI18n()) {
             $model->status = Product::STATUS_TO_BE_VERIFIED;
             $model->priority = 0;
+
             $model->save();
             $this->saveSpecifications($model);
             return $this->redirect(['uploads', 'id' => $model->id]);
@@ -285,16 +286,19 @@ class CatalogController extends Controller
                 'form' => $form,
             ]);
         } else {
-            $product = Product::findOne($id);
-            $product->first_name = $request['User']['first_name'];
-            $product->region = $request['User']['region'];
-            $product->phone = $request['User']['phone'];
-            $product->phone_provider = $request['User']['phone_provider'];
-            if ($product->save()) {
+//            var_dump($model);
+//            $product = Product::findOne($id);
+            $model->first_name = $request['User']['first_name'];
+            $model->region = $request['User']['region'];
+            $model->phone = $request['User']['phone'];
+            $model->phone_provider = $request['User']['phone_provider'];
+        //var_dump($product->save());
+            if ($model->save()) {
                 return $this->redirect(['product-saved', 'id' => $model->id]);
             } else {
-                print_r($product->getErrors());
+                print_r($model->getErrors());
             }
+
         }
     }
 

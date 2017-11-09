@@ -15,11 +15,11 @@ $this->registerJs("require(['controllers/catalog/index']);", \yii\web\View::POS_
 $productModel = new Product();
 $appData = AppData::getData();
 
-$this->title = $metaData['title'];
+$this->title = 'Каталог автомобилей и мотоциклов с фото и ценой в Беларуси';
 
 $this->registerMetaTag([
     'name' => 'description',
-    'content' => $metaData['description'],
+    'content' => 'Большой выбор автомобилей и мотоциклов с фото и ценой в каталоге компании АвтоМечта',
 ]);
 $this->registerMetaTag([
     'name' => 'keywords',
@@ -75,7 +75,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
 <div class="b-breadCumbs s-shadow">
     <?= Breadcrumbs::widget([
         'links' => [
-            Yii::t('app', 'Catalog')
+           "Все автомобили и мотоциклы"
         ],
         'options' => ['class' => 'container wow zoomInUp', 'ata-wow-delay' => '0.5s'],
         'itemTemplate' => "<li class='b-breadCumbs__page'>{link}</li>\n",

@@ -14,12 +14,21 @@ $tableView = filter_var(Yii::$app->request->get('tableView', 'false'), FILTER_VA
 $this->registerJs("require(['controllers/catalog/index']);", \yii\web\View::POS_HEAD);
 $productModel = new Product();
 $appData = AppData::getData();
-
-$this->title = $metaData['title'];
+switch ($type) {
+    case 2:
+        $typeName = "автомобилей";
+        $typeNames = "автомобили";
+        break;
+    case 3:
+        $typeNames = "мотоциклы";
+        $typeName = "мотоциклов";
+        break;
+}
+$this->title = 'Каталог ' . $typeName . ' с фото и ценой в Беларуси';
 
 $this->registerMetaTag([
     'name' => 'description',
-    'content' => $metaData['description'],
+    'content' => 'Большой выбор ' . $typeName . ' с фото и ценой в каталоге компании АвтоМечта',
 ]);
 $this->registerMetaTag([
     'name' => 'keywords',
@@ -61,86 +70,92 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
 
 
 <div class="catalog">
-<span style="display: none;" class="js-title"><?= $metaData['title'] ?></span>
+    <span style="display: none;" class="js-title"><?= $metaData['title'] ?></span>
 
-<section class="b-pageHeader" style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
-    <div class="container">
-        <h1 class="wow zoomInLeft" data-wow-delay="0.5s"><?=$metaData['title']?></h1>
-        <div class="b-pageHeader__search wow zoomInRight" data-wow-delay="0.5s">
-            <h3><?= Yii::t('app', 'Your search returned {n,plural,=0{# result} =1{# result} one{# results} other{# results}} ', ['n'=>$provider->getTotalCount()]) ?></h3>
+    <section class="b-pageHeader"
+             style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
+        <div class="container">
+            <h1 class="wow zoomInLeft" data-wow-delay="0.5s"><?= $metaData['title'] ?></h1>
+            <div class="b-pageHeader__search wow zoomInRight" data-wow-delay="0.5s">
+                <h3><?= Yii::t('app', 'Your search returned {n,plural,=0{# result} =1{# result} one{# results} other{# results}} ', ['n' => $provider->getTotalCount()]) ?></h3>
+            </div>
         </div>
-    </div>
-</section><!--b-pageHeader-->
+    </section><!--b-pageHeader-->
 
 
-<div class="b-breadCumbs s-shadow">
-    <?= Breadcrumbs::widget([
-        'links' => [
-            Yii::t('app', 'Catalog')
-        ],
-        'options' => ['class' => 'container wow zoomInUp', 'ata-wow-delay' => '0.5s'],
-        'itemTemplate' => "<li class='b-breadCumbs__page'>{link}</li>\n",
-        'activeItemTemplate' => "<li class='b-breadCumbs__page m-active'>{link}</li>\n",
-    ]) ?>
-</div><!--b-breadCumbs-->
-<div class="b-infoBar">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 col-xs-12">
-                <div class="b-infoBar__select wow zoomInUp" data-wow-delay="0.5s">
-                    <form method="post" action="/">
-                        <div class="b-infoBar__select-one js-sorter">
-                            <span class="b-infoBar__select-one-title"><?= Yii::t('app', 'SORT BY') ?> :</span>
-                            <?= $listView->renderSorter() ?>
-                        </div>
-                        <div class="b-infoBar__select-one">
-                            <span class="b-infoBar__select-one-title"><?= Yii::t('app', 'SELECT VIEW') ?></span>
-                            <a href="#" data-view="list" class="js-change-view m-list <?php if (!$tableView): ?>m-active<?php endif; ?>"><span class="fa fa-list"></span></a>
-                            <a href="#" data-view="table" class="js-change-view m-table <?php if ($tableView): ?>m-active<?php endif; ?>"><span class="fa fa-table"></span></a>
-                        </div>
-                    </form>
+    <div class="b-breadCumbs s-shadow">
+        <?= Breadcrumbs::widget([
+            'links' => [
+                'Все ' . $typeNames
+            ],
+            'options' => ['class' => 'container wow zoomInUp', 'ata-wow-delay' => '0.5s'],
+            'itemTemplate' => "<li class='b-breadCumbs__page'>{link}</li>\n",
+            'activeItemTemplate' => "<li class='b-breadCumbs__page m-active'>{link}</li>\n",
+        ]) ?>
+    </div><!--b-breadCumbs-->
+    <div class="b-infoBar">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-xs-12">
+                    <div class="b-infoBar__select wow zoomInUp" data-wow-delay="0.5s">
+                        <form method="post" action="/">
+                            <div class="b-infoBar__select-one js-sorter">
+                                <span class="b-infoBar__select-one-title"><?= Yii::t('app', 'SORT BY') ?> :</span>
+                                <?= $listView->renderSorter() ?>
+                            </div>
+                            <div class="b-infoBar__select-one">
+                                <span class="b-infoBar__select-one-title"><?= Yii::t('app', 'SELECT VIEW') ?></span>
+                                <a href="#" data-view="list"
+                                   class="js-change-view m-list <?php if (!$tableView): ?>m-active<?php endif; ?>"><span
+                                            class="fa fa-list"></span></a>
+                                <a href="#" data-view="table"
+                                   class="js-change-view m-table <?php if ($tableView): ?>m-active<?php endif; ?>"><span
+                                            class="fa fa-table"></span></a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div><!--b-infoBar-->
-<section class="b-makers">
-    <div class="container">
-        <div class="row col-lg-12">
-            <div class="b-makers__list">
-                <?php
-                $makerAuto = ProductMake::getMakesListWithId($type,true);
-                sort($makerAuto);
-                foreach ($makerAuto as $maker) {
-                    ?>
-                    <div class="b-makers__item">
-                        <a href='<?php echo '/brand/'.$type.'/' . $maker['name']; ?>'>
-                            <?php echo $maker['name']; ?>
-                            <span class="b-makers__item-number"><?php echo Product::find()->where(['AND',['make'=>$maker['id']],['status'=>1]])->count(); ?></span>
-                        </a>
-                    </div>
+    </div><!--b-infoBar-->
+    <section class="b-makers">
+        <div class="container">
+            <div class="row col-lg-12">
+                <div class="b-makers__list">
                     <?php
-                }
-                ?>
+                    $makerAuto = ProductMake::getMakesListWithId($type, true);
+                    sort($makerAuto);
+                    foreach ($makerAuto as $maker) {
+                        ?>
+                        <div class="b-makers__item">
+                            <a href='<?php echo '/brand/' . $type . '/' . $maker['name']; ?>'>
+                                <?php echo $maker['name']; ?>
+                                <span class="b-makers__item-number"><?php echo Product::find()->where(['AND', ['make' => $maker['id']], ['status' => 1]])->count(); ?></span>
+                            </a>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-<div class="b-items <?= $tableView ? 'm-listTableTwo' : 'm-listingsTwo' ?>">
-    <div class="container">
-        <div class="row">
-            <div class="js-product-list col-lg-9 col-sm-8 col-xs-12">
-                <?php
-                ListView::end();
-                ?>
-            </div>
-            <div class="col-lg-3 col-sm-4 col-xs-12">
-                <aside class="b-items__aside">
-                    <h2 class="s-title wow zoomInUp" data-wow-delay="0.5s"><?= Yii::t('app', 'REFINE YOUR SEARCH') ?></h2>
-                    <div class="b-items__aside-main wow zoomInUp" data-wow-delay="0.5s">
-                        <?= $this->render('_searchForm', $_params_) ?>
-                    </div>
-                    <div class="b-detail__main-aside-about wow zoomInUp" data-wow-delay="0.5s">
+    </section>
+    <div class="b-items <?= $tableView ? 'm-listTableTwo' : 'm-listingsTwo' ?>">
+        <div class="container">
+            <div class="row">
+                <div class="js-product-list col-lg-9 col-sm-8 col-xs-12">
+                    <?php
+                    ListView::end();
+                    ?>
+                </div>
+                <div class="col-lg-3 col-sm-4 col-xs-12">
+                    <aside class="b-items__aside">
+                        <h2 class="s-title wow zoomInUp"
+                            data-wow-delay="0.5s"><?= Yii::t('app', 'REFINE YOUR SEARCH') ?></h2>
+                        <div class="b-items__aside-main wow zoomInUp" data-wow-delay="0.5s">
+                            <?= $this->render('_searchForm', $_params_) ?>
+                        </div>
+                        <div class="b-detail__main-aside-about wow zoomInUp" data-wow-delay="0.5s">
                             <h2 class="s-titleDet"><?= Yii::t('app', 'ASK A QUESTION ABOUT THIS VEHICLE') ?></h2>
                             <div class="b-detail__main-aside-about-call b-detail__main-aside-about-call--narrow">
                                 <span class="fa fa-phone"></span>
@@ -155,45 +170,49 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                                     <p>
                                         <?= Yii::t('app', 'You can fill out an application for a loan on our website. The application will be considered employees of the company in the shortest time.') ?>
                                     </p>
-                                    <a href="/tools/credit-application" class="btn m-btn"><?= Yii::t('app', 'Fill application') ?><span class="fa fa-angle-right"></span></a>
+                                    <a href="/tools/credit-application"
+                                       class="btn m-btn"><?= Yii::t('app', 'Fill application') ?><span
+                                                class="fa fa-angle-right"></span></a>
                                 </div>
                             </div>
                         </div>
-                    <h2 class="s-title wow zoomInUp" data-wow-delay="0.5s">Услуги компании</h2>
-                    <div class="b-blog__aside-popular-posts">
-                        <?php foreach($asidePages as $asidePage): ?>
-                            <div class="b-blog__aside-popular-posts-one">
-                                <a href="/page/<?= $asidePage->getUrl() ?>">
-                                    <img class="img-responsive" src="<?= $asidePage->getTitleImageUrl(270, 150) ?>" alt="<?= $asidePage->i18n()->header ?>" />
-                                </a>
-                                <h4><a href="<?= $asidePage->getUrl() ?>"><?= $asidePage->i18n()->header ?></a></h4>
-                                <div class="b-blog__aside-popular-posts-one-date"><span class="fa fa-calendar-o"></span></div>
-                            </div>
-                        <?php endforeach; ?>
-                        <!-- Yandex.RTB R-A-248508-1 -->
-                        <div id="yandex_rtb_R-A-248508-1"></div>
-                        <script type="text/javascript">
-                            (function(w, d, n, s, t) {
-                                w[n] = w[n] || [];
-                                w[n].push(function() {
-                                    Ya.Context.AdvManager.render({
-                                        blockId: "R-A-248508-1",
-                                        renderTo: "yandex_rtb_R-A-248508-1",
-                                        async: true
+                        <h2 class="s-title wow zoomInUp" data-wow-delay="0.5s">Услуги компании</h2>
+                        <div class="b-blog__aside-popular-posts">
+                            <?php foreach ($asidePages as $asidePage): ?>
+                                <div class="b-blog__aside-popular-posts-one">
+                                    <a href="/page/<?= $asidePage->getUrl() ?>">
+                                        <img class="img-responsive" src="<?= $asidePage->getTitleImageUrl(270, 150) ?>"
+                                             alt="<?= $asidePage->i18n()->header ?>"/>
+                                    </a>
+                                    <h4><a href="<?= $asidePage->getUrl() ?>"><?= $asidePage->i18n()->header ?></a></h4>
+                                    <div class="b-blog__aside-popular-posts-one-date"><span
+                                                class="fa fa-calendar-o"></span></div>
+                                </div>
+                            <?php endforeach; ?>
+                            <!-- Yandex.RTB R-A-248508-1 -->
+                            <div id="yandex_rtb_R-A-248508-1"></div>
+                            <script type="text/javascript">
+                                (function (w, d, n, s, t) {
+                                    w[n] = w[n] || [];
+                                    w[n].push(function () {
+                                        Ya.Context.AdvManager.render({
+                                            blockId: "R-A-248508-1",
+                                            renderTo: "yandex_rtb_R-A-248508-1",
+                                            async: true
+                                        });
                                     });
-                                });
-                                t = d.getElementsByTagName("script")[0];
-                                s = d.createElement("script");
-                                s.type = "text/javascript";
-                                s.src = "//an.yandex.ru/system/context.js";
-                                s.async = true;
-                                t.parentNode.insertBefore(s, t);
-                            })(this, this.document, "yandexContextAsyncCallbacks");
-                        </script>
-                    </div>
-                </aside>
+                                    t = d.getElementsByTagName("script")[0];
+                                    s = d.createElement("script");
+                                    s.type = "text/javascript";
+                                    s.src = "//an.yandex.ru/system/context.js";
+                                    s.async = true;
+                                    t.parentNode.insertBefore(s, t);
+                                })(this, this.document, "yandexContextAsyncCallbacks");
+                            </script>
+                        </div>
+                    </aside>
+                </div>
             </div>
         </div>
-    </div>
-</div><!--b-items-->
+    </div><!--b-items-->
 </div>
