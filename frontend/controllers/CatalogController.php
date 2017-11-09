@@ -25,7 +25,6 @@ use yii\helpers\Json;
 use common\models\Complaint;
 
 
-
 /**
  * Catalog controller
  */
@@ -231,21 +230,20 @@ class CatalogController extends Controller
         if (Yii::$app->request->isAjax) {
             $request = Yii::$app->request->post();
 
-            if(empty($request['complaint_text'])){
-                $request['complaint_text']=null;
+            if (empty($request['complaint_text'])) {
+                $request['complaint_text'] = null;
             }
 
             $model = new Complaint();
             $model->complaint_type = $request['complaint_type'];
             $model->complaint_text = $request['complaint_text'];
-            $model->product_id= $request['id'];
+            $model->product_id = $request['id'];
             if ($model->save()) {
                 return '<div class="alert alert-success" role="alert" style="margin-top: 10px;">Ваша жалоба на объявление принята</div>';
             } else {
                 return '<div class="alert alert-danger" role="alert" style="margin-top: 10px;">Произошла ошибка</div>';
             }
-        }
-        else{
+        } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
@@ -266,14 +264,7 @@ class CatalogController extends Controller
 
         if (empty($request)) {
 
-            if(empty($model->phone)&& empty($model->first_name)&& empty($model->phone_provider)){
-                $userModel = User::find()->where('id=:id', [':id' => Yii::$app->user->id])->one();
-            }
-           else {
-               $userModel = $model;
-           }
-
-            if (!$userModel) {
+            if (!$model) {
                 throw new NotFoundHttpException('The requested page does not exist.');
             }
 
@@ -282,17 +273,14 @@ class CatalogController extends Controller
 
             return $this->render('create', [
                 'model' => $model,
-                'userModel' => $userModel,
                 'form' => $form,
             ]);
         } else {
-//            var_dump($model);
-//            $product = Product::findOne($id);
-            $model->first_name = $request['User']['first_name'];
-            $model->region = $request['User']['region'];
-            $model->phone = $request['User']['phone'];
-            $model->phone_provider = $request['User']['phone_provider'];
-        //var_dump($product->save());
+            $model->setScenario('sellerContacts');
+            $model->first_name = $request['Product']['first_name'];
+            $model->region = $request['Product']['region'];
+            $model->phone = $request['Product']['phone'];
+            $model->phone_provider = $request['Product']['phone_provider'];
             if ($model->save()) {
                 return $this->redirect(['product-saved', 'id' => $model->id]);
             } else {
@@ -370,13 +358,9 @@ class CatalogController extends Controller
      * Validate user data
      * @return array
      */
-    public function actionValidateSeller()
+    public function actionValidateSeller($id)
     {
-        $model = User::findOne(Yii::$app->user->id);
-
-        if ($model === null) {
-            $model = new User();
-        }
+        $model = Product::findOne($id);
         $model->setScenario('sellerContacts');
         $model->load(Yii::$app->request->post());
         Yii::$app->response->format = Response::FORMAT_JSON;
