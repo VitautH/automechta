@@ -73,8 +73,8 @@ header .btn.m-btn span.fa{height:32px;width:32px;vertical-align:middle;}
 .carousel-fade .next.left,
 .carousel-fade .prev.right{opacity:1;}
 .carousel-fade .carousel-control{z-index:2;}
-.b-search{height:195px;}
-.b-search__main{text-align:center;height:375px;margin-top:-125px;padding:35px 60px 50px 60px;z-index:1000;position:relative;box-shadow:0 0 10px rgba(0,0,0,0.1);}
+/*.b-search{height:195px;}*/
+.b-search__main{text-align:center;height:275px;margin-top:-125px;padding:35px 60px 5px 60px;z-index:1000;position:relative;box-shadow:0 0 10px rgba(0,0,0,0.1);}
 .b-search__main-form__select{position:relative;}
 .b-search__main-form .b-search__main-form__label{margin-left:15px;margin-bottom:5px;float:none;text-align:left;}
 .b-search__main-title{padding:15px 20px;display:inline-block;margin-bottom:30px;}
