@@ -14,7 +14,7 @@ define(['jquery', 'application', 'preloader'], function ($, application, preload
         updateModelsList($(this).val());
     });
     $('[name="ProductSearchForm[model]"]').on('change', function () {
-      getCount();
+        getCount();
     });
     $('[name="ProductSearchForm[yearFrom]"]').on('change', function () {
         getCount();
@@ -85,7 +85,7 @@ define(['jquery', 'application', 'preloader'], function ($, application, preload
             var $option = $('<option value="">Любая</option>');
             $makeSelect.append($option);
         }
-getCount();
+        getCount();
     }
 
     function getCount() {

@@ -10,7 +10,6 @@ use frontend\models\ProductSearchForm;
 $productModel = new Product();
 $searchForm = new ProductSearchForm();
 $total = Product::find()->where(['type' => '2'])->andWhere('[[product.status]]=1')->count();
-
 ?>
 <?php
 $form = ActiveForm::begin([

@@ -10,6 +10,7 @@ use common\controllers\TreeController;
 use yii\db\Query;
 use common\models\Product;
 use frontend\models\ProductSearchForm;
+
 class ProductmakeController extends TreeController
 {
     public $modelName = 'common\models\ProductMake';
@@ -50,24 +51,20 @@ class ProductmakeController extends TreeController
         $model = $this->findModel($makeId);
         return ProductMake::getModelsList($model->id);
     }
-public function actionSearch(){
-    if(Yii::$app->request->isAjax) {
-        $params= Yii::$app->request->get();
-//        $type= $request['type'];
-//        $make = $request['make'];
-//        $model = $request['model'];
-//        $priceFrom = $request['priceFrom'];
-//        $priceTo = $request['priceTo'];
-//        $yearFrom = $request['yearFrom'];
-//        $yearTo = $request['yearTo'];
-        $searchForm = new ProductSearchForm();
-        $query = Product::find()->active();
-        $searchForm->load($params);
-       $total = $searchForm->search($query)->count();
-        //$total = Product::find()->where(['type' => $request['type']])->andWhere('[[product.status]]=1')->count();
-        return $total;
+
+    public function actionSearch()
+    {
+        if (Yii::$app->request->isAjax) {
+            $params = Yii::$app->request->get();
+            $searchForm = new ProductSearchForm();
+            $query = Product::find()->active();
+            $searchForm->load($params);
+            $total = $searchForm->search($query)->count();
+
+            return $total;
+        }
     }
-}
+
     /**
      * Finds the ProductMake model based on its primary key value (id).
      * If the model is not found, a 404 HTTP exception will be thrown.
