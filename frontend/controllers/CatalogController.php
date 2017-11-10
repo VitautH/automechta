@@ -281,6 +281,8 @@ class CatalogController extends Controller
             $model->region = $request['Product']['region'];
             $model->phone = $request['Product']['phone'];
             $model->phone_provider = $request['Product']['phone_provider'];
+            $model->phone_2 = $request['Product']['phone_2'];
+            $model->phone_provider_2 = $request['Product']['phone_provider_2'];
             if ($model->save()) {
                 return $this->redirect(['product-saved', 'id' => $model->id]);
             } else {
