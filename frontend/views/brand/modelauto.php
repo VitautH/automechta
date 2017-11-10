@@ -94,7 +94,8 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
             'itemTemplate' => "<li class='b-breadCumbs__page'>{link}</li>\n",
             'activeItemTemplate' => "<li class='b-breadCumbs__page m-active'>{link}</li>\n",
         ]) ?>
-    </div><!--b-breadCumbs-->
+    </div>
+    <!--b-breadCumbs-->
     <div class="b-infoBar">
         <div class="container">
             <div class="row">
@@ -115,7 +116,8 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                 </div>
             </div>
         </div>
-    </div><!--b-infoBar-->
+    </div>
+    <!--b-infoBar-->
     <div class="b-items <?= $tableView ? 'm-listTableTwo' : 'm-listingsTwo' ?>">
         <div class="container">
             <div class="row">

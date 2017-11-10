@@ -93,6 +93,28 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
             'activeItemTemplate' => "<li class='b-breadCumbs__page m-active'>{link}</li>\n",
         ]) ?>
     </div><!--b-breadCumbs-->
+    <section class="b-makers">
+        <div class="container">
+            <div class="row col-lg-12">
+                <div class="b-makers__list">
+                    <?php
+                    $makerAuto = ProductMake::getMakesListWithId($type, true);
+                    sort($makerAuto);
+                    foreach ($makerAuto as $maker) {
+                        ?>
+                        <div class="b-makers__item">
+                            <a href='<?php echo '/brand/' . $type . '/' . $maker['name']; ?>'>
+                                <?php echo $maker['name']; ?>
+                                <span class="b-makers__item-number"><?php echo Product::find()->where(['AND', ['make' => $maker['id']], ['status' => 1]])->count(); ?></span>
+                            </a>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </section>
     <div class="b-infoBar">
         <div class="container">
             <div class="row">
@@ -117,29 +139,8 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                 </div>
             </div>
         </div>
-    </div><!--b-infoBar-->
-    <section class="b-makers">
-        <div class="container">
-            <div class="row col-lg-12">
-                <div class="b-makers__list">
-                    <?php
-                    $makerAuto = ProductMake::getMakesListWithId($type, true);
-                    sort($makerAuto);
-                    foreach ($makerAuto as $maker) {
-                        ?>
-                        <div class="b-makers__item">
-                            <a href='<?php echo '/brand/' . $type . '/' . $maker['name']; ?>'>
-                                <?php echo $maker['name']; ?>
-                                <span class="b-makers__item-number"><?php echo Product::find()->where(['AND', ['make' => $maker['id']], ['status' => 1]])->count(); ?></span>
-                            </a>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                </div>
-            </div>
-        </div>
-    </section>
+    </div>
+    <!--b-infoBar-->
     <div class="b-items <?= $tableView ? 'm-listTableTwo' : 'm-listingsTwo' ?>">
         <div class="container">
             <div class="row">
