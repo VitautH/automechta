@@ -10,10 +10,19 @@ use \yii\widgets\Breadcrumbs;
 use \common\helpers\MdlHtml;
 use \common\models\Product;
 use \common\models\ProductMake;
+use yii\widgets\MaskedInput;
 
 $name = Yii::t('app', 'Products');
 $currentLang = Yii::$app->language;
 $this->title = $name;
+$this->registerCss("
+    input[name='ProductSearch[phone]'] {
+    width: 75px;
+    margin-top: 30px;
+    border: 0;
+    border-bottom: 1px solid lightgrey;
+}
+");
 $this->registerJs("require(['controllers/product/index']);", \yii\web\View::POS_HEAD);
 $makesList = ProductMake::getMakesList();
 $makesList[0] = Yii::t('app', 'Any');
@@ -25,7 +34,8 @@ ksort($makesList);
             'links' => Yii::$app->menu->getBreadcrumbs()
         ]) ?>
         <h2><?= $name ?></h2>
-        <a class="js-create-product mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab mdl-button--colored page-header__fab" href="<?= Url::to(['product/create']) ?>">
+        <a class="js-create-product mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab mdl-button--colored page-header__fab"
+           href="<?= Url::to(['product/create']) ?>">
             <i class="material-icons">add</i>
         </a>
     </div>
@@ -42,7 +52,7 @@ ksort($makesList);
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'tableOptions' => [
-                'class'=>'mdl-data-table mdl-data-table--no-border mdl-js-data-table'
+                'class' => 'mdl-data-table mdl-data-table--no-border mdl-js-data-table'
             ],
             'columns' => [
                 [
@@ -91,7 +101,7 @@ ksort($makesList);
                     'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
                     'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
                     'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filter' => MdlHtml::activeDropDownList($searchModel, 'priority', Product::getPriorities(), ['prompt'=>Yii::t('app', 'Any')]),
+                    'filter' => MdlHtml::activeDropDownList($searchModel, 'priority', Product::getPriorities(), ['prompt' => Yii::t('app', 'Any')]),
                 ],
                 [
                     'attribute' => 'status',
@@ -101,7 +111,7 @@ ksort($makesList);
                     'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
                     'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
                     'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filter' => MdlHtml::activeDropDownList($searchModel, 'status', Product::getStatuses(), ['prompt'=>Yii::t('app', 'Any')]),
+                    'filter' => MdlHtml::activeDropDownList($searchModel, 'status', Product::getStatuses(), ['prompt' => Yii::t('app', 'Any')]),
                 ],
                 [
                     'label' => $searchModel->getAttributeLabel('phone'),
@@ -111,7 +121,14 @@ ksort($makesList);
                     'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
                     'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
                     'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filter' => MdlHtml::activeInput('text', $searchModel, 'phone')
+                    'filter' => MaskedInput::widget([
+                        'class' => 'mdl-textfield__input',
+                        'model' => $searchModel,
+                        'name' => 'ProductSearch[phone]',
+                        'mask' => '+375 (99) 999-99-99',
+                        'value' => $searchModel->phone
+                    ])
+
                 ],
                 [
                     'attribute' => 'created_at',

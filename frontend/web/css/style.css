@@ -1297,7 +1297,7 @@
 
 .m-index .b-makers {
 
-    margin-top: 70px !important;
+    margin-top: 20px !important;
 
     margin-left: 60px !important;
 
@@ -1426,6 +1426,7 @@
     padding: 5px;
     text-align: center;
 }
+
 #complaint_block {
     display: none;
 }
@@ -1566,9 +1567,18 @@ ul.gallery .zoom span {
     text-align: center;
     display: block;
     font-size: 30px;
-    /* opacity: 0.5; */
+    opacity: 0.5;
 }
 
-/*ul.gallery .zoom span:hover {*/
-/*opacity: 1 !important;*/
-/*}*/
+ul.gallery .zoom span:hover {
+    opacity: 1 !important;
+}
+
+.count_search_result {
+    margin-top: -10px;
+    display: block;
+}
+
+.count_search_result #count {
+    font-weight: bold;
+}
