@@ -1,4 +1,4 @@
-define(['jquery', 'i18n', 'application', 'gridview', 'modal', 'preloader'], function ($, __, application, gridview, modal, preloader) {
+define(['jquery', 'i18n', 'application', 'gridview', 'modal', 'preloader','maskedinput'], function ($, __, application, gridview, modal, preloader) {
     'use strict';
 
     var pjaxGridId = '#product_grid_wrapper',
@@ -33,5 +33,7 @@ define(['jquery', 'i18n', 'application', 'gridview', 'modal', 'preloader'], func
             }
         })
     });
-
+    if ($('#productsearch-phone').length) {
+        $('#productsearch-phone').mask("+375 (99) 999-99-99");
+    }
 });
