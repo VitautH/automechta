@@ -111,9 +111,10 @@ class CatalogController extends Controller
     public function actionShow($id)
     {
         $model = $this->findModel($id);
+        if (($model->status !== Product::STATUS_PUBLISHED) || (empty($model))) {
+            Yii::$app->response->statusCode = 404;
 
-        if ($model->status !== Product::STATUS_PUBLISHED) {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            return $this->render('sold');
         }
 
         $model->increaseViews();
@@ -379,7 +380,9 @@ class CatalogController extends Controller
         if (($model = Product::find()->where(['id' => $id])->one()) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            Yii::$app->response->statusCode = 404;
+
+            return $this->render('sold');
         }
     }
 
