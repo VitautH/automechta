@@ -23,18 +23,18 @@ use yii\helpers\ArrayHelper;
 $tableView = filter_var(Yii::$app->request->get('tableView', 'false'), FILTER_VALIDATE_BOOLEAN);
 
 $this->registerJs("require(['controllers/catalog/show']);", \yii\web\View::POS_HEAD);
-$this->registerCssFile("@web/css/jquery.fancybox.min.css", [
-    'depends' => [\yii\bootstrap\BootstrapAsset::className()],
-]);
+$this->registerCssFile("http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css");
 $this->registerJsFile("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js");
 $this->registerJsFile(
-    '@web/js/jquery.fancybox.min.js',
+    '@web/js/fotorama.js',
     ['depends' => [\yii\web\JqueryAsset::className()]]
 );
-$this->registerJs("	
-$(document).ready(function() {
-$('b-detail__main-info-images').show();
-});");
+$this->registerJs("    $('.fotorama').fotorama({
+        spinner: {
+            lines: 13,
+            color: 'rgba(0, 0, 0, .75)'
+        }
+    });",\yii\web\View::POS_END );
 $appData = AppData::getData();
 $uploads = $model->getUploads();
 $similarProducts = Product::find()
@@ -98,7 +98,6 @@ $metaData = MetaData::getModels($model);
 
 $this->registerMetaData($metaData);
 $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $model->model], ['product_type' => $model->type]])->one()->id;
-
 ?>
     <section class="b-pageHeader"
              style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
@@ -163,8 +162,8 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
             </div>
         </div>
     </div>
-    </div><!--b-infoBar-->
-
+    </div>
+    <!--b-infoBar-->
     <section class="b-detail s-shadow">
         <div class="container">
             <header class="b-detail__head s-lineDownLeft wow zoomInUp" data-wow-delay="0.5s">
@@ -202,46 +201,17 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                         <div class="b-detail__main-info">
                             <div class="b-detail__main-info-images wow zoomInUp" data-wow-delay="0.5s">
                                 <div class="row m-smallPadding">
-                                    <div class="col-xs-12">
-                                        <ul class="gallery b-detail__main-info-images-big bxslider enable-bx-slider"
-                                            data-pager-custom="#bx-pager" data-mode="horizontal" data-pager-slide="true"
-                                            data-mode-pager="vertical" data-pager-qty="5">
-                                            <?php foreach ($uploads as $upload): ?>
-                                                <li class="s-relative">
-                                                    <a data-fancybox="gallery" href="<?= $upload->getImage() ?>"
-                                                       data-fancybox
-                                                       data-caption="<?= $model->i18n()->title ?>">
-                                                        <div class="zoom"><span
-                                                                    class="glyphicon glyphicon-zoom-in"></span></div>
-                                                        <div class="prev"><span
-                                                                    class="glyphicon glyphicon-circle-arrow-left"></span>
-                                                        </div>
-                                                        <div class="next"><span
-                                                                    class="glyphicon glyphicon-circle-arrow-right"></span>
-                                                        </div>
-                                                        <img src="<?= $upload->getThumbnail(770, 420) ?>"
-                                                             alt="<?= $this->title ?>" title="<?= $this->title ?>"/>
-                                                    </a>
-                                                </li>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                    </div>
-                                    <div class="col-xs-12 pagerSlider pagerVertical">
-
-                                        <div class="b-detail__main-info-images-small" id="bx-pager">
-                                            <?php foreach ($uploads as $key => $upload): ?>
-                                                <a href="#" data-slide-index="<?= $key ?>"
-                                                   class="b-detail__main-info-images-small-one">
-                                                    <img class="img-responsive"
-                                                         src="<?= $upload->getThumbnail(115, 85) ?>"
-                                                         alt="<?= $this->title ?>" title="<?= $this->title ?>"/>
-                                                </a>
-                                            <?php endforeach; ?>
-                                        </div>
-
+                                    <div class="col-xs-12 fotorama" data-nav="thumbs" data-allowfullscreen="true"
+                                         data-loop="true" data-keyboard="true">
+                                        <?php foreach ($uploads as $key => $upload): ?>
+                                            <a href="<?= $upload->getThumbnail(770, 420) ?>"
+                                               data-thumb="<?= $upload->getThumbnail(115, 85) ?>">
+                                            </a>
+                                        <?php endforeach; ?>
                                     </div>
                                 </div>
                             </div>
+                            <br>
                             <div class="wow zoomInUp b-detail__main-aside-desc hidden-md hidden-lg"
                                  data-wow-delay="0.5s">
                                 <?= $this->render('_productDescription', ['model' => $model, 'productSpecificationsMain' => $productSpecificationsMain]) ?>
@@ -280,6 +250,74 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 20px;">
+                            <div class="col-md-3">
+                                <!-- Yandex.RTB R-A-248508-1 -->
+                                <div id="yandex_rtb_R-A-248508-1"></div>
+                                <script type="text/javascript">
+                                    (function (w, d, n, s, t) {
+                                        w[n] = w[n] || [];
+                                        w[n].push(function () {
+                                            Ya.Context.AdvManager.render({
+                                                blockId: "R-A-248508-1",
+                                                renderTo: "yandex_rtb_R-A-248508-1",
+                                                async: true
+                                            });
+                                        });
+                                        t = d.getElementsByTagName("script")[0];
+                                        s = d.createElement("script");
+                                        s.type = "text/javascript";
+                                        s.src = "//an.yandex.ru/system/context.js";
+                                        s.async = true;
+                                        t.parentNode.insertBefore(s, t);
+                                    })(this, this.document, "yandexContextAsyncCallbacks");
+                                </script>
+                            </div>
+                            <div class="col-md-3">
+                                <!-- Yandex.RTB R-A-248508-1 -->
+                                <div id="yandex_rtb_R-A-248508-1"></div>
+                                <script type="text/javascript">
+                                    (function (w, d, n, s, t) {
+                                        w[n] = w[n] || [];
+                                        w[n].push(function () {
+                                            Ya.Context.AdvManager.render({
+                                                blockId: "R-A-248508-1",
+                                                renderTo: "yandex_rtb_R-A-248508-1",
+                                                async: true
+                                            });
+                                        });
+                                        t = d.getElementsByTagName("script")[0];
+                                        s = d.createElement("script");
+                                        s.type = "text/javascript";
+                                        s.src = "//an.yandex.ru/system/context.js";
+                                        s.async = true;
+                                        t.parentNode.insertBefore(s, t);
+                                    })(this, this.document, "yandexContextAsyncCallbacks");
+                                </script>
+                            </div>
+                            <div class="col-md-3">
+                                <!-- Yandex.RTB R-A-248508-1 -->
+                                <div id="yandex_rtb_R-A-248508-1"></div>
+                                <script type="text/javascript">
+                                    (function (w, d, n, s, t) {
+                                        w[n] = w[n] || [];
+                                        w[n].push(function () {
+                                            Ya.Context.AdvManager.render({
+                                                blockId: "R-A-248508-1",
+                                                renderTo: "yandex_rtb_R-A-248508-1",
+                                                async: true
+                                            });
+                                        });
+                                        t = d.getElementsByTagName("script")[0];
+                                        s = d.createElement("script");
+                                        s.type = "text/javascript";
+                                        s.src = "//an.yandex.ru/system/context.js";
+                                        s.async = true;
+                                        t.parentNode.insertBefore(s, t);
+                                    })(this, this.document, "yandexContextAsyncCallbacks");
+                                </script>
                             </div>
                         </div>
                     </div>
