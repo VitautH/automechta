@@ -10,6 +10,7 @@ use common\models\User;
 
 $productModel = new Product();
 $searchForm = new ProductSearchForm();
+$searchForm->type = $_params_['productType'];
 $searchForm->type = $_params_['type'];
 ?>
 <form class="js-catalog-search-form">
@@ -85,12 +86,13 @@ $searchForm->type = $_params_['type'];
             </div>
         </div>
         <div class="b-items__aside-main-body-item js-vehicle-type-specs">
-            <?php foreach($searchForm->getSpecificationModels() as $specification): ?>
-                <div class="b-items__aside-main-body-item">
-                    <?= $searchForm->getSpecInput($specification) ?>
-                </div>
-            <?php endforeach; ?>
-        </div>
+            <div class="b-items__aside-main-body-item js-vehicle-type-specs">
+                <?php foreach($searchForm->getSpecificationModels() as $specification): ?>
+                    <div class="b-items__aside-main-body-item">
+                        <?= $searchForm->getSpecInput($specification) ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         <div class="b-items__aside-main-body-item">
             <div>
                 <?= Html::dropDownList(

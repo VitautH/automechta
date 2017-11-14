@@ -119,7 +119,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
     </div>
     <!--b-infoBar-->
     <div class="b-items <?= $tableView ? 'm-listTableTwo' : 'm-listingsTwo' ?>">
-        <div class="container">
+        <div class="container" style="width:97%;">
             <div class="row">
                 <div class="js-product-list col-lg-9 col-sm-8 col-xs-12">
                     <?php
