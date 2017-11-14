@@ -61,7 +61,7 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
     <header class="b-topBar wow slideInDown" data-wow-delay="0.7s">
         <div class="container">
             <div class="row">
-                <div class="col-md-3 col-sm-12">
+                <div class="col-md-2 col-sm-2 col-sm-12">
                     <div class="b-nav__logo wow slideInLeft" data-wow-delay="0.3s">
                         <a href="/">
                             <?php if (!empty($appData['logo'])): ?>
@@ -91,18 +91,34 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                         </a>
                     </div>
                 </div>
-                <div class="col-md-2 col-sm-12">
+                <div class="col-md-3 col-sm-3 col-sm-12">
                     <nav class="b-topBar__nav">
+                       <span>
+                         <i class="fa fa-user" aria-hidden="true"></i>
+                       </span>
                         <ul>
                             <?php if (Yii::$app->user->isGuest): ?>
-                                <li><a href="<?= Url::to(['/site/login']) ?>">
-                                        <?= Yii::t('app', 'Log in') ?></a></li>
+                                <li>
+                                    <a href="<?= Url::to(['/site/login']) ?>">
+                                        <?= Yii::t('app', 'Log in') ?>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?= Url::to(['/site/signup']) ?>">
+                                        Регистрация
+                                    </a>
+                                </li>
                             <?php else: ?>
-                                <li><a data-method="post" href="
+                                <li>
+                                    <a class="account_link" href="
+                    <?= Url::to(['/account/index']) ?>"><?= Yii::t('app', 'Account') ?></a>
+                                </li>
+                                <li>
+                                    <a data-method="post" href="
                     <?= Url::to(['/site/logout']) ?>"><b><?= Yii::t('app', 'Logout') ?></b> (
-                                        <?= Yii::$app->user->identity->username ?>)</a></li>
-                                <li><a class="account_link" href="
-                    <?= Url::to(['/account/index']) ?>"><?= Yii::t('app', 'Account') ?></a></li>
+                                        <?= Yii::$app->user->identity->username ?>)
+                                    </a>
+                                </li>
                             <?php endif; ?>
                         </ul>
                     </nav>
@@ -115,7 +131,8 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                 </div>
             </div>
         </div>
-    </header><!--b-topBar-->
+    </header>
+    <!--b-topBar-->
     <nav class="b-nav">
         <div class="container">
             <div class="row">
@@ -142,31 +159,36 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                             ?>
                         </div>
                     </div>
-                    <div class="col-md-2 col-md-offset-5 hidden-xs hidden-sm">
-                        <a href="https://vk.com/automechta_by" rel="nofollow">
+                    <div class="social col-md-2 col-md-offset-5 hidden-xs hidden-sm">
+                        <a href="https://vk.com/automechta_by" rel="nofollow" class="vk">
                             <i class="social_icons fa fa-vk" aria-hidden="true"></i>
                         </a>
-                        <a href="https://www.facebook.com/automechta/" rel="nofollow">
+                        <a href="https://www.facebook.com/automechta/" rel="nofollow" class="fb">
                             <i class="social_icons fa fa-facebook" aria-hidden="true"></i>
                         </a>
-                        <a href="https://ok.ru/automechta" rel="nofollow">
+                        <a href="https://ok.ru/automechta" rel="nofollow" class="ok">
                             <i class="social_icons fa fa-odnoklassniki-square" aria-hidden="true"></i>
                         </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav><!--b-nav-->
+    </nav>
+    <!--b-nav-->
+
     <?= $content ?>
+
     <div class="b-features">
         <div class="container">
             <div class="row">
                 <div class="col-md-9 col-md-offset-3 col-xs-6 col-xs-offset-6">
                     <ul class="b-features__items">
+
                     </ul>
                 </div>
             </div>
         </div>
     </div><!--b-features-->
+
     <div class="b-info">
         <div class="container">
             <div class="row">
@@ -340,4 +362,5 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
     </script>
     </body>
     </html>
+
 <?php $this->endPage() ?>
