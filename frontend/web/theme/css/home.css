@@ -13,6 +13,7 @@
 
 .b-topBar .b-topBar__tel {
     padding: 15px 0 9px 0;
+    margin-left: 30px;
 }
 
 .b-topBar__tel .fa {
@@ -29,6 +30,7 @@
 
 .b-topBar__addr {
     padding-left: 15px;
+    margin-left: 10px;
     margin-right: 0px;
     white-space: nowrap;
 }
@@ -45,6 +47,7 @@
 
 .b-topBar__nav {
     overflow: hidden;
+    margin-left: 15px;
 }
 
 .b-topBar__nav span {
