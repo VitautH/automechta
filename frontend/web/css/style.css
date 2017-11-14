@@ -84,7 +84,6 @@
     left: 0px;
     right: 0px;
     bottom: 0px;
-    background: rgba(255, 255, 255, 0.5);
     z-index: 5
 }
 
@@ -1296,11 +1295,7 @@
 /*# sourceMappingURL=style.css.map */
 
 .m-index .b-makers {
-
     margin-top: 20px !important;
-
-    margin-left: 60px !important;
-
 }
 
 .m-index .b-featured {
@@ -1472,8 +1467,13 @@
     display: none !important;
 }
 
+.b-makers__item a {
+    color: black;
+}
+
 .b-makers__item a:hover {
     text-decoration: underline;
+    color: black;
 }
 
 .bx-wrapper .bx-next {
@@ -1575,10 +1575,20 @@ ul.gallery .zoom span:hover {
 }
 
 .count_search_result {
-    margin-top: -10px;
+    margin-top: -27px;
     display: block;
+    color: white;
+    width: 174px;
+    margin-bottom: 8px;
 }
 
 .count_search_result #count {
     font-weight: bold;
+}
+
+nav.b-nav .social_icons {
+    color: white;
+    font-size: 20px;
+    margin-right: 15px;
+    margin-top: 5px;
 }

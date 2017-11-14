@@ -39,6 +39,9 @@
 
 .b-breadCumbs ul li a {
     color: #999;
+
+}
+.b-breadCumbs ul li a:hover {
     text-decoration: underline;
 }
 
@@ -891,6 +894,10 @@ ul.b-items__pagination-main {
     column-width: 100px;
     column-count: 8;
     column-gap: 40px;
+}
+.b-makers__list__main {
+    border: 2px solid grey;
+    padding: 20px;
 }
 
 .b-makers__item {

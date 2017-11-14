@@ -4264,7 +4264,7 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
   border: 1px solid #eeeeee;
   border-radius: 30px;
   font: 400 13px 'Open Sans',sans-serif;
-  background: transparent;
+  background: white;
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;

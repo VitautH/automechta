@@ -26,6 +26,11 @@ $mainPageData = MainPage::getData();
 <?
 if ($this->beginCache($id)) {
     ?>
+    <section class="b-search">
+        <div class="container">
+            <?= $this->render('_searchForm', $_params_) ?>
+        </div>
+    </section><!--b-search-->
     <section class="b-slider">
         <div id="carousel" class="slide carousel carousel-fade">
             <div class="carousel-inner">
@@ -53,16 +58,10 @@ if ($this->beginCache($id)) {
             </a>
         </div>
     </section><!--b-slider-->
-
-    <section class="b-search">
-        <div class="container">
-            <?= $this->render('_searchForm', $_params_) ?>
-        </div>
-    </section><!--b-search-->
     <section class="b-makers">
         <div class="container">
             <div class="row col-lg-12">
-                <div class="b-makers__list">
+                <div class="b-makers__list b-makers__list__main">
                     <?php
                     $modelAuto = ProductMake::getMakesListWithId(2, true);
                     sort($modelAuto);
