@@ -6,8 +6,6 @@ define(['jquery', 'application', 'preloader'], function ($, application, preload
     $('[name="ProductSearchForm[type]"]').on('change', function () {
         updateMakersList($(this).val());
         var $currentOption = $(this).find('option[value="' + $(this).val() + '"]');
-
-        $('.js-main_search_prod_type').html($currentOption.text());
     }).trigger('change');
 
     $('[name="ProductSearchForm[make]"]').on('change', function () {
@@ -36,7 +34,7 @@ define(['jquery', 'application', 'preloader'], function ($, application, preload
                 dataType: 'json',
                 success: function (response) {
                     $('[name="ProductSearchForm[model]"]').empty();
-                    var $option = $('<option value="">Любая</option>');
+                    var $option = $('<option value="">Модель</option>');
                     $('[name="ProductSearchForm[model]"]').append($option);
                     $.each(response, function (key, val) {
                         var $option = $('<option value="' + key + '">' + key + '</option>');
@@ -51,7 +49,7 @@ define(['jquery', 'application', 'preloader'], function ($, application, preload
             });
         } else {
             $('[name="ProductSearchForm[model]"]').empty();
-            var $option = $('<option value="">Любая</option>');
+            var $option = $('<option value="">Модель</option>');
             $('[name="ProductSearchForm[model]"]').append($option);
         }
         getCount();
@@ -66,7 +64,7 @@ define(['jquery', 'application', 'preloader'], function ($, application, preload
                 dataType: 'json',
                 success: function (response) {
                     $makeSelect.empty();
-                    var $option = $('<option value="">Любая</option>');
+                    var $option = $('<option value="">Марка</option>');
                     $makeSelect.append($option);
                     $.each(response, function (key, val) {
                         var $option = $('<option value="' + key + '">' + val + '</option>');
@@ -82,7 +80,7 @@ define(['jquery', 'application', 'preloader'], function ($, application, preload
             });
         } else {
             $makeSelect.empty();
-            var $option = $('<option value="">Любая</option>');
+            var $option = $('<option value="">Марка</option>');
             $makeSelect.append($option);
         }
         getCount();

@@ -92,12 +92,10 @@ a.btn.m-btn.m-pay:hover,
 .b-items__aside-sell-info a.btn.m-btn:hover span.fa,
 .b-welcome .container,
 .m-index .b-count .m-main,
-.demo_changer .demo-icon
-{
-    background-color:#f76d2b;
+.demo_changer .demo-icon {
+    background-color: #f76d2b;
     fill: #f76d2b;
 }
-
 
 .b-nav__logo h3 a,
 .b-search__main-form-submit a,
@@ -106,13 +104,13 @@ a.btn.m-btn.m-pay:hover,
 .b-auto__main-nav li:hover a,
 .b-auto__main-nav li.active a,
 .b-review__main h5 em,
-.b-info__latest > h3,.b-info__aside-article > h3,.b-info__twitter > h3,.b-info__contacts > p,
-.m-home .b-search__main >h4,
+.b-info__latest > h3, .b-info__aside-article > h3, .b-info__twitter > h3, .b-info__contacts > p,
+.m-home .b-search__main > h4,
 .m-home .b-count__item h2,
 .m-home .b-homeReviews__main-person-name em,
 .b-infoBar__compare-item span.fa,
-.b-infoBar__select-one a.m-active,.b-infoBar__select-one a:hover,
-.b-items__aside-main-body-item > div select +  span.fa,
+.b-infoBar__select-one a.m-active, .b-infoBar__select-one a:hover,
+.b-items__aside-main-body-item > div select + span.fa,
 .b-items__cars-one-img-check span,
 .m-listingsTwo .b-items__cars-one-info-price h4,
 .b-items__cell-info-price,
@@ -122,7 +120,7 @@ a.btn.m-btn.m-pay:hover,
 .m-compare .b-infoBar h5 span,
 .b-compare__block-inside-value ul li span.fa,
 .b-blog__aside-search button,
-.b-blog__aside-categories-list li:hover a,.b-blog__aside-categories-list li.m-active a,
+.b-blog__aside-categories-list li:hover a, .b-blog__aside-categories-list li.m-active a,
 .b-blog__aside-popular-posts-one-date span.fa,
 .b-blog__posts-one-social a:hover,
 .m-blogTwo .b-blog__posts-one-body-head-notes-note span.fa,
@@ -137,15 +135,14 @@ a.btn.m-btn.m-pay:hover,
 .s-submit label span,
 .b-submit__main-contacts-check .s-submitCheckLabel span.fa,
 .b-submit__main-plan-money-num,
-.b-topBar__addr span.fa,.b-topBar__tel span.fa,
+.b-topBar__addr span.fa, .b-topBar__tel span.fa,
 .b-topBar__lang a span.fa,
 .b-nav__list ul li a span.fa,
 .m-home .b-nav__logo h3 a span,
 .b-items__pagination-main > span.m-active a,
-.b-items__pagination-main > span:hover a
-{
-    color:#f76d2b;
-    fill:#f76d2b;
+.b-items__pagination-main > span:hover a {
+    color: #525050;
+    fill: #525050;
 }
 
 .b-nav__list ul li a:hover,
@@ -177,19 +174,16 @@ a.btn.m-btn.m-pay:hover,
 .b-submit__aside-step-inner-info h4,
 .b-auto__main-nav li:hover:before,
 .b-auto__main-nav li.active:before,
-.b-welcome__services-circle
-{
-    border-color:#f76d2b;
+.b-welcome__services-circle {
+    border-color: #f76d2b;
 }
 
-.b-submit__aside-step-inner-info-triangle
-{
-    border-left-color:#f76d2b;
+.b-submit__aside-step-inner-info-triangle {
+    border-left-color: #f76d2b;
 }
 
-.b-compare__block-title > a,.b-more__info-block-title a
-{
-    border-bottom-color:#f76d2b;
+.b-compare__block-title > a, .b-more__info-block-title a {
+    border-bottom-color: #f76d2b;
 }
 
 /* Color two */
@@ -211,7 +205,7 @@ body,
 .m-home .b-slider__info .btn.m-btn span.fa,
 .m-home .b-slider__info a.btn:hover,
 .m-home .b-featured__item > a,
-.m-home  .b-homeAuto,
+.m-home .b-homeAuto,
 .m-home .b-review__main-person,
 .m-home .b-asks,
 .m-home .b-partners,
@@ -230,7 +224,7 @@ body,
 .b-items__cars-one-info a.btn:hover span,
 .b-items__cell-info a.btn:hover span.fa,
 .btn.m-btn.m-infoBtn:hover span.fa,
-.b-detail__main-aside form input[type='text'],.b-detail__main-aside form input[type='email'],.b-detail__main-aside form input[type='tel'],.b-detail__main-aside select,
+.b-detail__main-aside form input[type='text'], .b-detail__main-aside form input[type='email'], .b-detail__main-aside form input[type='tel'], .b-detail__main-aside select,
 .b-detail__main-aside form button.btn.m-btn:hover,
 .b-detail__main-aside form button.btn.m-btn span.fa,
 .b-brands,
@@ -266,14 +260,12 @@ body,
 .b-detail__main-aside form textarea,
 .b-article__main-add input[type='text'],
 .b-article__main-add textarea,
-.b-world .container
-{
+.b-world .container {
     background-color: #fff;
-    fill:#fff;
+    fill: #fff;
 }
 
-
-.b-slider__info h3,.b-slider__info h2,.b-slider__info p,
+.b-slider__info h3, .b-slider__info h2, .b-slider__info p,
 .btn.m-btn span.fa,
 .b-slider__info a.btn:hover,
 .b-search__main-title h2,
@@ -285,7 +277,7 @@ body,
 .b-featured__item .m-leasing,
 .owl-buttons > div,
 .b-welcome__text,
-.b-welcome__services-img:hover span.fa,.b-welcome__services-img:hover svg g,
+.b-welcome__services-img:hover span.fa, .b-welcome__services-img:hover svg g,
 .b-world h6,
 .b-world__item a:hover,
 .b-asks__first-circle span,
@@ -300,8 +292,8 @@ body,
 .b-info__aside > a:hover,
 .b-info__latest-article-info h6 a,
 .m-home .b-topBar,
-.m-home .b-topBar__addr,.m-home .b-topBar__tel,
-.m-home .b-topBar__nav li a,.m-home .b-topBar__lang > div > a,
+.m-home .b-topBar__addr, .m-home .b-topBar__tel,
+.m-home .b-topBar__nav li a, .m-home .b-topBar__lang > div > a,
 .m-home .b-nav__logo h3 a,
 .m-home .b-nav__list > #nav > ul > li > a,
 .m-home .b-slider__info .btn.m-btn,
@@ -317,14 +309,14 @@ body,
 .m-home .b-footer__toTop-inside,
 .b-pageHeader,
 .b-items__aside-main-body,
-.b-items__aside-main-body-item .ui-slider-handle span.min,.b-items__aside-main-body-item .ui-slider-handle span.max,
+.b-items__aside-main-body-item .ui-slider-handle span.min, .b-items__aside-main-body-item .ui-slider-handle span.max,
 .b-items__aside-main-footer button,
 .b-items__aside-main-footer button:hover span,
 .b-items__aside-sell-img h3,
 .b-items__aside-sell-info,
 .b-items__aside-sell-info a,
 .b-items__aside-sell-info a:hover span,
-.b-items__cars-one-img-video,.b-items__cars-one-img-video:hover,.b-items__cars-one-img-video:visited,.b-items__cars-one-img-video:active,
+.b-items__cars-one-img-video, .b-items__cars-one-img-video:hover, .b-items__cars-one-img-video:visited, .b-items__cars-one-img-video:active,
 .b-items__cars-one-img-type,
 .b-items__cars-one-info-header > span,
 .b-items__cars-one-info a.btn:hover,
@@ -378,10 +370,9 @@ a.btn.m-btn.m-pay:hover,
 .b-items__cell-info a.btn.m-btn:hover,
 .b-compare .b-compare__images .b-compare__images-item-price,
 .b-compare__block-title > a,
-.b-items__cars-one-img-video, .b-items__cars-one-img-video:hover, .b-items__cars-one-img-video:visited, .b-items__cars-one-img-video:active,.b-items__cars-one-img-video:focus
-{
-    color:#fff;
-    fill:#fff;
+.b-items__cars-one-img-video, .b-items__cars-one-img-video:hover, .b-items__cars-one-img-video:visited, .b-items__cars-one-img-video:active, .b-items__cars-one-img-video:focus {
+    color: #fff;
+    fill: #fff;
 }
 
 .b-search__main-title h2,
@@ -397,11 +388,10 @@ a.btn.m-btn.m-pay:hover,
 .b-pageHeader__search h3,
 .b-article__main-author h3,
 .b-submit__aside-step-inner.m-active .b-submit__aside-step-inner-info h4,
-.b-compare__images-item-price-vs
-{
-    border-color:#fff;
+.b-compare__images-item-price-vs {
+    border-color: #fff;
 }
 
-.b-more__info-block-title.m-active a{
-    border-bottom-color:#fff;
+.b-more__info-block-title.m-active a {
+    border-bottom-color: #fff;
 }

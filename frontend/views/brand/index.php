@@ -81,28 +81,8 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
         'itemTemplate' => "<li class='b-breadCumbs__page'>{link}</li>\n",
         'activeItemTemplate' => "<li class='b-breadCumbs__page m-active'>{link}</li>\n",
     ]) ?>
-</div><!--b-breadCumbs-->
-<div class="b-infoBar">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 col-xs-12">
-                <div class="b-infoBar__select wow zoomInUp" data-wow-delay="0.5s">
-                    <form method="post" action="/">
-                        <div class="b-infoBar__select-one js-sorter">
-                            <span class="b-infoBar__select-one-title"><?= Yii::t('app', 'SORT BY') ?> :</span>
-                            <?= $listView->renderSorter() ?>
-                        </div>
-                        <div class="b-infoBar__select-one">
-                            <span class="b-infoBar__select-one-title"><?= Yii::t('app', 'SELECT VIEW') ?></span>
-                            <a href="#" data-view="list" class="js-change-view m-list <?php if (!$tableView): ?>m-active<?php endif; ?>"><span class="fa fa-list"></span></a>
-                            <a href="#" data-view="table" class="js-change-view m-table <?php if ($tableView): ?>m-active<?php endif; ?>"><span class="fa fa-table"></span></a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div><!--b-infoBar-->
+</div>
+    <!--b-breadCumbs-->
 <section class="b-makers">
     <div class="container">
         <div class="row col-lg-12">
@@ -137,6 +117,28 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
         </div>
     </div>
 </section>
+    <div class="b-infoBar">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-xs-12">
+                    <div class="b-infoBar__select wow zoomInUp" data-wow-delay="0.5s">
+                        <form method="post" action="/">
+                            <div class="b-infoBar__select-one js-sorter">
+                                <span class="b-infoBar__select-one-title"><?= Yii::t('app', 'SORT BY') ?> :</span>
+                                <?= $listView->renderSorter() ?>
+                            </div>
+                            <div class="b-infoBar__select-one">
+                                <span class="b-infoBar__select-one-title"><?= Yii::t('app', 'SELECT VIEW') ?></span>
+                                <a href="#" data-view="list" class="js-change-view m-list <?php if (!$tableView): ?>m-active<?php endif; ?>"><span class="fa fa-list"></span></a>
+                                <a href="#" data-view="table" class="js-change-view m-table <?php if ($tableView): ?>m-active<?php endif; ?>"><span class="fa fa-table"></span></a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--b-infoBar-->
 <div class="b-items <?= $tableView ? 'm-listTableTwo' : 'm-listingsTwo' ?>">
     <div class="container">
         <div class="row">
