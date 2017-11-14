@@ -6,126 +6,141 @@ use common\models\Product;
 use common\models\ProductType;
 use common\models\ProductMake;
 use frontend\models\ProductSearchForm;
-use common\models\User;
 
 $productModel = new Product();
 $searchForm = new ProductSearchForm();
-$searchForm->type = $_params_['type'];
+$total = Product::find()->where(['type' => '2'])->andWhere('[[product.status]]=1')->count();
+
 ?>
-<form class="js-catalog-search-form">
-    <div class="b-items__aside-main-body">
-        <div class="b-items__aside-main-body-item">
-            <label><?= Yii::t('app', 'VEHICLE TYPE') ?></label>
+<?php
+$form = ActiveForm::begin([
+    'enableAjaxValidation' => true,
+    'action' => Url::to(['brand/search']),
+    'method' => 'get',
+    'options' => ['class' => 'b-search__main'],
+    'id' => 'search_form_main',
+    'errorCssClass' => 'is-invalid',
+    'fieldConfig' => [
+        'template' => "{input}\n{label}\n{error}",
+        'options' => ['class' => 'mdl-textfield mdl-textfield--full-width mdl-js-textfield mdl-textfield--floating-label'],
+        'labelOptions' => ['class' => 'mdl-textfield__label'],
+        'errorOptions' => ['class' => 'mdl-textfield__error'],
+        'inputOptions' => ['class' => 'mdl-textfield__input'],
+    ]
+]);
+
+
+?>
+<div class="clearfix"></div>
+<div class="b-search__main-form wow zoomInUp" data-wow-delay="0.3s">
+    <div class="row">
+        <div class="col-xs-12 col-md-2">
             <div>
-                <?= Html::dropDownList(
-                    'ProductSearchForm[type]',
-                    $searchForm->type,
-                    ProductType::getTypesAsArray(),
-                    ['class' => 'm-select', 'prompt' => 'Любая'])
-                ?>
-                <span class="fa fa-caret-down"></span>
-            </div>
-        </div>
-        <div class="b-items__aside-main-body-item">
-            <label><?= Yii::t('app', 'SELECT A MAKE') ?></label>
-            <div>
-                <?= Html::dropDownList(
-                    'ProductSearchForm[make]',
-                    $searchForm->make,
-                    ProductMake::getMakesList($searchForm->type),
-                    ['class' => 'm-select', 'prompt' => 'Любая']) ?>
-                <span class="fa fa-caret-down"></span>
-            </div>
-        </div>
-        <div class="b-items__aside-main-body-item">
-            <label><?= Yii::t('app', 'SELECT A MODEL') ?></label>
-            <div>
-                <?= Html::dropDownList(
-                    'ProductSearchForm[model]',
-                    $searchForm->model,
-                    ProductMake::getModelsList($searchForm->make),
-                    ['class' => 'm-select', 'prompt' => 'Любая']) ?>
-                <span class="fa fa-caret-down"></span>
-            </div>
-        </div>
-        <div class="b-items__aside-main-body-item">
-            <label><?= Yii::t('app', 'YEAR RANGE') ?></label>
-            <label style="float:left; margin-top: 15px;"><?= Yii::t('app', 'From') ?>:</label>
-            <div style="margin-left: 40px;">
-                <?= Html::dropDownList(
-                    'ProductSearchForm[yearFrom]',
-                    $searchForm->yearFrom,
-                    Product::getYearsList(),
-                    ['class' => 'm-select', 'prompt' => Yii::t('app', 'Any')]) ?>
-                <span class="fa fa-caret-down"></span>
-            </div>
-        </div>
-        <div class="b-items__aside-main-body-item">
-            <label style="float:left; margin-top: 15px;"><?= Yii::t('app', 'To') ?>:</label>
-            <div style="margin-left: 40px;">
-                <?= Html::dropDownList(
-                    'ProductSearchForm[yearTo]',
-                    $searchForm->yearTo,
-                    Product::getYearsList(),
-                    ['class' => 'm-select', 'prompt' => Yii::t('app', 'Any')]) ?>
-                <span class="fa fa-caret-down"></span>
-            </div>
-        </div>
-        <div class="b-items__aside-main-body-item">
-            <label><?= Yii::t('app', 'PRICE') ?></label>
-            <label style="float:left; margin-top: 15px;"><?= Yii::t('app', 'From') ?>:</label>
-            <div style="margin-left: 40px;">
-                <?= Html::dropDownList(
-                    'ProductSearchForm[priceFrom]',
-                    $searchForm->priceFrom,
-                    ProductSearchForm::getPricesList(),
-                    ['class' => 'm-select', 'prompt' => 'Любая']) ?>
-                <span class="fa fa-caret-down"></span>
-            </div>
-        </div>
-        <div class="b-items__aside-main-body-item">
-            <label style="float:left; margin-top: 15px;"><?= Yii::t('app', 'To') ?>:</label>
-            <div style="margin-left: 40px;">
-                <?= Html::dropDownList(
-                    'ProductSearchForm[priceTo]',
-                    $searchForm->priceTo,
-                    ProductSearchForm::getPricesList(),
-                    ['class' => 'm-select', 'prompt' => 'Любая']) ?>
-                <span class="fa fa-caret-down"></span>
-            </div>
-        </div>
-        <div class="b-items__aside-main-body-item js-vehicle-type-specs">
-            <?php foreach($searchForm->getSpecificationModels() as $specification): ?>
-                <div class="b-items__aside-main-body-item">
-                    <?= $searchForm->getSpecInput($specification) ?>
+                <div class="b-search__main-form__select">
+                    <?= Html::dropDownList(
+                        'ProductSearchForm[type]',
+                        $searchForm->type,
+                        ProductType::getTypesAsArray()
+                    ) ?>
+                    <span class="fa fa-caret-down"></span>
                 </div>
-            <?php endforeach; ?>
-        </div>
-        <div class="b-items__aside-main-body-item">
-            <label><?= Yii::t('app', 'Published last') ?></label>
-            <div>
-                <?= Html::dropDownList(
-                    'ProductSearchForm[published]',
-                    $searchForm->published,
-                    ProductSearchForm::getPublishedPeriods(),
-                    ['class' => 'm-select', 'prompt' => Yii::t('app', 'Any')]) ?>
-                <span class="fa fa-caret-down"></span>
             </div>
         </div>
-        <div class="b-items__aside-main-body-item">
-            <label><?= Yii::t('app', 'Region') ?></label>
+        <div class="col-xs-12 col-md-2">
             <div>
-                <?= Html::dropDownList(
-                    'ProductSearchForm[region]',
-                    $searchForm->region,
-                    User::getRegions(),
-                    ['class' => 'm-select', 'prompt' => Yii::t('app', 'Any')]) ?>
-                <span class="fa fa-caret-down"></span>
+                <div class="b-search__main-form__select">
+                    <?= Html::dropDownList(
+                        'ProductSearchForm[make]',
+                        $searchForm->make,
+                        ProductMake::getMakesList(),
+                        ['prompt' => "Марка"]
+                    ) ?>
+                    <span class="fa fa-caret-down"></span>
+                </div>
             </div>
+
+        </div>
+        <div class="col-xs-12 col-md-2">
+            <div>
+                <div class="b-search__main-form__select">
+                    <?= Html::dropDownList(
+                        'ProductSearchForm[model]',
+                        $searchForm->model,
+                        ProductMake::getMakesList(),
+                       ['prompt' => "Модель"]
+                    ) ?>
+                    <span class="fa fa-caret-down"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-2 col-xs-12 ">
+            <div>
+                <div class="dropdown" id="year">
+                    Год выпуска:
+                    <span class="fa fa-caret-down"></span>
+                </div>
+                <div class="ui flowing download basic popup  center transition" id="year_form" style="display: none;">
+                    <div class="ui divided equal width relaxed center aligned choice grid" style="">
+                        <div class="column">
+                            <?= Html::dropDownList(
+                                'ProductSearchForm[yearFrom]',
+                                $searchForm->yearFrom,
+                                Product::getYearsList(),
+                                ['prompt' => 'От']) ?>
+                            <span class="fa fa-caret-down"></span>
+                        </div>
+                        <div class="column">
+                            <?= Html::dropDownList(
+                                'ProductSearchForm[yearTo]',
+                                $searchForm->yearTo,
+                                Product::getYearsList(),
+                                ['prompt' => "До"]) ?>
+                            <span class="fa fa-caret-down"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 col-xs-12 ">
+
+            <div>
+                <div class="dropdown" id="price">
+                    Цена:
+                    <span class="fa fa-caret-down"></span>
+                </div>
+                <div class="ui flowing download basic popup  center transition" id="price_form" style="display: none;">
+                    <div class="ui divided equal width relaxed center aligned choice grid" style="">
+                        <div class="column">
+                            <?= Html::dropDownList(
+                                'ProductSearchForm[priceFrom]',
+                                $searchForm->priceFrom,
+                                ProductSearchForm::getPricesList(),
+                                ['prompt' => 'От']) ?>
+                            <span class="fa fa-caret-down"></span>
+                        </div>
+                        <div class="column">
+                            <?= Html::dropDownList(
+                                'ProductSearchForm[priceTo]',
+                                $searchForm->priceTo,
+                                ProductSearchForm::getPricesList(),
+                                ['prompt' => "До"]) ?>
+                            <span class="fa fa-caret-down"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2">
+             <span class="count_search_result">
+    Найдено <span id="count"><?= $total ?></span> объявлений
+        </span>
+            <div class="b-search__main-form-submit">
+                <button type="submit" class="btn m-btn">Найти <span
+                            class="fa fa-angle-right"></span></button>
+            </div>
+
         </div>
     </div>
-    <footer class="b-items__aside-main-footer">
-        <!--<a href="/catalog/index"><?= Yii::t('app', 'Advanced search') ?></a>-->
-        <button type="submit" class="btn m-btn">Найти <span class="js-main_search_prod_type"></span><span class="fa fa-angle-right"></span></button>
-    </footer>
-</form>
+</div>
+<?php ActiveForm::end(); ?>
