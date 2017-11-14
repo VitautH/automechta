@@ -152,13 +152,13 @@ class ProductSearchForm extends Model
         switch ($specification->type) {
             case Specification::TYPE_DROP_DOWN:
                 $optionsList = array_combine($specification->i18n()->getValuesArray(), $specification->i18n()->getValuesArray());
-                $result .= $this->getSpecLabel($specification);
+               // $result .= $this->getSpecLabel($specification);
                 $result .= '<div>' . "\n";
                 $result .= Html::dropDownList(
                     'ProductSearchForm[specs][' . $specification->id .']',
                     $value,
                     $optionsList,
-                    ['class' => 'm-select', 'prompt' => Yii::t('app', 'Any'), 'id' => $id]
+                    ['class' => 'm-select', 'prompt' => $specification->i18n()->name, 'id' => $id]
                 );
                 $result .= '<span class="fa fa-caret-down"></span>' . "\n";
                 $result .= '</div>' . "\n";
@@ -169,15 +169,6 @@ class ProductSearchForm extends Model
                 $result .= Html::input('text', 'ProductSearchForm[specs][' . $specification->id .']', $value) . "\n";
                 break;
             case Specification::TYPE_BOOLEAN:
-//                $result .= '<div class="col-xs-10" style="padding: 0;">' . "\n";
-//                $result .= $this->getSpecLabel($specification);
-//                $result .= '</div>' . "\n";
-//                $result .= '<div class="col-xs-2" style="padding: 0; text-align: right;">' . "\n";
-//                $result .= Html::checkbox('ProductSearchForm[specs][' . $specification->id .']', $value, ['id' => $id]). "\n";
-//                $result .= '<label for="' . $id . '" class="b-items__cars-one-img-check"><span class="fa fa-check"></span></label>' . "\n";
-//                $result .= '</div>' . "\n";
-
-//                $result .= $this->getSpecLabel($specification);
                 $result .= $this->getSpecLabel($specification);
                 $result .= '<div>' . "\n";
                 $result .= Html::dropDownList(
