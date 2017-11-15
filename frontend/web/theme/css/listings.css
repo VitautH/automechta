@@ -264,10 +264,6 @@ select.m-select + span.fa {
     width: 100%;
 }
 
-.b-items__aside-main-body-item > div {
-    /*position: relative;*/
-}
-
 .b-items__aside-main-body-item > div.two_blocks {
     width: 100px;
     float: left;

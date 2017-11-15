@@ -65,7 +65,7 @@ $searchForm->type = $_params_['type'];
                 <span class="fa fa-caret-down"></span>
             </div>
         </div>
-        <div class="b-items__aside-main-body-item">
+        <div class="b-items__aside-main-body-item" style="float: left;">
             <label><?= Yii::t('app', 'PRICE') ?>:</label>
             <div class="two_blocks">
                 <?= Html::dropDownList(

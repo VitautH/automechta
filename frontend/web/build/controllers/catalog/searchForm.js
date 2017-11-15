@@ -34,29 +34,29 @@ define(['jquery', 'application', 'preloader', 'urijs/URI'], function ($, applica
 
     $('[name="ProductSearchForm[yearFrom]"]').on('change', function () {
         var from = $(this).val();
-        // $('[name="ProductSearchForm[yearTo]"] option').removeAttr('disabled').each(function () {
-        //     if ($(this).attr('value') < from) {
-        //         $(this).attr('disabled', 'disabled');
-        //     }
-        // });
+        $('[name="ProductSearchForm[yearTo]"] option').removeAttr('disabled').each(function () {
+            if ($(this).attr('value') < from) {
+                $(this).attr('disabled', 'disabled');
+            }
+        });
 
-        if ($('[name="ProductSearchForm[yearTo]"]').val() < from || $('[name="ProductSearchForm[yearTo]"]').val() == from) {
-            $('[name="ProductSearchForm[yearTo]"] option:eq(1)').attr('selected', 'selected');
-        }
+        // if ($('[name="ProductSearchForm[yearTo]"]').val() < from || $('[name="ProductSearchForm[yearTo]"]').val() == from) {
+        //     $('[name="ProductSearchForm[yearTo]"] option:eq(1)').attr('selected', 'selected');
+        // }
 
     });
     $('[name="ProductSearchForm[yearTo]"]').on('change', function () {
         var to = $(this).val();
-        // $('[name="ProductSearchForm[yearFrom]"] option').removeAttr('disabled').each(function () {
-        //
-        //     if ($('[name="ProductSearchForm[yearFrom]"]').attr('value') > to) {
-        //         $('[name="ProductSearchForm[yearFrom]"]').attr('disabled', 'disabled');
-        //     }
-        // });
+        $('[name="ProductSearchForm[yearFrom]"] option').removeAttr('disabled').each(function () {
 
-        if ($('[name="ProductSearchForm[yearFrom]"]').val() < to || $('[name="ProductSearchForm[yearFrom]"]').val() == to) {
-            $('[name="ProductSearchForm[yearFrom]"] option:last').attr('selected', 'selected');
-        }
+            if ($('[name="ProductSearchForm[yearFrom]"]').attr('value') > to) {
+                $('[name="ProductSearchForm[yearFrom]"]').attr('disabled', 'disabled');
+            }
+        });
+
+        // if ($('[name="ProductSearchForm[yearFrom]"]').val() < to || $('[name="ProductSearchForm[yearFrom]"]').val() == to) {
+        //     $('[name="ProductSearchForm[yearFrom]"] option:last').attr('selected', 'selected');
+        // }
 
     });
 

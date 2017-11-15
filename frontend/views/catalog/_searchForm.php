@@ -10,8 +10,8 @@ use common\models\User;
 
 $productModel = new Product();
 $searchForm = new ProductSearchForm();
-$searchForm->type = $_params_['productType'];
-$searchForm->type = $_params_['type'];
+$searchForm->type = 2;
+
 ?>
 <form class="js-catalog-search-form">
     <div class="b-items__aside-main-body">
@@ -66,7 +66,7 @@ $searchForm->type = $_params_['type'];
                 <span class="fa fa-caret-down"></span>
             </div>
         </div>
-        <div class="b-items__aside-main-body-item">
+        <div class="b-items__aside-main-body-item" style="float: left;">
             <label><?= Yii::t('app', 'PRICE') ?>: </label>
             <div class="two_blocks">
                 <?= Html::dropDownList(
