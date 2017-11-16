@@ -891,13 +891,19 @@ ul.b-items__pagination-main {
 }
 
 .b-makers__list {
-    display: table-cell;
+    display: block;
     flex-flow: row wrap;
     justify-content: flex-start;
     text-align: left;
     column-width: 100px;
     column-count: 8;
     column-gap: 40px;
+    -moz-column-width: 100px;
+    -moz-column-count: 8;
+    -moz-column-gap: 40px;
+    -webkit-column-width: 100px;
+    -webkit-column-count: 8;
+    -webkit-column-gap: 40px;
 }
 
 .b-makers__list__main {

@@ -78,7 +78,7 @@ if ($this->beginCache($id)) {
                     unset($modelAuto);
                     ?>
                     <?php
-                    $modelMotorbike= ProductMake::getMakesListWithId(3, true);
+                    $modelMotorbike = ProductMake::getMakesListWithId(3, true);
                     sort($modelMotorbike);
                     foreach ($modelMotorbike as $maker) {
                         ?>
@@ -98,9 +98,17 @@ if ($this->beginCache($id)) {
     </section>
     <section class="b-featured">
         <div class="container">
-            <h2 class="s-title wow zoomInUp" data-wow-delay="0.3s">
-                <a href="/catalog"><?= Yii::t('app', 'Featured Vehicles') ?></a>
-            </h2>
+            <div class="top col-md-12">
+                <h2 class="col-md-4" data-wow-delay="0.3s">
+                    <a href="/catalog">АВТОМОБИЛИ КОМПАНИИ</a>
+                </h2>
+                <div class="owl-controls clickable js-featured-vehicles-caruosel-nav featured-vehicles-controls owl-buttons col-md-2 col-md-offset-6">
+
+                    <div class="owl-prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>
+                    <div class="owl-next" style="margin-left: 0 !important;"><i class="fa fa-chevron-right"
+                                                                                aria-hidden="true"></i></div>
+                </div>
+            </div>
             <div id="carousel-small" class="owl-carousel js-featured-vehicles-caruosel" data-items="4"
                  data-navigation="true" data-auto-play="true" data-stop-on-hover="true" data-items-desktop="4"
                  data-items-desktop-small="4" data-items-tablet="3" data-items-tablet-small="2">
@@ -108,53 +116,64 @@ if ($this->beginCache($id)) {
                     <div>
                         <div class="b-featured__item wow rotateIn" data-wow-delay="0.3s" data-wow-offset="150">
                             <a href="<?= $highPriorityProduct->getUrl() ?>">
-                                <img class="hover-light-img"
-                                     src="<?= $highPriorityProduct->getTitleImageUrl(210, 113) ?>"
+                                <img class="hover-light-img" width="170" height="170"
+                                     src="<?= $highPriorityProduct->getTitleImageUrl(640, 480) ?>"
                                      alt="<?= Html::encode($highPriorityProduct->getFullTitle()) ?>"/>
                                 <span class="m-premium"><?= Yii::t('app', 'On credit') ?></span>
                             </a>
-                            <div class="h5"><a
-                                        href="<?= $highPriorityProduct->getUrl() ?>"><?= $highPriorityProduct->getFullTitle() ?></a>
-                            </div>
-                            <div class="b-featured__item-price">
-                                <?= Yii::$app->formatter->asDecimal($highPriorityProduct->getByrPrice()) ?> BYN
-                            </div>
-                            <div class="b-featured__item-price-usd">
-                                <?= Yii::$app->formatter->asDecimal($highPriorityProduct->getUsdPrice()) ?>
-                            </div>
-                            <div class="clearfix"></div>
-                            <?php foreach ($highPriorityProduct->getSpecifications(Specification::PRIORITY_HIGHEST) as $productSpec): ?>
-                                <?php $spec = $productSpec->getSpecification()->one(); ?>
-                                <div class="b-featured__item-count" title="<?= $spec->i18n()->name ?>">
-                                    <img width="20" src="<?= $spec->getTitleImageUrl(20, 20) ?>"/>
-                                    <?= Html::encode($productSpec->getFormattedValue()) ?> <?= $spec->i18n()->unit ?>
+                            <div class="inner_container">
+                                <div class="h5">
+                                    <a
+                                            href="<?= $highPriorityProduct->getUrl() ?>"><?= $highPriorityProduct->getFullTitle() ?></a>
                                 </div>
-                            <?php endforeach; ?>
-                            <div class="b-featured__item-links">
-                                <?php foreach ($highPriorityProduct->getSpecifications(Specification::PRIORITY_HIGH) as $productSpec): ?>
+                                <div class="b-featured__item-price">
+                                    <?= Yii::$app->formatter->asDecimal($highPriorityProduct->getByrPrice()) ?> BYN
+                                </div>
+                                <div class="b-featured__item-price-usd">
+                                    <?= Yii::$app->formatter->asDecimal($highPriorityProduct->getUsdPrice()) ?> $
+                                </div>
+                                <div class="clearfix"></div>
+                                <?php foreach ($highPriorityProduct->getSpecifications(Specification::PRIORITY_HIGHEST) as $productSpec): ?>
                                     <?php $spec = $productSpec->getSpecification()->one(); ?>
-                                    <a href="#"
-                                       title="<?= $spec->i18n()->name ?>"><?= Html::encode($productSpec->getFormattedValue()) ?> <?= $spec->i18n()->unit ?></a>
+                                    <div class="b-featured__item-count" title="<?= $spec->i18n()->name ?>">
+                                        <img width="20" src="<?= $spec->getTitleImageUrl(20, 20) ?>"/>
+                                        Пробег: <?= Html::encode($productSpec->getFormattedValue()) ?> <?= $spec->i18n()->unit ?>
+                                    </div>
                                 <?php endforeach; ?>
+                                <ul class="b-featured__item-links">
+                                    <?php foreach ($highPriorityProduct->getSpecifications(Specification::PRIORITY_HIGH) as $productSpec): ?>
+                                        <?php $spec = $productSpec->getSpecification()->one(); ?>
+                                        <li>
+                                            <i class="fa fa-square" aria-hidden="true"></i>
+                                            <?= Html::encode($productSpec->getFormattedValue()) ?> <?= $spec->i18n()->unit ?>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
             </div>
-            <div class="owl-controls clickable js-featured-vehicles-caruosel-nav featured-vehicles-controls">
-                <div class="owl-buttons">
-                    <div class="owl-prev"></div>
-                    <a href="/catalog" class=""><?= Yii::t('app', 'Show all') ?></a>
-                    <div class="owl-next" style="margin-left: 0 !important;"></div>
-                </div>
-            </div>
+            <a href="/catalog" class="btn"><?= Yii::t('app', 'Show all') ?> <i class="fa fa-angle-double-right"
+                                                                               aria-hidden="true" style="margin-left: 10px;
+    font-size: 18px;"></i></a>
         </div>
-    </section><!--b-featured-->
+    </section>
+    <!--b-featured-->
     <section class="b-featured b-featured-latest">
         <div class="container">
-            <h2 class="s-title wow zoomInUp" data-wow-delay="0.3s">
-                <a href="/brand/2">Частные объявления</a>
-            </h2>
+            <div class="top col-md-12">
+                <h2 class="col-md-4" data-wow-delay="0.3s">
+                    <a href="/brand/2">Частные объявления</a>
+                </h2>
+                <div class="owl-controls clickable js-featured-vehicles-caruosel-nav-2 featured-vehicles-controls col-md-2 col-md-offset-6">
+                    <div class="owl-buttons">
+                        <div class="owl-prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>
+                        <div class="owl-next" style="margin-left: 0 !important;"><i class="fa fa-chevron-right"
+                                                                                    aria-hidden="true"></i></div>
+                    </div>
+                </div>
+            </div>
             <div id="carousel-small-2" class="owl-carousel js-featured-vehicles-caruosel-2" data-items="4"
                  data-navigation="true" data-auto-play="true" data-stop-on-hover="true" data-items-desktop="4"
                  data-items-desktop-small="4" data-items-tablet="3" data-items-tablet-small="2">
@@ -163,44 +182,46 @@ if ($this->beginCache($id)) {
                     <div>
                         <div class="b-featured__item wow rotateIn" data-wow-delay="0.3s" data-wow-offset="150">
                             <a href="<?= $latestAuto->getUrl() ?>">
-                                <img class="hover-light-img" src="<?= $latestAuto->getTitleImageUrl(210, 113) ?>"
+                                <img class="hover-light-img" width="170" height="170"
+                                     src="<?= $latestAuto->getTitleImageUrl(640, 480) ?>"
                                      alt="<?= Html::encode($latestAuto->getFullTitle()) ?>"/>
                                 <span class="m-premium"><?= Yii::t('app', 'On credit') ?></span>
                             </a>
-                            <div class="h5"><a
-                                        href="<?= $latestAuto->getUrl() ?>"><?= $latestAuto->getFullTitle() ?></a></div>
-                            <div class="b-featured__item-price">
-                                <?= Yii::$app->formatter->asDecimal($latestAuto->getByrPrice()) ?> BYN
-                            </div>
-                            <div class="b-featured__item-price-usd">
-                                <?= Yii::$app->formatter->asDecimal($latestAuto->getUsdPrice()) ?>
-                            </div>
-                            <div class="clearfix"></div>
-                            <?php foreach ($latestAuto->getSpecifications(Specification::PRIORITY_HIGHEST) as $productSpec): ?>
-                                <?php $spec = $productSpec->getSpecification()->one(); ?>
-                                <div class="b-featured__item-count" title="<?= $spec->i18n()->name ?>">
-                                    <img width="20" src="<?= $spec->getTitleImageUrl(20, 20) ?>"/>
-                                    <?= Html::encode($productSpec->getFormattedValue()) ?> <?= $spec->i18n()->unit ?>
+                            <div class="inner_container">
+                                <div class="h5"><a
+                                            href="<?= $latestAuto->getUrl() ?>"><?= $latestAuto->getFullTitle() ?></a>
                                 </div>
-                            <?php endforeach; ?>
-                            <div class="b-featured__item-links">
-                                <?php foreach ($latestAuto->getSpecifications(Specification::PRIORITY_HIGH) as $productSpec): ?>
+                                <div class="b-featured__item-price">
+                                    <?= Yii::$app->formatter->asDecimal($latestAuto->getByrPrice()) ?> BYN
+                                </div>
+                                <div class="b-featured__item-price-usd">
+                                    <?= Yii::$app->formatter->asDecimal($latestAuto->getUsdPrice()) ?> $
+                                </div>
+                                <div class="clearfix"></div>
+                                <?php foreach ($latestAuto->getSpecifications(Specification::PRIORITY_HIGHEST) as $productSpec): ?>
                                     <?php $spec = $productSpec->getSpecification()->one(); ?>
-                                    <a href="#"
-                                       title="<?= $spec->i18n()->name ?>"><?= Html::encode($productSpec->getFormattedValue()) ?> <?= $spec->i18n()->unit ?></a>
+                                    <div class="b-featured__item-count" title="<?= $spec->i18n()->name ?>">
+                                        <img width="20" src="<?= $spec->getTitleImageUrl(20, 20) ?>"/>
+                                        Пробег: <?= Html::encode($productSpec->getFormattedValue()) ?> <?= $spec->i18n()->unit ?>
+                                    </div>
                                 <?php endforeach; ?>
+                                <ul class="b-featured__item-links">
+                                    <?php foreach ($latestAuto->getSpecifications(Specification::PRIORITY_HIGH) as $productSpec): ?>
+                                        <li>
+                                            <i class="fa fa-square" aria-hidden="true"></i>
+                                            <?php $spec = $productSpec->getSpecification()->one(); ?>
+                                            <?= Html::encode($productSpec->getFormattedValue()) ?> <?= $spec->i18n()->unit ?>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
             </div>
-            <div class="owl-controls clickable js-featured-vehicles-caruosel-nav-2 featured-vehicles-controls">
-                <div class="owl-buttons">
-                    <div class="owl-prev"></div>
-                    <a href="/brand/search" class=""><?= Yii::t('app', 'Show all') ?></a>
-                    <div class="owl-next" style="margin-left: 0 !important;"></div>
-                </div>
-            </div>
+            <a href="/brand/2" class="btn"><?= Yii::t('app', 'Show all') ?> <i class="fa fa-angle-double-right"
+                                                                               aria-hidden="true" style="margin-left: 10px;
+    font-size: 18px;"></i></a>
         </div>
     </section><!--b-featured b-featured-latest-->
 
@@ -231,45 +252,6 @@ if ($this->beginCache($id)) {
             </div>
         </div>
     </section><!--b-asks-->
-
-    <section class="b-welcome">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-5 col-md-offset-2 col-sm-6 col-xs-12">
-                    <div class="b-welcome__text wow fadeInLeft" data-wow-delay="0.3s" data-wow-offset="100">
-                        <h2><?= $mainPageData["mainPageTeaserTitle"] ?></h2>
-                        <div class="h3"><?= $mainPageData["mainPageTeaserHeader"] ?></div>
-                        <p>
-                            <?= $mainPageData["mainPageTeaserCaption"] ?>
-                        </p>
-                    </div>
-                </div>
-                <div class="col-md-5 col-sm-6 col-xs-12">
-                    <div class="b-welcome__services wow fadeInRight" data-wow-delay="0.3s" data-wow-offset="100">
-                        <div class="row">
-                            <?php for ($teaserNum = 1; $teaserNum <= 4; $teaserNum++): ?>
-                                <a href="<?= $mainPageData["mainPageTeaser{$teaserNum}url"] ?>"
-                                   class="col-xs-6 m-padding">
-                                    <div class="b-welcome__services-auto">
-                                        <div class="b-welcome__services-img m-auto">
-                                            <?= Html::img(Yii::$app->uploads->getThumbnail($mainPageData["mainPageTeaser{$teaserNum}image"]->hash, 50, 50)) ?>
-                                        </div>
-                                        <div class="h3"><?= $mainPageData["mainPageTeaser{$teaserNum}title"] ?></div>
-                                    </div>
-                                </a>
-                                <?php if ($teaserNum == 2): ?>
-                                    <div class="col-xs-12 text-center">
-                                        <span class="b-welcome__services-circle"></span>
-                                    </div>
-                                <?php endif; ?>
-                            <?php endfor; ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section><!--b-welcome-->
-
     <section class="b-world">
         <div class="container">
             <h6 class="wow zoomInLeft" data-wow-delay="0.3s"
@@ -313,6 +295,6 @@ if ($this->beginCache($id)) {
 
     <?//= $this->render('_productList', $_params_) ?>
     <?php
-$this->endCache();
+    $this->endCache();
 }
 ?>

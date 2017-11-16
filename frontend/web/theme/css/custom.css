@@ -18,7 +18,7 @@
 }
 
 .b-featured__item .hover-light-img {
-    max-height: 113px;
+    width: 100%;
 }
 
 .b-items .js-product-list .b-items__cell img {
