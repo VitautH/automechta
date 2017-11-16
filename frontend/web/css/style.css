@@ -1,6 +1,7 @@
 a:hover {
-    color:#df4142!important;
+    color: #df4142 !important;
 }
+
 .b-topBar__lang-flag.m-en {
     background: url(../theme/images/flags/en.jpg)
 }
@@ -1581,7 +1582,7 @@ ul.gallery .zoom span:hover {
     margin-top: -27px;
     display: block;
     color: white;
-    width: 174px;
+    width: 175px;
     margin-bottom: 8px;
 }
 
