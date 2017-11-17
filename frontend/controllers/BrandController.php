@@ -204,6 +204,7 @@ class BrandController extends Controller
         return $this->render('index', [
             'provider' => $provider,
             'searchForm' => $searchForm,
+            '_params_' => $params,
             'metaData' => $this->getMetaData($searchForm),
         ]);
     }
@@ -379,6 +380,65 @@ class BrandController extends Controller
             'metaData' => $meta,
             '_params_' => $params
         ]);
+
+//        $params = Yii::$app->request->get();
+//
+//        $model = $this->findModel($productType,$maker);
+//        $searchForm = new ProductSearchForm();
+//        $query = Product::find()->where(['AND',['make'=>$model->id],['product.status'=>1]])->orderBy('product.updated_at DESC');
+//
+//
+//        $searchForm->load($params);
+//
+//        if (!empty($params['ProductSearchForm'])) {
+//            $searchForm->specifications = $params['ProductSearchForm'];
+//        }
+//
+//        if (!isset($params['sort']) || $params['sort']==='') {
+//            $query->orderBy('updated_at DESC');
+//        }
+//
+//
+//        $searchForm->search($query);
+//        $provider = new ActiveDataProvider([
+//            'query' => $query,
+//            'pagination' => [
+//                'pageSize' => 18,
+//            ],
+//            'sort' => [
+//                'attributes' => [
+//                    'price'=>[
+//                        'label' => 'Цене'
+//                    ],
+//                    'created_at' => [
+//                        'asc' => ['created_at' => SORT_DESC],
+//                        'desc' => ['created_at' => SORT_ASC],
+//                        'label' => 'Дате подачи'
+//                    ],
+//                    'year'=>[
+//                        'label' => 'Году выпуска'
+//                    ],
+//                ]
+//            ]
+//        ]);
+//
+//        if (Yii::$app->request->isAjax) {
+//            $this->layout = false;
+//        }
+//
+//
+//        return $this->render('maker', [
+//            'provider' => $provider,
+//            'model' => $model,
+//            'searchForm' => $searchForm,
+//            'metaData' => $this->getMetaData($searchForm),
+//        ]);
+/////
+//        $model = $this->findModel($productType,$maker);
+//
+//        return $this->render('maker', [
+//            'model' => $model,
+//        ]);
     }
 
     public function actionModelauto($productType, $maker, $modelauto)
