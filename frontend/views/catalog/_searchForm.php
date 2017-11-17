@@ -22,7 +22,7 @@ $searchForm->type = 2;
                     'ProductSearchForm[type]',
                     $searchForm->type,
                     ProductType::getTypesAsArray(),
-                    ['class' => 'm-select', 'prompt' => 'Тип транспорта'])
+                    ['class' => 'm-select'])
                 ?>
                 <span class="fa fa-caret-down"></span>
             </div>
