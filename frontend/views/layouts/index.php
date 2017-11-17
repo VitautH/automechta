@@ -174,44 +174,15 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
             </div>
     </nav>
     <!--b-nav-->
-
     <?= $content ?>
-
-    <div class="b-features">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-9 col-md-offset-3 col-xs-6 col-xs-offset-6">
-                    <ul class="b-features__items">
-
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div><!--b-features-->
-
+    <!--b-info-->
     <div class="b-info">
         <div class="container">
             <div class="row">
                 <div class="col-md-3 col-xs-6">
-                    <aside class="b-info__aside wow zoomInLeft" data-wow-delay="0.3s">
-                        <article class="b-info__aside-article">
-                            <div class="h3"><a href="/site/contact"><?= Yii::t('app', 'OPENING HOURS') ?></a></div>
-                            <div class="b-info__aside-article-item">
-                                <?= $appData['openingHoursFooter'] ?>
-                            </div>
-                        </article>
-                        <article class="b-info__aside-article">
-                            <div class="h3"><a href="/site/about"><?= Yii::t('app', 'About us') ?></a></div>
-                            <p> <?= $appData['aboutUsFooter'] ?> </p>
-                        </article>
-                        <a href="/site/contact" class="btn m-btn"><?= Yii::t('app', 'Read More') ?><span
-                                    class="fa fa-angle-right"></span></a>
-                    </aside>
-                </div>
-                <div class="col-md-3 col-xs-6">
                     <div class="b-info__latest">
                         <div class="h3"><a
-                                    href="/catalog?ProductSearchForm[type]=3"><? //= Yii::t('app', 'Latest autos') ?>
+                                    href="/catalog?ProductSearchForm[type]=3">
                                 Мотоциклы в кредит</a></div>
                         <?php
                         $latestProducts = Product::find()->where('type=:type', array(':type' => 3))->active()->orderBy('id DESC')->limit(3)->all();
@@ -259,6 +230,14 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                     </div>
                 </div>
                 <div class="col-md-3 col-xs-6">
+                    <div class="b-info__twitter">
+                            <div class="h3"><a href="/site/contact"><?= Yii::t('app', 'OPENING HOURS') ?></a></div>
+                            <div class="b-info__contacts-item">
+                                <?= $appData['openingHoursFooter'] ?>
+                            </div>
+                        </div>
+                </div>
+                <div class="col-md-3 col-xs-6">
                     <address class="b-info__contacts wow zoomInUp" data-wow-delay="0.3s">
                         <p><a href="/site/contact"><?= Yii::t('app', 'contact us') ?></a></p>
                         <div class="b-info__contacts-item">
@@ -289,8 +268,8 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                 </div>
             </div>
         </div>
-    </div><!--b-info-->
-
+    </div>
+    <!--b-info-->
     <footer class="b-footer">
         <a id="to-top" href="#this-is-top"><i class="fa fa-chevron-up"></i></a>
         <div class="container">
@@ -358,7 +337,7 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
             s.src = u + '?' + r;
             h = d.getElementsByTagName('script')[0];
             h.parentNode.insertBefore(s, h);
-        })(window, document, '/js/bitrix.js');
+        })(window, document, 'https://cdn.bitrix24.by/b5147563/crm/site_button/loader_3_yfnk0g.js');
     </script>
     </body>
     </html>
