@@ -1,7 +1,6 @@
 a:hover {
-    color: #df4142 !important;
+    color:#df4142!important;
 }
-
 .b-topBar__lang-flag.m-en {
     background: url(../theme/images/flags/en.jpg)
 }
@@ -32,12 +31,13 @@ a:hover {
 
 .btn.m-btn-dark {
     background-color: #555;
-    color: #ffffff
+    color: #ffffff;
+    text-transform: uppercase;
 }
 
-.btn.m-btn-dark span.fa {
-    background-color: #f76d2b;
-    color: #ffffff
+.btn.m-btn-dark span.fa,.b-search__main-form-submit button.btn.m-btn span.fa {
+    background-color: white!important;
+    color: #555!important;
 }
 
 .btn.m-btn-dark:hover {
@@ -45,11 +45,11 @@ a:hover {
     color: #ffffff
 }
 
-.btn.m-btn-dark:hover span.fa {
-    background-color: #ffffff;
-    color: #555
-}
 
+.btn.m-btn-dark:hover span.fa, .b-search__main-form-submit button.btn.m-btn:hover span.fa {
+    background-color: #df4142!important;
+    color: white!important;
+}
 .b-topBar .btn {
     margin-top: 5px
 }
@@ -1594,7 +1594,7 @@ nav.b-nav .social_icons {
     color: white;
     font-size: 20px;
     margin-right: 15px;
-    margin-top: 5px;
+    padding-bottom: 8px;
 }
 
 nav.b-nav .social_icons a:hover {
@@ -1611,4 +1611,8 @@ nav.b-nav .social a.fb:hover .fa-facebook {
 
 nav.b-nav .social a.ok:hover .fa-odnoklassniki-square {
     color: #ee8208;
+}
+
+.b-infoBar__select-one a.m-active,.b-infoBar__select-one a:hover {
+    color: #df4142;
 }

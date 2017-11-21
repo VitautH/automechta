@@ -15,15 +15,29 @@ use yii\helpers\Html;
 /* @var $specModels common\models\Specification */
 
 $this->registerMetaData();
+$this->registerJsFile("@web/js/readmore.js");
 $this->registerJs("require(['controllers/site/index']);", \yii\web\View::POS_HEAD);
+$this->registerJs("    
+ $(document).ready(function(){
+ var ScreenWidth = screen.width; 
+if (ScreenWidth < 767){
+ $('#b-makers__list__main').readmore({
+    speed: 75,
+    maxHeight: 300,
+    moreLink: '<a href=\"#\" id=\"more_mark\">Показать все марки <i style=\"margin-left: 7px;\" class=\"fa fa-long-arrow-down\" aria-hidden=\"true\"></i></a>',
+    lessLink: '<a href=\"#\" id=\"roll_up_mark\">Скрыть</a>',
+});
+}
+});
+", \yii\web\View::POS_HEAD);
 $highPriorityProducts = Product::find()->highPriority()->orderBy('product.id DESC')->active()->limit(10)->all();
-$latestNews = Page::find()->active()->news()->limit(3)->orderBy('id desc')->all();
+$latestNews = Page::find()->active()->news()->limit(5)->orderBy('id desc')->all();
+$mainNews = $latestNews[0];
 $teasers = Teaser::find()->active()->orderBy('lft')->all();
 $appData = AppData::getData();
 $topMakers = ProductMake::find()->top()->limit(8)->all();
 $mainPageData = MainPage::getData();
-?>
-<?
+
 if ($this->beginCache($id)) {
     ?>
     <section class="b-search">
@@ -41,10 +55,14 @@ if ($this->beginCache($id)) {
                         <div class="container">
                             <div class="carousel-caption b-slider__info b-slider__info-text-position-<?= $slider->text_position ?>">
                                 <div class="h3"><?= $slider->i18n()->title ?></div>
-                                <h2><?= $slider->i18n()->header ?></h2>
-                                <p><?= $slider->i18n()->caption ?></p>
-                                <a class="btn m-btn" href="<?= $slider->link ?>"><?= $slider->i18n()->button_text ?>
-                                    <span class="fa fa-angle-right"></span></a>
+                                <h2>
+                                    <?= $slider->i18n()->header ?> <a href="<?= $slider->link ?>" class="btn m-btn">
+                                        <?= $slider->i18n()->button_text ?>
+                                        <i class="fa fa-angle-double-right" aria-hidden="true"
+                                           style="margin-left: 10px; font-size: 18px;"></i>
+                                    </a>
+                                </h2>
+                                <p><?= $slider->i18n()->caption ?> </p>
                             </div>
                         </div>
                     </div>
@@ -58,10 +76,10 @@ if ($this->beginCache($id)) {
             </a>
         </div>
     </section><!--b-slider-->
-    <section class="b-makers">
+    <section class="b-makers" id="b-makers">
         <div class="container">
             <div class="row col-lg-12">
-                <div class="b-makers__list b-makers__list__main">
+                <div class="b-makers__list b-makers__list__main" id="b-makers__list__main">
                     <?php
                     $modelAuto = ProductMake::getMakesListWithId(2, true);
                     sort($modelAuto);
@@ -92,17 +110,18 @@ if ($this->beginCache($id)) {
                     }
                     unset($modelMotorbike);
                     ?>
+
                 </div>
             </div>
         </div>
     </section>
     <section class="b-featured">
         <div class="container">
-            <div class="top col-md-12">
-                <h2 class="col-md-4" data-wow-delay="0.3s">
+            <div class="top col-md-12 col-xs-12 col-sm-12">
+                <h2 class="col-md-4 col-sm-12 col-xs-12 col-sm-12" data-wow-delay="0.3s">
                     <a href="/catalog">АВТОМОБИЛИ КОМПАНИИ</a>
                 </h2>
-                <div class="owl-controls clickable js-featured-vehicles-caruosel-nav featured-vehicles-controls owl-buttons col-md-2 col-md-offset-6">
+                <div class="owl-controls clickable js-featured-vehicles-caruosel-nav featured-vehicles-controls owl-buttons col-md-2 col-md-offset-6 col-xs-3 col-sm-3 col-xs-offset-0">
 
                     <div class="owl-prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>
                     <div class="owl-next" style="margin-left: 0 !important;"><i class="fa fa-chevron-right"
@@ -116,10 +135,10 @@ if ($this->beginCache($id)) {
                     <div>
                         <div class="b-featured__item wow rotateIn" data-wow-delay="0.3s" data-wow-offset="150">
                             <a href="<?= $highPriorityProduct->getUrl() ?>">
+                                <span class="m-premium"><?= Yii::t('app', 'On credit') ?></span>
                                 <img class="hover-light-img" width="170" height="170"
                                      src="<?= $highPriorityProduct->getTitleImageUrl(640, 480) ?>"
                                      alt="<?= Html::encode($highPriorityProduct->getFullTitle()) ?>"/>
-                                <span class="m-premium"><?= Yii::t('app', 'On credit') ?></span>
                             </a>
                             <div class="inner_container">
                                 <div class="h5">
@@ -163,10 +182,10 @@ if ($this->beginCache($id)) {
     <section class="b-featured b-featured-latest">
         <div class="container">
             <div class="top col-md-12">
-                <h2 class="col-md-4" data-wow-delay="0.3s">
+                <h2 class="col-md-4 col-xs-12 col-sm-12" data-wow-delay="0.3s">
                     <a href="/brand/2">Частные объявления</a>
                 </h2>
-                <div class="owl-controls clickable js-featured-vehicles-caruosel-nav-2 featured-vehicles-controls col-md-2 col-md-offset-6">
+                <div class="owl-controls clickable js-featured-vehicles-caruosel-nav-2 featured-vehicles-controls col-md-2 col-md-offset-6 col-xs-offset-0 col-xs-offset-0 col-xs-3 col-sm-3">
                     <div class="owl-buttons">
                         <div class="owl-prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>
                         <div class="owl-next" style="margin-left: 0 !important;"><i class="fa fa-chevron-right"
@@ -223,77 +242,98 @@ if ($this->beginCache($id)) {
                                                                                aria-hidden="true" style="margin-left: 10px;
     font-size: 18px;"></i></a>
         </div>
-    </section><!--b-featured b-featured-latest-->
-
+    </section>
+    <!--b-featured b-featured-latest-->
     <section class="b-asks">
-        <div class="container">
-            <div class="row">
-                <?php foreach ($teasers as $teaser): ?>
-                    <div class="col-md-6 col-sm-10 col-sm-offset-1 col-md-offset-0 col-xs-12">
-                        <a href="<?= $teaser->link ?>" class="b-asks__first wow zoomInLeft" data-wow-delay="0.3s"
-                           data-wow-offset="100">
-                            <div class="b-asks__first-circle">
-                                <?php if ($teaser->hasTitleImage()): ?>
-                                    <img class="hover-light-img img-responsive"
-                                         src="<?= $teaser->getTitleImageUrl(32, 32) ?>"
-                                         alt="<?= $teaser->i18n()->header ?>"/>
-                                <?php endif; ?>
-                            </div>
-                            <div class="b-asks__first-info">
-                                <h2><?= $teaser->i18n()->header ?></h2>
-                                <p><?= $teaser->i18n()->caption ?></p>
-                            </div>
-                            <div class="b-asks__first-arrow">
-                                <span class="fa fa-angle-right"></span>
-                            </div>
-                        </a>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </section><!--b-asks-->
-    <section class="b-world">
-        <div class="container">
-            <h6 class="wow zoomInLeft" data-wow-delay="0.3s"
-                data-wow-offset="100"><?= Yii::t('app', 'Everything you need to know') ?></h6><br/>
-            <h2 class="s-title wow zoomInRight" data-wow-delay="0.3s" data-wow-offset="100"><a
-                        href="/news"><?= Yii::t('app', 'Auto news') ?></a></h2>
-            <div class="row">
-                <?php foreach ($latestNews as $new): ?>
-                    <div class="col-sm-4 col-xs-12">
-                        <div class="b-world__item wow zoomInLeft" data-wow-delay="0.3s" data-wow-offset="100">
-                            <a href="<?= $new->getUrl() ?>">
-                                <img class="hover-light-img img-responsive"
-                                     src="<?= $new->getTitleImageUrl(370, 200) ?>" alt="<?= $new->i18n()->header ?>"/>
-                            </a>
-                            <div class="b-world__item-val">
-                                <span class="b-world__item-val-title"><?= Yii::$app->formatter->asDate($new->created_at) ?></span>
-                            </div>
-                            <div class="h2"><?= $new->i18n()->header ?></div>
-                            <p><?= $new->i18n()->description ?></p>
-                            <a href="<?= $new->getUrl() ?>" class="btn m-btn"><?= Yii::t('app', 'Read more') ?><span
-                                        class="fa fa-angle-right"></span></a>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </section><!--b-world-->
-
-    <section class="b-asks">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <p class="b-asks__call wow zoomInUp" data-wow-delay="0.3s"
-                       data-wow-offset="100"><?= Yii::t('app', 'QUESTIONS? CALL US') ?> : <span><a
-                                    href="tel:<?= $appData['phone'] ?>"
-                                    class="inheritColor"><?= $appData['phone'] ?></a></span></p>
+        <div class="block_1">
+            <div class="inner_container col-md-10 col-sm-10 col-sm-offset-1 col-md-offset-1 col-xs-12">
+                <div class="b-asks__first-circle">
+                    <i class="fa fa-calculator" aria-hidden="true"></i>
+                </div>
+                <div class="b-asks__first-info">
+                    <h2>Кредитный калькулятор</h2>
+                    <p></p>
+                    <p>Расчет ежемесячного платежа </p>
+                    <p></p>
+                    <br>
+                    <a href="/tools/calculator" class="btn" data-wow-delay="0.3s" data-wow-offset="100">
+                        РАССЧИТАТЬ <i class="fa fa-angle-double-right"
+                                      aria-hidden="true" style="margin-left: 10px;
+    font-size: 18px;"></i>
+                    </a>
                 </div>
             </div>
         </div>
-    </section><!--b-asks-->
+        <div class="block_2">
+            <div class="inner_container col-md-10 col-sm-10 col-sm-offset-1 col-md-offset-1 col-xs-12">
+                <div class="b-asks__first-circle">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                </div>
+                <div class="b-asks__first-info">
+                    <h2>онлайн заявка на кредит</h2>
+                    <p></p>
+                    <p>Заполните анкету и мы свяжемся с Вами</p>
+                    <p></p>
+                    <br>
+                    <a href="/tools/credit-application" class="btn" data-wow-delay="0.3s" data-wow-offset="100">
+                        ЗАПОЛНИТЬ
+                        <i class="fa fa-angle-double-right"
+                           aria-hidden="true" style="margin-left: 10px;
+    font-size: 18px;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--b-asks-->
+    <section class="b-world">
+        <div class="container">
+            <h2 class="" data-wow-delay="0.3s" data-wow-offset="100"><a
+                        href="/news"><?= Yii::t('app', 'Auto news') ?></a></h2>
+            <h6 class="" data-wow-delay="0.3s"
+                data-wow-offset="100"><?= Yii::t('app', 'Everything you need to know') ?></h6><br/>
 
-    <?//= $this->render('_productList', $_params_) ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4 col-xs-12 hidden-xs hidden-sm">
+                        <div class="b-world__item wow zoomInLeft" data-wow-delay="0.3s" data-wow-offset="100">
+                            <div class="b-world__item wow zoomInLeft" data-wow-delay="0.3s" data-wow-offset="100">
+                                <a href="<?= $mainNews->getUrl() ?>">
+                                    <div class="main_image_news"
+                                         style=" background: url(<?= $mainNews->getTitleImageUrl(380, 400) ?>) center no-repeat;">
+                                        <span class="title">  <?= $mainNews->i18n()->header ?></span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <?php
+                        $i = 1;
+                        foreach ($latestNews as $news): ?>
+                            <? if ($i !== 1): ?>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="b-world__item wow zoomInLeft" data-wow-delay="0.3s"
+                                         data-wow-offset="100">
+                                        <a href="<?= $news->getUrl() ?>">
+                                            <div class="image_news"
+                                                 style=" background: url(<?= $news->getTitleImageUrl(370, 200) ?>) center no-repeat;">
+                                                <span class="title">  <?= $news->i18n()->header ?></span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <?php
+                            endif;
+                            $i++;
+                        endforeach; ?>
+                        <span class="visible-xs visible-sm"><a class="read_more_news" href="/news">Показать все</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--b-world-->
     <?php
     $this->endCache();
 }

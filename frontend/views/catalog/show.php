@@ -23,7 +23,7 @@ use yii\helpers\ArrayHelper;
 $tableView = filter_var(Yii::$app->request->get('tableView', 'false'), FILTER_VALIDATE_BOOLEAN);
 
 $this->registerJs("require(['controllers/catalog/show']);", \yii\web\View::POS_HEAD);
-$this->registerCssFile("http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css");
+$this->registerCssFile("https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css");
 $this->registerJsFile("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js");
 $this->registerJsFile(
     '@web/js/fotorama.js',
