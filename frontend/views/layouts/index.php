@@ -27,8 +27,9 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
     <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
     <html lang="<?= Yii::$app->language ?>">
     <head>
+        <meta name="yandex-verification" content="6671e701e627845e" />
         <meta charset="<?= Yii::$app->charset ?>">
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
         <?= Html::csrfMetaTags() ?>
         <script>
             var require = {
@@ -60,8 +61,8 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
     <body class="m-index" data-scrolling-animations="false">
     <header class="b-topBar wow slideInDown" data-wow-delay="0.7s">
         <div class="container">
-            <div class="row">
-                <div class="col-md-2 col-sm-2 col-sm-12">
+            <div class="row hidden-xs hidden-sm">
+                <div class="col-md-2 col-xs-2 col-sm-6 ">
                     <div class="b-nav__logo wow slideInLeft" data-wow-delay="0.3s">
                         <a href="/">
                             <?php if (!empty($appData['logo'])): ?>
@@ -71,7 +72,7 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                         <h1><a href="/"><?= $appData['logoText'] ?></a></h1>
                     </div>
                 </div>
-                <div class="col-md-2 col-sm-12">
+                <div class="col-md-2 col-sm-12 hidden-xs hidden-sm">
                     <div class="b-topBar__tel">
                         <div class="b-topBar__tel_inner">
                             <span class="fa fa-phone"></span>
@@ -83,7 +84,7 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-12">
+                <div class="col-md-3 hidden-xs hidden-sm">
                     <div class="b-topBar__addr">
                         <a href="/site/contact">
                             <span class="fa fa-map-marker"></span>
@@ -91,7 +92,7 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                         </a>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-3 col-sm-12">
+                <div class="col-md-3  hidden-xs hidden-sm">
                     <nav class="b-topBar__nav">
                        <span>
                          <i class="fa fa-user" aria-hidden="true"></i>
@@ -123,17 +124,94 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                         </ul>
                     </nav>
                 </div>
-                <div class="col-md-2 col-sm-12">
+                <div class="col-md-2 hidden-xs hidden-sm">
                     <a href="/catalog/create" class="btn m-btn m-btn-dark header-create-button">
                         <?= Yii::t('app', 'ADD YOUR VEHICLE') ?>
                         <span class="fa fa-angle-right"></span>
                     </a>
                 </div>
             </div>
+            <div class="phone_row row visible-xs visible-sm">
+                <div class="col-xs-3 col-sm-3">
+                    <div class="b-nav__list wow slideInLeft" data-wow-delay="0.3s">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav">
+                                <i class="fa fa-bars" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="collapse navbar-collapse navbar-main-slide" id="nav">
+                            <ul>
+                            <?php if (Yii::$app->user->isGuest): ?>
+
+                                <li>    <a href="<?= Url::to(['/site/login']) ?>">
+                                        <?= Yii::t('app', 'Log in') ?>
+                                    </a>
+
+                                    <a href="<?= Url::to(['/site/signup']) ?>">
+                                        Регистрация
+                                    </a>
+                                </li>
+                            <?php else: ?>
+                                 <li>
+                                     <a class="account_link" href="
+                    <?= Url::to(['/account/index']) ?>"><?= Yii::t('app', 'Account') ?></a>
+
+                                    <a data-method="post" href="
+                    <?= Url::to(['/site/logout']) ?>"><b><?= Yii::t('app', 'Logout') ?></b> (
+                                        <?= Yii::$app->user->identity->username ?>)
+                                    </a>
+                                 </li>
+                            <?php endif; ?>
+                                <li>
+                                    <a href="/catalog/create" class="btn m-btn m-btn-dark header-create-button">
+                                        <?= Yii::t('app', 'ADD YOUR VEHICLE') ?>
+                                    </a>
+                                </li>
+                        </ul>
+                            <?=
+                            Menu::widget([
+                                'activateParents' => true,
+                                'items' => Yii::$app->menu->getItems(),
+                                'options' => [
+                                    'class' => 'navbar-nav-menu',
+                                ],
+                                'submenuTemplate' => "\n<ul class=\"dropdown-menu h-nav\">\n{items}\n</ul>\n"
+                            ]);
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-6">
+                    <div class="b-nav__logo wow slideInLeft" data-wow-delay="0.3s">
+                        <a href="/">
+                            <?php if (!empty($appData['logo'])): ?>
+                                <?= Html::img($result = Yii::$app->uploads->getThumbnail($appData['logo']->hash, 220, 75, 'inset')) ?>
+                            <?php endif; ?>
+                        </a>
+                        <h1><a href="/"><?= $appData['logoText'] ?></a></h1>
+                    </div>
+                </div>
+                <div class="col-xs-3 col-sm-3">
+                    <div class="add_ads">
+                        <a href="/catalog/create"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12">
+                </div>
+            </div>
+            <div class="row visible-xs visible-sm phone_number">
+                    <div class="col-xs-6 col-sm-6">
+                        <a href="tel:<?= $appData['phone'] ?>" class="inheritColor"><?= $appData['phone'] ?></a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6">
+                        <a href="tel:<?= $appData['phone_2'] ?>"
+                           class="inheritColor"><?= $appData['phone_2'] ?></a>
+                    </div>
+                </div>
         </div>
     </header>
     <!--b-topBar-->
-    <nav class="b-nav">
+    <nav class="b-nav hidden-xs hidden-sm">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-xs-12">
@@ -208,7 +286,7 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                         <?php endforeach; ?>
                     </div>
                 </div>
-                <div class="col-md-3 col-xs-6">
+                <div class="col-md-3 col-xs-6 hidden-xs hidden-sm">
                     <div class="b-info__twitter">
                         <div class="h3"><a href="/news"><?= Yii::t('app', 'Latest news') ?></a></div>
                         <?php foreach ($latestNews as $new): ?>

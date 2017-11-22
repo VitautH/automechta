@@ -208,6 +208,9 @@ a.m-langLink {
 .b-nav__list ul li {
     float: left;
     list-style: none;
+    margin-right: 20px;
+    letter-spacing: 0.6px;
+    font: 700 13px 'Open Sans', sans-serif;
 }
 
 .b-nav__list ul li a {
@@ -248,13 +251,16 @@ a.m-langLink {
     -o-transition: all 500ms ease 0s;
     transition: all 500ms ease 0s;
 }
-
 .b-nav__list ul li a {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.phone_row .b-nav__list ul li a {
     text-transform: uppercase;
     text-decoration: none;
     display: inline-block;
-    padding: 0 14px 15px 14px;
     font: 700 13px 'Open Sans', sans-serif;
+    margin-right: 10px;
 }
 
 .b-nav__list ul li a:hover {
@@ -297,6 +303,7 @@ a.m-langLink {
     text-align: left;
 }
 
+.b-slider__info a.btn  {
 .b-slider__info a.btn, #more_mark  {
     border: 2px solid #df4142;
     border-radius: 0;
@@ -318,6 +325,99 @@ a.m-langLink {
     color: white !important;
 }
 #more_mark {
+    position: absolute;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    z-index: 9999;
+    font-size: 14px;
+    text-align: center;
+    color: #df4142;
+    text-transform: uppercase;
+    font-weight: bolder;
+}
+#more_mark:hover {
+    text-align: center;
+    color: #df4142;
+}
+#roll_up_mark {
+    position: absolute;
+    left: 0;
+    right: 10px;
+    bottom: 0;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    text-align: center;
+    color: #df4142;
+    font-size: 16px;
+}
+.readmore-js-toggle, .readmore-js-section {
+    padding-bottom: 0;
+}
+.phone_number {
+    background: #df4142;
+    color: white;
+    padding: 8px;
+    font-size: 16px;
+}
+.phone_row .add_ads {
+    float: left;
+    margin-left: 25px;
+    font-size: 40px;
+    margin-top: 30px;
+}
+.phone_row .add_ads a, .add_ads a:hover {
+    color: #df4142;
+}
+.phone_row .navbar-header .navbar-toggle {
+    margin-top: 32px;
+    margin-left: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 3px;
+    padding-top: 3px;
+}
+.phone_row .navbar-header .navbar-toggle i.fa {
+    color: white;
+    font-size: 28px;
+}
+.phone_row .navbar-collapse {
+    position: absolute;
+    z-index: 9999;
+    padding-top: 8px;
+    left: 0;
+    padding-left: 0;
+    width: 330px;
+    background: dimgrey;
+    -moz-box-shadow: -1px 7px 9px 5px rgba(189,187,189,0.77);
+    -webkit-box-shadow: -1px 7px 9px 2px rgba(0,0,0,0.6);
+    -moz-box-shadow: -1px 7px 9px 2px rgba(0,0,0,0.6);
+    box-shadow: -1px 7px 9px 2px rgba(0,0,0,0.6);
+}
+.phone_row .btn.m-btn-dark  {
+    margin-top: 0px!important;
+    padding: 8px;
+    margin-left: 60px;
+}
+
+.phone_row .navbar-collapse > a {
+    text-decoration: none;
+    display: block;
+    padding: 0;
+    font: 600 13px 'Open Sans', sans-serif;
+    color: #df4142;
+    margin-left: 0;
+    text-align: left;
+    padding-left: 4px;
+    float: left;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+.phone_row .b-nav__logo a img {
+    margin-left: -30px;
+}
+.phone_row  .b-nav__list ul li {
+    border-bottom: 1px solid white;
+}
     width: 80%;
     position: absolute;
     left: 10px;
@@ -477,6 +577,7 @@ header .btn.m-btn span.fa {
 
 .carousel-fade .carousel-control {
     z-index: 2;
+    display: none;
 }
 
 section.b-search {
@@ -740,7 +841,7 @@ section.b-search {
 .b-featured .top h2 {
     text-align: left;
 }
-
+.b-featured .top h2 a, .b-world h2 a, span.all_mark {
 .b-featured .top h2 a, .b-world h2 a {
     text-decoration: none;
     color: gray;
@@ -748,6 +849,8 @@ section.b-search {
     text-transform: uppercase;
     font-size: 20px;
     margin: 0;
+    margin-bottom: 8px;
+    display: block;
 }
 
 #carousel-small, #carousel-small-2 {
@@ -766,11 +869,9 @@ section.b-search {
 .b-featured__item {
     width: 250px;
     margin: 0 auto;
-    -webkit-box-shadow: 0px 0px 16px -1px rgba(0, 0, 0, 0.78);
-    -moz-box-shadow: 0px 0px 16px -1px rgba(0, 0, 0, 0.78);
-    box-shadow: 0px 0px 16px -1px rgba(0, 0, 0, 0.78);
     padding: 2px;
     margin-bottom: 10px;
+    border: 2px solid #afaeae;
 }
 
 .b-featured__item:hover {
@@ -1585,7 +1686,14 @@ ul.b-featured__item-links li i {
 }
 
 .b-info__latest > h3 a, .b-info__latest > .h3 a, .b-info__aside-article > h3 a, .b-info__aside-article > .h3 a, .b-info__twitter > h3 a, .b-info__twitter > .h3 a, .b-info__contacts > p a {
-    color: #f76d2b;
+    color: #df4142;
+}
+.read_more_news {
+    text-align: center;
+    display: block;
+    margin-bottom: 10px;
+    margin-top: -10px;
+    color: grey;
 }
 
 .b-info__latest > h3, .b-info__aside-article > h3, .b-info__twitter > h3, .b-info__latest > .h3, .b-info__aside-article > .h3, .b-info__twitter > .h3, .b-info__contacts > p {

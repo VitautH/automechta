@@ -8,8 +8,8 @@
 }
 
 .btn.m-btn-dark:hover {
-    background-color: #555;
-    color: #fff;
+    background-color: #df4142;
+    color: #fff!important;
 }
 
 .btn.m-btn-dark span.fa {
@@ -18,7 +18,7 @@
 }
 
 .b-featured__item .hover-light-img {
-    width: 100%;
+   width: 100%;
 }
 
 .b-items .js-product-list .b-items__cell img {
