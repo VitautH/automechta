@@ -10,7 +10,8 @@ use common\models\User;
 
 $productModel = new Product();
 $searchForm = new ProductSearchForm();
-$searchForm->type = $_params_['type'];
+$searchForm->type = $_params_['ProductSearchForm']['type'];
+
 ?>
 <form class="js-catalog-search-form">
     <div class="b-items__aside-main-body">
@@ -21,7 +22,7 @@ $searchForm->type = $_params_['type'];
                     'ProductSearchForm[type]',
                     $searchForm->type,
                     ProductType::getTypesAsArray(),
-                    ['class' => 'm-select', 'prompt' => 'Тип транспорта'])
+                    ['class' => 'm-select'])
                 ?>
                 <span class="fa fa-caret-down"></span>
             </div>

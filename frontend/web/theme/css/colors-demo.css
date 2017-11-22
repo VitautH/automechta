@@ -104,6 +104,7 @@ a.btn.m-btn.m-pay:hover,
 .m-home .b-homeReviews__main-person-name em,
 .b-infoBar__compare-item span.fa,
 .b-items__aside-main-body-item > div select + span.fa,
+.b-items__aside-main-body-item > div select +  span.fa,
 .b-items__cars-one-img-check span,
 .m-listingsTwo .b-items__cars-one-info-price h4,
 .b-items__cell-info-price,
@@ -245,6 +246,8 @@ body,
 }
 
 .b-slider__info h3, .b-slider__info p,
+
+.b-slider__info h3,.b-slider__info p,
 .btn.m-btn span.fa,
 .b-search__main-title h2,
 .b-search__main-form-submit button,
@@ -562,7 +565,8 @@ select.m-select + span.fa,
 
 .b-search__main-form-submit button.btn.m-btn:hover span.fa,
 
-,
+
+.b-search__main-form-submit button.btn.m-btn:hover span.fa,  
 .b-info__aside > a:hover span,
 .m-home .b-slider__info .btn.m-btn span.fa {
     color: #6a6a6a;

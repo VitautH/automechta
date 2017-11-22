@@ -28,8 +28,6 @@ $form = ActiveForm::begin([
         'inputOptions' => ['class' => 'mdl-textfield__input'],
     ]
 ]);
-
-
 ?>
 <div class="clearfix"></div>
 <div class="b-search__main-form wow zoomInUp" data-wow-delay="0.3s">
@@ -58,7 +56,6 @@ $form = ActiveForm::begin([
                     <span class="fa fa-caret-down"></span>
                 </div>
             </div>
-
         </div>
         <div class="col-xs-12 col-md-2">
             <div>
@@ -72,12 +69,11 @@ $form = ActiveForm::begin([
                     <span class="fa fa-caret-down"></span>
                 </div>
             </div>
-
         </div>
         <div class="col-md-2 col-xs-12 ">
             <div>
                 <div class="dropdown" id="year">
-                    Год выпуска:
+                    Год выпуска
                     <span class="fa fa-caret-down"></span>
                 </div>
                 <div class="ui flowing download basic popup  center transition" id="year_form" style="display: none;">
@@ -103,10 +99,9 @@ $form = ActiveForm::begin([
             </div>
         </div>
         <div class="col-md-2 col-xs-12 ">
-
             <div>
                 <div class="dropdown" id="price">
-                    Цена:
+                    Цена
                     <span class="fa fa-caret-down"></span>
                 </div>
                 <div class="ui flowing download basic popup  center transition" id="price_form" style="display: none;">
@@ -139,7 +134,6 @@ $form = ActiveForm::begin([
                 <button type="submit" class="btn m-btn">Найти <span
                             class="fa fa-angle-right"></span></button>
             </div>
-
         </div>
     </div>
 </div>

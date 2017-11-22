@@ -304,6 +304,7 @@ a.m-langLink {
 }
 
 .b-slider__info a.btn  {
+.b-slider__info a.btn, #more_mark  {
     border: 2px solid #df4142;
     border-radius: 0;
     text-align: center;
@@ -319,6 +320,7 @@ a.m-langLink {
     border-radius: 0;
     text-align: center;
     padding: 10px;
+    margin-left: 20px;
     background-color: #525050;
     color: white !important;
 }
@@ -415,6 +417,24 @@ a.m-langLink {
 }
 .phone_row  .b-nav__list ul li {
     border-bottom: 1px solid white;
+}
+    width: 80%;
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 0;
+    margin-bottom: 5px;
+    padding: 5px;
+    margin-top: 5px;
+}
+#more_mark:hover {
+    border: 2px solid #df4142;
+    border-radius: 0;
+    text-align: center;
+    padding: 5px;
+    margin-left: 20px;
+    background-color: #525050;
+    color: white !important;
 }
 .b-slider__info.b-slider__info-text-position-1 h3, .b-slider__info.b-slider__info-text-position-1 .h3 {
     float: right;
@@ -821,8 +841,8 @@ section.b-search {
 .b-featured .top h2 {
     text-align: left;
 }
-
 .b-featured .top h2 a, .b-world h2 a, span.all_mark {
+.b-featured .top h2 a, .b-world h2 a {
     text-decoration: none;
     color: gray;
     margin-left: 0;
@@ -856,6 +876,13 @@ section.b-search {
 
 .b-featured__item:hover {
     border: 2px solid #df4142;
+}
+
+.b-featured__item {
+    border-top: 2px solid #afaeae;
+    border-bottom: 2px solid transparent;
+    border-left: 2px solid transparent;
+    border-right: 2px solid transparent;
 }
 
 .b-featured__item > a {
