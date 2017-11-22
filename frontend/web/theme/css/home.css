@@ -822,13 +822,15 @@ section.b-search {
     text-align: left;
 }
 
-.b-featured .top h2 a, .b-world h2 a {
+.b-featured .top h2 a, .b-world h2 a, span.all_mark {
     text-decoration: none;
     color: gray;
     margin-left: 0;
     text-transform: uppercase;
     font-size: 20px;
     margin: 0;
+    margin-bottom: 8px;
+    display: block;
 }
 
 #carousel-small, #carousel-small-2 {

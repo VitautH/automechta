@@ -79,6 +79,7 @@ if ($this->beginCache($id)) {
     <section class="b-makers" id="b-makers">
         <div class="container">
             <div class="row col-lg-12">
+                <span class="all_mark">Все марки</span>
                 <div class="b-makers__list b-makers__list__main" id="b-makers__list__main">
                     <?php
                     $modelAuto = ProductMake::getMakesListWithId(2, true);

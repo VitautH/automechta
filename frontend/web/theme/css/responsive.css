@@ -519,6 +519,11 @@
 }
 
 @media screen and (max-width: 767px) {
+    html, body {
+        overflow-x: hidden;
+        overflow-y:scroll;
+        -webkit-overflow-scrolling: touch;
+    }
     .b-slider__info {
         top: 5px;
         right: 25px;
@@ -549,7 +554,7 @@
         padding-bottom: 0;
     }
     .owl-controls {
-        left: 40%;
+        left: 37%;
         position: absolute;
         bottom: -400px;
         z-index: 99999;
@@ -595,7 +600,6 @@
     .b-featured .top {
         width: 100%;
     }
-
     section.b-featured .owl-prev {
         margin-right: 5px;
     }
@@ -961,6 +965,11 @@
 }
 
 @media screen and (max-width: 599px) {
+    html, body {
+        overflow-x: hidden;
+        overflow-y:scroll;
+        -webkit-overflow-scrolling: touch;
+    }
     .b-slider__info {
         top: 5px;
         right: 25px;
@@ -991,7 +1000,7 @@
         padding-bottom: 0;
     }
     .owl-controls {
-        left: 40%;
+        left: 37%;
         position: absolute;
         bottom: -400px;
         z-index: 99999;
@@ -1041,7 +1050,6 @@
     .b-featured .top {
         width: 100%;
     }
-
     .b-search__main-form .row > div {
         margin-bottom: 5px;
         width: 90%;
@@ -1346,6 +1354,11 @@
 }
 
 @media screen and (max-width: 479px) {
+    html, body {
+        overflow-x: hidden;
+        overflow-y:scroll;
+        -webkit-overflow-scrolling: touch;
+    }
     .b-slider__info {
         top: 5px;
         right: 25px;
@@ -1392,7 +1405,7 @@
         height: 260px;
     }
     .owl-controls {
-        left: 40%;
+        left: 37%;
         position: absolute;
         bottom: -400px;
         z-index: 99999;
