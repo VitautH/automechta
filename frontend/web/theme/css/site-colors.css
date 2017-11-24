@@ -713,7 +713,7 @@ body {
 }
 
 .b-items__aside-main-body-item > div select + span.fa {
-    color: #f76d2b;
+    display: none;
 }
 
 .b-items__aside-main-body-item .ui-slider-handle {
@@ -975,7 +975,6 @@ body {
 }
 
 .b-detail__main-aside-about-call {
-    background: #555555;
     color: #fff;
 }
 
@@ -984,7 +983,6 @@ body {
 }
 
 .b-detail__main-aside-about-call span.fa {
-    background: #808080;
 }
 
 .b-detail__main-aside-about-seller {

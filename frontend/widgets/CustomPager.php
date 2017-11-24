@@ -2,14 +2,13 @@
 
 namespace frontend\widgets;
 
-use yii\widgets\LinkPager;
 use yii\helpers\Html;
-
+use frontend\widgets\ChildPagination;
 /**
  * Class LinkPager
  * @package frontend\widgets
  */
-class CustomPager extends LinkPager
+class CustomPager extends ChildPagination
 {
     public $wrapperOptions = [];
 
@@ -19,7 +18,7 @@ class CustomPager extends LinkPager
      */
     protected function renderPageButtons()
     {
-        return Html::tag('div', parent::renderPageButtons(), $this->wrapperOptions);
+        return Html::tag('div', parent::renderNextPageButton().parent::renderPageButtons(), $this->wrapperOptions);
     }
 
 }

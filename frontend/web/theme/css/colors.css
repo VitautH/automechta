@@ -172,15 +172,15 @@ a.btn.m-btn.m-pay:hover,
 .b-auto__main-nav li:hover:before,
 .b-auto__main-nav li.active:before,
 .b-welcome__services-circle {
-    border-color: #f76d2b;
+    border-color: #df4142;
 }
 
 .b-submit__aside-step-inner-info-triangle {
-    border-left-color: #f76d2b;
+    border-left-color: #df4142;
 }
 
 .b-compare__block-title > a, .b-more__info-block-title a {
-    border-bottom-color: #f76d2b;
+    border-bottom-color: #df4142;
 }
 
 /* Color two */

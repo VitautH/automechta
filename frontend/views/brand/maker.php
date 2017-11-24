@@ -145,28 +145,40 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                 </div>
                 <div class="col-lg-3 col-sm-4 col-xs-12">
                     <aside class="b-items__aside">
+                        <div class="b-detail__main-aside-about wow zoomInUp" data-wow-delay="0.5s">
+
+                            <h3>Консультация по кредиту</h3>
+
+                            <div class="b-detail__main-aside-about-call b-detail__main-aside-about-call--narrow">
+
+                                <span class="fa fa-phone"></span>
+
+                                <div><a href="tel:<?= $appData['phone'] ?>"><?= $appData['phone'] ?></a></div>
+
+                                <p>Пн-Вс : 10:00 - 18:00 Без выходных</p>
+
+                            </div>
+                            <hr>
+
+                            <div class="b-items__aside-sell wow zoomInUp" data-wow-delay="0.3s">
+
+                                <h2><i class="fa fa-podcast" aria-hidden="true"></i> ONLINE ЗАЯВКА</h2>
+
+                                <p>
+
+                                    <?= Yii::t('app', 'You can fill out an application for a loan on our website. The application will be considered employees of the company in the shortest time.') ?>
+
+                                </p>
+
+                                <a href="/tools/credit-application"
+                                   class="btn m-btn">Заполнить <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+
+                            </div>
+
+                        </div>
                         <h2 class="s-title wow zoomInUp" data-wow-delay="0.5s"><?= Yii::t('app', 'REFINE YOUR SEARCH') ?></h2>
                         <div class="b-items__aside-main wow zoomInUp" data-wow-delay="0.5s">
                             <?= $this->render('_searchFormBrand', $_params_) ?>
-                        </div>
-                        <div class="b-detail__main-aside-about wow zoomInUp" data-wow-delay="0.5s">
-                            <h2 class="s-titleDet"><?= Yii::t('app', 'ASK A QUESTION ABOUT THIS VEHICLE') ?></h2>
-                            <div class="b-detail__main-aside-about-call b-detail__main-aside-about-call--narrow">
-                                <span class="fa fa-phone"></span>
-                                <div><a href="tel:<?= $appData['phone'] ?>"><?= $appData['phone'] ?></a></div>
-                                <p>Пн-Вс : 10:00 - 18:00 Без выходных</p>
-                            </div>
-                            <div class="b-items__aside-sell wow zoomInUp" data-wow-delay="0.3s">
-                                <div class="b-items__aside-sell-img">
-                                    <h3><?= Yii::t('app', 'Online credit application') ?></h3>
-                                </div>
-                                <div class="b-items__aside-sell-info">
-                                    <p>
-                                        <?= Yii::t('app', 'You can fill out an application for a loan on our website. The application will be considered employees of the company in the shortest time.') ?>
-                                    </p>
-                                    <a href="/tools/credit-application" class="btn m-btn"><?= Yii::t('app', 'Fill application') ?><span class="fa fa-angle-right"></span></a>
-                                </div>
-                            </div>
                         </div>
                         <h2 class="s-title wow zoomInUp" data-wow-delay="0.5s">Услуги компании</h2>
                         <div class="b-blog__aside-popular-posts">

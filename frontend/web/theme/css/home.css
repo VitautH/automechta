@@ -1891,3 +1891,91 @@ ul.b-featured__item-links li i {
     height: 50px;
     background-color: rgb(223, 65, 66);
 }
+
+.js-product-list .b-items__cars .b-items__cars-one span.b-items__cell-info-exchange{
+    color: rgb(223, 65, 66);
+    background-color: transparent;
+    padding: 0;
+}
+.js-product-list .b-items__cars .b-items__cars-one .seller_comment {
+    color: #717171;
+    font-family: Arial;
+    height: 40px;
+    overflow-y: hidden;
+}
+.js-product-list .b-items__cars .b-items__cars-one .b-items__cars-one-info-price-div1 h4{
+    color: #df4142;
+}
+.b-items__cars-one-info-header h2 {
+    border-color: #df4142!important;
+}
+
+form.js-catalog-search-form {
+    margin-bottom: 15px;
+}
+
+.b-items__aside .b-detail__main-aside-about h3 {
+    margin-top: 10px;
+    margin-left: 10px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.b-detail__main-aside-about .b-detail__main-aside-about-call
+{
+    margin-left: 10px;
+    padding: 0;
+}
+.b-detail__main-aside-about .b-detail__main-aside-about-call span.fa {
+    float: left;
+    color: #df4142;
+    font-size: 22px;
+}
+
+.b-detail__main-aside-about .b-detail__main-aside-about-call  div > a {
+    color: #df4142;
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: -30px;
+}
+
+.b-detail__main-aside-about .b-detail__main-aside-about-call p {
+    color: #df4142;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.b-detail__main-aside-about  hr {
+    margin-top: 25px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #4e4d4d;
+    width: 90%;
+}
+.b-items__aside-sell {
+    margin-left:10px;
+    margin-right: 10px;
+}
+.b-items__aside-sell h2 {
+    color: grey;
+    text-align: left;
+    font-weight: normal;
+}
+.b-items__aside-sell p {
+    text-align: left;
+    color: #424242;
+    margin-bottom: 25px;
+}
+.b-detail__main-aside-about a.btn {
+    position: relative;
+    left: 0;
+    bottom: 10px;
+    text-transform: capitalize;
+    font-weight: bold;
+    padding-right: 20px;
+    background-color: transparent;
+    border-radius: 0;
+    border: 1px solid #df4142;
+    color: #df4142;
+}
