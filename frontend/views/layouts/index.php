@@ -254,6 +254,12 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
     <!--b-nav-->
     <?= $content ?>
     <!--b-info-->
+    <div class="additional_block">
+        <div class="container">
+            <div class="row">
+            </div>
+        </div>
+    </div>
     <div class="b-info">
         <div class="container">
             <div class="row">
@@ -263,7 +269,7 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                                     href="/catalog?ProductSearchForm[type]=3">
                                 Мотоциклы в кредит</a></div>
                         <?php
-                        $latestProducts = Product::find()->where('type=:type', array(':type' => 3))->active()->orderBy('id DESC')->limit(3)->all();
+                        $latestProducts = Product::find()->where('type=:type', array(':type' => 3))->active()->orderBy('id DESC')->limit(2)->all();
                         ?>
                         <?php foreach ($latestProducts as $latestProduct): ?>
                             <div class="b-info__latest-article wow zoomInUp" data-wow-delay="0.3s">
@@ -281,27 +287,6 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                                         <?= Yii::$app->formatter->asDecimal($latestProduct->getByrPrice()) ?> BYN<br>
                                         <?= Yii::$app->formatter->asDecimal($latestProduct->getUsdPrice()) ?>
                                     </span>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-                <div class="col-md-3 col-xs-6 hidden-xs hidden-sm">
-                    <div class="b-info__twitter">
-                        <div class="h3"><a href="/news"><?= Yii::t('app', 'Latest news') ?></a></div>
-                        <?php foreach ($latestNews as $new): ?>
-                            <div class="b-info__latest-article wow zoomInUp" data-wow-delay="0.3s">
-                                <div class="b-info__latest-article-photo">
-                                    <a href="<?= $new->getUrl() ?>">
-                                        <img src="<?= $new->getTitleImageUrl(80, 53) ?>"
-                                             alt="<?= $new->i18n()->header ?>"/>
-                                    </a>
-                                </div>
-                                <div class="b-info__latest-article-info">
-                                    <a href="<?= $new->getUrl() ?>">
-                                        <p><?= $new->i18n()->header ?></p>
-                                        <span><?= Yii::$app->formatter->asDate($new->created_at) ?></span>
-                                    </a>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -339,7 +324,25 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                             <em><?= Yii::t('app', 'Email') ?>: <a href="mailto:<?= $appData['email'] ?>"
                                                                   class="inheritColor"><?= $appData['email'] ?></a></em>
                         </div>
+                        <div class="social">
+                            <noindex>
+                            <a href="https://vk.com/automechta_by" rel="nofollow" class="vk">
+                                <i class="social_icons fa fa-vk" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://www.facebook.com/automechta/" rel="nofollow" class="fb">
+                                <i class="social_icons fa fa-facebook" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://ok.ru/automechta" rel="nofollow" class="ok">
+                                <i class="social_icons fa fa-odnoklassniki-square" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://www.instagram.com/automechta.by" rel="nofollow" class="instagram">
+                                <i class="fa fa-instagram" aria-hidden="true"></i>
+                            </a>
+                            </noindex>
+                        </div>
                     </address>
+                </div>
+                <div class="col-md-3 col-xs-6">
                     <address class="b-info__map" style="overflow: hidden;">
                         <?= $appData['footerMap'] ?>
                     </address>
@@ -352,36 +355,11 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
         <a id="to-top" href="#this-is-top"><i class="fa fa-chevron-up"></i></a>
         <div class="container">
             <div class="row">
-                <div class="col-xs-4">
-                    <div class="b-footer__company wow fadeInLeft" data-wow-delay="0.3s">
-                        <div class="b-nav__logo">
-                            <a href="/">
-                                <?php if (!empty($appData['logo'])): ?>
-                                    <?= Html::img($result = Yii::$app->uploads->getThumbnail($appData['logo']->hash, 120, 50, 'inset')) ?>
-                                <?php endif; ?>
-                            </a>
-                        </div>
-                        <p>&copy; 2013-<?= date('Y') ?> Автомобильный портал «АвтоМечта»
-                    </div>
-                </div>
-                <div class="col-xs-8">
-                    <div class="b-footer__content wow fadeInRight" data-wow-delay="0.3s">
-                        <nav class="b-footer__content-nav">
-                            <?=
-                            Menu::widget([
-                                'activateParents' => true,
-                                'items' => Yii::$app->menu->getTopItems(),
-                                'options' => [
-                                    'class' => '',
-                                ],
-                                'itemOptions' => [
-                                    'class' => '',
-                                ],
-                                'submenuTemplate' => "\n<ul class=\"dropdown-menu h-nav\">\n{items}\n</ul>\n"
-                            ]);
-                            ?>
-                        </nav>
-                    </div>
+              <div class="col-md-5 col-xs-6">
+                  <p><b>ПРОДАЖА И ПОКУПКА АВТОМОБИЛЕЙ В КРЕДИТ В БЕЛАРУСИ</b></p>
+              </div>
+                <div class="col-md-4 col-xs-6 col-md-offset-3">
+                <p>&copy; 2013-<?= date('Y') ?> Автомобильный портал «АвтоМечта»</p>
                 </div>
             </div>
         </div>
