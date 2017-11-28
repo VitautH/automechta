@@ -45,65 +45,86 @@ class BrandController extends Controller
      */
     public function actionCategory($productType)
     {
-        $params = Yii::$app->request->get();
-        $searchForm = new ProductSearchForm();
-        $query = Product::find()->active();
-        if ($productType == 3) {
-            $params['ProductSearchForm']['type'] = 3;
-        }
+        if ($productType == 2 || $productType == 3) {
+            $params = Yii::$app->request->get();
+
+            if (isset($params['page']) || isset($params['per-page']) || isset($params['sort']) ||
+                isset($params['tableView']) || isset($params['ProductSearchForm'])
+            ) {
+                \Yii::$app->view->registerMetaTag([
+                    'name' => 'robots',
+                    'content' => 'noindex, nofollow'
+                ]);
+            }
+
+            $searchForm = new ProductSearchForm();
+            $query = Product::find()->active();
+            if ($productType == 3) {
+                $params['ProductSearchForm']['type'] = 3;
+            }
 
 
-        $searchForm->load($params);
+            $searchForm->load($params);
 
-        if (!empty($params['ProductSearchForm']['specs'])) {
-            $searchForm->specifications = $params['ProductSearchForm']['specs'];
-        }
+            if (!empty($params['ProductSearchForm']['specs'])) {
+                $searchForm->specifications = $params['ProductSearchForm']['specs'];
+            }
 
-        if (!isset($params['sort']) || $params['sort'] === '') {
-            $query->orderBy('updated_at DESC');
-        }
+            if (!isset($params['sort']) || $params['sort'] === '') {
+                $query->orderBy('updated_at DESC');
+            }
 
 
-        $searchForm->search($query);
+            $searchForm->search($query);
 
-        $provider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 18,
-            ],
-            'sort' => [
-                'attributes' => [
-                    'price' => [
-                        'label' => 'Цене'
-                    ],
-                    'created_at' => [
-                        'asc' => ['created_at' => SORT_DESC],
-                        'desc' => ['created_at' => SORT_ASC],
-                        'label' => 'Дате подачи'
-                    ],
-                    'year' => [
-                        'label' => 'Году выпуска'
-                    ],
+            $provider = new ActiveDataProvider([
+                'query' => $query,
+                'pagination' => [
+                    'pageSize' => 18,
+                ],
+                'sort' => [
+                    'attributes' => [
+                        'price' => [
+                            'label' => 'Цене'
+                        ],
+                        'created_at' => [
+                            'asc' => ['created_at' => SORT_DESC],
+                            'desc' => ['created_at' => SORT_ASC],
+                            'label' => 'Дате подачи'
+                        ],
+                        'year' => [
+                            'label' => 'Году выпуска'
+                        ],
+                    ]
                 ]
-            ]
-        ]);
+            ]);
 
-        if (Yii::$app->request->isAjax) {
-            $this->layout = false;
+            if (Yii::$app->request->isAjax) {
+                $this->layout = false;
+            }
+
+            return $this->render('category', [
+                'provider' => $provider,
+                'searchForm' => $searchForm,
+                'metaData' => $this->getMetaData($searchForm),
+                'type' => $productType
+            ]);
+        } else {
+            throw new NotFoundHttpException('Извините, данной страницы не существует.');
         }
-
-        return $this->render('category', [
-            'provider' => $provider,
-            'searchForm' => $searchForm,
-            'metaData' => $this->getMetaData($searchForm),
-            'type' => $productType
-        ]);
     }
 
     public function actionIndex()
     {
         $params = Yii::$app->request->get();
-
+        if (isset($params['page']) || isset($params['per-page']) || isset($params['sort']) ||
+            isset($params['tableView']) || isset($params['ProductSearchForm'])
+        ) {
+            \Yii::$app->view->registerMetaTag([
+                'name' => 'robots',
+                'content' => 'noindex, nofollow'
+            ]);
+        }
         $searchForm = new ProductSearchForm();
         $query = Product::find()->active();
 
@@ -157,7 +178,14 @@ class BrandController extends Controller
     public function actionSearch()
     {
         $params = Yii::$app->request->get();
-
+        if (isset($params['page']) || isset($params['per-page']) || isset($params['sort']) ||
+            isset($params['tableView']) || isset($params['ProductSearchForm'])
+        ) {
+            \Yii::$app->view->registerMetaTag([
+                'name' => 'robots',
+                'content' => 'noindex, nofollow'
+            ]);
+        }
         $searchForm = new ProductSearchForm();
         $query = Product::find()->active();
 
@@ -320,19 +348,19 @@ class BrandController extends Controller
         ];
 
 
-        $meta['title'] =  $model->name;
+        $meta['title'] = $model->name;
 
-        $meta['title'] =  'Купить '.$meta['title'] . ' в Беларуси в кредит - цены, характеристики, фото. Продажа '.$meta['title'].' в автосалоне АвтоМечта';
+        $meta['title'] = 'Купить ' . $meta['title'] . ' в Беларуси в кредит - цены, характеристики, фото. Продажа ' . $meta['title'] . ' в автосалоне АвтоМечта';
 
-        $meta['description'] ='Большой выбор '.$meta['title'].' с пробегом в Минске. У нас можно купить авто в кредит всего за 1 час, продажа бу '.$meta['title'].' в Минске и Беларуси. Оформление машины в кредит проходит на месте';
+        $meta['description'] = 'Большой выбор ' . $meta['title'] . ' с пробегом в Минске. У нас можно купить авто в кредит всего за 1 час, продажа бу ' . $meta['title'] . ' в Минске и Беларуси. Оформление машины в кредит проходит на месте';
 
 
         $searchForm = new ProductSearchForm();
         $searchForm->load($params);
 
-        switch ($productType){
+        switch ($productType) {
             case 2 :
-                $query = Product::find()->where(['AND',['type' => 2], ['make' => $model->id], ['product.status' => 1]])->orderBy('product.updated_at DESC');
+                $query = Product::find()->where(['AND', ['type' => 2], ['make' => $model->id], ['product.status' => 1]])->orderBy('product.updated_at DESC');
                 break;
             case 3 :
                 $query = Product::find()->where(['type' => 3]);
@@ -381,64 +409,6 @@ class BrandController extends Controller
             '_params_' => $params
         ]);
 
-//        $params = Yii::$app->request->get();
-//
-//        $model = $this->findModel($productType,$maker);
-//        $searchForm = new ProductSearchForm();
-//        $query = Product::find()->where(['AND',['make'=>$model->id],['product.status'=>1]])->orderBy('product.updated_at DESC');
-//
-//
-//        $searchForm->load($params);
-//
-//        if (!empty($params['ProductSearchForm'])) {
-//            $searchForm->specifications = $params['ProductSearchForm'];
-//        }
-//
-//        if (!isset($params['sort']) || $params['sort']==='') {
-//            $query->orderBy('updated_at DESC');
-//        }
-//
-//
-//        $searchForm->search($query);
-//        $provider = new ActiveDataProvider([
-//            'query' => $query,
-//            'pagination' => [
-//                'pageSize' => 18,
-//            ],
-//            'sort' => [
-//                'attributes' => [
-//                    'price'=>[
-//                        'label' => 'Цене'
-//                    ],
-//                    'created_at' => [
-//                        'asc' => ['created_at' => SORT_DESC],
-//                        'desc' => ['created_at' => SORT_ASC],
-//                        'label' => 'Дате подачи'
-//                    ],
-//                    'year'=>[
-//                        'label' => 'Году выпуска'
-//                    ],
-//                ]
-//            ]
-//        ]);
-//
-//        if (Yii::$app->request->isAjax) {
-//            $this->layout = false;
-//        }
-//
-//
-//        return $this->render('maker', [
-//            'provider' => $provider,
-//            'model' => $model,
-//            'searchForm' => $searchForm,
-//            'metaData' => $this->getMetaData($searchForm),
-//        ]);
-/////
-//        $model = $this->findModel($productType,$maker);
-//
-//        return $this->render('maker', [
-//            'model' => $model,
-//        ]);
     }
 
     public function actionModelauto($productType, $maker, $modelauto)
@@ -457,22 +427,21 @@ class BrandController extends Controller
         ];
 
 
-        $meta['title'] = $maker_auto.' '.$typeName->name;
+        $meta['title'] = $maker_auto . ' ' . $typeName->name;
 
-        $meta['title'] =  'Купить '.$meta['title'] . ' в Беларуси в кредит - цены, характеристики, фото. Продажа '.$meta['title'].' в автосалоне АвтоМечта';
+        $meta['title'] = 'Купить ' . $meta['title'] . ' в Беларуси в кредит - цены, характеристики, фото. Продажа ' . $meta['title'] . ' в автосалоне АвтоМечта';
 
-        $meta['description'] ='Большой выбор '.$meta['title'].' с пробегом в Минске. У нас можно купить авто в кредит всего за 1 час, продажа бу '.$meta['title'].' в Минске и Беларуси. Оформление машины в кредит проходит на месте';
+        $meta['description'] = 'Большой выбор ' . $meta['title'] . ' с пробегом в Минске. У нас можно купить авто в кредит всего за 1 час, продажа бу ' . $meta['title'] . ' в Минске и Беларуси. Оформление машины в кредит проходит на месте';
 
-        //$meta['keywords'] = $meta['title'] . ' купить в кредит в Минске и в Беларуси';
 
         $searchForm = new ProductSearchForm();
         $params['ProductSearchForm']['type'] = $productType;
         $params['ProductSearchForm']['make'] = $model->id;
         $params['ProductSearchForm']['model'] = $typeName->name;
         $searchForm->load($params);
-        switch ($productType){
+        switch ($productType) {
             case 2 :
-                $query = Product::find()->where(['AND', ['type' => $productType],['make' => $maker->id], ['model' => $typeName->name], ['product.status' => 1]])->orderBy('product.updated_at DESC');
+                $query = Product::find()->where(['AND', ['type' => $productType], ['make' => $maker->id], ['model' => $typeName->name], ['product.status' => 1]])->orderBy('product.updated_at DESC');
                 break;
             case 3 :
                 $query = Product::find()->where(['type' => 3]);
@@ -516,7 +485,7 @@ class BrandController extends Controller
             'provider' => $provider,
             'model' => $model,
             'searchForm' => $searchForm,
-            'metaData' =>$meta,
+            'metaData' => $meta,
             '_params_' => $params
         ]);
     }

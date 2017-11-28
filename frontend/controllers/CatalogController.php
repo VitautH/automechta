@@ -52,6 +52,16 @@ class CatalogController extends Controller
         $query = Product::find()->where(['priority' => 1])->active();
 
         $params = Yii::$app->request->get();
+
+        if (isset($params['page']) || isset($params['per-page']) || isset($params['sort']) ||
+            isset($params['tableView']) || isset($params['ProductSearchForm'])
+        ) {
+            \Yii::$app->view->registerMetaTag([
+                'name' => 'robots',
+                'content' => 'noindex, nofollow'
+            ]);
+        }
+
         $searchForm->load($params);
 
         if (!empty($params['ProductSearchForm']['specs'])) {

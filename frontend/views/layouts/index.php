@@ -27,7 +27,21 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
     <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
     <html lang="<?= Yii::$app->language ?>">
     <head>
-        <meta name="yandex-verification" content="6671e701e627845e" />
+        <meta name="yandex-verification" content="d1668a24657ff9c4"/>
+        <meta name="google-site-verification" content="iZfn4HRVixNo6LGlr0Hqf1hmWhhkETauoslFwTThEJE"/>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-110162737-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-110162737-1');
+        </script>
+
+        <meta name="yandex-verification" content="6671e701e627845e"/>
         <meta charset="<?= Yii::$app->charset ?>">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
         <?= Html::csrfMetaTags() ?>
@@ -141,33 +155,33 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                         </div>
                         <div class="collapse navbar-collapse navbar-main-slide" id="nav">
                             <ul>
-                            <?php if (Yii::$app->user->isGuest): ?>
+                                <?php if (Yii::$app->user->isGuest): ?>
 
-                                <li>    <a href="<?= Url::to(['/site/login']) ?>">
-                                        <?= Yii::t('app', 'Log in') ?>
-                                    </a>
+                                    <li><a href="<?= Url::to(['/site/login']) ?>">
+                                            <?= Yii::t('app', 'Log in') ?>
+                                        </a>
 
-                                    <a href="<?= Url::to(['/site/signup']) ?>">
-                                        Регистрация
-                                    </a>
-                                </li>
-                            <?php else: ?>
-                                 <li>
-                                     <a class="account_link" href="
+                                        <a href="<?= Url::to(['/site/signup']) ?>">
+                                            Регистрация
+                                        </a>
+                                    </li>
+                                <?php else: ?>
+                                    <li>
+                                        <a class="account_link" href="
                     <?= Url::to(['/account/index']) ?>"><?= Yii::t('app', 'Account') ?></a>
 
-                                    <a data-method="post" href="
+                                        <a data-method="post" href="
                     <?= Url::to(['/site/logout']) ?>"><b><?= Yii::t('app', 'Logout') ?></b> (
-                                        <?= Yii::$app->user->identity->username ?>)
-                                    </a>
-                                 </li>
-                            <?php endif; ?>
+                                            <?= Yii::$app->user->identity->username ?>)
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
                                 <li>
                                     <a href="/catalog/create" class="btn m-btn m-btn-dark header-create-button">
                                         <?= Yii::t('app', 'ADD YOUR VEHICLE') ?>
                                     </a>
                                 </li>
-                        </ul>
+                            </ul>
                             <?=
                             Menu::widget([
                                 'activateParents' => true,
@@ -200,14 +214,14 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                 </div>
             </div>
             <div class="row visible-xs visible-sm phone_number">
-                    <div class="col-xs-6 col-sm-6">
-                        <a href="tel:<?= $appData['phone'] ?>" class="inheritColor"><?= $appData['phone'] ?></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-6">
-                        <a href="tel:<?= $appData['phone_2'] ?>"
-                           class="inheritColor"><?= $appData['phone_2'] ?></a>
-                    </div>
+                <div class="col-xs-6 col-sm-6">
+                    <a href="tel:<?= $appData['phone'] ?>" class="inheritColor"><?= $appData['phone'] ?></a>
                 </div>
+                <div class="col-xs-6 col-sm-6">
+                    <a href="tel:<?= $appData['phone_2'] ?>"
+                       class="inheritColor"><?= $appData['phone_2'] ?></a>
+                </div>
+            </div>
         </div>
     </header>
     <!--b-topBar-->
@@ -294,11 +308,11 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                 </div>
                 <div class="col-md-3 col-xs-6">
                     <div class="b-info__twitter">
-                            <div class="h3"><a href="/site/contact"><?= Yii::t('app', 'OPENING HOURS') ?></a></div>
-                            <div class="b-info__contacts-item">
-                                <?= $appData['openingHoursFooter'] ?>
-                            </div>
+                        <div class="h3"><a href="/site/contact"><?= Yii::t('app', 'OPENING HOURS') ?></a></div>
+                        <div class="b-info__contacts-item">
+                            <?= $appData['openingHoursFooter'] ?>
                         </div>
+                    </div>
                 </div>
                 <div class="col-md-3 col-xs-6">
                     <address class="b-info__contacts wow zoomInUp" data-wow-delay="0.3s">
@@ -326,18 +340,18 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                         </div>
                         <div class="social">
                             <noindex>
-                            <a href="https://vk.com/automechta_by" rel="nofollow" class="vk">
-                                <i class="social_icons fa fa-vk" aria-hidden="true"></i>
-                            </a>
-                            <a href="https://www.facebook.com/automechta/" rel="nofollow" class="fb">
-                                <i class="social_icons fa fa-facebook" aria-hidden="true"></i>
-                            </a>
-                            <a href="https://ok.ru/automechta" rel="nofollow" class="ok">
-                                <i class="social_icons fa fa-odnoklassniki-square" aria-hidden="true"></i>
-                            </a>
-                            <a href="https://www.instagram.com/automechta.by" rel="nofollow" class="instagram">
-                                <i class="fa fa-instagram" aria-hidden="true"></i>
-                            </a>
+                                <a href="https://vk.com/automechta_by" rel="nofollow" class="vk">
+                                    <i class="social_icons fa fa-vk" aria-hidden="true"></i>
+                                </a>
+                                <a href="https://www.facebook.com/automechta/" rel="nofollow" class="fb">
+                                    <i class="social_icons fa fa-facebook" aria-hidden="true"></i>
+                                </a>
+                                <a href="https://ok.ru/automechta" rel="nofollow" class="ok">
+                                    <i class="social_icons fa fa-odnoklassniki-square" aria-hidden="true"></i>
+                                </a>
+                                <a href="https://www.instagram.com/automechta.by" rel="nofollow" class="instagram">
+                                    <i class="fa fa-instagram" aria-hidden="true"></i>
+                                </a>
                             </noindex>
                         </div>
                     </address>
@@ -355,11 +369,11 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
         <a id="to-top" href="#this-is-top"><i class="fa fa-chevron-up"></i></a>
         <div class="container">
             <div class="row">
-              <div class="col-md-5 col-xs-6">
-                  <p><b>ПРОДАЖА И ПОКУПКА АВТОМОБИЛЕЙ В КРЕДИТ В БЕЛАРУСИ</b></p>
-              </div>
+                <div class="col-md-5 col-xs-6">
+                    <p><b>ПРОДАЖА И ПОКУПКА АВТОМОБИЛЕЙ В КРЕДИТ В БЕЛАРУСИ</b></p>
+                </div>
                 <div class="col-md-4 col-xs-6 col-md-offset-3">
-                <p>&copy; 2013-<?= date('Y') ?> Автомобильный портал «АвтоМечта»</p>
+                    <p>&copy; 2013-<?= date('Y') ?> Автомобильный портал «АвтоМечта»</p>
                 </div>
             </div>
         </div>

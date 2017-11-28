@@ -16,7 +16,12 @@ $config = [
         'api' => [
             'class' => 'frontend\modules\api\Module',
         ],
+        'debug' => [ // панель на хостинге
+            'class' => 'yii\debug\Module', //
+            'allowedIPs' => ['93.85.147.180'] //
+        ],
     ],
+
     'components' => [
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
@@ -49,6 +54,7 @@ $config = [
                 ],
             ],
         ],
+
         'urlManager' => [
             'rules' => [
                 [
@@ -56,14 +62,14 @@ $config = [
                     'route' => 'client-script/requirejs',
                     'suffix' => '.js',
                 ],
-                'page/<alias:.+>' => 'page/show',
+                '<alias:avto-v-kredit|oformlenie-schet-spravki|srochnyj-vykup|prijom-avto-na-komissiju|trade-In(Obmen)>' => 'page/show',
                 'brand/<productType:.+>/<maker:.+>/<modelauto:.+>' => 'brand/modelauto',
                 'brand/' => 'brand/index',
                 'brand/search' => 'brand/search',
                 'brand/<productType:.+>/<maker:.+>' => 'brand/maker',
                 'brand/<productType:.+>' => 'brand/category',
-				'sitemap.xml' => 'sitemap/index',
-			],
+                'sitemap.xml' => 'sitemap/index',
+            ],
         ],
         'menu' => [
             'class' => 'frontend\components\Menu'
