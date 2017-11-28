@@ -1,8 +1,6 @@
 <?php
 use yii\helpers\Html;
 ?>
-
-<h2 class="s-titleDet"><?= Yii::t('app', 'Description') ?></h2>
 <div class="row">
     <div class="col-xs-6">
         <h4 class="b-detail__main-aside-desc-title"><?= Yii::t('app', 'Make') ?></h4>

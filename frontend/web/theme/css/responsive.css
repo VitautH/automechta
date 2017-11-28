@@ -524,6 +524,18 @@
         overflow-y:scroll;
         -webkit-overflow-scrolling: touch;
     }
+    .b-detail__main .centr_block,.b-detail__main  .bottom_block, .b-detail__main .left_block   {
+        width: 100%;
+        float: left;
+        clear: both;
+    }
+    .b-detail__main .right_block {
+        width: 100%;
+        float: left;
+        clear: both;
+        position: relative;
+        top:0;
+    }
     .b-slider__info {
         top: 5px;
         right: 25px;
@@ -970,6 +982,18 @@
         overflow-y:scroll;
         -webkit-overflow-scrolling: touch;
     }
+    .b-detail__main .centr_block,.b-detail__main  .bottom_block, .b-detail__main .left_block   {
+        width: 100%;
+        float: left;
+        clear: both;
+    }
+    .b-detail__main .right_block {
+        width: 100%;
+        float: left;
+        clear: both;
+        position: relative;
+        top:0;
+    }
     .b-slider__info {
         top: 5px;
         right: 25px;
@@ -1358,6 +1382,19 @@
         overflow-x: hidden;
         overflow-y:scroll;
         -webkit-overflow-scrolling: touch;
+    }
+    .b-detail__main .centr_block,.b-detail__main  .bottom_block, .b-detail__main .left_block   {
+        width: 100%;
+        float: left;
+        clear: both;
+    }
+
+    .b-detail__main .right_block {
+        width: 100%;
+        float: left;
+        clear: both;
+        position: relative;
+        top:0;
     }
     .b-slider__info {
         top: 5px;

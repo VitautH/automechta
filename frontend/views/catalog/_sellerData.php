@@ -2,8 +2,7 @@
 use yii\helpers\Html;
 use common\models\User;
 ?>
-
-    <h2 class="s-titleDet"><?= Yii::t('app', 'Seller phone') ?></h2>
+    <h2 class="s-titleDet"><?= Yii::t('app', 'Seller phone') ?>: </h2>
 <?php if (!empty($phone)): ?>
     <p>
         <?= Html::img(User::getPhoneProviderIcons()[$phone_provider], ['style'=>'height:22px']) ?> <a href="tel:<?= $phone ?>"><?= $phone ?></a>
@@ -20,7 +19,7 @@ use common\models\User;
     </p>
 <?php endif; ?>
 <?php if (!empty($region)): ?>
-    <h2 class="s-titleDet"><?= Yii::t('app', 'Region') ?></h2>
+    <h2 class="s-titleDet"><?= Yii::t('app', 'Region') ?>: </h2>
     <p>
         <?= User::getRegions()[$region] ?>
     </p>

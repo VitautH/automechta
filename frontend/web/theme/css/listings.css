@@ -41,6 +41,7 @@
     color: #999;
 
 }
+
 .b-breadCumbs ul li a:hover {
     text-decoration: underline;
 }
@@ -263,8 +264,11 @@ select.m-select + span.fa {
     width: 100%;
 }
 
-.b-items__aside-main-body-item > div {
-    position: relative;
+.b-items__aside-main-body-item > div.two_blocks {
+    width: 100px;
+    float: left;
+    margin-left: 5px;
+    margin-bottom: 10px;
 }
 
 .b-items__aside-main-body-item label {
@@ -340,45 +344,26 @@ select.m-select + span.fa {
 }
 
 .b-items__aside-sell {
-    margin-top: 45px;
 }
 
 .b-items__aside-sell-img {
-    background: url(../images/car-credit.jpg) center no-repeat;
-    background-size: cover;
-    height: 200px;
-    text-align: center;
+
 }
 
 .b-items__aside-sell-img h3 {
-    background: rgba(0, 0, 0, 0.5);
-    margin: 25px 0 0 0;
-    padding: 0 10px;
-    border-left: 4px solid #fff;
-    border-right: 4px solid #fff;
-    font: 700 20px 'Open Sans', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    display: inline-block;
+
 }
 
 .b-items__aside-sell-info {
-    padding: 20px 25px 30px 25px;
-    text-align: left;
-    font: 400 13px 'Open Sans', sans-serif;
+
 }
 
 .b-items__aside-sell-info a {
-    border: 1px solid #fff;
-    font: 600 11px 'Open Sans', sans-serif !important;
-    padding-left: 15px !important;
-    margin-top: 15px;
+
 }
 
 .b-items__aside-sell-info a span.fa {
-    width: 25px !important;
-    height: 25px !important;
-    font-size: 13px !important;
+
 }
 
 .b-items__cars-one {
@@ -462,8 +447,8 @@ select.m-select + span.fa {
 
 .b-items__cars-one-info-header {
     text-align: right;
-    padding-bottom: 15px;
-    margin-bottom: 30px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
 }
 
 .b-items__cars-one-info-header a {
@@ -486,7 +471,7 @@ select.m-select + span.fa {
 }
 
 .b-items__cars-one-info-header > span {
-    padding: 5px 15px;
+   color: green;
     display: inline-block;
     font: 700 20px 'PT Sans', sans-serif;
 }
@@ -535,10 +520,21 @@ select.m-select + span.fa {
 
 .b-items__pagination {
     clear: both;
-    margin-top: 75px;
+    margin-top: 0;
     text-align: center;
 }
-
+.b-items__pagination a.btn {
+    left: 10px;
+    position: absolute;
+    text-transform: capitalize;
+    font-weight: normal;
+    padding-right: 20px;
+    background-color: #9f9f9f;
+}
+.b-items__pagination a.btn i {
+    color: white;
+    margin-left: 15px;
+}
 .b-items__pagination-main {
     display: inline-block;
     padding: 5px;
@@ -571,6 +567,7 @@ ul.b-items__pagination-main {
 }
 
 .b-items__pagination-main > li.m-active a {
+    color: white;
 }
 
 .b-items__pagination-main > a:hover,
@@ -596,7 +593,8 @@ ul.b-items__pagination-main {
 }
 
 .b-items__pagination-main > li.m-left:hover, .b-items__pagination-main > li.m-right:hover {
-    background: #f76d2b;
+    background: #df4142;
+    color:white;
 }
 
 .b-items__pagination-main > li.m-left.disabled:hover, .b-items__pagination-main > li.m-right.disabled:hover {
@@ -626,11 +624,12 @@ ul.b-items__pagination-main {
 .b-items__pagination-main > span.m-active a, .b-items__pagination-main > span:hover a,
 .b-items__pagination-main > li.m-active a, .b-items__pagination-main > li:hover a {
     text-decoration: none;
+    color: white!important;
 }
 
 .b-items__pagination-main > span.m-active, .b-items__pagination-main > span:hover,
 .b-items__pagination-main > li.m-active, .b-items__pagination-main > li:hover {
-    background: #f76d2b;
+    background: #df4142;
 }
 
 .b-items__pagination-main > span:last-of-type a,
@@ -677,13 +676,13 @@ ul.b-items__pagination-main {
 }
 
 .m-listingsTwo .b-items__cars-one-info-header {
-    padding-bottom: 15px;
+    padding-bottom: 5px;
     float: left;
     width: 100%;
 }
 
 .m-listingsTwo .b-items__cars-one-info p {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     line-height: 1.7;
 }
 
@@ -887,14 +886,21 @@ ul.b-items__pagination-main {
 }
 
 .b-makers__list {
-    display: table-cell;
+    display: block;
     flex-flow: row wrap;
     justify-content: flex-start;
     text-align: left;
     column-width: 100px;
     column-count: 8;
     column-gap: 40px;
+    -moz-column-width: 100px;
+    -moz-column-count: 8;
+    -moz-column-gap: 40px;
+    -webkit-column-width: 100px;
+    -webkit-column-count: 8;
+    -webkit-column-gap: 40px;
 }
+
 .b-makers__list__main {
     border: 2px solid grey;
     padding: 20px;

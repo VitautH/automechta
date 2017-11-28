@@ -39,11 +39,9 @@
 .b-items__aside-main-footer button,
 .b-items__aside-main-footer button:hover span,
 .b-items__aside-sell-info a:hover span,
-.b-items__cars-one-info-header > span,
 .b-items__cars-one-info a.btn:hover,
 .b-items__cell-info a.btn:hover,
 .btn.m-btn.m-infoBtn:hover,
-.b-detail__head-price-num,
 .b-detail__main-aside-about-seller,
 .b-detail__main-aside form button.btn.m-btn,
 .b-detail__main-aside form button.btn.m-btn:hover span.fa,
@@ -104,7 +102,6 @@ a.btn.m-btn.m-pay:hover,
 .m-home .b-homeReviews__main-person-name em,
 .b-infoBar__compare-item span.fa,
 .b-items__aside-main-body-item > div select + span.fa,
-.b-items__aside-main-body-item > div select +  span.fa,
 .b-items__cars-one-img-check span,
 .m-listingsTwo .b-items__cars-one-info-price h4,
 .b-items__cell-info-price,
@@ -160,7 +157,6 @@ a.btn.m-btn.m-pay:hover,
 .b-items__cell-info h2,
 .btn.m-btn.m-infoBtn:hover,
 .b-detail__head-title,
-.s-titleDet,
 .b-blog__aside-categories-list li.m-active a,
 .b-blog__aside-categories-list li:hover a,
 .btn.m-btn.m-readMore:hover,
@@ -171,7 +167,7 @@ a.btn.m-btn.m-pay:hover,
 .b-submit__aside-step-inner-info h4,
 .b-auto__main-nav li:hover:before,
 .b-auto__main-nav li.active:before {
-    border-color: #f76d2b;
+    border-color:   #df4142;
 }
 
 body,
@@ -246,8 +242,6 @@ body,
 }
 
 .b-slider__info h3, .b-slider__info p,
-
-.b-slider__info h3,.b-slider__info p,
 .btn.m-btn span.fa,
 .b-search__main-title h2,
 .b-search__main-form-submit button,
@@ -294,14 +288,11 @@ body,
 .b-items__aside-sell-info a:hover span,
 .b-items__cars-one-img-video, .b-items__cars-one-img-video:hover, .b-items__cars-one-img-video:visited, .b-items__cars-one-img-video:active,
 .b-items__cars-one-img-type,
-.b-items__cars-one-info-header > span,
 .b-items__cars-one-info a.btn:hover,
 .b-items__pagination-main > a,
 .b-items__cell-info a.btn:hover,
 .b-infoBar__premium,
 .btn.m-btn.m-infoBtn:hover,
-.b-detail__head-price-num,
-.b-detail__main-aside-about-call,
 .b-detail__main-aside-about-seller,
 .b-detail__main-aside form button.btn.m-btn,
 .b-detail__main-aside form button.btn.m-btn:hover span.fa,
@@ -373,7 +364,6 @@ a.btn.m-btn.m-pay:hover,
 .m-home .b-slider__info a.btn:hover span,
 .m-home .b-homeAuto__world > a span.fa,
 .b-items__aside-main-body,
-.b-detail__main-aside-about-call,
 .b-detail__main-info-characteristics-one-top > div,
 .b-compare__images-item-price-vs,
 .b-blog__aside-reviews-posts-one-info .b-world__item-val-circles span,
@@ -381,7 +371,7 @@ a.btn.m-btn.m-pay:hover,
 .b-more__info-block-title.m-active,
 .s-form button[type='submit']:hover,
 .s-submit button.btn.m-btn:hover {
-    background-color: #555;
+    background-color:    #df4142;
 }
 
 .b-topBar__addr, .b-topBar__tel,
@@ -421,7 +411,7 @@ select.m-select + span.fa,
 .b-contacts__address-hours-main h5,
 .b-contacts__address-hours-main .h5,
 .b-contacts__address-info-main-item {
-    color: #555;
+    color: #df4142;
 }
 
 .s-title,
@@ -440,10 +430,8 @@ select.m-select + span.fa,
 .m-home .b-count,
 .b-infoBar,
 .b-detail__main-aside-about-form,
-.b-detail__main-aside-payment-form,
 .b-detail__main-info-characteristics-one-bottom,
 .b-detail__main-info-characteristics-one:hover,
-.b-related,
 .b-compare__block-title,
 .b-article__main-related-item,
 .b-more,
@@ -479,6 +467,8 @@ select.m-select + span.fa,
 .b-submit__main-contacts-check span,
 .b-submit__main-contacts-check .s-submitCheck {
     color: #222;
+    font-family: Arial;
+    letter-spacing: 0.6px;
 }
 
 .b-nav__logo h2 a,
@@ -548,7 +538,7 @@ select.m-select + span.fa,
 
 .m-home .b-nav,
 .b-footer {
-    background-color: #222;
+    background-color: #df4142;
 }
 
 .b-nav__logo h3 a span,
@@ -560,13 +550,12 @@ select.m-select + span.fa,
 .b-items__cell-info a.btn:hover span.fa,
 .b-submit__main-file label.btn.m-btn,
 .b-submit__main-contacts-select {
-    color: #545454;
+    color: #df4142;
 }
 
 .b-search__main-form-submit button.btn.m-btn:hover span.fa,
 
-
-.b-search__main-form-submit button.btn.m-btn:hover span.fa,  
+,
 .b-info__aside > a:hover span,
 .m-home .b-slider__info .btn.m-btn span.fa {
     color: #6a6a6a;
