@@ -2,7 +2,10 @@
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 use common\models\Product;
+use common\models\ProductI18n;
 use common\models\Specification;
+use yii\helpers\StringHelper;
+use common\models\User;
 /* @var $model Product */
 
 $specs = array_merge($model->getSpecifications(Specification::PRIORITY_HIGH), $model->getSpecifications(Specification::PRIORITY_HIGHEST));
@@ -30,29 +33,22 @@ if (!isset($specs[2])) {
 <div class="b-items__cars-one-info">
     <div class="b-items__cars-one-info-header s-lineDownLeft">
         <h2><a href="<?= $model->getUrl() ?>"><?= Html::encode($model->getFullTitle()) ?></a></h2>
+        <?php if($model->exchange): ?>
+            <span class="b-items__cars-one-info-title b-items__cell-info-exchange"><?= Yii::t('app', 'Exchange') ?></span>
+        <?php endif; ?>
+        <?php if($model->auction): ?>
+            <span class="b-items__cars-one-info-title b-items__cell-info-auction"><?= Yii::t('app', 'Auction') ?></span>
+        <?php endif; ?>
     </div>
     <div class="row s-noRightMargin">
 		<div class="col-md-3 col-xs-12">
             <div class="b-items__cars-one-info-price">
                 <div class="">
 					<div class="b-items__cars-one-info-price-div1">
-						<h3><?= Yii::t('app', 'Price') ?>:</h3>
 						<h4><?= Yii::$app->formatter->asDecimal($model->getByrPrice()) ?> BYN</h4>
-						<span class="b-items__cell-info-price-usd"><?= Yii::$app->formatter->asDecimal($model->getUsdPrice()) ?></span>
+						<span class="b-items__cell-info-price-usd"><?= Yii::$app->formatter->asDecimal($model->getUsdPrice()) ?> $ </span>
                     </div>
                     <div class="b-items__cars-one-info-price-div2">
-                        <div class="row m-smallPadding">
-                            <div class="col-xs-12 b-items__cell-info-exchange-auction">
-                                <div class="b-items-table-condensed">
-									<?php if($model->exchange): ?>
-									<span class="b-items__cars-one-info-title b-items__cell-info-exchange"><?= Yii::t('app', 'Exchange') ?></span>
-									<?php endif; ?>
-									<?php if($model->auction): ?>
-									<span class="b-items__cars-one-info-title b-items__cell-info-auction"><?= Yii::t('app', 'Auction') ?></span>
-									<?php endif; ?>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -121,8 +117,11 @@ if (!isset($specs[2])) {
                 <?php endif ?>
             </div>
         </div>
-        <!--<div class="col-xs-12 b-items__more-button">
-            <a href="<?= $model->getUrl() ?>" class="btn m-btn"><?=Yii::t('app', 'VIEW DETAILS') ?><span class="fa fa-angle-right"></span></a>
-        </div>-->
+        <div class="col-md-12">
+            <p class="seller_comment">
+            <?= StringHelper::truncate(ProductI18n::findOne(['parent_id'=>$model->id])->seller_comments, 161, '...');//findOne(['parent_id'=>$model->id])->all()); ?>
+            </p>
+            <span><?= User::getRegions()[$model->region];?></span>
+        </div>
     </div>
 </div>
