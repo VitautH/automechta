@@ -471,7 +471,7 @@ select.m-select + span.fa {
 }
 
 .b-items__cars-one-info-header > span {
-    padding: 5px 15px;
+   color: green;
     display: inline-block;
     font: 700 20px 'PT Sans', sans-serif;
 }

@@ -29,7 +29,7 @@
 }
 
 .b-detail {
-    padding: 30px 0 110px 0;
+    padding: 30px 0 35px 0;
 }
 
 .b-detail__head {
@@ -414,11 +414,14 @@
 }
 
 .b-detail__main-info-extra {
-    margin-top: 65px;
+    margin-top: 30px;
 }
 
 .b-detail__main-info-extra h2 {
-    margin-bottom: 35px;
+    margin-bottom: 15px;
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 18px;
 }
 
 .b-detail__main-info-extra ul {
@@ -438,7 +441,7 @@
 }
 
 .b-detail__main-info-extra ul li span.fa.fa-check {
-    color: #3c763d;
+    color: #df4142;
 }
 
 .m-detail .bx-wrapper .bx-controls-direction a, .m-blog .bx-wrapper .bx-controls-direction a, .m-article .bx-wrapper .bx-controls-direction a {
@@ -457,51 +460,6 @@
 
 .m-detail .bx-wrapper, .m-blog .bx-wrapper, .m-article .bx-wrapper {
     margin-bottom: 0;
-}
-
-.b-related {
-    padding: 65px 0 140px 0;
-    text-align: center;
-}
-
-.b-related .similar-product img {
-    max-width: 100%;
-}
-
-.b-related h5, .b-brands h5 {
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.b-related .b-featured__item-links {
-    text-align: center;
-}
-
-.b-related .b-auto__main-item {
-    border-bottom: none;
-    padding-bottom: 0;
-    margin-bottom: 0;
-}
-
-.b-related .b-auto__main-item:after {
-    display: none;
-}
-
-.b-related .b-auto__main-item-info .m-price {
-    background: transparent;
-    color: #f76d2b;
-}
-
-.b-related .b-auto__main-item-info {
-    overflow: visible;
-    padding-bottom: 20px;
-    border-color: #d8d8d8;
-}
-
-.b-related .b-auto__main-item-info:after {
-    left: 30px;
-    top: 99%;
-    background: url(../images/elements/chevron-downGrey.png) no-repeat;
 }
 
 .b-brands {

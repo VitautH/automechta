@@ -2,9 +2,6 @@ body {
     background: #fff;
 }
 
-.s-titleDet {
-    color: #202020;
-}
 
 .s-title {
     color: #525252;
@@ -828,10 +825,7 @@ body {
     color: #212121;
 }
 
-.b-items__cars-one-info-header > span {
-    background: #f76d2b;
-    color: #fff;
-}
+
 
 .b-items__cars-one-info p {
     color: #666;
@@ -956,11 +950,6 @@ body {
     color: #999;
 }
 
-.b-detail__head-price-num {
-    color: #fff;
-    background: #f76d2b;
-}
-
 .b-detail__head-price p {
     color: #999;
     margin: 10px 0 0 0;
@@ -1052,10 +1041,6 @@ select.m-select + span.fa {
     color: #fff;
 }
 
-.b-detail__main-aside-payment-form {
-    background: #f5f5f5;
-}
-
 .b-detail__main-info-characteristics-one-bottom {
     color: #555;
     background: #f5f5f5;
@@ -1084,10 +1069,6 @@ select.m-select + span.fa {
 
 .b-detail__main-info-extra ul li span.fa {
     color: #f76d2b;
-}
-
-.b-related {
-    background: #f5f5f5;
 }
 
 .b-brands {

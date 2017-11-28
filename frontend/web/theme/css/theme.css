@@ -42,22 +42,6 @@ body {
     text-decoration: underline;
 }
 
-.s-titleDet a {
-    text-decoration: none;
-    color: black;
-}
-
-.s-titleDet a:hover {
-    color: #f76d2b;
-}
-
-.s-titleDet {
-    font: 700 14px 'Open Sans', sans-serif;
-    text-transform: uppercase;
-    padding-left: 12px;
-    border-left: 4px solid #f76d2b;
-    margin-bottom: 25px;
-}
 
 .s-shadow {
     position: relative;

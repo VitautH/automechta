@@ -1,3 +1,8 @@
+@font-face {
+    font-family: MuseoSansCyrl;
+    src: url(../../fonts/MuseoSansCyrl_0.otf);
+}
+
 .b-topBar {
     border-bottom: 1px solid #eeeeee;
 }
@@ -251,10 +256,12 @@ a.m-langLink {
     -o-transition: all 500ms ease 0s;
     transition: all 500ms ease 0s;
 }
+
 .b-nav__list ul li a {
     text-transform: uppercase;
     font-weight: bold;
 }
+
 .phone_row .b-nav__list ul li a {
     text-transform: uppercase;
     text-decoration: none;
@@ -303,7 +310,7 @@ a.m-langLink {
     text-align: left;
 }
 
-.b-slider__info a.btn  {
+.b-slider__info a.btn {
     border: 2px solid #df4142;
     border-radius: 0;
     text-align: center;
@@ -322,6 +329,7 @@ a.m-langLink {
     background-color: #525050;
     color: white !important;
 }
+
 #more_mark {
     position: absolute;
     margin-bottom: 5px;
@@ -333,10 +341,12 @@ a.m-langLink {
     text-transform: uppercase;
     font-weight: bolder;
 }
+
 #more_mark:hover {
     text-align: center;
     color: #df4142;
 }
+
 #roll_up_mark {
     position: absolute;
     left: 0;
@@ -348,24 +358,29 @@ a.m-langLink {
     color: #df4142;
     font-size: 16px;
 }
+
 .readmore-js-toggle, .readmore-js-section {
     padding-bottom: 0;
 }
+
 .phone_number {
     background: #df4142;
     color: white;
     padding: 8px;
     font-size: 16px;
 }
+
 .phone_row .add_ads {
     float: left;
     margin-left: 25px;
     font-size: 40px;
     margin-top: 30px;
 }
+
 .phone_row .add_ads a, .add_ads a:hover {
     color: #df4142;
 }
+
 .phone_row .navbar-header .navbar-toggle {
     margin-top: 32px;
     margin-left: 15px;
@@ -374,10 +389,12 @@ a.m-langLink {
     padding-bottom: 3px;
     padding-top: 3px;
 }
+
 .phone_row .navbar-header .navbar-toggle i.fa {
     color: white;
     font-size: 28px;
 }
+
 .phone_row .navbar-collapse {
     position: absolute;
     z-index: 9999;
@@ -386,13 +403,14 @@ a.m-langLink {
     padding-left: 0;
     width: 330px;
     background: dimgrey;
-    -moz-box-shadow: -1px 7px 9px 5px rgba(189,187,189,0.77);
-    -webkit-box-shadow: -1px 7px 9px 2px rgba(0,0,0,0.6);
-    -moz-box-shadow: -1px 7px 9px 2px rgba(0,0,0,0.6);
-    box-shadow: -1px 7px 9px 2px rgba(0,0,0,0.6);
+    -moz-box-shadow: -1px 7px 9px 5px rgba(189, 187, 189, 0.77);
+    -webkit-box-shadow: -1px 7px 9px 2px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: -1px 7px 9px 2px rgba(0, 0, 0, 0.6);
+    box-shadow: -1px 7px 9px 2px rgba(0, 0, 0, 0.6);
 }
-.phone_row .btn.m-btn-dark  {
-    margin-top: 0px!important;
+
+.phone_row .btn.m-btn-dark {
+    margin-top: 0px !important;
     padding: 8px;
     margin-left: 60px;
 }
@@ -410,12 +428,15 @@ a.m-langLink {
     text-transform: uppercase;
     margin-bottom: 10px;
 }
+
 .phone_row .b-nav__logo a img {
     margin-left: -30px;
 }
-.phone_row  .b-nav__list ul li {
+
+.phone_row .b-nav__list ul li {
     border-bottom: 1px solid white;
 }
+
 .b-slider__info.b-slider__info-text-position-1 h3, .b-slider__info.b-slider__info-text-position-1 .h3 {
     float: right;
 }
@@ -1661,6 +1682,7 @@ ul.b-featured__item-links li i {
 .b-info__latest > h3 a, .b-info__latest > .h3 a, .b-info__aside-article > h3 a, .b-info__aside-article > .h3 a, .b-info__twitter > h3 a, .b-info__twitter > .h3 a, .b-info__contacts > p a {
     color: #df4142;
 }
+
 .read_more_news {
     text-align: center;
     display: block;
@@ -1842,7 +1864,8 @@ ul.b-featured__item-links li i {
 .b-info__map a:hover {
     text-decoration: none;
 }
-.b-info__contacts  .social a i {
+
+.b-info__contacts .social a i {
     color: white;
     font-size: 22px;
     margin-right: 5px;
@@ -1851,10 +1874,12 @@ ul.b-featured__item-links li i {
 .b-footer {
     padding: 8px;
 }
+
 .b-footer p {
-    color:white;
+    color: white;
     letter-spacing: 0.4px;
 }
+
 .b-footer .b-nav__logo {
     float: none;
 }
@@ -1887,27 +1912,31 @@ ul.b-featured__item-links li i {
 .b-footer__content-nav ul li a {
     font: 400 12px 'Open Sans', sans-serif;
 }
+
 .additional_block {
     height: 50px;
     background-color: rgb(223, 65, 66);
 }
 
-.js-product-list .b-items__cars .b-items__cars-one span.b-items__cell-info-exchange{
+.js-product-list .b-items__cars .b-items__cars-one span.b-items__cell-info-exchange {
     color: rgb(223, 65, 66);
     background-color: transparent;
     padding: 0;
 }
+
 .js-product-list .b-items__cars .b-items__cars-one .seller_comment {
     color: #717171;
-    font-family: Arial;
+    font-family: MuseoSansCyrl;
     height: 40px;
     overflow-y: hidden;
 }
-.js-product-list .b-items__cars .b-items__cars-one .b-items__cars-one-info-price-div1 h4{
+
+.js-product-list .b-items__cars .b-items__cars-one .b-items__cars-one-info-price-div1 h4 {
     color: #df4142;
 }
+
 .b-items__cars-one-info-header h2 {
-    border-color: #df4142!important;
+    border-color: #df4142 !important;
 }
 
 form.js-catalog-search-form {
@@ -1921,52 +1950,343 @@ form.js-catalog-search-form {
     margin-bottom: 10px;
 }
 
-.b-detail__main-aside-about .b-detail__main-aside-about-call
-{
+.b-detail__main-aside-about .b-detail__main-aside-about-call {
     margin-left: 10px;
     padding: 0;
 }
+
 .b-detail__main-aside-about .b-detail__main-aside-about-call span.fa {
     float: left;
     color: #df4142;
     font-size: 22px;
 }
 
-.b-detail__main-aside-about .b-detail__main-aside-about-call  div > a {
+.b-detail__main-aside-about .b-detail__main-aside-about-call div > a {
     color: #df4142;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
-    margin-left: -30px;
+    margin-left: -15px;
 }
 
 .b-detail__main-aside-about .b-detail__main-aside-about-call p {
     color: #df4142;
     text-align: center;
     margin-top: 10px;
-    font-size: 16px;
+    font-size: 14px;
 }
 
-.b-detail__main-aside-about  hr {
-    margin-top: 25px;
-    margin-bottom: 20px;
+.b-detail__main-aside-about hr, .b-detail__main .right_block .info_credit hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
     border: 0;
     border-top: 1px solid #4e4d4d;
     width: 90%;
 }
+
 .b-items__aside-sell {
-    margin-left:10px;
+    margin-left: 10px;
     margin-right: 10px;
 }
+
 .b-items__aside-sell h2 {
     color: grey;
     text-align: left;
     font-weight: normal;
 }
+
 .b-items__aside-sell p {
     text-align: left;
     color: #424242;
     margin-bottom: 25px;
 }
+
+/* Block */
+.b-detail__main .left_block {
+    width: 20%;
+}
+
+.b-detail__main .centr_block {
+    width: 58%;
+}
+
+.b-detail__main .right_block {
+    width: 22%;
+    position: relative;
+    top: -90px;
+    right: -10px;
+}
+
+.b-detail__main .right_block .b-items__aside .b-detail__main-aside-about h3 {
+    font-size: 17px;
+}
+
+.b-detail__main .right_block .b-detail__main-aside-about .b-detail__main-aside-about-call div > a {
+    font-size: 21px;
+}
+
+.b-detail__main .right_block .b-detail__main-aside-about .b-detail__main-aside-about-call p {
+    margin-top: 5px;
+}
+
+.b-detail__main .right_block .b-detail__main-aside-about hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.b-detail__main .right_block .b-items__aside-sell h2 {
+    font-size: 19px;
+    margin-bottom: 7px;
+}
+
+.b-detail__main .right_block .b-items__aside-sell h2 i.fa {
+    margin-right: 7px;
+}
+
+.b-detail__main .right_block .b-detail__main-aside-about a.btn {
+    bottom: 15px;
+}
+
+.b-detail__main .right_block .b-detail__main-aside-about a.btn:hover {
+    text-decoration: underline;
+}
+
+.b-detail__main .right_block .b-detail__main-aside-payment {
+    border: 2px solid #bbbbbb;
+}
+
+.b-detail__main .right_block .b-detail__main-aside-payment h2 {
+    background: #df4142;
+    color: white;
+    padding: 10px;
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.b-detail__main .right_block .b-detail__main-aside-payment-form {
+    background: grey;
+    color: white;
+    font-weight: normal;
+    font-size: 14px;
+    padding: 10px;
+}
+
+.b-detail__main .right_block .b-detail__main-aside-payment-form form {
+
+}
+
+.b-detail__main .right_block .b-detail__main-aside-payment-form form input {
+    height: 30px;
+    color: black;
+    padding-left: 7px;
+    width: 100%;
+    border: 0;
+    background: white !important;
+    margin-bottom: 10px;
+}
+
+.b-detail__main .right_block .b-detail__main-aside-payment-form form label {
+    display: block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: normal;
+    text-align: left;
+}
+
+.b-detail__main .right_block .b-detail__main-aside-payment-form form select.m-select {
+    width: 100%;
+    padding: 0;
+    height: 30px;
+    padding-left: 7px;
+    border: 0;
+    border-radius: 0;
+    font: 400 13px 'Open Sans', sans-serif;
+    background: white;
+    color: black;
+}
+
+.b-detail__main .right_block .b-detail__main-aside-payment-form button.btn {
+    border: 1px solid white;
+    color: white;
+    background: #df4142;
+    font-size: 14px;
+    font-weight: normal;
+    width: 100%;
+    position: relative;
+    top: 20px;
+    border-radius: 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.b-detail__main .right_block .b-detail__main-aside-payment-form button.btn:hover {
+    text-decoration: underline;
+}
+
+.b-detail__main .right_block .js-loan-results {
+    padding-left: 0;
+    padding-bottom: 10px;
+    margin-bottom: 0;
+}
+
+.b-detail__main .right_block .js-loan-results div {
+    text-align: center;
+    color: white;
+    font-size: 18px;
+}
+
+.b-detail__main .right_block .fa-caret-down {
+    position: absolute;
+    top: 25%;
+}
+
+.b-detail__main .right_block .info_credit {
+    border: 2px solid #bbbbbb;
+    margin-top: 20px;
+    padding: 10px;
+    font-family: MuseoSansCyrl;
+    letter-spacing: 0.4px;
+}
+
+.b-detail__main .right_block .info_credit h2 {
+    text-transform: uppercase;
+    text-align: left;
+    margin-bottom: 0;
+}
+
+.b-detail__main .right_block .info_credit span {
+    text-align: left;
+    display: block;
+    color: #df4142;
+    font-weight: bold;
+}
+
+.b-detail__main .right_block .info_credit ul {
+    list-style: none;
+    padding: 0;
+}
+
+.b-detail__main .right_block .info_credit ul > li::before {
+    content: "■";
+    color: #df4142;
+    margin-right: 5px;
+}
+
+.b-detail__main .right_block .info_credit ul > li > div {
+    padding-left: 15px;
+    display: block;
+    margin-top: -16px;
+}
+
+.b-detail__main .right_block .info_credit ul > li, .b-detail__main .right_block .info_credit span.trade_in {
+    text-align: left;
+    color: black;
+    text-transform: lowercase;
+    font-weight: bold;
+}
+
+.b-detail__main .right_block .info_credit span.trade_in {
+    margin-top: 10px;
+    text-transform: unset;
+    font-size: 18px;
+}
+
+.b-detail__main .right_block .info_credit p {
+    font-size: 13px;
+    text-align: left;
+    margin-top: 7px;
+}
+
+.b-detail__main .left_block .b-detail__main-aside {
+    float: left;
+    margin-top: 10px;
+}
+
+.b-detail__main .left_block .b-detail__head-price {
+    float: left;
+    clear: both;
+    text-align: left;
+}
+
+.b-detail__main .left_block .b-detail__head-auction-exchange .b-detail__head-exchange {
+    color: green;
+    font-weight: bold;
+    font-size: 18px;
+    margin-left: 15px;
+    display: block;
+}
+
+.b-detail__main .left_block .b-detail__head-auction-exchange .b-detail__head-auction {
+    color: red;
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 15px;
+    display: block;
+}
+
+.b-detail__main .left_block .b-detail__head-price-num-usd {
+    font: 20px 'PT Sans', sans-serif;
+    color: #000;
+    margin-left: 10px;
+}
+
+.b-detail__main .left_block .b-detail__head-price-num {
+    color: #df4142;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.b-detail__main .left_block h2.s-titleDet {
+    font-size: 16px;
+    margin-top: 0;
+    padding-bottom: 10px;
+    float: left;
+    clear: both;
+}
+
+.b-detail__main .left_block .b-detail__main-aside-about p {
+    float: left;
+    margin-left: 10px;
+}
+
+.b-detail__main .left_block .b-detail__main-aside-about {
+    padding: 10px;
+}
+
+.b-detail__main .left_block .b-detail__main-aside-about {
+    border: 0;
+}
+
+.b-detail__main .bottom_block {
+    width: 80%;
+    font-family: MuseoSansCyrl;
+}
+
+section.footer_block h2 {
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+section.footer_block .b-featured__item {
+    margin-right: 30px;
+}
+
+section.footer_block {
+    margin-bottom: 20px;
+}
+section.footer_block .b-featured__item > a {
+    height: 170px;
+}
+section.footer_block .b-featured__item .inner_container .h5  a {
+  color:black;
+}
+section.footer_block .b-featured__item .m-premium, section.footer_block .b-featured__item .m-leasing {
+    top: 0;
+    right: -15px;
+    position: absolute;
+}
+/* End Block */
+
 .b-detail__main-aside-about a.btn {
     position: relative;
     left: 0;
@@ -1978,4 +2298,10 @@ form.js-catalog-search-form {
     border-radius: 0;
     border: 1px solid #df4142;
     color: #df4142;
+}
+
+.card_product .container {
+    width: 100%;
+    padding-left: 30px;
+    padding-right: 30px;
 }
