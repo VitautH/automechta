@@ -10,7 +10,7 @@ use common\models\User;
 
 $productModel = new Product();
 $searchForm = new ProductSearchForm();
-$searchForm->type = $_params_['ProductSearchForm']['type'];
+$searchForm->type = $_params_['type'];
 
 ?>
 <form class="js-catalog-search-form">
