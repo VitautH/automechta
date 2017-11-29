@@ -1,11 +1,23 @@
 define(['jquery', 'application', 'accrue'], function ($, application, accrue) {
     'use strict';
-    $(document).ready(function () {
+   // $(document).ready(function () {
+        $("#term").change(function () {
+            calculation();
+        })
+        $("#prepayment").change(function () {
+            calculation();
+        })
         $('.js-loan').on('submit', function (e) {
             e.preventDefault();
+            calculation();
+        });
+        function calculation() {
             var term = $('.js-loan').find('[name="term"]').val();
             var prepayment = $('.js-loan').find('[name="prepayment"]').val();
-            var amount = ($('.js-loan').find('[name="price"]').val()- prepayment);
+            var amount = $('.js-loan').find('[name="price"]').val();
+            if (prepayment !== amount) {
+                amount = amount - prepayment;
+            }
             var rate = $('.js-loan').find('[name="rate"]').val();
             $(".calculator-loan").find('.term').val(term);
             $(".calculator-loan").find('.amount').val(amount);
@@ -16,9 +28,11 @@ define(['jquery', 'application', 'accrue'], function ($, application, accrue) {
             var paymentAmountFormatted = paymentAmount.replace(/(.+)\.\d+/, '$1');
             paymentAmountFormatted = parseInt(paymentAmountFormatted.replace(/,/g, ''), 10);
             paymentAmountFormatted = paymentAmountFormatted.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            if (prepayment === amount) {
+                paymentAmountFormatted = 0;
+            }
             $('.js-loan-results').find('.js-per-month').text((paymentAmountFormatted));
-        });
-
+        }
 
         $(".calculator-loan").accrue({
             mode: "basic",
@@ -51,4 +65,4 @@ define(['jquery', 'application', 'accrue'], function ($, application, accrue) {
     });
 
 
-});
+//});

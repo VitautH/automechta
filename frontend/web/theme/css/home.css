@@ -1096,15 +1096,14 @@ ul.b-featured__item-links li i {
     height: 210px;
     background: #df4142;
     float: left;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 .b-asks .block_2 {
     width: 50%;
     height: 210px;
-    background: grey;
+    background: #353232de;
     float: left;
-    opacity: 0.8;
 }
 
 .b-asks .inner_container {
@@ -2211,7 +2210,7 @@ form.js-catalog-search-form {
     color: green;
     font-weight: bold;
     font-size: 18px;
-    margin-left: 15px;
+    float: left;
     display: block;
 }
 
@@ -2219,7 +2218,8 @@ form.js-catalog-search-form {
     color: red;
     font-weight: bold;
     font-size: 18px;
-    margin-right: 15px;
+    float: left;
+    margin-left: 15px;
     display: block;
 }
 
@@ -2263,7 +2263,7 @@ form.js-catalog-search-form {
 
 section.footer_block h2 {
     text-transform: uppercase;
-    font-size: 18px;
+    font-size: 23px;
     font-weight: bold;
 }
 

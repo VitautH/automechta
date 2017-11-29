@@ -1,6 +1,7 @@
 <?php
 use common\models\Product;
 use common\models\Specification;
+use common\models\ProductSpecification;
 use common\models\ProductType;
 use common\models\ProductMake;
 use common\models\AppData;
@@ -21,11 +22,8 @@ use yii\helpers\ArrayHelper;
 /* @var $provider yii\data\ActiveDataProvider */
 
 $tableView = filter_var(Yii::$app->request->get('tableView', 'false'), FILTER_VALIDATE_BOOLEAN);
-
-$this->registerJs("require(['controllers/catalog/show']);", \yii\web\View::POS_HEAD);
-$this->registerJsFile("@web/js/controllers/tools/calculator.js");
+$this->registerJs("require(['controllers/tools/calculator']);", \yii\web\View::POS_HEAD);
 $this->registerCssFile("https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css");
-$this->registerJsFile("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js");
 $this->registerJsFile(
     '@web/js/fotorama.js',
     ['depends' => [\yii\web\JqueryAsset::className()]]
@@ -261,29 +259,35 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                             </div>
                         </div>
                     </div>
-                    <div class="b-detail__main-info-extra wow zoomInUp" data-wow-delay="0.5s">
-                        <h2 class="s-titleDet"><?= Yii::t('app', 'Additional specifications') ?>:</h2>
-                        <div class="row">
-                            <?php
-                            foreach ($productSpecificationsAdditionalCols as $productSpecificationsAdditionalCol): ?>
-                                <div class="col-md-4 col-xs-3">
-                                    <ul>
-                                        <?php foreach ($productSpecificationsAdditionalCol as $productSpecificationsAdditional): ?>
-                                            <?php $spec = $productSpecificationsAdditional->getSpecification()->one(); ?>
-                                            <? if ((int)$productSpecificationsAdditional->value == 1):
+                    <? $countSpecifications = ProductSpecification::find()->where(['product_id' => $model->id])
+                        ->andWhere(['value' => 1])->count();
+                    if ($countSpecifications > 0):
+                        ?>
+                        <div class="b-detail__main-info-extra wow zoomInUp" data-wow-delay="0.5s">
+                            <h2 class="s-titleDet"><?= Yii::t('app', 'Additional specifications') ?>:</h2>
+                            <div class="row">
+                                <?php
+                                foreach ($productSpecificationsAdditionalCols as $productSpecificationsAdditionalCol): ?>
+                                    <div class="col-md-4 col-xs-3">
+                                        <ul>
+                                            <?php foreach ($productSpecificationsAdditionalCol as $productSpecificationsAdditional): ?>
+                                                <?php $spec = $productSpecificationsAdditional->getSpecification()->one(); ?>
+                                                <? if ((int)$productSpecificationsAdditional->value == 1):
+                                                    ?>
+                                                    <li>
+                                                        <span class="fa fa-check"></span><?= $spec->i18n()->name ?>
+                                                    </li>
+                                                    <?
+                                                endif;
                                                 ?>
-                                                <li>
-                                                    <span class="fa fa-check"></span><?= $spec->i18n()->name ?>
-                                                </li>
-                                                <?
-                                            endif;
-                                            ?>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                </div>
-                            <?php endforeach; ?>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
                         </div>
-                    </div>
+                    <?php endif;
+                    ?>
                 </div>
                 <div class="right_block col-xs-12">
                     <div class="b-items__aside">
@@ -327,14 +331,15 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                                            value="<?= $model->getByrPrice() ?>" name="price" disabled="disabled"/>
                                     <label><?= Yii::t('app', 'Prepayment') ?></label>
                                     <input type="number" placeholder="<?= Yii::t('app', 'Prepayment') ?>"
-                                           value="0" name="prepayment" id="prepayment" min="0" max="<?= $model->getByrPrice() ?>"/>
+                                           value="0" name="prepayment" id="prepayment" min="0"
+                                           max="<?= $model->getByrPrice() ?>"/>
                                     <label><?= Yii::t('app', 'RATE IN') ?> %</label>
                                     <input type="text" placeholder="<?= Yii::t('app', 'RATE IN') ?> %"
                                            value="<?= $appData['loanRate'] ?>%" name="rate"
                                            disabled="disabled"/>
                                     <label><?= Yii::t('app', 'LOAN TERM') ?></label>
                                     <div class="s-relative">
-                                        <select name="term" class="m-select">
+                                        <select name="term" class="m-select" id="term">
                                             <option value="6m"><?= Yii::t('app', '6 month') ?></option>
                                             <option value="12m"><?= Yii::t('app', 'One year') ?></option>
                                             <option value="24m"><?= Yii::t('app', '2 years') ?></option>

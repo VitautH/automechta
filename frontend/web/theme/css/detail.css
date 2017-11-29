@@ -127,16 +127,12 @@
 
 .b-detail__main-aside-desc-title {
     margin: 0 0 10px 0;
-    padding-left: 15px;
-    border-left: 3px solid #eeeeee;
-    font: 300 13px 'Open Sans', sans-serif;
+    font: 200 15px 'Open Sans', sans-serif;
 }
 
 .b-detail__main-aside-desc-value {
     margin: 0 0 10px 0;
-    padding-left: 15px;
-    border-left: 3px solid #eeeeee;
-    font: 600 13px 'Open Sans', sans-serif;
+    font: 500 15px 'Open Sans', sans-serif;
 }
 
 .b-detail__main-aside-about {
