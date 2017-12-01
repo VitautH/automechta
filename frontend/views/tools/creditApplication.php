@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $appData = AppData::getData();
 $model->term = '60m';
 $model->loans_payment = '0';
+
 ?>
 <section class="b-pageHeader" style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
     <div class="container">
@@ -98,10 +99,11 @@ $model->loans_payment = '0';
                         <?= $form->field($model, 'loans_payment', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('loans_payment')) ?>
                     </div>
                     <div class="col-xs-12">
-                        <?= $form->field($model, 'product', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('product')) ?>
+                        <label class="control-label" for="creditapplication-product">Выбранное авто</label>
+                        <input type="text"  class="" name="CreditApplication[product]" value="<?=$model->product;?>"/>
                     </div>
                     <div class="col-xs-6">
-                        <?= $form->field($model, 'credit_amount', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('credit_amount')) ?>
+                        <?= $form->field($model, 'credit_amount', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('Сумма кредита руб.')) ?>
                     </div>
                     <div class="col-xs-6">
                         <?= $form->field($model, "term", ['options' => ['class' => 'b-submit__main-element wow zoomInUp', 'data-wow-delay' => '0.5s']])
