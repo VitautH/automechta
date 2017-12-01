@@ -159,7 +159,7 @@ return [
     'Create user' => 'Создать пользователя',
     'Created At' => 'Дата создания',
     'Created By' => 'Создано пользователем',
-    'Credit Amount' => 'Сумма кредита (в долларах США)',
+    'Credit Amount' => 'Сумма кредита (руб.)',
     'Credit Applications' => 'Заявки на кредит',
     'Credit application' => 'заявка на кредит',
     'Credit applications view' => 'Просмотр заявки на кредит',
