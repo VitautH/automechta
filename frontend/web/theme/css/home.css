@@ -2305,3 +2305,22 @@ section.footer_block .b-featured__item .m-premium, section.footer_block .b-featu
     padding-left: 30px;
     padding-right: 30px;
 }
+
+.b-detail__main-aside-aboutCompany {
+    float: left;
+}
+.b-detail__main-aside-aboutCompany  span {
+    font-weight: bold;
+    font-size: 16px;
+}
+.b-detail__main-aside-aboutCompany  span i.fa {
+font-size: 18px;
+margin-right: 10px;
+}
+
+.b-detail__main-aside-aboutCompany p {
+    text-align: left;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+    line-height: 21px;
+}

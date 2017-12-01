@@ -184,7 +184,7 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                     <div class="col-xs-12">
                         <?= Alert::widget() ?>
                     </div>
-                    <div class="col-md-4 col-sm-9 col-xs-12">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
                         <div class="b-detail__head-title">
                             <h1><?= $model->getMake0()->one()->name ?> <?= $model->model ?>, <?= $model->year ?></h1>
                             <h3><?= $model->i18n()->title ?></h3>
@@ -213,10 +213,14 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                              data-wow-delay="0.5s">
                             <?= $this->render('_productDescription', ['model' => $model, 'productSpecificationsMain' => $productSpecificationsMain]) ?>
                         </div>
-                        <?php if ($model->priority != 1): ?>
                             <div class="b-detail__main-aside-about wow zoomInUp hidden-sm hidden-xs"
                                  data-wow-delay="0.5s">
                                 <?= $this->render('_sellerData', ['phone' => $phone, 'phone_provider' => $phone_provider, 'phone_2' => $phone_2, 'phone_provider_2' => $phone_provider_2, 'first_name' => $first_name, 'region' => $region]) ?>
+                            </div>
+                        <?php if ($model->priority == 1): ?>
+                            <div class="b-detail__main-aside-aboutCompany wow zoomInUp hidden-sm hidden-xs"
+                                 data-wow-delay="0.5s">
+                                <?= $this->render('_sellerDataCompany') ?>
                             </div>
                         <?php endif ?>
                     </aside>
@@ -314,7 +318,7 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                                     Заполните анкету и мы <br> свяжемся с Вами <br> в кратчайшие сроки
                                 </p>
 
-                                <a href="/tools/credit-application"
+                                <a href="/tools/credit-application?id=<?=$model->id;?>"
                                    class="btn m-btn">Заполнить <i class="fa fa-angle-double-right"
                                                                   aria-hidden="true"></i></a>
 
