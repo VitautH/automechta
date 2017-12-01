@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
+use common\models\Uploads;
 
 /**
  * Account controller
@@ -39,15 +40,22 @@ class AccountController extends Controller
         $model = User::findOne(Yii::$app->user->id);
         $model->setScenario('sellerContacts');
 
-        $searchModel = new ProductSearch();
+        //$searchModel = new ProductSearch();
         $params = Yii::$app->request->get();
-        $searchModel->loadI18n($params);
-        $searchModel->created_by = Yii::$app->user->id;
+        //$searchModel->loadI18n($params);
+      //  $searchModel->created_by = Yii::$app->user->id;
+        $query = Product::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        $query->where(['created_by'=>Yii::$app->user->id]);
+        $query->andWhere(['!=','status',Product::STATUS_UNPUBLISHED]);
+        $query->orderBy('product.updated_at DESC');
         /** @var ActiveDataProvider $dataProvider */
-        $dataProvider = $searchModel->search();
+      //  $dataProvider = $searchModel->search();
+      //  $dataProvider->query->where(['created_by'=>Yii::$app->user->id])->orWhere(['status'=>Product::STATUS_TO_BE_VERIFIED])->orWhere(['status'=>Product::STATUS_PUBLISHED])->orderBy('product.updated_at DESC');
+       // $dataProvider->sort = false;
 
-        $dataProvider->query->orderBy('product.updated_at DESC');
-        $dataProvider->sort = false;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success',  Yii::t('app', 'Saved'));
             return $this->refresh();
@@ -55,7 +63,7 @@ class AccountController extends Controller
             return $this->render('index', [
                 'model' => $model,
                 'dataProvider' => $dataProvider,
-                'searchModel' => $searchModel,
+               // 'searchModel' => $searchModel,
             ]);
         }
     }
@@ -81,7 +89,6 @@ class AccountController extends Controller
         $time = time() - (1*24*60*60);
         if($model->updated_at < $time) {
             $model->updated_at = $time;
-            //$model->updated_at < $time &&
             if ($model->save()) {
                 return ['status' => 'success', 'id' => $id];
             } else {
@@ -109,8 +116,9 @@ class AccountController extends Controller
             Yii::$app->user->denyAccess();
         }
 
-        $model->delete();
-
+       $model->status= Product::STATUS_UNPUBLISHED;
+        $model->save();
+        Uploads::deleteImages('product', $id);
         if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ['status' => 'success', 'id'=>$id];
