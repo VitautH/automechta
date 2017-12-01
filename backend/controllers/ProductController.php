@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\Product;
+use common\models\Uploads;
 use common\models\ProductSearch;
 use common\models\ProductType;
 use common\models\ProductMake;
@@ -115,9 +116,11 @@ class ProductController extends \yii\web\Controller
         }
         $model = $this->findModel($id);
         $model->loadDefaultValues();
-
         $productSpecificationModels = $this->fillSpecifications($model);
         $request = Yii::$app->request->post();
+      if($request['Product']['status']== Product::STATUS_UNPUBLISHED){
+          Uploads::deleteImages('product', $id);
+      }
         if ($model->loadI18n($request) && $model->validateI18n()) {
             $model->phone = $request['Product']['phone'];
             $model->phone_2 = $request['Product']['phone_2'];
@@ -145,12 +148,10 @@ class ProductController extends \yii\web\Controller
         if (!Yii::$app->user->can('deleteProduct')) {
             Yii::$app->user->denyAccess();
         }
-
         $this->findModel($id)->delete();
-
+        Uploads::deleteImages('product', $id);
         if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['status' => 'success'];
         } else {
             return $this->redirect(['index']);
         }

@@ -39,7 +39,7 @@ class Product extends \yii\db\ActiveRecord
     const STATUS_UNPUBLISHED = 2;
     const STATUS_TO_BE_VERIFIED = 3;
     const SCENARIO_COMPLAIN = 'complain';
-    const SCENARIO_DEFAULT = 'default';
+    const SCENARIO_DEFAULT ='default';
     const SCENARIO_SELLERCONTACTS = 'sellerContacts';
     private static $maxPrice;
     private static $minPrice;
@@ -59,15 +59,17 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['region', 'phone_provider'], 'integer', 'on' => self::SCENARIO_SELLERCONTACTS],
-            [['region', 'first_name', 'phone', 'phone_provider', 'phone_2', 'phone_provider_2'], 'safe', 'on' => self::SCENARIO_SELLERCONTACTS],
-            [['type', 'make', 'model', 'year', 'price', 'priority'], 'required', 'on' => self::SCENARIO_DEFAULT],
-            [['first_name', 'phone_provider', 'phone', 'region'], 'required', 'on' => self::SCENARIO_SELLERCONTACTS],
+            [['region', 'phone_provider'], 'integer', 'on'=>self::SCENARIO_SELLERCONTACTS],
+            [['region', 'first_name', 'phone', 'phone_provider','phone_2', 'phone_provider_2'], 'safe', 'on'=>self::SCENARIO_SELLERCONTACTS],
+            [['type','make', 'model', 'year', 'price','priority'], 'required', 'on'=>self::SCENARIO_DEFAULT],
+            [[ 'exchange', 'currency', 'auction'], 'integer', 'on'=>self::SCENARIO_DEFAULT],
+            [['first_name','phone_provider', 'phone', 'region'], 'required', 'on'=>self::SCENARIO_SELLERCONTACTS],
             [['model'], 'string', 'max' => 2048],
             [['year'], 'integer', 'min' => 1900, 'max' => date('Y')],
             ['priority', 'safe', 'when' => function ($model) {
                 return Yii::$app->user->can('changeProductPriority');
             }],
+           // [['phone'],'required'],
             [['status', 'type', 'make', 'price', 'views', 'created_at', 'updated_at', 'created_by', 'updated_by', 'exchange', 'currency', 'auction'], 'integer'],
         ];
     }
@@ -94,7 +96,9 @@ class Product extends \yii\db\ActiveRecord
                 'model',
                 'price',
                 'year',
-                'priority'
+                'priority',
+                'exchange',
+                'auction',
             ]
         ];
     }
@@ -124,7 +128,7 @@ class Product extends \yii\db\ActiveRecord
             'currency' => Yii::t('app', 'Currency'),
             'first_name' => 'Имя',
             'last_name' => 'Фамилия',
-            'region' => 'Регион',
+            'region' =>'Регион',
             'phone' => 'Телефон',
             'phone_provider' => 'Оператор',
             'phone_2' => 'Доп. телефон',

@@ -11,6 +11,7 @@ use yii\helpers\Url;
 use Imagine\Image\ManipulatorInterface;
 use yii\imagine\Image;
 use common\models\AppData;
+use common\controllers\UploadsController;
 
 /**
  * This is the model class for table "uploads".
@@ -40,6 +41,7 @@ class Uploads extends \yii\db\ActiveRecord
      * @var UploadedFile
      */
     public $file;
+    static $hash;
 
     /**
      * @inheritdoc
@@ -157,8 +159,8 @@ class Uploads extends \yii\db\ActiveRecord
          * Watermark position Center
          */
         $watermarksize = getimagesize($watermarkfile);
-       // $posX = ($photosize[0] / 2) - ($watermarksize[0] / 2);
-       // $posY = ($photosize[1] / 2) - ($watermarksize[1] / 2);
+        // $posX = ($photosize[0] / 2) - ($watermarksize[0] / 2);
+        // $posY = ($photosize[1] / 2) - ($watermarksize[1] / 2);
 
         /*
          * Watermark position Top-left
@@ -221,9 +223,13 @@ class Uploads extends \yii\db\ActiveRecord
     /**
      * @return boolean
      */
-    public function fileExists()
+    public function fileExists($hash = null)
     {
-        return file_exists(Yii::$app->uploads->getFullPathByHash($this->hash));
+        if ($hash !== null) {
+            return file_exists(Yii::$app->uploads->getFullPathByHash($hash));
+        } else {
+            return file_exists(Yii::$app->uploads->getFullPathByHash($this->hash));
+        }
     }
 
     /**
@@ -237,4 +243,28 @@ class Uploads extends \yii\db\ActiveRecord
         //return base_convert($hexadecimal, 16, 36);
         return md5($str);
     }
+
+    /*
+     * @param $linked_table, $linked_id
+     * @return bool
+     */
+    public function deleteImages($linked_table, $linked_id)
+    {
+        $arrayImages = static::find()->where(['linked_table' => $linked_table])->andWhere(['linked_id' => $linked_id])->asArray()->all();
+
+        foreach ($arrayImages as $image) {
+            if (file_exists(Yii::$app->uploads->getFullPathByHash($image['hash']))) {
+                unlink(Yii::$app->uploads->getFullPathByHash($image['hash']));
+            }
+
+            if (file_exists('/home/admin/web/automechta.by/public_html/frontend/web/' . Yii::$app->uploads->getThumbnail($image['hash']))) {
+                unlink('/home/admin/web/automechta.by/public_html/frontend/web/' . Yii::$app->uploads->getThumbnail($image['hash']));
+            }
+        }
+        unset($arrayImages);
+        $model = new UploadsController();
+        $model->actionRemove($image['id']);
+    }
 }
+
+
