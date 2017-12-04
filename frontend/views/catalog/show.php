@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 use common\models\Product;
 use common\models\Specification;
 use common\models\ProductSpecification;
@@ -16,11 +16,9 @@ use common\models\MetaData;
 use yii\widgets\Pjax;
 use common\models\Complaint;
 use yii\helpers\ArrayHelper;
-
 /* @var $this yii\web\View */
 /* @var $model Product */
 /* @var $provider yii\data\ActiveDataProvider */
-
 $tableView = filter_var(Yii::$app->request->get('tableView', 'false'), FILTER_VALIDATE_BOOLEAN);
 $this->registerJs("require(['controllers/tools/calculator']);", \yii\web\View::POS_HEAD);
 $this->registerCssFile("https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css");
@@ -68,7 +66,6 @@ if (empty($model->phone)) {
     $phone = $model->phone;
     $phone_provider = $model->phone_provider;
 }
-
 if (empty($model->phone_2)) {
     $phone_2 = $seller->phone_2;
     $phone_provider_2 = $seller->phone_provider_2;
@@ -76,7 +73,6 @@ if (empty($model->phone_2)) {
     $phone_2 = $model->phone_2;
     $phone_provider_2 = $model->phone_provider_2;
 }
-
 if (empty($model->first_name)) {
     $first_name = $seller->first_name;
 } else {
@@ -87,38 +83,24 @@ if (empty($model->region)) {
 } else {
     $region = $model->region;
 }
-
-
 $productSpecifications = $model->getSpecifications();
-
 $productSpecificationsMain = array_filter($productSpecifications, function ($productSpec) {
     $specification = $productSpec->getSpecification()->one();
     return $specification->type != Specification::TYPE_BOOLEAN;
 });
 $productSpecificationsMain = array_values($productSpecificationsMain);
-
 $productSpecificationsAdditional = array_filter($productSpecifications, function ($productSpec) {
     $specification = $productSpec->getSpecification()->one();
     return $specification->type == Specification::TYPE_BOOLEAN;
 });
 $productSpecificationsAdditional = array_values($productSpecificationsAdditional);
-
-
 foreach ($productSpecificationsAdditional as $key => $productSpecification) {
     $productSpecificationsAdditionalCols[$key % 3][] = $productSpecification;
 }
-
 $metaData = MetaData::getModels($model);
-
 $this->registerMetaData($metaData);
 $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $model->model], ['product_type' => $model->type]])->one()->id;
 ?>
-    <section class="b-pageHeader"
-             style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
-        <div class="container">
-            <h1 class="wow zoomInLeft" data-wow-delay="0.5s"> <?= $model->getFullTitle() ?></h1>
-        </div>
-    </section><!--b-pageHeader-->
     <div class="b-breadCumbs s-shadow">
         <?= Breadcrumbs::widget([
             'links' => [
@@ -501,7 +483,7 @@ $productMakeId = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $
                     <div class="b-featured__item wow rotateIn col-md-3 col-xs-12 col-sm-12" data-wow-delay="0.3s"
                          data-wow-offset="150">
                         <a href="<?= $similarProduct->getUrl() ?>">
-                            <span class="m-premium"><?= Yii::t('app', 'On credit') ?></span>
+                            <span class="m-premium"></span>
                             <img class="hover-light-img" width="170" height="170"
                                  src="<?= $similarProduct->getTitleImageUrl(640, 480) ?>"
                                  alt="<?= Html::encode($similarProduct->getFullTitle()) ?>"/>

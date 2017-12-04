@@ -16,7 +16,7 @@ $this->registerJs("require(['controllers/catalog/index']);", \yii\web\View::POS_
 $productModel = new Product();
 $appData = AppData::getData();
 
-$this->title = $metaData['title'];
+$this->title = $metaData['title'].' в Беларуси в кредит';
 
 $this->registerMetaTag([
     'name' => 'description',
@@ -65,8 +65,8 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
 
     <section class="b-pageHeader" style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
         <div class="container">
-            <div class="col-md-4">
-                <h1><?=$model->name.' '.$_params_['model_name']?></h1>
+            <div class="col-md-7">
+                <h1>Продажа <?=$model->name.' '.$_params_['model_name']?> в Беларуси в кредит</h1>
             </div>
             <h1 class="wow zoomInLeft" data-wow-delay="0.5s"></h1>
             <div class="b-pageHeader__search wow zoomInRight" data-wow-delay="0.5s">

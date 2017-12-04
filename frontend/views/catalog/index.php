@@ -121,7 +121,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
 
         <div class="container">
 
-            <h1 class="wow zoomInLeft" data-wow-delay="0.5s">Автомобили компании</h1>
+            <h1 class="wow zoomInLeft" data-wow-delay="0.5s">Продажа автомобилей компании в Беларуси в кредит</h1>
 
             <div class="b-pageHeader__search wow zoomInRight" data-wow-delay="0.5s">
 

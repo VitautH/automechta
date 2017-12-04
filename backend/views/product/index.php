@@ -27,6 +27,35 @@ $this->registerJs("require(['controllers/product/index']);", \yii\web\View::POS_
 $makesList = ProductMake::getMakesList();
 $makesList[0] = Yii::t('app', 'Any');
 ksort($makesList);
+
+$this->registerJs("
+$(document).ready(function(){
+$('#apply').click(function(){
+var check = confirm('Вы действительно хотите произвести действия?');
+if (check == true) {
+var action =  $('#action').val();
+var selection = new Array();
+ $(\"input[name='selection[]']:checked\").each( function () {
+       selection.push( $(this).val() );
+   });
+if (selection.length === 0){
+alert('Выберите минимум одно объявление!');
+}
+else {
+ $.ajax({
+            url: '/product/change',
+            type: 'POST',
+            data: {ads: selection, action: action},
+             success: function(data) {
+             location.reload();
+             }
+         });
+         }
+         }
+});
+
+});
+" );
 ?>
 <div class="mdl-grid page-header mdl-shadow--2dp">
     <div class="mdl-cell mdl-cell--12-col">
@@ -51,10 +80,14 @@ ksort($makesList);
             'id' => 'product_grid',
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
+           // 'showFooter'=>true,
             'tableOptions' => [
                 'class' => 'mdl-data-table mdl-data-table--no-border mdl-js-data-table'
             ],
             'columns' => [
+                [
+                    'class' => 'yii\grid\CheckboxColumn',
+                ],
                 [
                     'attribute' => 'id',
                     'contentOptions' => ['class' => 'auto-width-col center-align'],
@@ -176,6 +209,13 @@ ksort($makesList);
             ]
         ]);
         ?>
+        <label>Выберите действие:</label>
+        <select name="action" id="action">
+            <option value="<?=Product::STATUS_UNPUBLISHED;?>">Снять с публикации</option>
+            <option  value="<?=Product::STATUS_PUBLISHED;?>">Опубликовать</option>
+            <option value="delete">Удалить</option>
+        </select>
+        <button id="apply" name="apply">Применить</button>
         <?php
         \yii\widgets\Pjax::end();
         ?>

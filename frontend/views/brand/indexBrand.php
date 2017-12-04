@@ -57,11 +57,7 @@ $listView = ListView::begin([
 
 $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->all();
 ?>
-
-
 <div class="catalog">
-    <span style="display: none;" class="js-title"><?= $metaData['title'] ?></span>
-
     <section class="b-pageHeader" style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
         <div class="container">
             <h1 class="wow zoomInLeft" data-wow-delay="0.5s"></h1>

@@ -24,7 +24,7 @@ switch ($type) {
         $typeName = "мотоциклов";
         break;
 }
-$this->title = 'Каталог ' . $typeName . ' с фото и ценой в Беларуси';
+$this->title = $typeName . 'в Беларуси в кредит';
 
 $this->registerMetaTag([
     'name' => 'description',
@@ -67,22 +67,17 @@ $listView = ListView::begin([
 $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->all();
 
 ?>
-
-
 <div class="catalog">
     <span style="display: none;" class="js-title"><?= $metaData['title'] ?></span>
-
     <section class="b-pageHeader"
              style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
         <div class="container">
-            <h1 class="wow zoomInLeft" data-wow-delay="0.5s"><?= $metaData['title'] ?></h1>
+            <h1 class="wow zoomInLeft" data-wow-delay="0.5s">Продажа <?= $typeName; ?> в Беларуси в кредит</h1>
             <div class="b-pageHeader__search wow zoomInRight" data-wow-delay="0.5s">
                 <h3><?= Yii::t('app', 'Your search returned {n,plural,=0{# result} =1{# result} one{# results} other{# results}} ', ['n' => $provider->getTotalCount()]) ?></h3>
             </div>
         </div>
     </section><!--b-pageHeader-->
-
-
     <div class="b-breadCumbs s-shadow">
         <?= Breadcrumbs::widget([
             'links' => [
@@ -177,7 +172,8 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                                 </p>
 
                                 <a href="/tools/credit-application"
-                                   class="btn m-btn">Заполнить <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                                   class="btn m-btn">Заполнить <i class="fa fa-angle-double-right"
+                                                                  aria-hidden="true"></i></a>
 
                             </div>
 

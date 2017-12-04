@@ -16,7 +16,7 @@ $this->registerJs("require(['controllers/catalog/index']);", \yii\web\View::POS_
 $productModel = new Product();
 $appData = AppData::getData();
 
-$this->title = $metaData['title'];
+$this->title = $metaData['title'].' в Беларуси в кредит';
 
 $this->registerMetaTag([
     'name' => 'description',
@@ -61,12 +61,10 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
 
 
 <div class="catalog">
-    <span style="display: none;" class="js-title"><?= $metaData['title'] ?></span>
-
     <section class="b-pageHeader" style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
         <div class="container">
-            <div class="col-md-4">
-                <h1><?=$model->name?></h1>
+            <div class="col-md-7">
+                <h1>Продажа <?=$model->name?> в Беларуси в кредит</h1>
             </div>
             <div class="b-pageHeader__search wow zoomInRight" data-wow-delay="0.5s">
                 <h3><?= Yii::t('app', 'Your search returned {n,plural,=0{# result} =1{# result} one{# results} other{# results}} ', ['n'=>$provider->getTotalCount()]) ?></h3>

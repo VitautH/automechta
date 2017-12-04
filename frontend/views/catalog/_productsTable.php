@@ -11,10 +11,10 @@ $specs = array_slice($specs, 0, 5);
     <a href="<?= $model->getUrl() ?>" class="b-items__cars-one-img">
         <img class='img-responsive hover-light-img' src="<?= $model->getTitleImageUrl(237, 160) ?>" alt="<?= Html::encode($model->i18n()->title) ?>"/>
         <?php if($model->priority == 1): ?>
-        <span class="b-items__cars-one-img-type m-premium"><?= Yii::t('app', 'On credit') ?></span>
+        <span class="b-items__cars-one-img-type m-premium"></span>
         <?php endif; ?>
         <?php if($model->priority != 1): ?>
-        <span class="b-items__cars-one-img-type m-premium"><?= Yii::t('app', 'On credit') ?></span>
+        <span class="b-items__cars-one-img-type m-premium"></span>
         <?php endif; ?>
     </a>
     <div class="b-items__cell-info">

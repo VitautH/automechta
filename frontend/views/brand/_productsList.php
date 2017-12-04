@@ -24,10 +24,10 @@ if (!isset($specs[2])) {
 <a href="<?= $model->getUrl() ?>" class="b-items__cars-one-img">
     <img src="<?= $model->getTitleImageUrl(267, 180) ?>" alt="<?= Html::encode($model->getFullTitle()) ?>" class="hover-light-img"/>
     <?php if($model->priority == 1): ?>
-    <span class="b-items__cars-one-img-type m-premium"><?= Yii::t('app', 'On credit') ?></span>
+    <span class="b-items__cars-one-img-type m-premium"></span>
     <?php endif; ?>
     <?php if($model->priority != 1): ?>
-    <span class="b-items__cars-one-img-type m-premium"><?= Yii::t('app', 'On credit') ?></span>
+    <span class="b-items__cars-one-img-type m-premium"></span>
     <?php endif; ?>
 </a>
 <div class="b-items__cars-one-info">
