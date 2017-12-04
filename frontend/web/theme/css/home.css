@@ -2324,3 +2324,7 @@ margin-right: 10px;
     letter-spacing: 0.3px;
     line-height: 21px;
 }
+
+.b-items__pagination li.disabled {
+    display: none;
+}

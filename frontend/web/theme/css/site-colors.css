@@ -154,10 +154,6 @@ body {
     color: #535353;
 }
 
-.b-featured__item .m-premium {
-    background: #3cd225;
-    color: #fff;
-}
 
 .b-featured__item-price {
     color: #fff;
@@ -797,9 +793,6 @@ body {
     color: #fff;
 }
 
-.b-items__cars-one-img-type.m-premium {
-    background: #3cd225;
-}
 
 .b-items__cars-one-img-type.m-leasing {
     background: #2475ce;

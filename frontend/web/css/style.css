@@ -1321,7 +1321,22 @@ a:hover {
 
     margin-left: 0 !important;
 }
-
+.b-contacts {
+    padding-top: 15px!important;
+}
+.b-contacts__form-header {
+    padding-bottom: 0!important;
+    margin-bottom: 10px!important;
+}
+.b-contacts__form p {
+    margin-bottom: 5px!important;
+}
+.social_login {
+    margin-bottom: 25px;
+    margin-top: 15px;
+    position: relative;
+    left: 20%;
+}
 .login-button {
     background-color: #f76d2b !important;
     color: #ffffff !important;
@@ -1340,32 +1355,28 @@ a:hover {
 }
 
 .vk-login, .fb-login {
-    max-width: 200px;
-    margin-left: 10px;
+
 }
 
 .vk-login {
-    padding: 7px 16px 8px;
-    font-size: 12.5px;
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+    background-color: #5e81a8;
     display: inline-block;
-    zoom: 1;
-    cursor: pointer;
-    white-space: nowrap;
-    outline: none;
-    font-family: -apple-system, BlinkMacSystemFont, Roboto, Open Sans, Helvetica Neue, sans-serif;
-    vertical-align: top;
+    position: relative;
+    top: 1px;
+}
+.vk-login i.fa {
+    color: #fff;
     line-height: 15px;
     text-align: center;
-    text-decoration: none;
-    background: none;
-    background-color: #5e81a8;
-    color: #fff;
-    border: 0;
-    border-radius: 2px;
-    box-sizing: border-box;
-    margin-top: 10px;
+    font-size: 22px;
+    display: block;
+    position: relative;
+    top: 14px;
+    left: 5px;
 }
-
 .vk-login:hover {
     background-color: #6888ad;
     text-decoration: none;
@@ -1373,26 +1384,12 @@ a:hover {
 }
 
 .fb-login {
-    border: 3px solid #4267b2;
     background: #4267b2;
-    border-radius: 3px;
-    position: relative;
-    cursor: pointer;
-    color: white;
-    padding: 1px 16px 6px;
-    text-align: center;
-    font-size: 12.5px;
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
     display: inline-block;
-    zoom: 1;
-    cursor: pointer;
-    white-space: nowrap;
-    outline: none;
-    font-family: -apple-system, BlinkMacSystemFont, Roboto, Open Sans, Helvetica Neue, sans-serif;
-    vertical-align: top;
-    line-height: 15px;
-    text-align: center;
-    text-decoration: none;
-    margin-top: 10px;
+    position: relative;
 }
 
 .fb-login:hover {
@@ -1400,7 +1397,66 @@ a:hover {
     color: white;
 !important;
 }
+.fb-login i.fa {
+    color: #fff;
+    line-height: 15px;
+    text-align: center;
+    font-size: 22px;
+    display: block;
+    position: relative;
+    top: 14px;
+    left: 5px;
+}
+.google-login {
+    background: #dd4b39;
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+    display: inline-block;
+    position: relative;
+    top: 3px;
+}
 
+.google-login:hover {
+    text-decoration: none;
+    color: white;
+!important;
+}
+.google-login i.fa {
+    color: #fff;
+    line-height: 15px;
+    text-align: center;
+    font-size: 30px;
+    display: block;
+    position: relative;
+    top: 15px;
+    left: 1px;
+}
+.ya-login {
+    background: white;
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+    display: inline-block;
+    position: relative;
+    top: 4px;
+    border: 1px solid #ced3d6;
+}
+
+.ya-login:hover {
+    text-decoration: none;
+    color: white;
+!important;
+}
+.ya-login span{
+    color: red;
+    line-height: 15px;
+    text-align: center;
+    font-size: 27px;
+    display: block;
+    position: relative;
+    top: 14px;
+}
 .fb-login .fa, .vk-login .fa {
     margin-right: 10px;
 }
@@ -1412,10 +1468,37 @@ a:hover {
     margin-bottom: 15px;
     padding: 12px 12px;
     font: 400 12px 'Open Sans', sans-serif;
-    border: 1px solid #eeeeee;
+    border: 2px solid #b7b7b9;
     border-radius: 30px;
 }
+.field-loginform-username label, .field-loginform-password label{
+    float: left;
+}
+.field-loginform-password {
+    clear: both;
+}
 
+.field-loginform-password #loginform-password  {
+    margin-left: 90px;
+}
+.login-button {
+    clear: both;
+    float: left;
+}
+.field-loginform-username .help-block-error, .field-loginform-password .help-block-error  {
+    display: none;
+}
+.field-loginform-rememberme {
+    float: left;
+    margin-right: 10px;
+    display: inline-block;
+}
+a.reset-password {
+    float: left;
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 .complaint {
     cursor: pointer;
     font-size: 14px;
@@ -1615,4 +1698,12 @@ nav.b-nav .social a.ok:hover .fa-odnoklassniki-square {
 
 .b-infoBar__select-one a.m-active,.b-infoBar__select-one a:hover {
     color: #df4142;
+}
+
+span.m-premium {
+    background: url(../theme/images/v_kredit.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 100px;
+    height: 50px;
 }
