@@ -103,6 +103,57 @@ class ProductController extends \yii\web\Controller
         }
     }
 
+    public function actionChange()
+    {
+        if (!Yii::$app->user->can('deleteProduct')) {
+            Yii::$app->user->denyAccess();
+        }
+
+        if (Yii::$app->request->isAjax) {
+            $request = Yii::$app->request->post();
+            function delete($items){
+                foreach ($items as $item){
+                   $this->findModel($item)->delete();
+                }
+            }
+
+            function published($items){
+                foreach ($items as $item){
+                    $model = $this->findModel($item);
+                    $model->status = Product::STATUS_PUBLISHED;
+                   $model->save();
+                }
+            }
+
+            function unpublished($items){
+                foreach ($items as $item){
+                    $model = Product::findOne($item);
+                    $model->status = Product::STATUS_UNPUBLISHED;
+                   if($model->save()) {
+                       Uploads::deleteImages('product', $item);
+                   }
+                }
+            }
+
+            switch ($request['action']){
+                case 'delete':
+                   delete ($request ['ads']);
+                    break;
+                case Product::STATUS_PUBLISHED:
+                    published ($request ['ads']);
+                    break;
+
+                case Product::STATUS_UNPUBLISHED:
+                    unpublished ($request ['ads']);
+                    break;
+
+            }
+
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
     /**
      * Update product
      * If creation is successful, the browser will be redirected to the 'index' page.
@@ -118,9 +169,9 @@ class ProductController extends \yii\web\Controller
         $model->loadDefaultValues();
         $productSpecificationModels = $this->fillSpecifications($model);
         $request = Yii::$app->request->post();
-      if($request['Product']['status']== Product::STATUS_UNPUBLISHED){
-          Uploads::deleteImages('product', $id);
-      }
+        if ($request['Product']['status'] == Product::STATUS_UNPUBLISHED) {
+            Uploads::deleteImages('product', $id);
+        }
         if ($model->loadI18n($request) && $model->validateI18n()) {
             $model->phone = $request['Product']['phone'];
             $model->phone_2 = $request['Product']['phone_2'];
