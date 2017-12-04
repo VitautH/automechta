@@ -17,7 +17,6 @@ use yii\helpers\Html;
 $this->registerMetaData();
 $this->registerJsFile("@web/js/readmore.js");
 $this->registerJs("require(['controllers/site/index']);", \yii\web\View::POS_HEAD);
-
 $this->registerJs("    
  $(document).ready(function(){
  var ScreenWidth = screen.width; 
@@ -31,7 +30,6 @@ if (ScreenWidth < 767){
 }
 });
 ", \yii\web\View::POS_HEAD);
-
 $highPriorityProducts = Product::find()->highPriority()->orderBy('product.id DESC')->active()->limit(10)->all();
 $latestNews = Page::find()->active()->news()->limit(5)->orderBy('id desc')->all();
 $mainNews = $latestNews[0];
@@ -81,12 +79,7 @@ if ($this->beginCache($id)) {
     <section class="b-makers" id="b-makers">
         <div class="container">
             <div class="row col-lg-12">
-
                 <span class="all_mark">Все марки</span>
-
-                <span id="more_mark" class="visible-xs visible-sm visible-md">Показать все марки <i
-                            style="margin-left: 7px;" class="fa fa-long-arrow-down" aria-hidden="true"></i></span>
-
                 <div class="b-makers__list b-makers__list__main" id="b-makers__list__main">
                     <?php
                     $modelAuto = ProductMake::getMakesListWithId(2, true);
@@ -129,11 +122,7 @@ if ($this->beginCache($id)) {
                 <h2 class="col-md-4 col-sm-12 col-xs-12 col-sm-12" data-wow-delay="0.3s">
                     <a href="/catalog">АВТОМОБИЛИ КОМПАНИИ</a>
                 </h2>
-
                 <div class="owl-controls clickable js-featured-vehicles-caruosel-nav featured-vehicles-controls owl-buttons col-md-2 col-md-offset-6 col-xs-3 col-sm-3 col-xs-offset-0">
-
-
-                <div class="owl-controls clickable js-featured-vehicles-caruosel-nav featured-vehicles-controls owl-buttons col-md-2 col-md-offset-6">
 
                     <div class="owl-prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>
                     <div class="owl-next" style="margin-left: 0 !important;"><i class="fa fa-chevron-right"
@@ -147,7 +136,7 @@ if ($this->beginCache($id)) {
                     <div>
                         <div class="b-featured__item wow rotateIn" data-wow-delay="0.3s" data-wow-offset="150">
                             <a href="<?= $highPriorityProduct->getUrl() ?>">
-                                <span class="m-premium"><?= Yii::t('app', 'On credit') ?></span>
+                                <span class="m-premium"></span>
                                 <img class="hover-light-img" width="170" height="170"
                                      src="<?= $highPriorityProduct->getTitleImageUrl(640, 480) ?>"
                                      alt="<?= Html::encode($highPriorityProduct->getFullTitle()) ?>"/>
@@ -216,7 +205,7 @@ if ($this->beginCache($id)) {
                                 <img class="hover-light-img" width="170" height="170"
                                      src="<?= $latestAuto->getTitleImageUrl(640, 480) ?>"
                                      alt="<?= Html::encode($latestAuto->getFullTitle()) ?>"/>
-                                <span class="m-premium"><?= Yii::t('app', 'On credit') ?></span>
+                                <span class="m-premium"></span>
                             </a>
                             <div class="inner_container">
                                 <div class="h5"><a
@@ -307,11 +296,7 @@ if ($this->beginCache($id)) {
 
             <div class="row">
                 <div class="col-md-12">
-
                     <div class="col-md-4 col-xs-12 hidden-xs hidden-sm">
-
-                    <div class="col-md-4 col-xs-12">
-
                         <div class="b-world__item wow zoomInLeft" data-wow-delay="0.3s" data-wow-offset="100">
                             <div class="b-world__item wow zoomInLeft" data-wow-delay="0.3s" data-wow-offset="100">
                                 <a href="<?= $mainNews->getUrl() ?>">
@@ -343,10 +328,7 @@ if ($this->beginCache($id)) {
                             endif;
                             $i++;
                         endforeach; ?>
-
                         <span class="visible-xs visible-sm"><a class="read_more_news" href="/news">Показать все</a></span>
-
-
                     </div>
                 </div>
             </div>

@@ -13,12 +13,6 @@ $this->title = Yii::t('app', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
 $appData = AppData::getData();
 ?>
-<section class="b-pageHeader" style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
-    <div class="container">
-        <h1 class=" wow zoomInLeft" data-wow-delay="0.3s"><?= Yii::t('app', 'Log in') ?></h1>
-    </div>
-</section><!--b-pageHeader-->
-
 <div class="b-breadCumbs s-shadow">
     <?= Breadcrumbs::widget([
         'links' => [
@@ -35,12 +29,20 @@ $appData = AppData::getData();
         <div class="row">
             <div class="col-xs-12">
                 <div class="b-contacts__form">
-                    <header class="b-contacts__form-header s-lineDownLeft wow zoomInUp" data-wow-delay="0.5s">
-                        <h2 class="s-titleDet"><?= Html::encode($this->title) ?></h2>
-                    </header>
                     <p class=" wow zoomInUp" data-wow-delay="0.5s">
-                        <?= Yii::t('app', 'Please fill out the following fields to login')?>:
+                        Чтобы войти на Automechta.by, пожалуйста, авторизуйтесь с вашим E-mail и паролем или войдите через соцсети.
                     </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-7 col-md-offset-3 col-sm-offset-0 col-xs-offset-0 col-sm-12 col-xs-12">
+                    <div class="social_login">
+                        <a href="/site/auth?authclient=vkontakte" class="vk-login"><i class="fa fa-vk" aria-hidden="true"></i></a>
+                        <a href="/site/auth?authclient=facebook" class="fb-login"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                        <a href="/site/auth?authclient=google" class="google-login"><i class="fa fa-google-plus-official" aria-hidden="true"></i></a>
+                        <a href="/site/auth?authclient=yandex" class="ya-login"><span>Я</span></a>
+                    </div>
                     <div id="success"></div>
                     <?php $form = ActiveForm::begin(
                         [
@@ -53,32 +55,25 @@ $appData = AppData::getData();
                     );
                     ?>
 
-                    <?= $form->field($model, 'username')->textInput(['class' => 'login-input col-xs-10 col-sm-2 col-md-2 col-xl-2'])->label(false) ?>
+                    <?= $form->field($model, 'username')->textInput(['class' => 'login-input col-xs-10 col-sm-5 col-md-5 col-xl-5'])->label(true) ?>
 
-                    <?= $form->field($model, 'password')->passwordInput(['class' => 'login-input col-xs-10 col-sm-2 col-md-2 col-xl-2'])->label(false) ?>
-
+                    <?= $form->field($model, 'password')->passwordInput(['class' => 'login-input col-xs-10 col-sm-5 col-md-5 col-xl-5'])->label(true) ?>
                     <div class="form-group">
-                        <button type="submit" class="login-button btn m-btn" name="login-button"><?= Yii::t('app', 'Login') ?><span class="fa fa-angle-right"></span></button>
-                        <a href="/site/auth?authclient=vkontakte" class="vk-login col-xs-10"><i class="fa fa-vk" aria-hidden="true"></i><?= Yii::t('app', 'Login_vk') ?></a>
-                        <a href="/site/auth?authclient=facebook" class="fb-login col-xs-10"><i class="fa fa-facebook" aria-hidden="true"></i>Войти через Facebook</a>
+                        <button type="submit" class="login-button btn m-btn m-btn-dark" name="login-button"><?= Yii::t('app', 'Login') ?><span class="fa fa-angle-right"></span></button>
                     </div>
-                    <div class="clearfix"></div>
+                        <div class="clearfix"></div>
+                <div class="col-md-12 col-xs-12 col-sm-12">
                     <?= $form->field($model, 'rememberMe')->checkbox() ?>
-
-                    <div style="color:#999;margin:1em 0">
-                <?= Html::a(Yii::t('app', 'reset_password'), ['site/request-password-reset']) ?>.
-                    </div>
-
-
-
+                    <a href="/site/request-password-reset" class="reset-password">Восстановить пароль</a>
+                </div>
                     <?php ActiveForm::end(); ?>
+               <span>Первый раз на сайте? <a href="/site/signup" class="registration">
+                    <?= Yii::t('app', 'Register') ?>
+                </a>
+                   </span>
                 </div>
             </div>
-            <div class="col-xs-6 wow zoomInUp" data-wow-delay="0.5s">
-                <a href="/site/signup" class="btn m-btn m-btn-dark">
-                    <?= Yii::t('app', 'Register') ?> <span class="fa fa-angle-right"></span>
-                </a>
-            </div>
+
         </div>
     </div>
 </section><!--b-contacts-->

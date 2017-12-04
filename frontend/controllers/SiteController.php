@@ -309,17 +309,31 @@ class SiteController extends Controller
         $this->source = $client->getId();
 
         /* @var $auth Auth */
-        if ($client->getId() == 'facebook') {
-            $auth = User::find()->where([
-                'email' => $attributes['email']
-            ])->one();
-        } else {
-            $auth = User::find()->where([
-                'source' => $this->source,
-                'source_id' => $this->source_id,
-            ])->one();
+        switch ($client->getId()) {
+            case 'facebook':
+                $auth = User::find()->where([
+                    'email' => $attributes['email']
+                ])->one();
+                break;
+            case 'vkontakte':
+                $auth = User::find()->where([
+                    'source' => $this->source,
+                    'source_id' => $this->source_id,
+                ])->one();
+                break;
+            case 'google':
+                $auth = User::find()->where([
+                    'source' => $this->source,
+                    'source_id' => $this->source_id,
+                ])->one();
+                break;
+            case 'yandex':
+                $auth = User::find()->where([
+                    'source' => $this->source,
+                    'source_id' => $this->source_id,
+                ])->one();
+                break;
         }
-
 
         if (Yii::$app->user->isGuest) {
 
@@ -334,17 +348,32 @@ class SiteController extends Controller
             else {
                 $password = Yii::$app->security->generateRandomString(6);
                 $password_hash = Yii::$app->security->generatePasswordHash($password);
-                if ($client->getId() == 'facebook') {
-                    $username = $attributes['name'];
-                    $name = explode(" ", $username);
-                    $first_name = $name[0];
-                    $last_name = $name[1];
-                    $email = $attributes['email'];
-                } else {
-                    $email = $attributes['domain'] . '@vk.com';
-                    $first_name = (string)$attributes['first_name'];
-                    $last_name = (string)$attributes['last_name'];
-                    $username = $attributes['domain'];
+                switch ($client->getId()) {
+                    case 'facebook':
+                        $username = $attributes['name'];
+                        $name = explode(" ", $username);
+                        $first_name = $name[0];
+                        $last_name = $name[1];
+                        $email = $attributes['email'];
+                        break;
+                    case 'vkontakte':
+                        $email = $attributes['domain'] . '@vk.com';
+                        $first_name = (string)$attributes['first_name'];
+                        $last_name = (string)$attributes['last_name'];
+                        $username = $attributes['domain'];
+                        break;
+                    case 'google':
+                        $email = $attributes['emails'][0]['value'];
+                        $last_name = $attributes['name']['familyName'];
+                        $first_name = $attributes['name']['givenName'];
+                        $username = $first_name . ' ' . $last_name;
+                        break;
+                    case 'yandex':
+                        $email = $attributes['default_email'];
+                        $last_name = $attributes['last_name'];
+                        $first_name = $attributes['first_name'];
+                        $username = $attributes['display_name'];
+                        break;
                 }
 
                 $user = new User([

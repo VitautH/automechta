@@ -36,6 +36,20 @@ $config = [
                     'clientId' => '1983448668607489',
                     'clientSecret' => 'ad7b1b9d786e7c82d9f5e1308054bed5',
                 ],
+                'google' => [
+                    'class' => 'yii\authclient\clients\Google',
+                    'clientId' => '389387349879-evojvno6met4o5kt7p8f7n3v55d7tbji.apps.googleusercontent.com',
+                    'clientSecret' => 'yZ0TE9_ghTzJ8-jyWtoRJSx9',
+                    'scope' => 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
+                    'returnUrl' => 'https://www.automechta.by/site/auth?authclient=google',
+                ],
+                'yandex' => [
+                    'class' => 'yii\authclient\clients\Yandex',
+                    'clientId' => '3bc893230a8040e39f91be1924287cf3',
+                    'clientSecret' => '7e7ee7382a814ef697bddcc4d1ea6bde',
+                    //'scope' => 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
+                    'returnUrl' => 'https://www.automechta.by/site/auth?authclient=yandex',
+                ],
             ],
         ],
         'user' => [
@@ -54,7 +68,7 @@ $config = [
                 ],
             ],
         ],
-
+    
         'urlManager' => [
             'rules' => [
                 [
@@ -68,8 +82,8 @@ $config = [
                 'brand/search' => 'brand/search',
                 'brand/<productType:.+>/<maker:.+>' => 'brand/maker',
                 'brand/<productType:.+>' => 'brand/category',
-                'sitemap.xml' => 'sitemap/index',
-            ],
+				'sitemap.xml' => 'sitemap/index',
+			],
         ],
         'menu' => [
             'class' => 'frontend\components\Menu'
