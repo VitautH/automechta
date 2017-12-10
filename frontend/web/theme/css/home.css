@@ -1938,9 +1938,7 @@ ul.b-featured__item-links li i {
     border-color: #df4142 !important;
 }
 
-form.js-catalog-search-form {
-    margin-bottom: 15px;
-}
+
 
 .b-items__aside .b-detail__main-aside-about h3 {
     margin-top: 10px;
@@ -2041,11 +2039,11 @@ form.js-catalog-search-form {
     margin-right: 7px;
 }
 
-.b-detail__main .right_block .b-detail__main-aside-about a.btn {
+.b-detail__main .right_block .b-detail__main-aside-about a.btn, .search_block a.btn {
     bottom: 15px;
 }
 
-.b-detail__main .right_block .b-detail__main-aside-about a.btn:hover {
+.b-detail__main .right_block .b-detail__main-aside-about a.btn:hover, .search_block a.btn:hover {
     text-decoration: underline;
 }
 
@@ -2287,7 +2285,7 @@ section.footer_block .b-featured__item .m-premium, section.footer_block .b-featu
 }
 /* End Block */
 
-.b-detail__main-aside-about a.btn {
+.b-detail__main-aside-about a.btn, .search_block a.btn {
     position: relative;
     left: 0;
     bottom: 10px;
@@ -2298,6 +2296,7 @@ section.footer_block .b-featured__item .m-premium, section.footer_block .b-featu
     border-radius: 0;
     border: 1px solid #df4142;
     color: #df4142;
+    text-decoration: none;
 }
 
 .card_product .container {
