@@ -121,7 +121,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
 
         <div class="container">
 
-            <h1 class="wow zoomInLeft" data-wow-delay="0.5s">Продажа автомобилей компании в Беларуси в кредит</h1>
+            <h1 class="wow zoomInLeft" data-wow-delay="0.5s">Автомобили компании</h1>
 
             <div class="b-pageHeader__search wow zoomInRight" data-wow-delay="0.5s">
 
@@ -320,12 +320,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                 </div>
 
                         <h2 class="wow zoomInUp" data-wow-delay="0.5s"><?= Yii::t('app', 'REFINE YOUR SEARCH') ?></h2>
-
-                        <div class="b-items__aside-main wow zoomInUp" data-wow-delay="0.5s">
-
                             <?= $this->render('_searchForm', $_params_) ?>
-
-                        </div>
                         <h2 class="s-title wow zoomInUp" data-wow-delay="0.5s">Услуги компании</h2>
 
                         <div class="b-blog__aside-popular-posts">

@@ -18,13 +18,15 @@ switch ($type) {
     case 2:
         $typeName = "автомобилей";
         $typeNames = "автомобили";
+        $shortTypeName = "авто";
         break;
     case 3:
         $typeNames = "мотоциклы";
         $typeName = "мотоциклов";
+        $shortTypeName = "мотоцикла";
         break;
 }
-$this->title = $typeName . 'в Беларуси в кредит';
+$this->title = 'Каталог '.$typeName . ' с фото и ценой в Беларуси в кредит';
 
 $this->registerMetaTag([
     'name' => 'description',
@@ -65,7 +67,7 @@ $listView = ListView::begin([
 ]);
 
 $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->all();
-
+$_params_['count']=$provider->getTotalCount();
 ?>
 <div class="catalog">
     <span style="display: none;" class="js-title"><?= $metaData['title'] ?></span>
@@ -179,8 +181,8 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
 
                         </div>
                         <h2 class="s-title wow zoomInUp"
-                            data-wow-delay="0.5s"><?= Yii::t('app', 'REFINE YOUR SEARCH') ?></h2>
-                        <div class="b-items__aside-main wow zoomInUp" data-wow-delay="0.5s">
+                            data-wow-delay="0.5s">Поиск <?= $shortTypeName; ?></h2>
+                        <div class="search_block wow zoomInUp" data-wow-delay="0.5s">
                             <?= $this->render('_searchForm', $_params_) ?>
                         </div>
                         <h2 class="s-title wow zoomInUp" data-wow-delay="0.5s">Услуги компании</h2>

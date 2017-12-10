@@ -39,11 +39,6 @@ define(['jquery', 'application', 'preloader', 'urijs/URI'], function ($, applica
                 $(this).attr('disabled', 'disabled');
             }
         });
-
-        // if ($('[name="ProductSearchForm[yearTo]"]').val() < from || $('[name="ProductSearchForm[yearTo]"]').val() == from) {
-        //     $('[name="ProductSearchForm[yearTo]"] option:eq(1)').attr('selected', 'selected');
-        // }
-
     });
     $('[name="ProductSearchForm[yearTo]"]').on('change', function () {
         var to = $(this).val();
@@ -53,11 +48,6 @@ define(['jquery', 'application', 'preloader', 'urijs/URI'], function ($, applica
                 $('[name="ProductSearchForm[yearFrom]"]').attr('disabled', 'disabled');
             }
         });
-
-        // if ($('[name="ProductSearchForm[yearFrom]"]').val() < to || $('[name="ProductSearchForm[yearFrom]"]').val() == to) {
-        //     $('[name="ProductSearchForm[yearFrom]"] option:last').attr('selected', 'selected');
-        // }
-
     });
 
     $('.js-reset-form').on('click', function () {
@@ -67,7 +57,7 @@ define(['jquery', 'application', 'preloader', 'urijs/URI'], function ($, applica
 
     $form.on('submit', function (e) {
         e.preventDefault();
-        preloader.show($('.js-product-list'));
+      //  preloader.show($('.js-product-list'));
         var uri = currentUri.clone();
         var data = $form.serialize();
         if (currentParams.tableView !== undefined) {
@@ -75,19 +65,57 @@ define(['jquery', 'application', 'preloader', 'urijs/URI'], function ($, applica
         }
 
         $.ajax({
-            url: currentUri.path(),
+            url:'/api/productmake/search',
             data: data,
             success: function (response) {
-                var $response = $('<div>' + response + '</div>');
-                $('.js-product-list').replaceWith($response.find('.js-product-list'));
-                $('.b-pageHeader__search').replaceWith($response.find('.b-pageHeader__search'));
-                preloader.hide($('.js-product-list'));
-                history.pushState({}, null, this.url);
-                document.title = $response.find('.js-title').text();
+             $('#result').text(response);
             }
         });
     });
+    $("select[name='ProductSearchForm[type]']").change(function () {
+var type= $(this).val();
+        var $makeSelect = $('[name="ProductSearchForm[make]"]');
+    $.ajax({
+        url:'/api/productmake/makers?type='+type,
+        dataType: 'json',
+        success: function (response) {
+            $makeSelect.empty();
+            var $option = $('<option value="">Марка</option>');
+            $makeSelect.append($option);
+            $.each(response, function (key, val) {
+                var $option = $('<option value="' + key + '">' + val + '</option>');
+                $makeSelect.append($option);
+            });
+            preloader.hide($form);
+            $makeSelect.trigger('change');
+        },
+        error: function () {
+            preloader.hide($form);
+            $makeSelect.replaceWith($('<span>Error</span>'));
+        }
+    });
+    });
+$('#search').click(function(e){
+var type =   $("input[name='ProductSearchForm[type]']").val();
+    var uri = currentUri.clone();
+    var data = $form.serialize();
+    if (currentParams.tableView !== undefined) {
+        data += '&tableView=' + currentParams.tableView;
+    }
+    switch (type){
+        case '2':
+            type = 'cars';
+            break;
+        case '3':
+            type = 'moto';
+            break;
+        default:
+            type = 'cars';
+            break;
+    }
 
+    location.assign('http://www.automechta.by/search/'+type+'?'+data);
+});
     function updateModelsList(makeId) {
         if (makeId) {
             preloader.show($form);

@@ -8,7 +8,7 @@ use common\models\AppData;
 use common\models\MainPage;
 use common\models\ProductMake;
 use yii\helpers\Html;
-
+use common\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $sliders common\models\Slider[] */
 /* @var $productModel common\models\Product */
@@ -30,15 +30,15 @@ if (ScreenWidth < 767){
 }
 });
 ", \yii\web\View::POS_HEAD);
-$highPriorityProducts = Product::find()->highPriority()->orderBy('product.id DESC')->active()->limit(10)->all();
+//$highPriorityProducts = Product::find()->highPriority()->orderBy('product.id DESC')->active()->limit(10)->all();
 $latestNews = Page::find()->active()->news()->limit(5)->orderBy('id desc')->all();
 $mainNews = $latestNews[0];
-$teasers = Teaser::find()->active()->orderBy('lft')->all();
-$appData = AppData::getData();
-$topMakers = ProductMake::find()->top()->limit(8)->all();
-$mainPageData = MainPage::getData();
+//$teasers = Teaser::find()->active()->orderBy('lft')->all();
+//$appData = AppData::getData();
+//$topMakers = ProductMake::find()->top()->limit(8)->all();
+//$mainPageData = MainPage::getData();
 
-if ($this->beginCache($id)) {
+//if ($this->beginCache($id)) {
     ?>
     <section class="b-search">
         <div class="container">
@@ -87,7 +87,7 @@ if ($this->beginCache($id)) {
                     foreach ($modelAuto as $maker) {
                         ?>
                         <div class="b-makers__item">
-                            <a href='<?php echo '/brand/2/' . $maker['name']; ?>'>
+                            <a href='<?= Url::UrlCategoryBrand(URL::CARS, $maker['name'])?>'>
                                 <?php echo $maker['name']; ?>
                                 <span class="b-makers__item-number"><?php echo Product::find()->where(['AND', ['make' => $maker['id']], ['status' => 1]])->count(); ?></span>
                             </a>
@@ -102,7 +102,7 @@ if ($this->beginCache($id)) {
                     foreach ($modelMotorbike as $maker) {
                         ?>
                         <div class="b-makers__item">
-                            <a href='<?php echo '/brand/3/' . $maker['name']; ?>'>
+                            <a href='<?= Url::UrlCategoryBrand(Url::MOTO, $maker['name'])?>'>
                                 <?php echo $maker['name']; ?>
                                 <span class="b-makers__item-number"><?php echo Product::find()->where(['AND', ['make' => $maker['id']], ['status' => 1]])->count(); ?></span>
                             </a>
@@ -120,7 +120,7 @@ if ($this->beginCache($id)) {
         <div class="container">
             <div class="top col-md-12 col-xs-12 col-sm-12">
                 <h2 class="col-md-4 col-sm-12 col-xs-12 col-sm-12" data-wow-delay="0.3s">
-                    <a href="/catalog">АВТОМОБИЛИ КОМПАНИИ</a>
+                    <a href="/cars/company">АВТОМОБИЛИ КОМПАНИИ</a>
                 </h2>
                 <div class="owl-controls clickable js-featured-vehicles-caruosel-nav featured-vehicles-controls owl-buttons col-md-2 col-md-offset-6 col-xs-3 col-sm-3 col-xs-offset-0">
 
@@ -135,7 +135,7 @@ if ($this->beginCache($id)) {
                 <?php foreach ($highPriorityProducts as $highPriorityProduct): ?>
                     <div>
                         <div class="b-featured__item wow rotateIn" data-wow-delay="0.3s" data-wow-offset="150">
-                            <a href="<?= $highPriorityProduct->getUrl() ?>">
+                            <a href="<?= Url::UrlShowProduct($highPriorityProduct->id)?>">
                                 <span class="m-premium"></span>
                                 <img class="hover-light-img" width="170" height="170"
                                      src="<?= $highPriorityProduct->getTitleImageUrl(640, 480) ?>"
@@ -144,7 +144,7 @@ if ($this->beginCache($id)) {
                             <div class="inner_container">
                                 <div class="h5">
                                     <a
-                                            href="<?= $highPriorityProduct->getUrl() ?>"><?= $highPriorityProduct->getFullTitle() ?></a>
+                                            href="<?= Url::UrlShowProduct($highPriorityProduct->id) ?>"><?= $highPriorityProduct->getFullTitle() ?></a>
                                 </div>
                                 <div class="b-featured__item-price">
                                     <?= Yii::$app->formatter->asDecimal($highPriorityProduct->getByrPrice()) ?> BYN
@@ -174,7 +174,7 @@ if ($this->beginCache($id)) {
                     </div>
                 <?php endforeach; ?>
             </div>
-            <a href="/catalog" class="btn"><?= Yii::t('app', 'Show all') ?> <i class="fa fa-angle-double-right"
+            <a href="/cars/company" class="btn"><?= Yii::t('app', 'Show all') ?> <i class="fa fa-angle-double-right"
                                                                                aria-hidden="true" style="margin-left: 10px;
     font-size: 18px;"></i></a>
         </div>
@@ -184,7 +184,7 @@ if ($this->beginCache($id)) {
         <div class="container">
             <div class="top col-md-12">
                 <h2 class="col-md-4 col-xs-12 col-sm-12" data-wow-delay="0.3s">
-                    <a href="/brand/2">Частные объявления</a>
+                    <a href="/cars">Частные объявления</a>
                 </h2>
                 <div class="owl-controls clickable js-featured-vehicles-caruosel-nav-2 featured-vehicles-controls col-md-2 col-md-offset-6 col-xs-offset-0 col-xs-offset-0 col-xs-3 col-sm-3">
                     <div class="owl-buttons">
@@ -201,7 +201,7 @@ if ($this->beginCache($id)) {
                 <?php foreach ($latestAutos as $latestAuto): ?>
                     <div>
                         <div class="b-featured__item wow rotateIn" data-wow-delay="0.3s" data-wow-offset="150">
-                            <a href="<?= $latestAuto->getUrl() ?>">
+                            <a href="<?= Url::UrlShowProduct($latestAuto->id) ?>">
                                 <img class="hover-light-img" width="170" height="170"
                                      src="<?= $latestAuto->getTitleImageUrl(640, 480) ?>"
                                      alt="<?= Html::encode($latestAuto->getFullTitle()) ?>"/>
@@ -209,7 +209,7 @@ if ($this->beginCache($id)) {
                             </a>
                             <div class="inner_container">
                                 <div class="h5"><a
-                                            href="<?= $latestAuto->getUrl() ?>"><?= $latestAuto->getFullTitle() ?></a>
+                                            href="<?= Url::UrlShowProduct($latestAuto->id) ?>"><?= $latestAuto->getFullTitle() ?></a>
                                 </div>
                                 <div class="b-featured__item-price">
                                     <?= Yii::$app->formatter->asDecimal($latestAuto->getByrPrice()) ?> BYN
@@ -239,7 +239,7 @@ if ($this->beginCache($id)) {
                     </div>
                 <?php endforeach; ?>
             </div>
-            <a href="/brand/2" class="btn"><?= Yii::t('app', 'Show all') ?> <i class="fa fa-angle-double-right"
+            <a href="/cars" class="btn"><?= Yii::t('app', 'Show all') ?> <i class="fa fa-angle-double-right"
                                                                                aria-hidden="true" style="margin-left: 10px;
     font-size: 18px;"></i></a>
         </div>
@@ -336,6 +336,6 @@ if ($this->beginCache($id)) {
     </section>
     <!--b-world-->
     <?php
-    $this->endCache();
-}
+   // $this->endCache();
+//}
 ?>

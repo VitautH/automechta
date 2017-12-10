@@ -2,10 +2,10 @@ define(['jquery', 'application', 'preloader'], function ($, application, preload
     'use strict';
 
     var $form = $('#search_form_main');
-
     $('[name="ProductSearchForm[type]"]').on('change', function () {
+        $('[name="ProductSearchForm[type]"]').find('option:selected').removeAttr("selected");
         updateMakersList($(this).val());
-        var $currentOption = $(this).find('option[value="' + $(this).val() + '"]');
+        var $currentOption = $(this).find('option[value="' + $(this).val() + '"]').attr('selected', true);
     }).trigger('change');
 
     $('[name="ProductSearchForm[make]"]').on('change', function () {
@@ -15,15 +15,40 @@ define(['jquery', 'application', 'preloader'], function ($, application, preload
         getCount();
     });
     $('[name="ProductSearchForm[yearFrom]"]').on('change', function () {
+        var from = $(this).val();
+        $('[name="ProductSearchForm[yearTo]"] option').removeAttr('disabled').each(function () {
+            if ($(this).attr('value') < from) {
+                $(this).attr('disabled', 'disabled');
+            }
+        });
         getCount();
     });
     $('[name="ProductSearchForm[yearTo]"]').on('change', function () {
+        var to = $(this).val();
+        $('[name="ProductSearchForm[yearFrom]"] option').removeAttr('disabled').each(function () {
+
+            if ($('[name="ProductSearchForm[yearFrom]"]').attr('value') > to) {
+                $('[name="ProductSearchForm[yearFrom]"]').attr('disabled', 'disabled');
+            }
+        });
         getCount();
     });
     $('[name="ProductSearchForm[priceFrom]"]').on('change', function () {
+        var from = Number($(this).val());
+        $('[name="ProductSearchForm[priceTo]"] option').removeAttr('disabled').each(function () {
+            if ($(this).attr('value') < from) {
+                $(this).attr('disabled', 'disabled');
+            }
+        });
         getCount();
     });
     $('[name="ProductSearchForm[priceTo]"]').on('change', function () {
+        var to = Number($(this).val());
+        $('[name="ProductSearchForm[priceFrom]"] option').removeAttr('disabled').each(function () {
+            if ($('[name="ProductSearchForm[priceFrom]"]').attr('value') > to) {
+                $('[name="ProductSearchForm[priceFrom]"]').attr('disabled', 'disabled');
+            }
+        });
         getCount();
     });
     function updateModelsList(makeId) {
@@ -99,4 +124,23 @@ define(['jquery', 'application', 'preloader'], function ($, application, preload
             }
         });
     }
+    $('#search').click(function(e){
+        e.preventDefault();
+        var $form = $('#search_form_main');
+        var data = $form.serialize();
+        var type = $('[name="ProductSearchForm[type]"]').val();
+        switch (type){
+            case '2':
+                type = 'cars';
+                break;
+            case '3':
+                type = 'moto';
+                break;
+            default:
+                type = 'cars';
+                break;
+        }
+
+         location.assign('http://www.automechta.by/search/'+type+'?'+data);
+    });
 });
