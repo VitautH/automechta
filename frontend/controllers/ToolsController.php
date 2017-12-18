@@ -7,6 +7,7 @@ use yii\web\Controller;
 use common\models\CreditApplication;
 use common\models\Product;
 use common\models\ProductMake;
+use common\helpers\Url;
 
 /**
  * Tools controller
@@ -42,12 +43,17 @@ class ToolsController extends Controller
             }
             $model->save();
             Yii::$app->session->setFlash('success', Yii::t('app', 'The application is accepted and will be considered as soon as possible. Thank you.'));
-            return $this->redirect(['/tools/credit-application']);
+            if (!Yii::$app->request->isPjax) {
+                return $this->redirect(['/tools/credit-application']);
+            }
+            else {
+                return '<div class="credit-block-container"> <span>Заявка на кредит отправлена</span></div>';
+            }
         } else {
             if ($id != null) {
                 $product = Product::findOne($id);
                 if ($product != null) {
-                    $model->product = $product->getFullTitle().' ('. Yii::$app->urlManager->createAbsoluteUrl(['catalog/show', 'id' => $product->id]).')';
+                    $model->product = $product->getFullTitle().' ('. Url::UrlShowProduct($product->id).')';
                     $model->credit_amount = $product->getByrPrice();
                 }
             }

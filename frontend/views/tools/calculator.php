@@ -40,38 +40,53 @@ $this->title = 'Кредитный калькулятор';
                     <div class="b-blog__posts-one">
                         <div class="row m-noBlockPadding">
                             <div class="col-sm-11 col-xs-12">
-                                <div class="b-detail__main-aside payment-calculator-page">
-                                    <div class="b-detail__main-aside-about wow zoomInUp" data-wow-delay="0.5s">
-                                        <div class="b-detail__main-aside-payment wow zoomInUp" data-wow-delay="0.5s">
-                                            <div class="b-detail__main-aside-payment-form">
-                                                <div class="calculator-loan" style="display: none;"> </div>
-                                                <form action="/" method="post" class="js-loan">
-                                                    <label><?= Yii::t('app', 'LOAN AMOUNT') ?> $</label>
-                                                    <input type="text" placeholder="<?= Yii::t('app', 'LOAN AMOUNT') ?>" value="1000" name="price" />
-                                                    <label><?= Yii::t('app', 'RATE IN') ?> %</label>
-                                                    <input type="text" placeholder="<?= Yii::t('app', 'RATE IN') ?> %" value="<?= $appData['loanRate'] ?>%" name="rate" />
-                                                    <label><?= Yii::t('app', 'LOAN TERM') ?></label>
-                                                    <div class="s-relative">
-                                                        <select name="term" class="m-select">
-                                                            <option value="6m"><?= Yii::t('app', '6 month') ?></option>
-                                                            <option value="12m"><?= Yii::t('app', 'One year') ?></option>
-                                                            <option value="24m"><?= Yii::t('app', '2 years') ?></option>
-                                                            <option value="36m"><?= Yii::t('app', '3 years') ?></option>
-                                                            <option value="48m" selected><?= Yii::t('app', '4 years') ?></option>
-                                                            <option value="60m" selected><?= Yii::t('app', '5 years') ?></option>
-                                                        </select>
-                                                        <span class="fa fa-caret-down"></span>
-                                                    </div>
-                                                    <button type="submit" class="btn m-btn"><?= Yii::t('app', 'ESTIMATE PAYMENT') ?><span class="fa fa-angle-right"></span></button>
-                                                </form>
+                                <div class="b-detail__main">
+                                    <div class="right_block" style="position: relative;
+    width: 400px;
+    top: 40px;
+    left: 30%;">
+                                <div class="b-detail__main-aside-payment wow zoomInUp" data-wow-delay="0.5s">
+                                    <h2 class="s-titleDet"><?= Yii::t('app', 'CAR PAYMENT CALCULATOR') ?></h2>
+                                    <div class="b-detail__main-aside-payment-form">
+                                        <div class="calculator-loan" style="display: none;"></div>
+                                        <form action="/" method="post" class="js-loan">
+                                            <label><?= Yii::t('app', 'ENTER LOAN AMOUNT') ?></label>
+                                            <input type="text" placeholder="<?= Yii::t('app', 'LOAN AMOUNT') ?>"
+                                                   value="<?= $product->price_byn ?>" name="price"/>
+                                            <label><?= Yii::t('app', 'Prepayment') ?></label>
+                                            <input type="number" placeholder="<?= Yii::t('app', 'Prepayment') ?>"
+                                                   value="0" name="prepayment" id="prepayment" min="0"
+                                                   max="<?= $product->price_byn ?>"/>
+                                            <label><?= Yii::t('app', 'RATE IN') ?> %</label>
+                                            <input type="text" placeholder="<?= Yii::t('app', 'RATE IN') ?> %"
+                                                   value="<?= $appData['loanRate'] ?>%" name="rate"
+                                                   disabled="disabled"/>
+                                            <label><?= Yii::t('app', 'LOAN TERM') ?></label>
+                                            <div class="s-relative">
+                                                <select name="term" class="m-select" id="term">
+                                                    <option value="6m"><?= Yii::t('app', '6 month') ?></option>
+                                                    <option value="12m"><?= Yii::t('app', 'One year') ?></option>
+                                                    <option value="24m"><?= Yii::t('app', '2 years') ?></option>
+                                                    <option value="36m"><?= Yii::t('app', '3 years') ?></option>
+                                                    <option value="48m"><?= Yii::t('app', '4 years') ?></option>
+                                                    <option value="60m"
+                                                            selected><?= Yii::t('app', '5 years') ?></option>
+                                                </select>
+                                                <span class="fa fa-caret-down"></span>
                                             </div>
-                                            <div class="b-detail__main-aside-about-call js-loan-results">
-                                                <span class="fa fa-calculator"></span>
-                                                <div>$ <span class="js-per-month"></span> <p><?= Yii::t('app', 'PER MONTH') ?></p></div>
-                                                <p>&nbsp;</p>
-                                                <p style="display: none;"><?= Yii::t('app', 'Total Payments') ?>: <span class="js-total-payments"></span></p>
+                                            <button type="submit"
+                                                    class="btn m-btn"><?= Yii::t('app', 'ESTIMATE PAYMENT') ?>
+                                                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                                            </button>
+                                        </form>
+                                        <div class="b-detail__main-aside-about-call js-loan-results">
+                                            <div><span class="js-per-month"> </span>
+                                                BYN
+                                                <p>в месяц</p>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
                                     </div>
                                 </div>
                             </div>
