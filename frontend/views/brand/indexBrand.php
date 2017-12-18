@@ -6,6 +6,7 @@ use common\models\ProductMake;
 use common\models\Page;
 use frontend\models\ProductSearchForm;
 use yii\widgets\Breadcrumbs;
+use common\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $provider yii\data\ActiveDataProvider */

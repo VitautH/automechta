@@ -6,6 +6,7 @@ use common\models\ProductMake;
 use common\models\Page;
 use frontend\models\ProductSearchForm;
 use yii\widgets\Breadcrumbs;
+use common\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $provider yii\data\ActiveDataProvider */
@@ -90,7 +91,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                 foreach ($makerAuto as $maker) {
                     ?>
                     <div class="b-makers__item">
-                        <a href='<?php echo '/brand/2/' . $maker['name']; ?>'>
+                        <a href='<?= Url::UrlCategoryBrand(Url::CARS, $maker['name']) ?>'>
                             <?php echo $maker['name']; ?>
                             <span class="b-makers__item-number"><?php echo Product::find()->where(['AND',['make'=>$maker['id']],['status'=>1]])->count(); ?></span>
                         </a>
@@ -102,7 +103,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                 foreach (ProductMake::getMakesListWithId(3,true) as $maker) {
                     ?>
                     <div class="b-makers__item">
-                        <a href='<?php echo '/brand/3/' . $maker['name']; ?>'>
+                        <a href='<?= Url::UrlCategoryBrand(Url::MOTO, $maker['name']) ?>'>
                             <?php echo $maker['name']; ?>
                             <span class="b-makers__item-number"><?php echo Product::find()->where(['AND',['make'=>$maker['id']],['status'=>1]])->count(); ?></span>
                         </a>

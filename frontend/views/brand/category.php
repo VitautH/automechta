@@ -6,7 +6,7 @@ use common\models\ProductMake;
 use common\models\Page;
 use frontend\models\ProductSearchForm;
 use yii\widgets\Breadcrumbs;
-
+use common\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $provider yii\data\ActiveDataProvider */
 
@@ -100,7 +100,7 @@ $_params_['count']=$provider->getTotalCount();
                     foreach ($makerAuto as $maker) {
                         ?>
                         <div class="b-makers__item">
-                            <a href='<?php echo '/brand/' . $type . '/' . $maker['name']; ?>'>
+                            <a href='<?= Url::UrlCategoryBrand($type, $maker['name']) ?>'>
                                 <?php echo $maker['name']; ?>
                                 <span class="b-makers__item-number"><?php echo Product::find()->where(['AND', ['make' => $maker['id']], ['status' => 1]])->count(); ?></span>
                             </a>

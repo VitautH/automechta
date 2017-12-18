@@ -23,10 +23,17 @@ class PageController extends Controller
         $model = $this->findModel($alias);
 
         $model->increaseViews();
+if ($alias == 'avto-v-kredit'){
+    return $this->render('avto-v-kredit', [
+        'model' => $model,
+    ]);
+}
+else {
+    return $this->render('show', [
+        'model' => $model,
+    ]);
+}
 
-        return $this->render('show', [
-            'model' => $model,
-        ]);
     }
 
     /**
