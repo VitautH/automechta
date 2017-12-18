@@ -2271,6 +2271,16 @@ section.footer_block .b-featured__item {
 
 section.footer_block {
     margin-bottom: 20px;
+    margin-left: 40px;
+}
+section.footer_block .owl-controls {
+    float: right;
+    right: -90px;
+    position: absolute;
+}
+section.footer_block .owl-card {
+    top: 0!important;
+    margin-top: 30px;
 }
 section.footer_block .b-featured__item > a {
     height: 170px;

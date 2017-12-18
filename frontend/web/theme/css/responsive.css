@@ -529,6 +529,12 @@
         float: left;
         clear: both;
     }
+    .footer_block .b-featured__item {
+        left: 15%;
+    }
+    .b-detail__main-info-images{
+        margin-top: 40px;
+    }
     .b-detail__main .right_block {
         width: 100%;
         float: left;
@@ -986,6 +992,13 @@
         width: 100%;
         float: left;
         clear: both;
+        margin-top: -40px;
+    }
+    .footer_block .b-featured__item {
+        left: 15%;
+    }
+    .b-detail__main-info-images{
+        margin-top: 50px;
     }
     .b-detail__main .right_block {
         width: 100%;
@@ -1387,8 +1400,14 @@
         width: 100%;
         float: left;
         clear: both;
+        margin-top: -40px;
     }
-
+    .footer_block .b-featured__item {
+        left: 15%;
+    }
+    .b-detail__main-info-images{
+      margin-top: 50px;
+    }
     .b-detail__main .right_block {
         width: 100%;
         float: left;

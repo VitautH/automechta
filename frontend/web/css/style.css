@@ -1744,3 +1744,207 @@ span.m-premium {
     padding: 0!important;
     margin-top: 10px;
 }
+.overlay {
+    background: black;
+    opacity: 0.7;
+    position: absolute;
+    top: 138px;
+    width: 100%;
+    height: 400px;
+}
+
+.slide_head_credit {
+    background: url(../theme/images/avto-v-kredit-bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 400px;
+    width: 100%;
+}
+
+.slide_head_credit span.title
+{
+    color: #df4142;
+    text-align: center;
+    display: block;
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 1;
+    top: 60px;
+    position: relative;
+}
+.slide_head_credit .desc {
+    display: block;
+    text-align: center;
+    position: relative;
+    top: 75px;
+    color: white;
+    font-size: 20px;
+}
+.slide_head_credit .desc_mini {
+    color: white;
+    font-size: 14px;
+    position: relative;
+    display: block;
+    text-align: center;
+    top: 80px;
+}
+.slide_head_credit .credits-block
+{
+    position: relative;
+    top: 140px;
+}
+.slide_head_credit .credits-block .cblock {
+    line-height: 36px;
+    margin-top: 40px;
+}
+.slide_head_credit .credits-block .cblock .white {
+    color: #fff;
+}
+.slide_head_credit .credits-block .cblock .light {
+    font-weight: 300;
+}
+.slide_head_credit .credits-block .cblock .font36 {
+    font-size: 36px;
+    line-height: 1;
+    text-align: center;
+}
+.slide_head_credit .credits-block .cblock .yellow {
+    color: #df4142;
+}
+
+
+.slide_head_credit .credits-block .cblock .extrabold {
+    font-weight: 800;
+}
+
+.slide_head_credit .credits-block .cblock .font60 {
+    font-size: 60px;
+}
+
+.slide_head_credit .credits-block .cblock .font16 {
+    font-size: 16px;
+    text-align: center;
+}
+.credit {
+    margin-top: 30px;
+}
+.credit h2 {
+    display: inline-block;
+    margin-top: 20px;
+}
+.credit ul > li {
+    list-style: none;
+    text-align: justify;
+}
+.credit ul > li i {
+    color: #df4142;
+    font-size: 18px;
+    margin-right: 7px;
+}
+
+.credit_block {
+    margin-bottom: 25px;
+    border: 2px solid #bbbbbb;
+}
+
+.credit_block h2 {
+    background: #df4142;
+    color: white;
+    padding: 10px;
+    margin-bottom: 0;
+    font-size: 16px;
+    display: block;
+    text-align: center;
+}
+.credit_block form {
+    background: grey;
+    color: white;
+    font-weight: normal;
+    font-size: 14px;
+    padding: 10px;
+}
+.credit_block .b-submit__main-element {
+    margin-bottom: 0!important;
+}
+.credit_block  form input {
+    height: 30px;
+    color: black;
+    padding-left: 7px;
+    width: 100%;
+    border: 0;
+    background: white !important;
+    margin-bottom: 10px;
+}
+.credit_block button.btn {
+    border: 1px solid white;
+    color: white;
+    background: #df4142;
+    font-size: 14px;
+    font-weight: normal;
+    width: 100%;
+    position: relative;
+    border-radius: 0;
+    text-align: center;
+    margin-bottom: 5px;
+}
+.credit_block button.btn:hover {
+    text-decoration: underline;
+}
+.credit_block button.btn:active,.credit_block button.btn:focus {
+    color: #fff;
+    background-color: #bd3839;
+    border-color: #772223;
+}
+
+.credit_block #credit-block-container {
+    padding: 7px;
+    height: 50px;
+}
+.credit_block #credit-block-container span {
+    color: green;
+    font-size: 18px;
+    display: inline-block;
+    margin-top: 10px;
+}
+.credit .info_credit {
+    border: 2px solid #bbbbbb;
+    margin-top: 20px;
+    padding: 10px;
+    font-family: MuseoSansCyrl;
+    letter-spacing: 0.4px;
+}
+
+.credit .info_credit .avatar {
+    width: 140px;
+    height: 140px;
+    background: url(../theme/images/call.png);
+    border-radius: 100%;
+    text-align: center;
+    position: relative;
+    left: 20%;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid grey;
+}
+
+.credit .info_credit span {
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+    font-size: 22px;
+    font-weight: bold;
+    color: black;
+}
+.credit .info_credit p {
+    color: black;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 16px;
+}
+.credit .info_credit span.email, .credit .info_credit span.phone {
+    font-size: 18px;
+}
+
+.credit hr {
+    border-top: 1px solid dimgrey;
+}
