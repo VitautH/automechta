@@ -74,6 +74,7 @@ $model->loans_payment = '0';
                     </div>
                     <div class="col-xs-6">
                         <?= $form->field($model, 'phone', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('phone') . ' <span class="text-danger">*</span>') ?>
+
                         <?= $form->field($model, "sex", ['options' => ['class' => 'b-submit__main-element wow zoomInUp', 'data-wow-delay' => '0.5s']])
                             ->dropDownList(CreditApplication::getSexList(), ['class' => 'm-select'])->label($model->getAttributeLabel('sex')) ?>
                         <?= $form->field($model, "previous_conviction", ['options' => ['class' => 'b-submit__main-element wow zoomInUp', 'data-wow-delay' => '0.5s']])
@@ -100,7 +101,7 @@ $model->loans_payment = '0';
                     </div>
                     <div class="col-xs-12">
                         <label class="control-label" for="creditapplication-product">Выбранное авто</label>
-                        <input type="text"  class="" name="CreditApplication[product]" value="<?=$model->product;?>"/>
+                        <input type="text"  class="" name="CreditApplication[product]" value="<?=$model->product?>"/>
                     </div>
                     <div class="col-xs-6">
                         <?= $form->field($model, 'credit_amount', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('Сумма кредита руб.')) ?>
