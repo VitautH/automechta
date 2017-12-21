@@ -131,12 +131,18 @@ class ProductSearchForm extends Model
             }
             if ($specNum>0) {
                 $query->addParams($specQuery->params);
-                $query->having('prod_num='.$specNum);
+                $query->having('count(product.id)='.$specNum);
                 $query->andWhere($specQuery->where);
             }
         }
 
         return $query;
+    }
+
+    public function count($query){
+      $total =  $this->search($query);
+       $count = $total->count();
+        return $count;
     }
 
     /**
@@ -152,7 +158,6 @@ class ProductSearchForm extends Model
         switch ($specification->type) {
             case Specification::TYPE_DROP_DOWN:
                 $optionsList = array_combine($specification->i18n()->getValuesArray(), $specification->i18n()->getValuesArray());
-               // $result .= $this->getSpecLabel($specification);
                 $result .= '<div>' . "\n";
                 $result .= Html::dropDownList(
                     'ProductSearchForm[specs][' . $specification->id .']',

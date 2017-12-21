@@ -107,7 +107,7 @@ class CatalogController extends Controller
             }
             $modelauto = str_replace('+', ' ', $modelauto);
             $maker = str_replace('+', ' ', $maker);
-            $make = ProductMake::find()->where(['name' => $maker])->one()->id;
+            $make = ProductMake::find()->where(['name' => $maker])->andWhere(['product_type' => $productType])->one()->id;
 
             if (($model = Product::find()->where(['id' => $id])->andWhere(['type' => $productType])
                     ->andWhere(['make' => $make])->andWhere(['model' => $modelauto])->one()) !== null
@@ -117,17 +117,150 @@ class CatalogController extends Controller
 
                     return $this->render('sold');
                 } else {
-                    /*
-                     * increaseViews
-                     */
-                    Yii::$app->cache->hincr('product_' . $id);
                     $model->increaseViews();
 
-                    $result = Product::getProduct($id);
+                    // Cache
+                    if (Yii::$app->cache->exists('product_' . $id)) {
+                        Yii::$app->cache->hincr('product_' . $id);
+                        $product = json_decode(Yii::$app->cache->getField('product_' . $id, 'product'));
+                        $views = Yii::$app->cache->getField('product_' . $id, 'counter');
+                    } else {
+
+                        /*
+                         * Product
+                         */
+                        $product = [];
+                        $product ['id'] = $model->id;
+                        $product ['make'] = $model->getMake0()->one()->name;
+                        $product ['type'] = $model->type;
+                        $product['makeid'] = ProductMake::find()->where(['and', ['depth' => $model->type], ['name' => $model->model], ['product_type' => $model->type]])->one()->id;
+                        $product ['model'] = $model->model;
+                        $product ['year'] = $model->year;
+                        $product ['title'] = $model->getFullTitle();
+                        $product ['title_image'] =  $model->getTitleImageUrl(267, 180);
+                        $product ['short_title'] = $model->i18n()->title;
+                        $product ['price_byn'] = $model->getByrPrice();
+                        $product ['price_usd'] = $model->getUsdPrice();
+                        $product ['exchange'] = $model->exchange;
+                        $product ['auction'] = $model->auction;
+                        $product ['priority'] = $model->priority;
+                        $product ['seller_comments'] = $model->i18n()->seller_comments;
+                        $product ['created_at'] = $model->created_at;
+                        $product ['created_by'] = $model->created_by;
+                        $product ['updated_at'] = $model->updated_at;
+                        $product ['phone'] = $model->phone;
+                        $product ['phone_2'] = $model->phone_2;
+                        $product ['phone_provider_2'] = $model->phone_provider_2;
+                        $product ['first_name'] = $model->first_name;
+                        $product ['region'] = $model->region;
+
+                        /*
+                         * Image
+                         */
+                        $uploads = $model->getUploads();
+                        $product ['image'] = [];
+                        foreach ($uploads as $i => $upload) {
+                            $product  ['image'] [$i] ['full'] = $upload->getThumbnail(800, 460);
+                            $product  ['image'] [$i] ['thumbnail'] = $upload->getThumbnail(115, 85);
+                        }
+
+                        /*
+                         * Specification
+                         */
+                        $productSpecifications = $model->getSpecifications();
+                        $productSpecificationsMain = array_filter($productSpecifications, function ($productSpec) {
+                            $specification = $productSpec->getSpecification()->one();
+                            return $specification->type != Specification::TYPE_BOOLEAN;
+                        });
+                        $productSpecificationsMain = array_values($productSpecificationsMain);
+                        $productSpecificationsAdditional = array_filter($productSpecifications, function ($productSpec) {
+                            $specification = $productSpec->getSpecification()->one();
+                            return $specification->type == Specification::TYPE_BOOLEAN;
+                        });
+                        $productSpecificationsAdditional = array_values($productSpecificationsAdditional);
+                        foreach ($productSpecificationsAdditional as $key => $productSpecification) {
+                            $productSpecificationsAdditionalCols[$key % 3][] = $productSpecification;
+                        }
+
+                        /*
+                        * Additional specification
+                        */
+                        $product ['specAdditional'] = [];
+                        $countSpecifications = ProductSpecification::find()->where(['product_id' => $model->id])
+                            ->andWhere(['value' => 1])->count();
+                        if ($countSpecifications > 0) {
+                            foreach ($productSpecificationsAdditionalCols as $i => $productSpecificationsAdditionalCol) {
+                                foreach ($productSpecificationsAdditionalCol as $i => $productSpecificationsAdditional) {
+                                    $spec = $productSpecificationsAdditional->getSpecification()->one();
+                                    if ((int)$productSpecificationsAdditional->value == 1) {
+                                        $product  ['spec_additional'] [$i] ['name'] = $spec->i18n()->name;
+                                    }
+                                }
+                            }
+                        }
+
+                        /*
+                         * Main Specification
+                         */
+                        $product ['spec'] = [];
+                        foreach ($productSpecificationsMain as $i => $productSpec) {
+                            $spec = $productSpec->getSpecification()->one();
+                            $product  ['spec'] [$i] ['name'] = $spec->i18n()->name;
+                            $product  ['spec'] [$i] ['format'] = $productSpec->getFormattedValue();
+                            $product  ['spec'] [$i] ['unit'] = $spec->i18n()->unit;
+                        }
+
+                        /*
+                         * Similar product
+                         */
+                        $similarProducts = Product::find()
+                            ->where(['status' => Product::STATUS_PUBLISHED])
+                            ->andwhere(['make' => $model->make])
+                            ->andWhere(['model' => $model->model])
+                            ->orderBy('RAND()')
+                            ->limit(4)
+                            ->all();
+                        $product ['similar'] = [];
+                        foreach ($similarProducts as $i => $similarProduct) {
+                            $product['similar'][$i]['id'] = $similarProduct->id;
+                            $product['similar'][$i]['main_image_url'] = $similarProduct->getTitleImageUrl(640, 480);
+                            $product['similar'][$i]['full_title'] = $similarProduct->getFullTitle();
+                            $product['similar'][$i]['price_byn'] = $similarProduct->getByrPrice();
+                            $product['similar'][$i]['price_usd'] = $similarProduct->getUsdPrice();
+                            $product['similar'][$i]['spec'] = [];
+                            foreach ($similarProduct->getSpecifications(Specification::PRIORITY_HIGHEST) as $params => $productSpec) {
+                                $spec = $productSpec->getSpecification()->one();
+                                $product['similar'][$i]['spec'][$params]['name'] = $spec->i18n()->name;
+                                $product['similar'][$i]['spec'][$params]['get_title_image_url'] = $spec->getTitleImageUrl(20, 20);
+                                $product['similar'][$i]['spec'][$params]['value'] = $productSpec->getFormattedValue();
+                                $product['similar'][$i]['spec'][$params]['unit'] = $spec->i18n()->unit;
+                            }
+                            unset($productSpec);
+                            unset($params);
+                            foreach ($similarProduct->getSpecifications(Specification::PRIORITY_HIGH) as $params=>$productSpec) {
+                                $spec = $productSpec->getSpecification()->one();
+                                $product['similar'][$i]['spec'][$params]['priority_hight']['name'] = $spec->i18n()->name;
+                                $product['similar'][$i]['spec'][$params]['priority_hight']['value'] = $productSpec->getFormattedValue();
+                                $product['similar'][$i]['spec'][$params]['priority_hight']['unit'] = $spec->i18n()->unit;
+                            }
+                        }
+
+
+                        $product = json_encode($product);
+                        $views = $product['views'];
+                        $model->views;
+                        $params = [
+                            'product'=>json_encode($product),
+                              'counter'=>$model->views,
+                        ];
+                        Yii::$app->cache->hmset('product_' . $id, $params, 172800);
+
+                    }
+                    // End Cache
 
                     return $this->render('show', [
-                        'product' => $result['product'],
-                        'views' => $result['views'],
+                        'product' => $product,
+                        'views' => $views,
                         'model' => $model,
                     ]);
 

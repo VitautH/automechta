@@ -266,6 +266,13 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
     <!--b-nav-->
     <?= $content ?>
     <!--b-info-->
+<?php
+if (Yii::$app->cache->exists('footer')){
+    echo Yii::$app->cache->get('footer');
+}
+else {
+    ob_start();
+    ?>
     <div class="additional_block">
         <div class="container">
             <div class="row">
@@ -278,7 +285,7 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                 <div class="col-md-3 col-xs-6">
                     <div class="b-info__latest">
                         <div class="h3"><a
-                                    href="/catalog?ProductSearchForm[type]=3">
+                                    href="<?=Url::UrlBaseCategory(Url::MOTO)?>">
                                 Мотоциклы в кредит</a></div>
                         <?php
                         $latestProducts = Product::find()->where('type=:type', array(':type' => 3))->active()->orderBy('id DESC')->limit(2)->all();
@@ -286,14 +293,14 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                         <?php foreach ($latestProducts as $latestProduct): ?>
                             <div class="b-info__latest-article wow zoomInUp" data-wow-delay="0.3s">
                                 <div class="b-info__latest-article-photo">
-                                    <a href="<?= $latestProduct->getUrl() ?>">
+                                    <a href="<?= URL::UrlShowProduct($latestProduct->id)?>">
                                         <img src="<?= $latestProduct->getTitleImageUrl(80, 53) ?>"
                                              alt="<?= $latestProduct->getFullTitle() ?>"/>
                                     </a>
                                 </div>
                                 <div class="b-info__latest-article-info">
                                     <h6>
-                                        <a href="<?= $latestProduct->getUrl() ?>"><?= $latestProduct->getFullTitle() ?></a>
+                                        <a href="<?= URL::UrlShowProduct($latestProduct->id)?>"><?= $latestProduct->getFullTitle() ?></a>
                                     </h6>
                                     <span>
                                         <?= Yii::$app->formatter->asDecimal($latestProduct->getByrPrice()) ?> BYN<br>
@@ -306,11 +313,11 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                 </div>
                 <div class="col-md-3 col-xs-6">
                     <div class="b-info__twitter">
-                            <div class="h3"><a href="/site/contact"><?= Yii::t('app', 'OPENING HOURS') ?></a></div>
-                            <div class="b-info__contacts-item">
-                                <?= $appData['openingHoursFooter'] ?>
-                            </div>
+                        <div class="h3"><a href="/site/contact"><?= Yii::t('app', 'OPENING HOURS') ?></a></div>
+                        <div class="b-info__contacts-item">
+                            <?= $appData['openingHoursFooter'] ?>
                         </div>
+                    </div>
                 </div>
                 <div class="col-md-3 col-xs-6">
                     <address class="b-info__contacts wow zoomInUp" data-wow-delay="0.3s">
@@ -338,18 +345,18 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                         </div>
                         <div class="social">
                             <noindex>
-                            <a href="https://vk.com/automechta_by" rel="nofollow" class="vk">
-                                <i class="social_icons fa fa-vk" aria-hidden="true"></i>
-                            </a>
-                            <a href="https://www.facebook.com/automechta/" rel="nofollow" class="fb">
-                                <i class="social_icons fa fa-facebook" aria-hidden="true"></i>
-                            </a>
-                            <a href="https://ok.ru/automechta" rel="nofollow" class="ok">
-                                <i class="social_icons fa fa-odnoklassniki-square" aria-hidden="true"></i>
-                            </a>
-                            <a href="https://www.instagram.com/automechta.by" rel="nofollow" class="instagram">
-                                <i class="fa fa-instagram" aria-hidden="true"></i>
-                            </a>
+                                <a href="https://vk.com/automechta_by" rel="nofollow" class="vk">
+                                    <i class="social_icons fa fa-vk" aria-hidden="true"></i>
+                                </a>
+                                <a href="https://www.facebook.com/automechta/" rel="nofollow" class="fb">
+                                    <i class="social_icons fa fa-facebook" aria-hidden="true"></i>
+                                </a>
+                                <a href="https://ok.ru/automechta" rel="nofollow" class="ok">
+                                    <i class="social_icons fa fa-odnoklassniki-square" aria-hidden="true"></i>
+                                </a>
+                                <a href="https://www.instagram.com/automechta.by" rel="nofollow" class="instagram">
+                                    <i class="fa fa-instagram" aria-hidden="true"></i>
+                                </a>
                             </noindex>
                         </div>
                     </address>
@@ -367,15 +374,21 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
         <a id="to-top" href="#this-is-top"><i class="fa fa-chevron-up"></i></a>
         <div class="container">
             <div class="row">
-              <div class="col-md-5 col-xs-6">
-                  <p><b>ПРОДАЖА И ПОКУПКА АВТОМОБИЛЕЙ В КРЕДИТ В БЕЛАРУСИ</b></p>
-              </div>
+                <div class="col-md-5 col-xs-6">
+                    <p><b>ПРОДАЖА И ПОКУПКА АВТОМОБИЛЕЙ В КРЕДИТ В БЕЛАРУСИ</b></p>
+                </div>
                 <div class="col-md-4 col-xs-6 col-md-offset-3">
-                <p>&copy; 2013-<?= date('Y') ?> Автомобильный портал «АвтоМечта»</p>
+                    <p>&copy; 2013-<?= date('Y') ?> Автомобильный портал «АвтоМечта»</p>
                 </div>
             </div>
         </div>
     </footer><!--b-footer-->
+    <?php
+    $content = ob_get_contents();
+    Yii::$app->cache->set('footer', $content);
+    ob_end_flush();
+}
+?>
     <?php $this->endBody() ?>
     <link rel="stylesheet" href="/theme/assets/bxslider/jquery.bxslider.css">
     <link rel="stylesheet" href="/theme/assets/owl-carousel/owl.carousel.css">
@@ -409,5 +422,5 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
     </script>
     </body>
     </html>
-<!--    Отработало за --><?//=Yii::getLogger()->getElapsedTime();?><!-- с. Скушано памяти: --><?//=round(memory_get_peak_usage()/(1024*1024),2)."MB"?>
+    Отработало за <?=Yii::getLogger()->getElapsedTime();?> с. Скушано памяти: <?=round(memory_get_peak_usage()/(1024*1024),2)."MB"?>
 <?php $this->endPage() ?>

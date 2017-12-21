@@ -22,8 +22,25 @@ return [
                 ],
             ],
         ],
+            'redis' => [
+                'class' => 'yii\redis\Connection',
+                'hostname' => 'localhost',
+                'port' => 6379,
+                'database' => 0,
+            ],
+        'session'       => [
+
+            'class' => 'yii\redis\Session',
+
+        ],
+
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => 'common\components\Cache',
+            'host' => '127.0.0.1',
+            'port' => '6379'
+        ],
+        'indexing' => [
+            'class' => 'common\components\Indexing',
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,

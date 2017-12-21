@@ -142,6 +142,7 @@ if (empty($model->region)) {
 
 $metaData = MetaData::getModels($model);
 $this->registerMetaData($metaData);
+
 ?>
     <div class="b-breadCumbs s-shadow">
         <?= Breadcrumbs::widget([
