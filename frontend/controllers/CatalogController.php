@@ -24,7 +24,6 @@ use yii\web\NotAcceptableHttpException;
 use yii\helpers\Json;
 use common\models\Complaint;
 
-
 /**
  * Catalog controller
  */
@@ -48,73 +47,14 @@ class CatalogController extends Controller
      */
     public function actionIndex()
     {
-        $searchForm = new ProductSearchForm();
-        $query = Product::find()->where(['priority' => 1])->active();
-
-        $params = Yii::$app->request->get();
-
-        if (isset($params['page']) || isset($params['per-page']) || isset($params['sort']) ||
-            isset($params['tableView']) || isset($params['ProductSearchForm'])
-        ) {
-            \Yii::$app->view->registerMetaTag([
-                'name' => 'robots',
-                'content' => 'noindex, nofollow'
-            ]);
-        }
-
-        $searchForm->load($params);
-
-        if (!empty($params['ProductSearchForm']['specs'])) {
-            $searchForm->specifications = $params['ProductSearchForm']['specs'];
-        }
-
-        if (!isset($params['sort']) || $params['sort'] === '') {
-            $query->orderBy('updated_at DESC');
-        }
-
-        if (isset($params['priority'])) {
-            $query->andWhere('priority=:priority', [':priority' => intval($params['priority'])]);
-        }
-
-
-        $searchForm->search($query);
-
-        $provider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 18,
-            ],
-            'sort' => [
-                'attributes' => [
-                    'price' => [
-                        'label' => 'Цене'
-                    ],
-                    'created_at' => [
-                        'asc' => ['created_at' => SORT_DESC],
-                        'desc' => ['created_at' => SORT_ASC],
-                        'label' => 'Дате подачи'
-                    ],
-                    'year' => [
-                        'label' => 'Году выпуска'
-                    ],
-                ]
-            ]
-        ]);
-
-        if (Yii::$app->request->isAjax) {
-            $this->layout = false;
-        }
-
-        return $this->render('index', [
-            'provider' => $provider,
-            'searchForm' => $searchForm,
-            'metaData' => $this->getMetaData($searchForm),
-        ]);
+        header("HTTP/1.1 301 Moved Permanently");
+        header("Location: https://" . $_SERVER['HTTP_HOST'] . "/cars/company");
+        die();
     }
 
     /**
      * @param integer $id product id
-     *
+     * Old Controller
      * @return index
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -125,6 +65,23 @@ class CatalogController extends Controller
             Yii::$app->response->statusCode = 404;
 
             return $this->render('sold');
+        } else {
+            $type = $model->type;
+            $make = ProductMake::find()->where(['id' => $model->make])->one()->name;
+            $make = str_replace(' ', '+', $make);
+            $modelAuto = $model->model;
+            $modelAuto = str_replace(' ', '+', $modelAuto);
+            switch ($type) {
+                case 2:
+                    $type = 'cars';
+                    break;
+                case 3:
+                    $type = 'moto';
+                    break;
+            }
+            header("HTTP/1.1 301 Moved Permanently");
+            header("Location: https://" . $_SERVER['HTTP_HOST'] . "/" . $type . "/" . $make . "/" . $modelAuto . "/" . $model->id);
+            die();
         }
 
         $model->increaseViews();
@@ -132,6 +89,61 @@ class CatalogController extends Controller
         return $this->render('show', [
             'model' => $model,
         ]);
+    }
+
+    /*
+     * New Controller
+     */
+    public function actionNewshow($productType, $maker, $modelauto, $id)
+    {
+        if ($productType == 'cars' || $productType == 'moto') {
+            switch ($productType) {
+                case 'cars':
+                    $productType = 2;
+                    break;
+                case 'moto':
+                    $productType = 3;
+                    break;
+            }
+            $modelauto = str_replace('+', ' ', $modelauto);
+            $maker = str_replace('+', ' ', $maker);
+            $make = ProductMake::find()->where(['name' => $maker])->one()->id;
+
+            if (($model = Product::find()->where(['id' => $id])->andWhere(['type' => $productType])
+                    ->andWhere(['make' => $make])->andWhere(['model' => $modelauto])->one()) !== null
+            ) {
+                if (($model->status !== Product::STATUS_PUBLISHED) || (empty($model))) {
+                    Yii::$app->response->statusCode = 404;
+
+                    return $this->render('sold');
+                } else {
+                    /*
+                     * increaseViews
+                     */
+                    Yii::$app->cache->hincr('product_' . $id);
+                    $model->increaseViews();
+
+                    $result = Product::getProduct($id);
+
+                    return $this->render('show', [
+                        'product' => $result['product'],
+                        'views' => $result['views'],
+                        'model' => $model,
+                    ]);
+
+                }
+
+
+            } else {
+                Yii::$app->response->statusCode = 404;
+
+                return $this->render('sold');
+            }
+        } else {
+            throw new NotFoundHttpException('Извините, данной страницы не существует.');
+
+        }
+
     }
 
     /**
@@ -192,9 +204,9 @@ class CatalogController extends Controller
         if ($model->loadI18n(Yii::$app->request->post()) && $model->validateI18n()) {
             $model->status = Product::STATUS_TO_BE_VERIFIED;
             $model->priority = 0;
-
             $model->save();
             $this->saveSpecifications($model);
+
             return $this->redirect(['uploads', 'id' => $model->id]);
         } else {
             return $this->render('create', [

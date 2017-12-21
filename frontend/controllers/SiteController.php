@@ -19,7 +19,10 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\authclient\OAuth2;
-
+use common\models\Product;
+use common\models\Page;
+use common\models\MainPage;
+use common\models\Teaser;
 
 /**
  * Site controller
@@ -58,11 +61,6 @@ class SiteController extends Controller
                     'logout' => ['post'],
                 ],
             ],
-//            [
-//                'class' => 'yii\filters\PageCache',
-//                'duration' => 60,
-//             'only'=> ['index'],
-//            ],
         ];
     }
 
@@ -95,10 +93,28 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $sliders = Slider::find()->orderBy('lft')->published()->all();
-        return $this->render('index', [
-            'sliders' => $sliders,
-        ]);
+        if ( Yii::$app->cache->exists('main_page')) {
+            return $this->render('index');
+        } else {
+
+            $highPriorityProducts = Product::find()->highPriority()->orderBy('product.id DESC')->active()->limit(10)->all();
+            $latestNews = Page::find()->active()->news()->limit(5)->orderBy('id desc')->all();
+            $mainNews = $latestNews[0];
+            $teasers = Teaser::find()->active()->orderBy('lft')->all();
+            $appData = AppData::getData();
+            $topMakers = ProductMake::find()->top()->limit(8)->all();
+            $mainPageData = MainPage::getData();
+            $sliders = Slider::find()->orderBy('lft')->published()->all();
+            return $this->render('index', [
+                'sliders' => $sliders,
+                'highPriorityProducts' => $highPriorityProducts,
+                'mainNews' => $mainNews,
+                'teasers' => $teasers,
+                'appData' => $appData,
+                'topMakers' => $topMakers,
+                'mainPageData' => $mainPageData,
+            ]);
+        }
     }
 
     /**

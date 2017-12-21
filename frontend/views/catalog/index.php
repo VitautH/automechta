@@ -13,7 +13,7 @@ use common\models\Page;
 use frontend\models\ProductSearchForm;
 
 use yii\widgets\Breadcrumbs;
-
+use common\helpers\Url;
 
 /* @var $this yii\web\View */
 
@@ -170,9 +170,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                         ?>
 
                         <div class="b-makers__item">
-
-                            <a href='<?php echo '/brand/2/' . $maker['name']; ?>'>
-
+                                <a href='<?= Url::UrlCategoryBrand(Url::CARS, $maker['name']) ?>'>
                                 <?php echo $maker['name']; ?>
 
                                 <span class="b-makers__item-number"><?php echo Product::find()->where(['AND', ['make' => $maker['id']], ['status' => 1]])->count(); ?></span>

@@ -7,7 +7,7 @@ use common\models\Page;
 use frontend\models\ProductSearchForm;
 use yii\widgets\Breadcrumbs;
 use common\models\ProductType;
-
+use common\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $provider yii\data\ActiveDataProvider */
 
@@ -86,7 +86,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
             'links' => [
                 [
                     'label' => ProductType::getTypesAsArray()[$model->product_type],
-                    'url' => '/brand/' . $model->product_type
+                    'url' => Url::UrlBaseCategory($model->product_type)
                 ],
                 [
                     'label' => $model->name,
@@ -109,7 +109,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                     foreach ($modelAuto as $type) {
                         ?>
                         <div class="b-makers__item">
-                            <a href='<?php echo '/brand/' . $model->product_type . '/' . $model->name . '/' . $type['id']; ?>'>
+                            <a href='<?= Url::UrlCategoryModel($model->product_type, $model->name,$type['id'] ) ?>'>
                                 <?php echo $type['name']; ?>
                                 <span class="b-makers__item-number"><?php echo Product::find()->where(['AND', ['model' => $type['name']], ['type' => $model->product_type], ['status' => 1]])->count(); ?></span>
                             </a>

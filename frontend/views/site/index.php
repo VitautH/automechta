@@ -9,11 +9,14 @@ use common\models\MainPage;
 use common\models\ProductMake;
 use yii\helpers\Html;
 use common\helpers\Url;
+
 /* @var $this yii\web\View */
 /* @var $sliders common\models\Slider[] */
 /* @var $productModel common\models\Product */
 /* @var $specModels common\models\Specification */
 
+$redis = new Redis();
+$redis->connect('127.0.0.1', 6379);
 $this->registerMetaData();
 $this->registerJsFile("@web/js/readmore.js");
 $this->registerJs("require(['controllers/site/index']);", \yii\web\View::POS_HEAD);
@@ -30,21 +33,22 @@ if (ScreenWidth < 767){
 }
 });
 ", \yii\web\View::POS_HEAD);
-//$highPriorityProducts = Product::find()->highPriority()->orderBy('product.id DESC')->active()->limit(10)->all();
+
 $latestNews = Page::find()->active()->news()->limit(5)->orderBy('id desc')->all();
 $mainNews = $latestNews[0];
-//$teasers = Teaser::find()->active()->orderBy('lft')->all();
-//$appData = AppData::getData();
-//$topMakers = ProductMake::find()->top()->limit(8)->all();
-//$mainPageData = MainPage::getData();
-
-//if ($this->beginCache($id)) {
     ?>
     <section class="b-search">
         <div class="container">
             <?= $this->render('_searchForm', $_params_) ?>
         </div>
     </section><!--b-search-->
+<?php
+if (Yii::$app->cache->exists('main_page')){
+   echo Yii::$app->cache->get('main_page');
+}
+else {
+ob_start();
+    ?>
     <section class="b-slider">
         <div id="carousel" class="slide carousel carousel-fade">
             <div class="carousel-inner">
@@ -175,7 +179,7 @@ $mainNews = $latestNews[0];
                 <?php endforeach; ?>
             </div>
             <a href="/cars/company" class="btn"><?= Yii::t('app', 'Show all') ?> <i class="fa fa-angle-double-right"
-                                                                               aria-hidden="true" style="margin-left: 10px;
+                                                                                    aria-hidden="true" style="margin-left: 10px;
     font-size: 18px;"></i></a>
         </div>
     </section>
@@ -240,7 +244,7 @@ $mainNews = $latestNews[0];
                 <?php endforeach; ?>
             </div>
             <a href="/cars" class="btn"><?= Yii::t('app', 'Show all') ?> <i class="fa fa-angle-double-right"
-                                                                               aria-hidden="true" style="margin-left: 10px;
+                                                                            aria-hidden="true" style="margin-left: 10px;
     font-size: 18px;"></i></a>
         </div>
     </section>
@@ -336,6 +340,9 @@ $mainNews = $latestNews[0];
     </section>
     <!--b-world-->
     <?php
-   // $this->endCache();
-//}
+$content = ob_get_contents();
+Yii::$app->cache->set('main_page', $content);
+
+ob_end_flush();
+}
 ?>
