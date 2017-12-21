@@ -3,7 +3,6 @@ define(['jquery', 'application', 'preloader'], function ($, application, preload
 
     var $form = $('#search_form_main');
     $('[name="ProductSearchForm[type]"]').on('change', function () {
-        $('[name="ProductSearchForm[type]"]').find('option:selected').removeAttr("selected");
         updateMakersList($(this).val());
         var $currentOption = $(this).find('option[value="' + $(this).val() + '"]').attr('selected', true);
     }).trigger('change');

@@ -140,7 +140,18 @@ class ProductMake extends \yii\db\ActiveRecord
         }
         return $query->all();
     }
-
+    public static function getMakesListWithIdHightPriority ($type = null, $hasProducts = null)
+    {
+        $query = (new Query())->select('product_make.name, product_make.id')->from('product_make')->where('depth=1')->indexBy('id');
+        if ($type !== null) {
+            $type = intval($type);
+            $query->andWhere('product_type=:product_type', [':product_type'=>$type]);
+        }
+        if ($hasProducts) {
+            $query->join('INNER JOIN','product', 'product_make.id = product.make')->andWhere('product.status=1')->andWhere('product.priority=1');
+        }
+        return $query->all();
+    }
     /**
      * Get list of makes indexed by id
      * @return array

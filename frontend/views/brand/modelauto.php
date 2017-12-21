@@ -1,5 +1,4 @@
 <?php
-use yii\widgets\ListView;
 use common\models\Product;
 use common\models\AppData;
 use common\models\ProductMake;
@@ -8,6 +7,11 @@ use frontend\models\ProductSearchForm;
 use yii\widgets\Breadcrumbs;
 use common\models\ProductType;
 use common\helpers\Url;
+use yii\widgets\LinkSorter;
+use frontend\widgets\CustomPager;
+use yii\helpers\Html;
+use yii\helpers\StringHelper;
+use common\models\User;
 /* @var $this yii\web\View */
 /* @var $provider yii\data\ActiveDataProvider */
 
@@ -38,34 +42,8 @@ $this->registerMetaTag([
     'content' => $metaData['keywords'],
 ]);
 
-if ($tableView) {
-    $itemOptions = ['class' => 'col-lg-4 col-md-6 col-xs-12'];
-} else {
-    $itemOptions = ['class' => 'b-items__cars-one'];
-}
 
-$listView = ListView::begin([
-    'options' => ['class' => $tableView ? 'row m-border' : 'b-items__cars'],
-    'dataProvider' => $provider,
-    'layout' => "{items}\n{pager}",
-    'itemOptions' => $itemOptions,
-    'sorter' => [
-        'attributes' => [
-            'price',
-            'created_at',
-            'year'
-        ]
-    ],
-    'pager' => [
-        'class' => 'frontend\widgets\CustomPager',
-        'options' => ['class' => 'b-items__pagination-main'],
-        'prevPageCssClass' => 'm-left',
-        'nextPageCssClass' => 'm-right',
-        'activePageCssClass' => 'm-active',
-        'wrapperOptions' => ['class' => 'b-items__pagination wow col-xs-12 zoomInUp', 'data-wow-delay' => '0.5s']
-    ],
-    'itemView' => $tableView ? '_productsTable' : '_productsList',
-]);
+
 $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->all();
 ?>
 
@@ -76,11 +54,11 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
     <section class="b-pageHeader" style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
         <div class="container">
             <div class="col-md-7">
-                <h1>Продажа <?=$model->name.' '.$_params_['model_name']?> в Беларуси в кредит</h1>
+                <h1>Продажа <?=$make_name.' '.$_params_['model_name']?> в Беларуси в кредит</h1>
             </div>
             <h1 class="wow zoomInLeft" data-wow-delay="0.5s"></h1>
             <div class="b-pageHeader__search wow zoomInRight" data-wow-delay="0.5s">
-                <h3><?= Yii::t('app', 'Your search returned {n,plural,=0{# result} =1{# result} one{# results} other{# results}} ', ['n'=>$provider->getTotalCount()]) ?></h3>
+                <h3><?= Yii::t('app', 'Your search returned {n,plural,=0{# result} =1{# result} one{# results} other{# results}} ', ['n'=>$count]) ?></h3>
             </div>
         </div>
     </section><!--b-pageHeader-->
@@ -88,12 +66,12 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
         <?= Breadcrumbs::widget([
             'links' => [
                 [
-                    'label' => ProductType::getTypesAsArray()[$model->product_type],
-                    'url' => Url::UrlBaseCategory($model->product_type)
+                    'label' => ProductType::getTypesAsArray()[$type],
+                    'url' => Url::UrlBaseCategory($type)
                 ],
                 [
-                    'label' => $model->name,
-                    'url' => Url::UrlCategoryBrand($model->product_type,$model->name)
+                    'label' => $make_name,
+                    'url' => Url::UrlCategoryBrand($type,$make_name)
                 ],
                 [
                     'label' => $_params_['model_name'],
@@ -114,12 +92,19 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                         <form method="post" action="/">
                             <div class="b-infoBar__select-one js-sorter">
                                 <span class="b-infoBar__select-one-title"><?= Yii::t('app', 'SORT BY') ?> :</span>
-                                <?= $listView->renderSorter() ?>
+                                <?=  LinkSorter::widget([
+                                    'sort' => $sort,
+                                    'attributes' => [
+                                        'price',
+                                        'created_at',
+                                        'year'
+                                    ]
+                                ]);
+
+                                ?>
                             </div>
                             <div class="b-infoBar__select-one">
-                                <span class="b-infoBar__select-one-title"><?= Yii::t('app', 'SELECT VIEW') ?></span>
-                                <a href="#" data-view="list" class="js-change-view m-list <?php if (!$tableView): ?>m-active<?php endif; ?>"><span class="fa fa-list"></span></a>
-                                <a href="#" data-view="table" class="js-change-view m-table <?php if ($tableView): ?>m-active<?php endif; ?>"><span class="fa fa-table"></span></a>
+
                             </div>
                         </form>
                     </div>
@@ -132,9 +117,131 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
         <div class="container" style="width:97%;">
             <div class="row">
                 <div class="js-product-list col-lg-9 col-sm-8 col-xs-12">
-                    <?php
-                    ListView::end();
-                    ?>
+                    <div id="w0" class="b-items__cars">
+                        <?php
+                        foreach ($products as $i=>$product):
+                            $product = json_decode($product);
+                            ?>
+                            <div class="b-items__cars-one" data-key="<?=$product->id?>">
+                                <a href="<?= Url::UrlShowProduct($product->id) ?>" class="b-items__cars-one-img">
+                                    <img src="<?= $product->title_image ?>" alt="<?= Html::encode($product->title) ?>" class="hover-light-img"/>
+                                    <?php if($product->priority == 1): ?>
+                                        <span class="b-items__cars-one-img-type m-premium"></span>
+                                    <?php endif; ?>
+                                    <?php if($product->priority != 1): ?>
+                                        <span class="b-items__cars-one-img-type m-premium"></span>
+                                    <?php endif; ?>
+                                </a>
+                                <div class="b-items__cars-one-info">
+                                    <div class="b-items__cars-one-info-header s-lineDownLeft">
+                                        <h2><a href="<?= Url::UrlShowProduct($product->id) ?>"><?= Html::encode($product->title) ?></a></h2>
+                                        <?php if($product->exchange): ?>
+                                            <span class="b-items__cars-one-info-title b-items__cell-info-exchange"><?= Yii::t('app', 'Exchange') ?></span>
+                                        <?php endif; ?>
+                                        <?php if($product->auction): ?>
+                                            <span class="b-items__cars-one-info-title b-items__cell-info-auction"><?= Yii::t('app', 'Auction') ?></span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="row s-noRightMargin">
+                                        <div class="col-md-3 col-xs-12">
+                                            <div class="b-items__cars-one-info-price">
+                                                <div class="">
+                                                    <div class="b-items__cars-one-info-price-div1">
+                                                        <h4><?= Yii::$app->formatter->asDecimal($product->price_byn) ?> BYN</h4>
+                                                        <span class="b-items__cell-info-price-usd"><?= Yii::$app->formatter->asDecimal($product->price_usd) ?> $ </span>
+                                                    </div>
+                                                    <div class="b-items__cars-one-info-price-div2">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="m-width row m-smallPadding">
+                                                <div class="col-xs-6">
+                                                    <div class="row m-smallPadding">
+                                                        <div class="col-xs-12">
+                                                            <table>
+                                                                <tr>
+                                                                    <td>
+                                                                        <span class="b-items__cars-one-info-title"><?= Yii::t('app', 'Year') ?></span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class="b-items__cars-one-info-value"><?= $product->year ?></span>
+                                                                    </td>
+                                                                </tr>
+                                                                <?php foreach ($product->spec as $i=>$spec): ?>
+                                                                    <?php
+                                                                    if ($i<2):
+                                                                        ?>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <span class="b-items__cars-one-info-title"><?= $spec->name ?></span>
+                                                                            </td>
+                                                                            <td>
+                                                                                <span class="b-items__cars-one-info-value"><?= Html::encode($spec->format) ?> <?= $spec->unit ?></span>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <?
+                                                                    endif;
+                                                                    ?>
+                                                                <?php endforeach; ?>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <table>
+                                                        <?php foreach ($product->spec as $i=>$spec): ?>
+                                                            <?php
+                                                            if (($i>2) && ($i <=5)):
+                                                                ?>
+                                                                <tr>
+                                                                    <td>
+                                                                        <span class="b-items__cars-one-info-title"><?= $spec->name ?></span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class="b-items__cars-one-info-value"><?= Html::encode($spec->format) ?> <?= $spec->unit ?></span>
+                                                                    </td>
+                                                                </tr>
+                                                                <?
+                                                            endif;
+                                                            ?>
+                                                        <?php endforeach; ?>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <p class="seller_comment">
+                                                <?= StringHelper::truncate($product->seller_comments, 161, '...'); ?>
+                                            </p>
+                                            <span><?= User::getRegions()[$product->region];?></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+
+                        endforeach;
+
+                        ?>
+                        <?php
+                        echo CustomPager::widget([
+                            'pagination' => $pages,
+                            'options' => ['class' => 'b-items__pagination-main'],
+
+                            'prevPageCssClass' => 'm-left',
+
+                            'nextPageCssClass' => 'm-right',
+
+                            'activePageCssClass' => 'm-active',
+
+                            'wrapperOptions' => ['class' => 'b-items__pagination wow col-xs-12 zoomInUp', 'data-wow-delay' => '0.5s']
+
+                        ]);
+
+                        ?>
+                    </div>
                 </div>
                 <div class="col-lg-3 col-sm-4 col-xs-12">
                     <aside class="b-items__aside">
