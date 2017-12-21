@@ -15,34 +15,25 @@ $productTypeAsName = ProductType::getTypesAsArray()[$searchForm->type];
 $productModelAsName = ProductMake::getMakesList($searchForm->type)[$_params_['maker']];
 ?>
 <form class="js-catalog-search-form">
-    <div class="b-items__aside-main-body">
-        <div class="b-items__aside-main-body-item">
-            <label><?= Yii::t('app', 'VEHICLE TYPE') ?>:</label>
+    <input type="hidden"  name="ProductSearchForm[type]" value="<?=$_params_['type']?>">
+        <div class="item">
             <div>
-                <select class="m-select" name="ProductSearchForm[type]" disabled="true">
-                    <option value="<?=$searchForm->type?>" selected><?=$productTypeAsName?></option>
-                </select>
-                <span class="fa fa-caret-down"></span>
-            </div>
-        </div>
-        <div class="b-items__aside-main-body-item">
-            <div>
-                <select class="m-select" name="ProductSearchForm[makes]" disabled="true">
+                <select class="m-select" name="ProductSearchForm[makes]">
                     <option value="<?=$_params_['maker']?>" selected><?=$productModelAsName?></option>
                 </select>
                 <span class="fa fa-caret-down"></span>
             </div>
         </div>
-        <div class="b-items__aside-main-body-item">
+        <div class="item">
             <div>
-                <select class="m-select" name="ProductSearchForm[model]" disabled="true">
-                    <option value="<?=$_params_['model_id']?>" selected><?=$_params_['model_name']?></option>
+                <select class="m-select" name="ProductSearchForm[model]">
+                    <option value="<?=$_params_['model_name']?>" selected><?=$_params_['model_name']?></option>
                 </select>
                 <span class="fa fa-caret-down"></span>
             </div>
         </div>
-        <div class="b-items__aside-main-body-item">
-            <label><?= Yii::t('app', 'YEAR RANGE') ?>:</label>
+        <div class="item">
+            <label class="two_blocks"><?= Yii::t('app', 'YEAR RANGE') ?>:</label>
             <div class="two_blocks">
                 <?= Html::dropDownList(
                     'ProductSearchForm[yearFrom]',
@@ -60,9 +51,9 @@ $productModelAsName = ProductMake::getMakesList($searchForm->type)[$_params_['ma
                 <span class="fa fa-caret-down"></span>
             </div>
         </div>
-        <div class="b-items__aside-main-body-item" style="float: left;">
-            <label><?= Yii::t('app', 'PRICE') ?>:</label>
-            <div class="two_blocks">
+        <div class="item" style="float: left;">
+            <label class="two_blocks"><?= Yii::t('app', 'PRICE') ?> USD:</label>
+            <div class="two_blocks" style="margin-left: 8%;">
                 <?= Html::dropDownList(
                     'ProductSearchForm[priceFrom]',
                     $searchForm->priceFrom,
@@ -79,14 +70,14 @@ $productModelAsName = ProductMake::getMakesList($searchForm->type)[$_params_['ma
                 <span class="fa fa-caret-down"></span>
             </div>
         </div>
-        <div class="b-items__aside-main-body-item js-vehicle-type-specs">
+        <div class="item js-vehicle-type-specs">
             <?php foreach($searchForm->getSpecificationModels() as $specification): ?>
-                <div class="b-items__aside-main-body-item">
+                <div class="item">
                     <?= $searchForm->getSpecInput($specification) ?>
                 </div>
             <?php endforeach; ?>
         </div>
-        <div class="b-items__aside-main-body-item">
+        <div class="item">
             <div>
                 <?= Html::dropDownList(
                     'ProductSearchForm[published]',
@@ -98,7 +89,7 @@ $productModelAsName = ProductMake::getMakesList($searchForm->type)[$_params_['ma
                 <span class="fa fa-caret-down"></span>
             </div>
         </div>
-        <div class="b-items__aside-main-body-item">
+        <div class="item">
             <div>
                 <?= Html::dropDownList(
                     'ProductSearchForm[region]',
@@ -108,8 +99,7 @@ $productModelAsName = ProductMake::getMakesList($searchForm->type)[$_params_['ma
                 <span class="fa fa-caret-down"></span>
             </div>
         </div>
-    </div>
-     <footer class="b-items__aside-main-footer">
-        <button type="submit" class="btn m-btn">Найти <span class="js-main_search_prod_type"></span><span class="fa fa-angle-right"></span></button>
+    <footer class="b-items__aside-main-footer">
+        <a class="btn m-btn"  id="search">Найдено: <span id="result"><?= $_params_['count']?></span></a>
     </footer>
 </form>

@@ -54,7 +54,6 @@ $listView = ListView::begin([
     ],
     'itemView' => $tableView ? '_productsTable' : '_productsList',
 ]);
-
 $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->all();
 ?>
 
@@ -178,8 +177,9 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                         </div>
 
                     </div>
-                    <h2 class="s-title wow zoomInUp" data-wow-delay="0.5s"><?= Yii::t('app', 'REFINE YOUR SEARCH') ?></h2>
-                    <div class="b-items__aside-main wow zoomInUp" data-wow-delay="0.5s">
+                    <h2 class="s-title wow zoomInUp"
+                        data-wow-delay="0.5s">Поиск <?= $shortTypeName; ?></h2>
+                    <div class="search_block wow zoomInUp" data-wow-delay="0.5s">
                         <?= $this->render('_searchForm', $_params_) ?>
                     </div>
                     <h2 class="s-title wow zoomInUp" data-wow-delay="0.5s">Услуги компании</h2>

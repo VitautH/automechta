@@ -63,7 +63,7 @@ if(!isset($productSpecificationsMainCols[1])) {
     </div>
     <div class="col-md-6 col-xs-12">
         <?= $formWidget->field($model, "model", ['options' => ['class' => 'b-submit__main-element wow zoomInUp', 'data-wow-delay' => '0.5s']])
-            ->dropDownList(ProductMake::getModelsList($model->make), ['class' => 'm-select', 'prompt' => '---', 'required' =>true])->label($model->getAttributeLabel('model') . ' <span class="text-danger">*</span>')?>
+            ->dropDownList(ProductMake::getModelsList($model->model), ['class' => 'm-select', 'prompt' => '---', 'required' =>true])->label($model->getAttributeLabel('model') . ' <span class="text-danger">*</span>')?>
     </div>
     <div class="col-md-12 col-xs-12">
         <?= $formWidget->field($model->i18n(), "[" . Yii::$app->language . "]title", ['options' => ['class' => 'b-submit__main-element wow zoomInUp', 'data-wow-delay' => '0.5s']])

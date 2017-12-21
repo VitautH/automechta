@@ -15,7 +15,6 @@ $total = Product::find()->where(['type' => '2'])->andWhere('[[product.status]]=1
 <?php
 $form = ActiveForm::begin([
     'enableAjaxValidation' => true,
-    'action' => Url::to(['brand/search']),
     'method' => 'get',
     'options' => ['class' => 'b-search__main'],
     'id' => 'search_form_main',
@@ -28,6 +27,8 @@ $form = ActiveForm::begin([
         'inputOptions' => ['class' => 'mdl-textfield__input'],
     ]
 ]);
+
+
 ?>
 <div class="clearfix"></div>
 <div class="b-search__main-form wow zoomInUp" data-wow-delay="0.3s">
@@ -56,6 +57,7 @@ $form = ActiveForm::begin([
                     <span class="fa fa-caret-down"></span>
                 </div>
             </div>
+
         </div>
         <div class="col-xs-12 col-md-2">
             <div>
@@ -69,6 +71,7 @@ $form = ActiveForm::begin([
                     <span class="fa fa-caret-down"></span>
                 </div>
             </div>
+
         </div>
         <div class="col-md-2 col-xs-12 ">
             <div>
@@ -99,6 +102,7 @@ $form = ActiveForm::begin([
             </div>
         </div>
         <div class="col-md-2 col-xs-12 ">
+
             <div>
                 <div class="dropdown" id="price">
                     Цена
@@ -131,9 +135,10 @@ $form = ActiveForm::begin([
     Найдено <span id="count"><?= $total ?></span> объявлений
         </span>
             <div class="b-search__main-form-submit">
-                <button type="submit" class="btn m-btn">Найти <span
+                <button type="submit" class="btn m-btn" id="search">Найти <span
                             class="fa fa-angle-right"></span></button>
             </div>
+
         </div>
     </div>
 </div>
