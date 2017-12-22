@@ -9,6 +9,7 @@ use yii\behaviors\BlameableBehavior;
 use common\models\behaviors\I18nBehavior;
 use yii\db\Query;
 use yii\helpers\Url;
+use yii\base\Event;
 
 /**
  * This is the model class for table "product".
@@ -41,7 +42,7 @@ class Product extends \yii\db\ActiveRecord
     const SCENARIO_COMPLAIN = 'complain';
     const SCENARIO_DEFAULT = 'default';
     const SCENARIO_SELLERCONTACTS = 'sellerContacts';
-    const TABLE_NAME= 'product';
+    const TABLE_NAME = 'product';
     private static $maxPrice;
     private static $minPrice;
     private static $yearsList;
@@ -156,6 +157,28 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
+    public function beforeSave($insert)
+    {
+
+        Yii::$app->trigger(ProductEvent::EVENT_UPDATE_PRODUCT, new Event(['sender' => new ProductEvent($this->id)]));
+
+        return parent::beforeSave($insert);
+    }
+
+    public function beforeDelete()
+    {
+        Yii::$app->trigger(ProductEvent::EVENT_UPDATE_PRODUCT, new Event(['sender' => new ProductEvent($this->id)]));
+
+        return parent::beforeDelete();
+    }
+
+    public function update($runValidation = true, $attributeNames = null)
+    {
+        Yii::$app->trigger(ProductEvent::EVENT_UPDATE_PRODUCT, new Event(['sender' => new ProductEvent($this->id)]));
+
+        return parent::update($runValidation, $attributeNames);
+    }
+
     public function afterSave($insert, $changedAttributes)
     {
         $result = parent::afterSave($insert, $changedAttributes);
@@ -256,10 +279,10 @@ class Product extends \yii\db\ActiveRecord
         return parent::loadDefaultValues($skipIfSet);
     }
 
-    public function getUrl()
-    {
-        return Url::to(['catalog/show', 'id' => $this->id]);
-    }
+//    public function getUrl()
+//    {
+//        return Url::to(['catalog/show', 'id' => $this->id]);
+//    }
 
     /**
      * @return float
@@ -457,6 +480,7 @@ class Product extends \yii\db\ActiveRecord
 
         return $result;
     }
+
 
     /**
      * @return array
