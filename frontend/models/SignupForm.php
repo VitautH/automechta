@@ -15,6 +15,7 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+    public $password_repeat;
 
     /**
      * @inheritdoc
@@ -25,7 +26,7 @@ class SignupForm extends Model
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Это имя пользователя уже занято.'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
+            ['username', 'string', 'min' => 3, 'max' => 255, 'message' => 'Имя пользователя  должено содержать минимум 3 символа.'],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
@@ -34,7 +35,9 @@ class SignupForm extends Model
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Этот email уже зарегистрирован.'],
 
             ['password', 'required'],
-            ['password', 'string', 'min' => 6],
+            ['password', 'string', 'min' => 4, 'message' => 'Пароль должен содержать минимум 4 символа.'],
+            ['password_repeat', 'required'],
+            ['password_repeat', 'compare', 'compareAttribute'=>'password', 'message' => 'Пароли должны совподать.'],
         ];
     }
 
