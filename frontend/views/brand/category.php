@@ -11,11 +11,27 @@ use frontend\widgets\CustomPager;
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
 use common\models\User;
+use common\models\City;
 /* @var $this yii\web\View */
 /* @var $provider yii\data\ActiveDataProvider */
 
 $tableView = filter_var(Yii::$app->request->get('tableView', 'false'), FILTER_VALIDATE_BOOLEAN);
+$this->registerJsFile("@web/js/readmore.js");
 $this->registerJs("require(['controllers/catalog/index']);", \yii\web\View::POS_HEAD);
+$this->registerJs("    
+ $(document).ready(function(){
+ var ScreenWidth = screen.width; 
+if (ScreenWidth < 767){
+ $('#b-makers__list__main').readmore({
+    speed: 75,
+    maxHeight: 300,
+    moreLink: '<a href=\"#\" id=\"more_mark\">Показать все марки <i style=\"margin-left: 7px;\" class=\"fa fa-long-arrow-down\" aria-hidden=\"true\"></i></a>',
+    lessLink: '<a href=\"#\" id=\"roll_up_mark_category\">Скрыть</a>',
+});
+}
+});
+", \yii\web\View::POS_HEAD);
+
 $productModel = new Product();
 $appData = AppData::getData();
 switch ($type) {
@@ -75,7 +91,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
     <section class="b-makers">
         <div class="container">
             <div class="row col-lg-12">
-                <div class="b-makers__list">
+                <div class="b-makers__list b-makers__list__main" id="b-makers__list__main">
                     <?php
                     $makerAuto = ProductMake::getMakesListWithId($type, true);
                     sort($makerAuto);
@@ -113,13 +129,19 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
 
                                 ?>
                             </div>
-                            <div class="b-infoBar__select-one">
-
-                            </div>
                         </form>
+                        <div class="search_button_container col-xs-5 col-sm-5 visible-xs visible-sm">
+                            <span id="search_button_mobile" class="search_button_mobile visible-xs visible-sm"
+                                  data-wow-delay="0.5s">Поиск <i class="fa fa-search" aria-hidden="true"></i> </span>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="search_block_mobile">
+        <div class="search_block">
+        <?= $this->render('_searchMobileForm', $_params_) ?>
         </div>
     </div>
     <!--b-infoBar-->
@@ -225,7 +247,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                                             <p class="seller_comment">
                                                 <?= StringHelper::truncate($product->seller_comments, 161, '...'); ?>
                                             </p>
-                                            <span><?= User::getRegions()[$product->region];?></span>
+                                            <span><?= City::getCityName($product->city_id);?><?//= User::getRegions()[$product->region];?></span>
                                         </div>
                                     </div>
                                 </div>
@@ -238,7 +260,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                         <?php
                         echo CustomPager::widget([
                             'pagination' => $pages,
-                            'options' => ['class' => 'b-items__pagination-main'],
+                            'options' => ['class' => 'b-items__pagination-main hidden-sm hidden-xs'],
 
                             'prevPageCssClass' => 'm-left',
 
@@ -246,11 +268,24 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
 
                             'activePageCssClass' => 'm-active',
 
-                            'wrapperOptions' => ['class' => 'b-items__pagination wow col-xs-12 zoomInUp', 'data-wow-delay' => '0.5s']
+                            'wrapperOptions' => ['class' => 'hidden-sm hidden-xs b-items__pagination wow col-xs-12 zoomInUp', 'data-wow-delay' => '0.5s']
 
                         ]);
 
                         ?>
+                        <div class="visible-xs visible-sm col-xs-12" data-wow-delay="0.5s">
+                            <?php if ($currentPage != 1):?>
+                                <a class="btn m-btn m-btn-dark"  href="<?=Url::current(['page' => $currentPage-1])?>" data-page="19"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a>
+                                <?php
+                            endif;
+                            ?>
+                           <?=$currentPage;?> из <?=$lastPage-1;?>
+                            <?php if ($currentPage < $lastPage-1):?>
+                                <a class="btn m-btn m-btn-dark" href="<?=Url::current(['page' => $currentPage+1])?>">Следующая  <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                                <?php
+                            endif;
+                            ?>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-4 col-xs-12">
@@ -287,16 +322,16 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                             </div>
 
                         </div>
-                        <h2 class="s-title wow zoomInUp"
+                        <h2 class="s-title  visible-md visible-lg"
                             data-wow-delay="0.5s">Поиск <?= $shortTypeName; ?></h2>
-                        <div class="search_block wow zoomInUp" data-wow-delay="0.5s">
+                        <div id="search_block_desktop" class="search_block  visible-md visible-lg" data-wow-delay="0.5s">
                             <?= $this->render('_searchForm', $_params_) ?>
                         </div>
                         <h2 class="s-title wow zoomInUp" data-wow-delay="0.5s">Услуги компании</h2>
                         <div class="b-blog__aside-popular-posts">
                             <?php foreach ($asidePages as $asidePage): ?>
                                 <div class="b-blog__aside-popular-posts-one">
-                                    <a href="/page/<?= $asidePage->getUrl() ?>">
+                                    <a href="/<?= $asidePage->getUrl() ?>">
                                         <img class="img-responsive" src="<?= $asidePage->getTitleImageUrl(270, 150) ?>"
                                              alt="<?= $asidePage->i18n()->header ?>"/>
                                     </a>

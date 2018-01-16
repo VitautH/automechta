@@ -15,8 +15,9 @@ $searchForm = new ProductSearchForm();
 $searchForm->type = $_params_['type'];
 $productTypeAsName = ProductType::getTypesAsArray()[$searchForm->type];
 $productModelAsName = ProductMake::getMakesList($searchForm->type)[$_params_['maker']];
+
 ?>
-<form class="js-catalog-search-form">
+<form class="js-catalog-search-form js-catalog-search-form-mobile">
     <input type="hidden"  name="ProductSearchForm[type]" value="<?=$_params_['type']?>">
         <div class="item">
             <div>
@@ -112,6 +113,6 @@ $productModelAsName = ProductMake::getMakesList($searchForm->type)[$_params_['ma
         </div>
     </div>
     <footer class="b-items__aside-main-footer">
-        <a class="btn m-btn"  id="search">Найдено: <span id="result"><?= $_params_['count']?></span></a>
+        <a class="btn m-btn"  id="search_mobile">Найдено: <span id="result_mobile"><?= $_params_['count']?></span></a>
     </footer>
 </form>

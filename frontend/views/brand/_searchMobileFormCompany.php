@@ -15,7 +15,7 @@ $searchForm = new ProductSearchForm();
 $searchForm->type = 2;
 
 ?>
-<form class="js-catalog-search-form">
+<form class="js-catalog-search-form js-catalog-search-form-mobile">
        <input type="hidden"  name="ProductSearchForm[type]" value="2">
         <div class="item">
             <div>
@@ -114,6 +114,6 @@ $searchForm->type = 2;
                 </div>
             </div>
      <footer class="b-items__aside-main-footer">
-         <a class="btn m-btn"  id="search">Найдено: <span id="result"><?= $_params_['count'];?></span></a>
+         <a class="btn m-btn"  id="search_mobile">Найдено: <span id="result_mobile"><?= $_params_['count'];?></span></a>
      </footer>
 </form>
