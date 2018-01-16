@@ -85,4 +85,24 @@ class Url extends \yii\helpers\Url
             $url = "https://" . $_SERVER['HTTP_HOST'] . "/" . $type . "/" . $brand . "/" . $model . "/" . $id."";
             return $url;
         }
+    public static function UrlShowPreviewProduct($id)
+    {
+        $product = Product::findOne($id);
+        $type = $product->type;
+        $brand = ProductMake::find()->where(['id' => $product->make])->one()->name;
+        $brand = str_replace(' ', '+', $brand);
+        $model = $product->model;
+        $model = str_replace(' ', '+', $model);
+        switch ($type) {
+            case self::CARS:
+                $type = 'cars';
+                break;
+            case self::MOTO:
+                $type = 'moto';
+                break;
+        }
+
+        $url = "https://" . $_SERVER['HTTP_HOST'] . "/" . $type . "/" . $brand . "/" . $model . "/preview/" . $id."";
+        return $url;
+    }
 }

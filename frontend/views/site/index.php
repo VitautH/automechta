@@ -15,8 +15,6 @@ use common\helpers\Url;
 /* @var $productModel common\models\Product */
 /* @var $specModels common\models\Specification */
 
-$redis = new Redis();
-$redis->connect('127.0.0.1', 6379);
 $this->registerMetaData();
 $this->registerJsFile("@web/js/readmore.js");
 $this->registerJs("require(['controllers/site/index']);", \yii\web\View::POS_HEAD);
@@ -28,7 +26,7 @@ if (ScreenWidth < 767){
     speed: 75,
     maxHeight: 300,
     moreLink: '<a href=\"#\" id=\"more_mark\">Показать все марки <i style=\"margin-left: 7px;\" class=\"fa fa-long-arrow-down\" aria-hidden=\"true\"></i></a>',
-    lessLink: '<a href=\"#\" id=\"roll_up_mark\">Скрыть</a>',
+    lessLink: '<a href=\"#\" id=\"roll_up_mark_category\">Скрыть</a>',
 });
 }
 });
@@ -201,7 +199,7 @@ ob_start();
             <div id="carousel-small-2" class="owl-carousel js-featured-vehicles-caruosel-2" data-items="4"
                  data-navigation="true" data-auto-play="true" data-stop-on-hover="true" data-items-desktop="4"
                  data-items-desktop-small="4" data-items-tablet="3" data-items-tablet-small="2">
-                <?php $latestAutos = Product::find()->active()->orderBy('id DESC')->limit(10)->all(); ?>
+                <?php $latestAutos = Product::find()->where(['type'=>2])->andWhere(['status'=>Product::STATUS_PUBLISHED])->andWhere(['priority'=>0])->orderBy('id DESC')->limit(10)->all(); ?>
                 <?php foreach ($latestAutos as $latestAuto): ?>
                     <div>
                         <div class="b-featured__item wow rotateIn" data-wow-delay="0.3s" data-wow-offset="150">
