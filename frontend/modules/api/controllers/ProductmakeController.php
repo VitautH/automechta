@@ -21,8 +21,6 @@ class ProductmakeController extends TreeController
      * @return mixed
      */
 
-
-
     public function actionMakers($type)
     {
         if (!Yii::$app->user->can('viewProductMake')) {
@@ -31,24 +29,14 @@ class ProductmakeController extends TreeController
 
         Yii::$app->response->format = Response::FORMAT_JSON;
 
-        $cache = Yii::$app->cache;
 
-        $key   = $type;
 
-        $data  = $cache->get($key);
-        if (($data === null) || ($data === false)) {
-            $key  = $type;
             $data = (new Query())->select('name, id')
                 ->from('product_make')
                 ->where('product_type=:product_type AND depth=1', [':product_type' => $type])
                 ->indexBy('id')->column();
-            $cache->set($key, $data);
 
             return $data;
-        }
-        else {
-         return $data;
-        }
     }
 
     /**
@@ -63,22 +51,11 @@ class ProductmakeController extends TreeController
         };
 
         Yii::$app->response->format = Response::FORMAT_JSON;
-
-        $cache = Yii::$app->cache;
-        $key   = $makeId;
-        $data  = $cache->get($key);
-        if ($data === false) {
-            $key  = $makeId;
             $model = $this->findModel($makeId);
             $result = ProductMake::getModelsList($model->id);
             $data = $result;
-            $cache->set($key, $data);
 
             return $data;
-        }
-        else {
-            return $data;
-        }
     }
 
     public function actionSearch()
@@ -88,10 +65,38 @@ class ProductmakeController extends TreeController
 
             $searchForm = new ProductSearchForm();
             $query = Product::find()->active();
-            $searchForm->load($params);
+            $params['ProductSearchForm']['makes'] = ProductMake::find()->where(['id' => $params['ProductSearchForm']['makes']])->one()->name;
             if (!empty($params['ProductSearchForm']['specs'])) {
                 $searchForm->specifications = $params['ProductSearchForm']['specs'];
             }
+            if (!empty($params['ProductSearchForm']['city_id'])) {
+                $searchForm->city_id = $params['ProductSearchForm']['city_id'];
+            }
+            if (!empty($params['ProductSearchForm']['yearFrom'])) {
+                $searchForm->yearFrom = $params['ProductSearchForm']['yearFrom'];
+            }
+            if (!empty($params['ProductSearchForm']['priceTo'])) {
+                $searchForm->priceTo = $params['ProductSearchForm']['priceTo'];
+            }
+            if (!empty($params['ProductSearchForm']['priceFrom'])) {
+                $searchForm->priceFrom = $params['ProductSearchForm']['priceFrom'];
+            }
+            if (!empty($params['ProductSearchForm']['region'])) {
+                $searchForm->region = $params['ProductSearchForm']['region'];
+            }
+            if (!empty($params['ProductSearchForm']['published'])) {
+                $searchForm->published = $params['ProductSearchForm']['published'];
+            }
+            if (!empty($params['ProductSearchForm']['yearTo'])) {
+                $searchForm->yearTo = $params['ProductSearchForm']['yearTo'];
+            }
+            if (!empty($params['ProductSearchForm']['makes'])) {
+                $searchForm->make = $params['ProductSearchForm']['makes'];
+            }
+            if (!empty($params['ProductSearchForm']['model'])) {
+                $searchForm->model = $params['ProductSearchForm']['model'];
+            }
+            $searchForm->load($params);
             $total = $searchForm->search($query)->count();
 
             return $total;
