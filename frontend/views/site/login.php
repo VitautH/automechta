@@ -42,6 +42,7 @@ $appData = AppData::getData();
                         <a href="/site/auth?authclient=facebook" class="fb-login"><i class="fa fa-facebook" aria-hidden="true"></i></a>
                         <a href="/site/auth?authclient=google" class="google-login"><i class="fa fa-google-plus-official" aria-hidden="true"></i></a>
                         <a href="/site/auth?authclient=yandex" class="ya-login"><span>Я</span></a>
+                        <a href="/site/auth?authclient=odnoklassniki" class="ok-login"><i class="fa fa-odnoklassniki" aria-hidden="true"></i></a>
                     </div>
                     <div id="success"></div>
                     <?php $form = ActiveForm::begin(
