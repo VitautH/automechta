@@ -25,6 +25,9 @@ $product = json_decode($product);
 $tableView = filter_var(Yii::$app->request->get('tableView', 'false'), FILTER_VALIDATE_BOOLEAN);
 $this->registerJs("require(['controllers/tools/calculator']);
 $(document).ready(function(){
+$('#complaint_to_mobile').click(function(){
+$('#complaint_block_mobile').toggle();
+});
  var owl = $('#carousel-small-2');
  owl.owlCarousel({
  responsiveClass:true,
@@ -134,11 +137,7 @@ if (empty($model->first_name)) {
 } else {
     $first_name = $model->first_name;
 }
-if (empty($model->region)) {
-    $region = $seller->region;
-} else {
-    $region = $model->region;
-}
+
 
 $metaData = MetaData::getModels($model);
 $this->registerMetaData($metaData);
@@ -166,42 +165,6 @@ $this->registerMetaData($metaData);
             'activeItemTemplate' => "<li class='b-breadCumbs__page m-active'>{link}</li>\n",
         ]) ?>
     </div><!--b-breadCumbs-->
-    <div class="b-infoBar">
-        <div class="container">
-            <div class="row wow zoomInUp" data-wow-delay="0.5s">
-                <div class="col-md-7">
-                    <span class="b-product-info"><span>№</span> : <?= $product->id ?></span>
-                    <span class="b-product-info"><span><?= Yii::t('app', 'Published') ?></span> : <?= Yii::$app->formatter->asDate($product->created_at) ?></span>
-                    <span class="b-product-info"><span><?= Yii::t('app', 'Updated') ?></span> : <?= Yii::$app->formatter->asDate($product->updated_at) ?></span>
-                    <span class="b-product-info"><span
-                                class="fa fa-eye"></span> <?= Yii::t('app', '{n,plural,=0{# Views} =1{# View} one{# View} other{# Views}}', ['n' => $views]) ?></span>
-                </div>
-                <div class="col-md-2">
-                    <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
-                    <script src="//yastatic.net/share2/share.js"></script>
-                    <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,gplus"></div>
-                </div>
-                <div class="col-md-3">
-                    <?php Pjax::begin(['enablePushState' => false]); ?>
-                    <span class="complaint" id="complaint_to">Пожаловаться на объявление</span>
-                    <div id="complaint_block">
-                        <?= Html::beginForm(['/catalog/complaint'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
-                        <?
-                        $modelComplain = new Product();
-                        $modelComplain->setScenario(Product::SCENARIO_COMPLAIN);
-                        ?>
-                        <?= Html::hiddenInput('id', $product->id) ?>
-                        <?= Html::dropDownList('complaint_type', Complaint::$type_comlaint, Complaint::$type_comlaint) ?>
-                        <?= Html::textarea('complaint_text', '', ['rows' => '6', 'placeholder' => 'Введите текст жалобы']) ?>
-                        <?= Html::submitButton('Отправить', ['class' => 'btn m-btn m-btn-dark']) ?>
-                        <?= Html::endForm() ?>
-                    </div>
-                </div>
-                <?php Pjax::end(); ?>
-            </div>
-        </div>
-    </div>
-    <!--b-infoBar-->
     <section class="card_product b-detail">
         <div class="container">
             <header class="b-detail__head s-lineDownLeft wow zoomInUp" data-wow-delay="0.5s">
@@ -215,9 +178,31 @@ $this->registerMetaData($metaData);
                             <h3><?= $product->short_title ?></h3>
                         </div>
                     </div>
+                </div>
             </header>
+        </div>
+            <div class="b-infoBar">
+                <div class="container">
+                    <div class="row wow zoomInUp" data-wow-delay="0.5s">
+                        <div class="col-md-12">
+                            <span class="b-product-info"><span>№</span> : <?= $product->id ?></span>
+                            <span class="b-product-info"><span><?= Yii::t('app', 'Published') ?></span> : <?= Yii::$app->formatter->asDate($product->created_at) ?></span>
+                            <span class="b-product-info"><span><?= Yii::t('app', 'Updated') ?></span> : <?= Yii::$app->formatter->asDate($product->updated_at) ?></span>
+                            <span class="b-product-info"><span
+                                        class="fa fa-eye"></span> <?= Yii::t('app', '{n,plural,=0{# Views} =1{# View} one{# View} other{# Views}}', ['n' => $views]) ?></span>
+                          <?  if (Yii::$app->user->can('deleteOwnProduct', ['model' => $product])):?>
+                              <span class="b-product-info edit"><a href="/update-ads?id=<?=$product->id?>">Редактировать</a> </span>
+                            <?php
+    endif;
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--b-infoBar-->
+
             <div class="b-detail__main">
-                <div class="left_block col-xs-12">
+                <div class="left_block col-xs-12 visible-md visible-lg">
                     <div class="b-detail__head-price">
                         <div class="b-detail__head-price-num">
                             <?= Yii::$app->formatter->asDecimal($product->price_byn) ?> BYN
@@ -234,34 +219,70 @@ $this->registerMetaData($metaData);
                         </div>
                     </div>
                     <aside class="b-detail__main-aside">
-                        <div class="b-detail__main-aside-desc wow zoomInUp hidden-sm hidden-xs"
+                        <div class="b-detail__main-aside-desc wow zoomInUp"
                              data-wow-delay="0.5s">
                             <?= $this->render('_productDescription', ['product' => $product]) ?>
                         </div>
-                        <div class="b-detail__main-aside-about wow zoomInUp hidden-sm hidden-xs"
+                        <div class="b-detail__main-aside-about wow zoomInUp"
                              data-wow-delay="0.5s">
-                            <?= $this->render('_sellerData', ['phone' => $phone, 'phone_provider' => $phone_provider, 'phone_2' => $phone_2, 'phone_provider_2' => $phone_provider_2, 'first_name' => $first_name, 'region' => $region]) ?>
+                            <?= $this->render('_sellerData', ['phone' => $phone, 'phone_provider' => $phone_provider, 'phone_2' => $phone_2, 'phone_provider_2' => $phone_provider_2, 'first_name' => $first_name, 'region' => $product->region, 'city' => $product->city_id]) ?>
                         </div>
                         <?php if ($product->priority == 1): ?>
-                            <div class="b-detail__main-aside-aboutCompany wow zoomInUp hidden-sm hidden-xs"
+                            <div class="b-detail__main-aside-aboutCompany wow zoomInUp"
                                  data-wow-delay="0.5s">
                                 <?= $this->render('_sellerDataCompany') ?>
                             </div>
                         <?php endif ?>
                     </aside>
+                    <div class="col-md-12 complaint_container">
+                        <?php Pjax::begin(['enablePushState' => false]); ?>
+                        <span class="complaint" id="complaint_to">Пожаловаться на объявление</span>
+                        <div id="complaint_block">
+                            <?= Html::beginForm(['/catalog/complaint'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+                            <?
+                            $modelComplain = new Product();
+                            $modelComplain->setScenario(Product::SCENARIO_COMPLAIN);
+                            ?>
+                            <?= Html::hiddenInput('id', $product->id) ?>
+                            <?= Html::dropDownList('complaint_type', Complaint::$type_comlaint, Complaint::$type_comlaint) ?>
+                            <?= Html::textarea('complaint_text', '', ['rows' => '6', 'placeholder' => 'Введите текст жалобы']) ?>
+                            <?= Html::submitButton('Отправить', ['class' => 'btn m-btn m-btn-dark']) ?>
+                            <?= Html::endForm() ?>
+                        </div>
+                    </div>
+                    <?php Pjax::end(); ?>
                 </div>
                 <div class="centr_block col-xs-12">
                     <div class="b-detail__main-info">
                         <div class="b-detail__main-info-images wow zoomInUp" data-wow-delay="0.5s">
                             <div class="row m-smallPadding">
                                 <div class="col-xs-12 fotorama" data-nav="thumbs" data-allowfullscreen="true"
-                                     data-loop="true" data-keyboard="true">
+                                     data-loop="true" data-keyboard="true"
+                                     data-click="true"
+                                     data-swipe="true">
                                     <?php foreach ($product->image as $image): ?>
                                         <a href="<?= $image->full ?>"
                                            data-thumb="<?= $image->thumbnail ?>">
                                         </a>
                                     <?php endforeach; ?>
                                 </div>
+                            </div>
+                            <div class="left_block">
+                            <div class="b-detail__head-price visible-xs visible-sm">
+                                <div class="b-detail__head-price-num">
+                                    <?= Yii::$app->formatter->asDecimal($product->price_byn) ?> BYN
+                                    <span class="b-detail__head-price-num-usd"><?= Yii::$app->formatter->asDecimal($product->price_usd) ?>
+                                        $</span>
+                                </div>
+                                <div class="b-detail__head-auction-exchange">
+                                    <?php if ($product->exchange): ?>
+                                        <span class="b-detail__head-exchange"><?= Yii::t('app', 'Exchange') ?></span>
+                                    <?php endif; ?>
+                                    <?php if ($product->auction): ?>
+                                        <span class="b-detail__head-auction"><?= Yii::t('app', 'Auction') ?></span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
                             </div>
                         </div>
                         <br>
@@ -271,7 +292,7 @@ $this->registerMetaData($metaData);
                         </div>
                         <div class="wow zoomInUp b-detail__main-aside-desc hidden-md hidden-lg"
                              data-wow-delay="0.5s">
-                            <?= $this->render('_sellerData', ['phone' => $phone, 'phone_provider' => $phone_provider, 'phone_2' => $phone_2, 'phone_provider_2' => $phone_provider_2, 'first_name' => $first_name, 'region' => $region]) ?>
+                            <?= $this->render('_sellerData', ['phone' => $phone, 'phone_provider' => $phone_provider, 'phone_2' => $phone_2, 'phone_provider_2' => $phone_provider_2, 'first_name' => $first_name, 'region' => $product->region, 'city' => $product->city_id]) ?>
                         </div>
                         <div class="b-detail__main-info-text wow zoomInUp" data-wow-delay="0.5s">
                             <div class="b-detail__main-aside-about-form-links">
@@ -306,6 +327,28 @@ $this->registerMetaData($metaData);
                             </div>
                         </div>
                     <?php endif; ?>
+                    <div class="col-md-12 social-container">
+                        <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+                        <script src="//yastatic.net/share2/share.js"></script>
+                        <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,gplus"></div>
+                    </div>
+                    <div class="col-md-12 complaint_container hidden-md hidden-lg">
+                        <?php Pjax::begin(['id' => 'complaint-phone','enablePushState' => false]); ?>
+                        <span class="complaint" id="complaint_to_mobile">Пожаловаться на объявление</span>
+                        <div id="complaint_block_mobile">
+                            <?= Html::beginForm(['/catalog/complaint'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+                            <?
+                            $modelComplain = new Product();
+                            $modelComplain->setScenario(Product::SCENARIO_COMPLAIN);
+                            ?>
+                            <?= Html::hiddenInput('id', $product->id) ?>
+                            <?= Html::dropDownList('complaint_type', Complaint::$type_comlaint, Complaint::$type_comlaint) ?>
+                            <?= Html::textarea('complaint_text', '', ['rows' => '6', 'placeholder' => 'Введите текст жалобы']) ?>
+                            <?= Html::submitButton('Отправить', ['class' => 'btn m-btn m-btn-dark']) ?>
+                            <?= Html::endForm() ?>
+                        </div>
+                    </div>
+                    <?php Pjax::end(); ?>
                 </div>
                 <div class="right_block col-xs-12">
                     <div class="b-items__aside">
@@ -352,9 +395,15 @@ $this->registerMetaData($metaData);
                                            value="0" name="prepayment" id="prepayment" min="0"
                                            max="<?= $product->price_byn ?>"/>
                                     <label><?= Yii::t('app', 'RATE IN') ?> %</label>
-                                    <input type="text" placeholder="<?= Yii::t('app', 'RATE IN') ?> %"
-                                           value="<?= $appData['loanRate'] ?>%" name="rate"
-                                           disabled="disabled"/>
+                                    <div class="s-relative">
+                                        <select name="rate" class="m-select" id="rate">
+                                            <option value="14">Приорбанк 14%</option>
+                                            <option value="22">ВТБ 22%</option>
+                                            <option value="14.5">БТА 14,5%</option>
+                                            <option value="16.8">СтатусБанк 16,8%</option>
+                                        </select>
+                                        <span class="fa fa-caret-down"></span>
+                                    </div>
                                     <label><?= Yii::t('app', 'LOAN TERM') ?></label>
                                     <div class="s-relative">
                                         <select name="term" class="m-select" id="term">
@@ -408,7 +457,7 @@ $this->registerMetaData($metaData);
                     </div>
                 </div>
             </div>
-        </div>
+
     </section>
     <!--b-detail-->
 <?php

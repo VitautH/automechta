@@ -10,6 +10,7 @@ use common\models\behaviors\I18nBehavior;
 use yii\db\Query;
 use yii\helpers\Url;
 use yii\base\Event;
+use common\models\AppData;
 
 /**
  * This is the model class for table "product".
@@ -39,9 +40,15 @@ class Product extends \yii\db\ActiveRecord
     const STATUS_PUBLISHED = 1;
     const STATUS_UNPUBLISHED = 2;
     const STATUS_TO_BE_VERIFIED = 3;
+    const STATUS_BEFORE_CREATE_ADS = 0;
     const SCENARIO_COMPLAIN = 'complain';
     const SCENARIO_DEFAULT = 'default';
     const SCENARIO_SELLERCONTACTS = 'sellerContacts';
+    const SCENARIO_CREATEADS = 'createAds';
+    const SCENARIO_BEFORE_CREATEADS = 'beforeCreateAds';
+    const SCENARIO_STEP_1 = 'step-1';
+    const SCENARIO_STEP_2 = 'step-2';
+    const SCENARIO_STEP_3 = 'step-3';
     const TABLE_NAME = 'product';
     private static $maxPrice;
     private static $minPrice;
@@ -61,17 +68,17 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['region', 'phone_provider'], 'integer', 'on' => self::SCENARIO_SELLERCONTACTS],
-            [['region', 'first_name', 'phone', 'phone_provider', 'phone_2', 'phone_provider_2'], 'safe', 'on' => self::SCENARIO_SELLERCONTACTS],
+            [['region', 'city_id', 'phone_provider'], 'integer', 'on' => self::SCENARIO_CREATEADS],
+            [['first_name', 'phone', 'video', 'phone_2'], 'safe', 'on' => self::SCENARIO_CREATEADS],
             [['type', 'make', 'model', 'year', 'price', 'priority'], 'required', 'on' => self::SCENARIO_DEFAULT],
             [['exchange', 'currency', 'auction'], 'integer', 'on' => self::SCENARIO_DEFAULT],
-            [['first_name', 'phone_provider', 'phone', 'region'], 'required', 'on' => self::SCENARIO_SELLERCONTACTS],
+            [['first_name', 'phone_provider', 'phone', 'region', 'city_id'], 'required', 'on' => self::SCENARIO_CREATEADS],
             [['model'], 'string', 'max' => 2048],
             [['year'], 'integer', 'min' => 1900, 'max' => date('Y')],
             ['priority', 'safe', 'when' => function ($model) {
                 return Yii::$app->user->can('changeProductPriority');
             }],
-            // [['phone'],'required'],
+            [['video'], 'safe'],
             [['status', 'type', 'make', 'price', 'views', 'created_at', 'updated_at', 'created_by', 'updated_by', 'exchange', 'currency', 'auction'], 'integer'],
         ];
     }
@@ -87,12 +94,61 @@ class Product extends \yii\db\ActiveRecord
                 'phone_2',
                 'region',
             ],
+            self::SCENARIO_STEP_1 => [
+                'make',
+                'model',
+                'price',
+                'year',
+                'priority',
+                'currency',
+                'exchange',
+                'auction',
+                'seller_comments',
+            ],
+            self::SCENARIO_STEP_2 => [
+                'video',
+            ],
+            self::SCENARIO_STEP_3 => [
+                'first_name',
+                'phone_provider',
+                'phone',
+                'phone_provider_2',
+                'phone_2',
+                'region',
+                'city_id',
+            ],
+            self::SCENARIO_CREATEADS => [
+                'first_name',
+                'phone_provider',
+                'phone',
+                'phone_provider_2',
+                'phone_2',
+                'region',
+                'city_id',
+                'email',
+                'video',
+                'first_name',
+                'type',
+                'video',
+                'make',
+                'model',
+                'price',
+                'year',
+                'priority',
+                'exchange',
+                'auction',
+            ],
             self::SCENARIO_DEFAULT => [
                 'username',
                 'email',
                 'first_name',
                 'phone_provider',
                 'phone',
+                'city_id',
+                'region',
+                'video',
+                'phone_2',
+                'phone_provider_2',
                 'type',
                 'make',
                 'model',
@@ -101,6 +157,9 @@ class Product extends \yii\db\ActiveRecord
                 'priority',
                 'exchange',
                 'auction',
+            ],
+            self::SCENARIO_BEFORE_CREATEADS => [
+                'type',
             ]
         ];
     }
@@ -129,8 +188,10 @@ class Product extends \yii\db\ActiveRecord
             'auction' => Yii::t('app', 'Auction'),
             'currency' => Yii::t('app', 'Currency'),
             'first_name' => 'Имя',
+            'video' => 'Видео',
             'last_name' => 'Фамилия',
             'region' => 'Регион',
+            'city_id' => 'Город',
             'phone' => 'Телефон',
             'phone_provider' => 'Оператор',
             'phone_2' => 'Доп. телефон',
@@ -279,10 +340,21 @@ class Product extends \yii\db\ActiveRecord
         return parent::loadDefaultValues($skipIfSet);
     }
 
-//    public function getUrl()
-//    {
-//        return Url::to(['catalog/show', 'id' => $this->id]);
-//    }
+
+    /**
+     * @return integer
+     */
+    public function exchangeBynToUsd($byn)
+    {
+        $appData = AppData::getData();
+        if (!is_numeric($appData['usdRate'])) {
+            $rate = 1;
+        } else {
+            $rate = $appData['usdRate'];
+        }
+
+        return intval($byn / $rate);
+    }
 
     /**
      * @return float
@@ -372,6 +444,8 @@ class Product extends \yii\db\ActiveRecord
             $product ['phone_provider_2'] = $model->phone_provider_2;
             $product ['first_name'] = $model->first_name;
             $product ['region'] = $model->region;
+            $product ['city_id'] = $model->city_id;
+            $product ['video'] = $model->video;
 
             /*
              * Image
@@ -488,9 +562,10 @@ class Product extends \yii\db\ActiveRecord
     public static function getStatuses()
     {
         return [
-            self::STATUS_PUBLISHED => Yii::t('app', 'Published'),
-            self::STATUS_UNPUBLISHED => Yii::t('app', 'Unpublished'),
-            self::STATUS_TO_BE_VERIFIED => Yii::t('app', 'Подлежит проверке'),
+            self::STATUS_PUBLISHED => 'Опубликован',
+            self::STATUS_UNPUBLISHED => 'Не опубликован',
+            self::STATUS_TO_BE_VERIFIED => 'Подлежит проверке',
+            self::STATUS_BEFORE_CREATE_ADS => 'В работе',
         ];
     }
 

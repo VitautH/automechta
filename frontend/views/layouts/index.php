@@ -72,7 +72,7 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
     </head>
     <body class="m-index" data-scrolling-animations="false">
     <header class="b-topBar wow slideInDown" data-wow-delay="0.7s">
-        <div class="container">
+        <div class="container" style="width:97%;">
             <div class="row hidden-xs hidden-sm">
                 <div class="col-md-2 col-xs-2 col-sm-6 ">
                     <div class="b-nav__logo wow slideInLeft" data-wow-delay="0.3s">
@@ -96,7 +96,7 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 hidden-xs hidden-sm">
+                <div class="col-md-2 hidden-xs hidden-sm">
                     <div class="b-topBar__addr">
                         <a href="/site/contact">
                             <span class="fa fa-map-marker"></span>
@@ -104,7 +104,7 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                         </a>
                     </div>
                 </div>
-                <div class="col-md-3  hidden-xs hidden-sm">
+                <div class="col-md-2 col-md-offset-1 hidden-xs hidden-sm">
                     <nav class="b-topBar__nav">
                        <span>
                          <i class="fa fa-user" aria-hidden="true"></i>
@@ -127,8 +127,8 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                     <?= Url::to(['/account/index']) ?>"><?= Yii::t('app', 'Account') ?></a>
                                 </li>
                                 <li>
-                                    <a data-method="post" href="
-                    <?= Url::to(['/site/logout']) ?>"><b><?= Yii::t('app', 'Logout') ?></b> (
+                                    <a class="logout" data-method="post" href="
+                    <?= Url::to(['/site/logout']) ?>"><div><?= Yii::t('app', 'Logout') ?></div> (
                                         <?= Yii::$app->user->identity->username ?>)
                                     </a>
                                 </li>
@@ -136,10 +136,10 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                         </ul>
                     </nav>
                 </div>
-                <div class="col-md-2 hidden-xs hidden-sm">
-                    <a href="/catalog/create" class="btn m-btn m-btn-dark header-create-button">
-                        <?= Yii::t('app', 'ADD YOUR VEHICLE') ?>
-                        <span class="fa fa-angle-right"></span>
+                <div class="col-md-2 hidden-xs hidden-sm" style="margin-left: 60px;">
+                    <a href="/create-ads" class="btn m-btn m-btn-dark header-create-button">
+                        <span class="fa fa-plus"></span>
+                        ПОДАТЬ ОБЪЯВЛЕНИЕ
                     </a>
                 </div>
             </div>
@@ -155,7 +155,7 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                             <ul>
                             <?php if (Yii::$app->user->isGuest): ?>
 
-                                <li>    <a href="<?= Url::to(['/site/login']) ?>">
+                                <li class="accaunt-menu">    <a href="<?= Url::to(['/site/login']) ?>">
                                         <?= Yii::t('app', 'Log in') ?>
                                     </a>
 
@@ -164,18 +164,19 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                                     </a>
                                 </li>
                             <?php else: ?>
-                                 <li>
+                                 <li class="accaunt-menu">
                                      <a class="account_link" href="
                     <?= Url::to(['/account/index']) ?>"><?= Yii::t('app', 'Account') ?></a>
 
-                                    <a data-method="post" href="
-                    <?= Url::to(['/site/logout']) ?>"><b><?= Yii::t('app', 'Logout') ?></b> (
+                                    <a class="logout" data-method="post" href="
+                    <?= Url::to(['/site/logout']) ?>"><span><?= Yii::t('app', 'Logout') ?></span> (
                                         <?= Yii::$app->user->identity->username ?>)
                                     </a>
                                  </li>
                             <?php endif; ?>
-                                <li>
-                                    <a href="/catalog/create" class="btn m-btn m-btn-dark header-create-button">
+                                <li class="create-ads-menu">
+                                    <a href="/create-ads" class="btn m-btn m-btn-dark header-create-button">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
                                         <?= Yii::t('app', 'ADD YOUR VEHICLE') ?>
                                     </a>
                                 </li>
@@ -205,7 +206,7 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                 </div>
                 <div class="col-xs-3 col-sm-3">
                     <div class="add_ads">
-                        <a href="/catalog/create"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+                        <a href="/create-ads"><i class="fa fa-plus" aria-hidden="true"></i></a>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12">
@@ -224,7 +225,7 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
     </header>
     <!--b-topBar-->
     <nav class="b-nav hidden-xs hidden-sm">
-        <div class="container">
+        <div class="container" style="width: 94%;">
             <div class="row">
                 <div class="col-sm-12 col-xs-12">
                     <div class="b-nav__list wow slideInLeft" data-wow-delay="0.3s">
@@ -248,17 +249,6 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                             ]);
                             ?>
                         </div>
-                    </div>
-                    <div class="social col-md-2 col-md-offset-5 hidden-xs hidden-sm">
-                        <a href="https://vk.com/automechta_by" rel="nofollow" class="vk">
-                            <i class="social_icons fa fa-vk" aria-hidden="true"></i>
-                        </a>
-                        <a href="https://www.facebook.com/automechta/" rel="nofollow" class="fb">
-                            <i class="social_icons fa fa-facebook" aria-hidden="true"></i>
-                        </a>
-                        <a href="https://ok.ru/automechta" rel="nofollow" class="ok">
-                            <i class="social_icons fa fa-odnoklassniki-square" aria-hidden="true"></i>
-                        </a>
                     </div>
                 </div>
             </div>
