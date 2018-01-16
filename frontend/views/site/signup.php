@@ -39,6 +39,8 @@ $appData = AppData::getData();
                         <a href="/site/auth?authclient=facebook" class="fb-login"><i class="fa fa-facebook" aria-hidden="true"></i></a>
                         <a href="/site/auth?authclient=google" class="google-login"><i class="fa fa-google-plus-official" aria-hidden="true"></i></a>
                         <a href="/site/auth?authclient=yandex" class="ya-login"><span>Я</span></a>
+                        <a href="/site/auth?authclient=odnoklassniki" class="ok-login"><i class="fa fa-odnoklassniki" aria-hidden="true"></i></a>
+
                     </div>
                     <div id="success"></div>
                     <?php $form = ActiveForm::begin([
@@ -49,11 +51,12 @@ $appData = AppData::getData();
                         ]
                     ]); ?>
 
-                    <?= $form->field($model, 'username')->textInput(['class' => '']) ?>
+                    <?= $form->field($model, 'username')->textInput(['class' => ''])->label('Имя пользователя (не менее 3-х символов)') ?>
 
                     <?= $form->field($model, 'email')->textInput(['class' => '']) ?>
 
-                    <?= $form->field($model, 'password')->passwordInput(['class' => '']) ?>
+                    <?= $form->field($model, 'password')->passwordInput(['class' => ''])->label('Пароль (не менее 4-х символов)') ?>
+                    <?= $form->field($model, 'password_repeat')->passwordInput(['class' => ''])->label('Повторите пароль') ?>
 
                     <div class="form-group">
                         <button type="submit" class="btn m-btn" name="signup-button"><?= Yii::t('app', 'Signup') ?><span class="fa fa-angle-right"></span></button>

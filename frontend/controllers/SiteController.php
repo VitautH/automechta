@@ -349,6 +349,12 @@ class SiteController extends Controller
                     'source_id' => $this->source_id,
                 ])->one();
                 break;
+            case 'odnoklassniki':
+                $auth = User::find()->where([
+                    'source' => $this->source,
+                    'source_id' => $this->source_id,
+                ])->one();
+                break;
         }
 
         if (Yii::$app->user->isGuest) {
@@ -389,6 +395,12 @@ class SiteController extends Controller
                         $last_name = $attributes['last_name'];
                         $first_name = $attributes['first_name'];
                         $username = $attributes['display_name'];
+                        break;
+                    case 'odnoklassniki':
+                        $email = $this->source_id. '@ok.ru';
+                        $last_name = $attributes['last_name'];
+                        $first_name = $attributes['first_name'];
+                        $username = $first_name . ' ' . $last_name;
                         break;
                 }
 
