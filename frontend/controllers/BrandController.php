@@ -33,7 +33,7 @@ use yii\data\Pagination;
 class BrandController extends Controller
 {
     public $layout = 'index';
-    const PAGE_SIZE = 10;
+    const PAGE_SIZE = 20;
 
     public function behaviors()
     {
@@ -105,21 +105,23 @@ class BrandController extends Controller
         if (!empty($params['ProductSearchForm']['specs'])) {
             $searchForm->specifications = $params['ProductSearchForm']['specs'];
         }
+        $lastPage = ceil($count / static::PAGE_SIZE);
 
         if (isset($params['page'])) {
             $page = intval($params['page']);
             if ($page == 1) {
                 $limit = 'LIMIT ' . static::PAGE_SIZE;
             } else {
-                if (ceil($count / static::PAGE_SIZE) >= $page) {
-                    $limit = 'LIMIT ' . static::PAGE_SIZE . ' OFFSET ' . ($page * static::PAGE_SIZE * (2 - 1));
+                if ($lastPage >= $page) {
+                    $limit = 'LIMIT ' . static::PAGE_SIZE . ' OFFSET ' . static::PAGE_SIZE * ($page-1);
                 } else {
                     Yii::$app->response->statusCode = 404;
                     throw new NotFoundHttpException('Извините, данной страницы не существует.');
                 }
             }
+        } else {
+            $page = 1;
         }
-
         if (isset($params['sort'])) {
             switch ($params['sort']) {
                 case 'price':
@@ -172,6 +174,8 @@ class BrandController extends Controller
             'products' => $products,
             'count' => $count,
             'pages' => $pages,
+            'currentPage' => $page,
+            'lastPage' => $lastPage,
             'sort' => $sortData,
             'searchForm' => $searchForm,
             'metaData' => $this->getMetaData($searchForm),
@@ -238,18 +242,21 @@ class BrandController extends Controller
             }
             $params['count'] = $count;
             $connection = Yii::$app->getDb();
+            $lastPage = ceil($count / static::PAGE_SIZE);
             if (isset($params['page'])) {
                 $page = intval($params['page']);
                 if ($page == 1) {
                     $limit = 'LIMIT ' . static::PAGE_SIZE;
                 } else {
-                    if (ceil($count / static::PAGE_SIZE) >= $page) {
-                        $limit = 'LIMIT ' . static::PAGE_SIZE . ' OFFSET ' . ($page * static::PAGE_SIZE * (2 - 1));
+                    if ($lastPage >= $page) {
+                        $limit = 'LIMIT ' . static::PAGE_SIZE . ' OFFSET ' . ($page-1) * static::PAGE_SIZE;
                     } else {
                         Yii::$app->response->statusCode = 404;
                         throw new NotFoundHttpException('Извините, данной страницы не существует.');
                     }
                 }
+            } else {
+                $page = 1;
             }
 
             if (isset($params['sort'])) {
@@ -278,7 +285,7 @@ class BrandController extends Controller
             }
 
             $command = $connection->createCommand("
-    SELECT id FROM " . Product::TABLE_NAME . "  WHERE type = $productType AND  
+    SELECT id FROM " . Product::TABLE_NAME . "  WHERE  type = $productType AND  
     status = " . Product::STATUS_PUBLISHED . " " . $sort . " " . $limit . " ");
             $result = $command->queryAll();
             $products = [];
@@ -302,6 +309,8 @@ class BrandController extends Controller
             return $this->render('category', [
                 'products' => $products,
                 'count' => $count,
+                'lastPage' => $lastPage,
+                'currentPage' => $page,
                 'pages' => $pages,
                 'sort' => $sortData,
                 'searchForm' => $searchForm,
@@ -347,8 +356,8 @@ class BrandController extends Controller
                 ],
             ],
         ]);
+
         $maker = str_replace('+', ' ', $maker);
-        $maker = ProductMake::find()->where(['name' => $maker])->one();
         $params = Yii::$app->request->get();
         if ($productType == 'cars' || $productType == 'moto') {
             switch ($productType) {
@@ -361,6 +370,7 @@ class BrandController extends Controller
                     $params['ProductSearchForm']['type'] = 3;
                     break;
             }
+            $maker = ProductMake::find()->where(['name' => $maker])->andWhere(['product_type'=>$productType])->one();
             if (Yii::$app->cache->exists('category_' . $maker->id)) {
                 $count = Yii::$app->cache->getField('category_' . $maker->id, 'count');
             } else {
@@ -373,19 +383,21 @@ class BrandController extends Controller
                 Yii::$app->cache->hmset('category_' . $maker->id, ['count' => $count], 10000);
             }
             $params['count'] = $count;
-
+            $lastPage = ceil($count / static::PAGE_SIZE);
             if (isset($params['page'])) {
                 $page = intval($params['page']);
                 if ($page == 1) {
                     $limit = 'LIMIT ' . static::PAGE_SIZE;
                 } else {
-                    if (ceil($count / static::PAGE_SIZE) >= $page) {
-                        $limit = 'LIMIT ' . static::PAGE_SIZE . ' OFFSET ' . ($page * static::PAGE_SIZE * (2 - 1));
+                    if ($lastPage >= $page) {
+                        $limit = 'LIMIT ' . static::PAGE_SIZE . ' OFFSET ' . static::PAGE_SIZE * ($page-1);
                     } else {
                         Yii::$app->response->statusCode = 404;
                         throw new NotFoundHttpException('Извините, данной страницы не существует.');
                     }
                 }
+            } else {
+                $page = 1;
             }
 
             if (isset($params['sort'])) {
@@ -414,7 +426,7 @@ class BrandController extends Controller
             }
             $connection = Yii::$app->getDb();
             $command = $connection->createCommand("
-    SELECT id FROM " . Product::TABLE_NAME . "  WHERE type = $productType AND make = $maker->id AND  
+    SELECT id FROM " . Product::TABLE_NAME . "  WHERE  type = $productType AND make = $maker->id AND  
     status = " . Product::STATUS_PUBLISHED . " " . $sort . " " . $limit . " ");
             $result = $command->queryAll();
 
@@ -464,6 +476,8 @@ class BrandController extends Controller
             return $this->render('maker', [
                 'products' => $products,
                 'count' => $count,
+                'lastPage' => $lastPage,
+                'currentPage' => $page,
                 'pages' => $pages,
                 'sort' => $sortData,
                 'make_id' => $maker->id,
@@ -523,7 +537,7 @@ class BrandController extends Controller
             $modelauto = str_replace('+', ' ', $modelauto);
             $maker = str_replace('+', ' ', $maker);
 
-            $maker = ProductMake::find()->where(['name' => $maker])->one();
+            $maker = ProductMake::find()->where(['name' => $maker])->andWhere(['product_type'=>$productType])->one();
 
             if (Yii::$app->cache->exists('category_' . $maker->id . '_' . $modelauto)) {
                 $count = Yii::$app->cache->getField('category_' . $maker->id . '_' . $modelauto, 'count');
@@ -538,19 +552,21 @@ class BrandController extends Controller
                 Yii::$app->cache->hmset('category_' . $maker->id . '_' . $modelauto, ['count' => $count], 10000);
             }
             $params['count'] = $count;
-
+            $lastPage = ceil($count / static::PAGE_SIZE);
             if (isset($params['page'])) {
                 $page = intval($params['page']);
                 if ($page == 1) {
                     $limit = 'LIMIT ' . static::PAGE_SIZE;
                 } else {
-                    if (ceil($count / static::PAGE_SIZE) >= $page) {
-                        $limit = 'LIMIT ' . static::PAGE_SIZE . ' OFFSET ' . ($page * static::PAGE_SIZE * (2 - 1));
+                    if ($lastPage >= $page) {
+                        $limit = 'LIMIT ' . static::PAGE_SIZE . ' OFFSET ' . static::PAGE_SIZE * ($page-1);
                     } else {
                         Yii::$app->response->statusCode = 404;
                         throw new NotFoundHttpException('Извините, данной страницы не существует.');
                     }
                 }
+            } else {
+                $page = 1;
             }
 
             if (isset($params['sort'])) {
@@ -580,7 +596,7 @@ class BrandController extends Controller
 
             $connection = Yii::$app->getDb();
             $command = $connection->createCommand("
-    SELECT id FROM " . Product::TABLE_NAME . "  WHERE type = $productType AND make = $maker->id AND model = '$modelauto' AND  
+    SELECT id FROM " . Product::TABLE_NAME . "  WHERE  type = $productType AND make = $maker->id AND model = '$modelauto' AND  
     status = " . Product::STATUS_PUBLISHED . " " . $sort . " " . $limit . " ");
             $result = $command->queryAll();
 
@@ -625,6 +641,8 @@ class BrandController extends Controller
             return $this->render('modelauto', [
                 'products' => $products,
                 'count' => $count,
+                'lastPage' => $lastPage,
+                'currentPage' => $page,
                 'pages' => $pages,
                 'sort' => $sortData,
                 'make_id' => $maker->id,
@@ -683,20 +701,81 @@ class BrandController extends Controller
 
             $searchCount = new ProductSearchForm();
             $query = Product::find()->active();
-            $params['ProductSearchForm']['makes'] = ProductMake::find()->where(['id' => $params['ProductSearchForm']['makes']])->one()->name;
-            $searchCount->load($params);
+            if (!empty($params['ProductSearchForm']['makes'])) {
+                $searchCount->make = $params['ProductSearchForm']['makes'];
+            }
             if (!empty($params['ProductSearchForm']['specs'])) {
                 $searchCount->specifications = $params['ProductSearchForm']['specs'];
             }
+            if (!empty($params['ProductSearchForm']['city_id'])) {
+                $searchCount->city_id = $params['ProductSearchForm']['city_id'];
+            }
+            if (!empty($params['ProductSearchForm']['specs'])) {
+                $searchCount->specifications = $params['ProductSearchForm']['specs'];
+            }
+            if (!empty($params['ProductSearchForm']['city_id'])) {
+                $searchCount->city_id = $params['ProductSearchForm']['city_id'];
+            }
+            if (!empty($params['ProductSearchForm']['yearFrom'])) {
+                $searchCount->yearFrom = $params['ProductSearchForm']['yearFrom'];
+            }
+            if (!empty($params['ProductSearchForm']['priceTo'])) {
+                $searchCount->priceTo = $params['ProductSearchForm']['priceTo'];
+            }
+            if (!empty($params['ProductSearchForm']['priceFrom'])) {
+                $searchCount->priceFrom = $params['ProductSearchForm']['priceFrom'];
+            }
+            if (!empty($params['ProductSearchForm']['region'])) {
+                $searchCount->region = $params['ProductSearchForm']['region'];
+            }
+            if (!empty($params['ProductSearchForm']['published'])) {
+                $searchCount->published = $params['ProductSearchForm']['published'];
+            }
+            if (!empty($params['ProductSearchForm']['yearTo'])) {
+                $searchCount->yearTo = $params['ProductSearchForm']['yearTo'];
+            }
+            if (!empty($params['ProductSearchForm']['model'])) {
+                $searchCount->model = $params['ProductSearchForm']['model'];
+            }
+            $searchCount->load($params);
             $count = $searchCount->count($query);
             unset($query);
             unset($searchCount);
+
             $searchForm = new ProductSearchForm();
             $query = Product::find()->active();
-            $searchForm->load($params);
             if (!empty($params['ProductSearchForm']['specs'])) {
                 $searchForm->specifications = $params['ProductSearchForm']['specs'];
             }
+            if (!empty($params['ProductSearchForm']['city_id'])) {
+                $searchForm->city_id = $params['ProductSearchForm']['city_id'];
+            }
+            if (!empty($params['ProductSearchForm']['yearFrom'])) {
+                $searchForm->yearFrom = $params['ProductSearchForm']['yearFrom'];
+            }
+            if (!empty($params['ProductSearchForm']['priceTo'])) {
+                $searchForm->priceTo = $params['ProductSearchForm']['priceTo'];
+            }
+            if (!empty($params['ProductSearchForm']['priceFrom'])) {
+                $searchForm->priceFrom = $params['ProductSearchForm']['priceFrom'];
+            }
+            if (!empty($params['ProductSearchForm']['region'])) {
+                $searchForm->region = $params['ProductSearchForm']['region'];
+            }
+            if (!empty($params['ProductSearchForm']['published'])) {
+                $searchForm->published = $params['ProductSearchForm']['published'];
+            }
+            if (!empty($params['ProductSearchForm']['yearTo'])) {
+                $searchForm->yearTo = $params['ProductSearchForm']['yearTo'];
+            }
+            if (!empty($params['ProductSearchForm']['makes'])) {
+                $searchForm->make = $params['ProductSearchForm']['makes'];
+            }
+            if (!empty($params['ProductSearchForm']['model'])) {
+                $searchForm->model = $params['ProductSearchForm']['model'];
+            }
+            $searchForm->load($params);
+
             if (isset($params['sort'])) {
                 switch ($params['sort']) {
                     case 'price':
@@ -725,15 +804,15 @@ class BrandController extends Controller
                 $query->orderBy('product.updated_at DESC');
             }
 
-
+            $lastPage = ceil($count / static::PAGE_SIZE);
             if (isset($params['page'])) {
                 $page = intval($params['page']);
                 if ($page == 1) {
                     $query->limit(static::PAGE_SIZE);
                 } else {
-                    if (ceil($count / static::PAGE_SIZE) >= $page) {
+                    if ($lastPage >= $page) {
                         $query->limit(static::PAGE_SIZE);
-                        $query->offset((static::PAGE_SIZE * $page) - static::PAGE_SIZE);
+                        $query->offset(static::PAGE_SIZE * ($page-1));
                     } else {
                         Yii::$app->response->statusCode = 404;
                         throw new NotFoundHttpException('Извините, данной страницы не существует.');
@@ -741,7 +820,9 @@ class BrandController extends Controller
                 }
             } else {
                 $query->limit(static::PAGE_SIZE);
+                $page = 1;
             }
+
 
             $result = $searchForm->search($query)->select('product.id')->asArray()->all();
 
@@ -764,6 +845,8 @@ class BrandController extends Controller
                 'searchForm' => $searchForm,
                 'sort' => $sortData,
                 'pages' => $pages,
+                'lastPage' => $lastPage,
+                'currentPage' => $page,
                 'metaData' => $this->getMetaData($searchForm),
                 'type' => $productType,
                 '_params_' => $params
@@ -909,63 +992,7 @@ class BrandController extends Controller
         }
     }
 
-    /**
-     * @param Product $model
-     * @return ProductSpecification[]
-     */
-    protected function fillSpecifications(Product $model)
-    {
-        $productSpecificationsData = Yii::$app->request->post('ProductSpecification', []);
-        $productSpecificationModels = [];
-
-        if ($model->type !== null) {
-            $specifications = Specification::find()
-                ->joinWith('productTypeSpecifications')
-                ->where('product_type_specifications.type=:type', [':type' => $model->type])
-                ->orderBy('specification.lft')
-                ->all();
-
-            foreach ($specifications as $specification) {
-                $productSpecificationModel = null;
-                if (!$model->isNewRecord) {
-                    $productSpecificationModel = ProductSpecification::find()
-                        ->where('specification_id=:specification_id and product_id=:product_id', [
-                            ':specification_id' => $specification->id,
-                            ':product_id' => $model->id,
-                        ])->limit(1)->one();
-                }
-
-                if ($productSpecificationModel === null) {
-                    $productSpecificationModel = new ProductSpecification();
-                    $productSpecificationModel->specification_id = $specification->id;
-                    $productSpecificationModel->product_id = $model->id;
-                }
-
-                if (isset($productSpecificationsData[$specification->id])) {
-                    $productSpecificationModel->load($productSpecificationsData[$specification->id], '');
-                }
-
-                $productSpecificationModels[$specification->id] = $productSpecificationModel;
-            }
-        }
-
-        return $productSpecificationModels;
-    }
-
-    /**
-     * @param Product $model
-     * @return ProductSpecification[]
-     */
-    protected function saveSpecifications(Product $model)
-    {
-        ProductSpecification::deleteAll('product_id=' . $model->id);
-        $productSpecificationModels = $this->fillSpecifications($model);
-        foreach ($productSpecificationModels as $productSpecificationModel) {
-            $productSpecificationModel->save();
-        }
-        return $productSpecificationModel;
-    }
-
+  
     /**
      * Get metadata model
      */

@@ -49,6 +49,13 @@ $config = [
                     'clientSecret' => '7e7ee7382a814ef697bddcc4d1ea6bde',
                     'returnUrl' => 'https://www.automechta.by/site/auth?authclient=yandex',
                 ],
+                'odnoklassniki' => [
+                    'class' => 'kotchuprik\authclient\Odnoklassniki',
+                    'applicationKey' => 'CBAIHLCMEBABABABA',
+                    'clientId' => '1261074176',
+                    'clientSecret' => '47D280E1B31940E614F4BB93',
+                    'scope' => 'GET_EMAIL'
+                ],
             ],
         ],
         'user' => [
@@ -67,7 +74,7 @@ $config = [
                 ],
             ],
         ],
-
+    
         'urlManager' => [
             'rules' => [
                 [
@@ -80,21 +87,30 @@ $config = [
                 'brand/<productType:.+>/<maker:.+>' => 'brand/maker',
                 'brand/<productType:.+>' => 'brand/category',
                 'cars/company' => 'brand/categorycompany',
+                '<productType:cars|moto>/<maker:.+>/<modelauto:.+>/<preview:.+>/<id:.+>' => 'catalog/preview',
                 '<productType:cars|moto>/<maker:.+>/<modelauto:.+>/<id:.+>' => 'catalog/newshow',
                 '<productType:cars|moto>' => 'brand/newcategory',
                 '<productType:cars|moto>/<maker:.+>/<modelauto:.+>' => 'brand/newmodelauto',
                 '<productType:cars|moto>/<maker:.+>' => 'brand/newmaker',
                 'search/<productType:cars|moto>' => 'brand/search',
-                'sitemap.xml' => 'sitemap/index',
-            ],
+                'create-ads' => 'createads/create',
+                'create-ads/validate' => 'createads/validate',
+                'create-ads/step1' => 'createads/step1',
+                'create-ads/step2' => 'createads/step2',
+                'create-ads/step3' => 'createads/step3',
+                'create-ads/save' => 'createads/save',
+                'update-ads/save' => 'createads/update-save',
+                'update-ads' => 'createads/update',
+				'sitemap.xml' => 'sitemap/index',
+			],
         ],
         'menu' => [
             'class' => 'frontend\components\Menu'
         ],
         'cache' => [
             'class' => 'common\components\Cache',
-            'host' => '127.0.0.1',
-            'port' => '6379'
+            'host'=>'127.0.0.1',
+    'port' => '6379'
         ],
         'view' => [
             'class' => 'frontend\components\View'
