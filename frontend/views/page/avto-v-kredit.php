@@ -8,6 +8,8 @@ use common\models\CreditApplication;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 use common\widgets\Alert;
+use yii\widgets\MaskedInput;
+
 /* @var $this yii\web\View */
 /* @var $model Page */
 /* @var $provider yii\data\ActiveDataProvider */
@@ -25,19 +27,19 @@ $this->title = $metaData[MetaData::TYPE_TITLE]->i18n()->value;
     'name' => 'keywords',
     'content' => $metaData[MetaData::TYPE_KEYWORDS]->i18n()->value
 ]);
-
+$this->registerJs("require(['controllers/tools/calculator']);", \yii\web\View::POS_HEAD);
 $model = new CreditApplication();
 ?>
 <div class="overlay"></div>
 <div class="slide_head_credit">
     <div class="container">
-        <div class="row">
-            <span class="title"> АВТО В КРЕДИТ</span>
-            <span class="desc"> Без первоначального взноса</span>
-            <span class="desc_mini"> (до 5000 руб. без справки о доходах)</span>
-        </div>
         <div class="row credits-block">
-            <div class="col-md-4 col-md-offset-1">
+            <div class="col-md-3">
+                <span class="title"> АВТО В КРЕДИТ</span>
+                <span class="desc"> Без первоначального взноса</span>
+                <span class="desc_mini"> (до 5000 руб. без справки о доходах)</span>
+            </div>
+            <div class="col-md-3">
                 <div class="cblock">
                     <div class="font36 light white">до <span class="font60 yellow extrabold">20 000</span> руб.</div>
                     <div class="font16 light white">Сумма кредитования</div>
@@ -49,7 +51,7 @@ $model = new CreditApplication();
                     <div class="font16 light white">Годовая процентная ставка</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="cblock">
                     <div class="font36 light white">до <span class="font60 yellow extrabold">5</span> лет</div>
                     <div class="font16 light white">Срок кредитования</div>
@@ -140,13 +142,18 @@ $model = new CreditApplication();
         <div class="col-md-3">
             <div class="credit_block">
                 <h2> ЗАЯВКА НА КРЕДИТ</h2>
-                <?php Pjax::begin(['id' => 'pajax']); ?>
+                <?php Pjax::begin(['enablePushState' => false,'id' => 'pajax']); ?>
                 <?php if ($model->id): ?>
                 <?php else: ?>
                     <?php $form = ActiveForm::begin(['action'=>'/tools/credit-application','options' => ['data-pjax' => true]]); ?>
-                        <?= $form->field($model, 'name', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('name')) ?>
-                    <?= $form->field($model, 'firstname', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => ''])->label($model->getAttributeLabel('firstname')) ?>
-                    <?= $form->field($model, 'phone', ['options' => ['class' => 'b-submit__main-element']])->textInput(['class' => '','required'=>true])->label($model->getAttributeLabel('phone') . ' <span class="text-danger">*</span>') ?>
+                        <?= $form->field($model, 'name', ['options' => ['class' => 'b-submit__main-element']])
+                        ->textInput(['class' => ''])->label($model->getAttributeLabel('name')) ?>
+                    <?= $form->field($model, 'firstname', ['options' => ['class' => 'b-submit__main-element']])
+                        ->textInput(['class' => ''])->label($model->getAttributeLabel('firstname')) ?>
+                    <?= $form->field($model, 'phone', ['options' => [ 'max' => 19, 'min' => 19,'class' => 'b-submit__main-element']])
+                        ->widget(\yii\widgets\MaskedInput::className(), [
+                        'mask' => '+375 (99) 999-99-99',
+                    ])->textInput(['class' => '','required'=>true])->label($model->getAttributeLabel('phone') . ' <span class="text-danger">*</span>') ?>
                     <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary']) ?>
                     <?php ActiveForm::end(); ?>
                 <?php endif; ?>
@@ -170,6 +177,57 @@ $model = new CreditApplication();
                     <br>
                     ст. метро Институт Культуры
                 </p>
+            </div>
+            <div class="b-detail__main">
+            <div class="right_block">
+                <div class="b-detail__main-aside-payment wow zoomInUp" data-wow-delay="0.5s">
+                    <h2 class="s-titleDet"><?= Yii::t('app', 'CAR PAYMENT CALCULATOR') ?></h2>
+                    <div class="b-detail__main-aside-payment-form">
+                        <div class="calculator-loan" style="display: none;"></div>
+                        <form action="/" method="post" class="js-loan">
+                            <label><?= Yii::t('app', 'ENTER LOAN AMOUNT') ?></label>
+                            <input type="text" placeholder="<?= Yii::t('app', 'LOAN AMOUNT') ?>"
+                                   value="0" name="price" />
+                            <label><?= Yii::t('app', 'Prepayment') ?></label>
+                            <input type="number" placeholder="<?= Yii::t('app', 'Prepayment') ?>"
+                                   value="0" name="prepayment" id="prepayment" min="0"/>
+                            <label><?= Yii::t('app', 'RATE IN') ?> %</label>
+                            <div class="s-relative">
+                                <select name="rate" class="m-select" id="rate">
+                                <option value="14">Приорбанк 14%</option>
+                                <option value="22">ВТБ 22%</option>
+                                <option value="14.5">БТА 14,5%</option>
+                                <option value="16.8">СтатусБанк 16,8%</option>
+                            </select>
+                            <span class="fa fa-caret-down"></span>
+                            </div>
+                            <label><?= Yii::t('app', 'LOAN TERM') ?></label>
+                            <div class="s-relative">
+                                <select name="term" class="m-select" id="term">
+                                    <option value="6m"><?= Yii::t('app', '6 month') ?></option>
+                                    <option value="12m"><?= Yii::t('app', 'One year') ?></option>
+                                    <option value="24m"><?= Yii::t('app', '2 years') ?></option>
+                                    <option value="36m"><?= Yii::t('app', '3 years') ?></option>
+                                    <option value="48m"><?= Yii::t('app', '4 years') ?></option>
+                                    <option value="60m"
+                                            selected><?= Yii::t('app', '5 years') ?></option>
+                                </select>
+                                <span class="fa fa-caret-down"></span>
+                            </div>
+                            <button type="submit"
+                                    class="btn m-btn"><?= Yii::t('app', 'ESTIMATE PAYMENT') ?>
+                                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                        <div class="b-detail__main-aside-about-call js-loan-results">
+                            <div><span class="js-per-month"> </span>
+                                BYN
+                                <p>в месяц</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             </div>
         </div>
     </div>
