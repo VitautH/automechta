@@ -26,6 +26,8 @@ class CreditApplicationSearch extends CreditApplication
         $scenarios[self::SCENARIO_SEARCH] = [
             'status',
             'name',
+            'firstname',
+            'lastname',
             'product',
             'updated_at',
             'created_at',

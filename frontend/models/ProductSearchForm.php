@@ -27,6 +27,7 @@ class ProductSearchForm extends Model
     public $published;
     public $specifications;
     public $region;
+    public $city_id;
 
     public function init()
     {
@@ -105,8 +106,10 @@ class ProductSearchForm extends Model
             $query->andWhere('price<=:priceTo', [':priceTo' => $this->priceTo]);
         }
         if (!empty($this->region)) {
-            $query->leftJoin('user', 'user.id=product.created_by');
-            $query->andWhere('user.region=:region', [':region' => $this->region]);
+            $query->andWhere('region=:region', [':region' => $this->region]);
+        }
+        if (!empty($this->city_id)) {
+            $query->andWhere('city_id=:city_id', [':city_id' => $this->city_id]);
         }
         if (!empty($this->published)) {
             $this->published = intval($this->published);
@@ -130,13 +133,21 @@ class ProductSearchForm extends Model
                 }
             }
             if ($specNum>0) {
+              //  $query->groupBy('product.id')
+                   // ->select('product.*, count(product.id) as prod_num');
                 $query->addParams($specQuery->params);
-                $query->having('prod_num='.$specNum);
+                $query->having('count(product.id)='.$specNum);
                 $query->andWhere($specQuery->where);
             }
         }
 
         return $query;
+    }
+
+    public function count($query){
+      $total =  $this->search($query);
+       $count = $total->count();
+        return $count;
     }
 
     /**

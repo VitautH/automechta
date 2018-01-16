@@ -18,7 +18,7 @@ $config = [
         ],
         'debug' => [ // панель на хостинге
             'class' => 'yii\debug\Module', //
-            'allowedIPs' => ['93.85.147.180'] //
+            'allowedIPs' => [''] //
         ],
     ],
 
@@ -47,8 +47,14 @@ $config = [
                     'class' => 'yii\authclient\clients\Yandex',
                     'clientId' => '3bc893230a8040e39f91be1924287cf3',
                     'clientSecret' => '7e7ee7382a814ef697bddcc4d1ea6bde',
-                    //'scope' => 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
                     'returnUrl' => 'https://www.automechta.by/site/auth?authclient=yandex',
+                ],
+                'odnoklassniki' => [
+                    'class' => 'kotchuprik\authclient\Odnoklassniki',
+                    'applicationKey' => 'CBAIHLCMEBABABABA',
+                    'clientId' => '1261074176',
+                    'clientSecret' => '47D280E1B31940E614F4BB93',
+                    'scope' => 'GET_EMAIL'
                 ],
             ],
         ],
@@ -78,15 +84,33 @@ $config = [
                 ],
                 '<alias:avto-v-kredit|oformlenie-schet-spravki|srochnyj-vykup|prijom-avto-na-komissiju|trade-In(Obmen)>' => 'page/show',
                 'brand/<productType:.+>/<maker:.+>/<modelauto:.+>' => 'brand/modelauto',
-                'brand/' => 'brand/index',
-                'brand/search' => 'brand/search',
                 'brand/<productType:.+>/<maker:.+>' => 'brand/maker',
                 'brand/<productType:.+>' => 'brand/category',
+                'cars/company' => 'brand/categorycompany',
+                '<productType:cars|moto>/<maker:.+>/<modelauto:.+>/<preview:.+>/<id:.+>' => 'catalog/preview',
+                '<productType:cars|moto>/<maker:.+>/<modelauto:.+>/<id:.+>' => 'catalog/newshow',
+                '<productType:cars|moto>' => 'brand/newcategory',
+                '<productType:cars|moto>/<maker:.+>/<modelauto:.+>' => 'brand/newmodelauto',
+                '<productType:cars|moto>/<maker:.+>' => 'brand/newmaker',
+                'search/<productType:cars|moto>' => 'brand/search',
+                'create-ads' => 'createads/create',
+                'create-ads/validate' => 'createads/validate',
+                'create-ads/step1' => 'createads/step1',
+                'create-ads/step2' => 'createads/step2',
+                'create-ads/step3' => 'createads/step3',
+                'create-ads/save' => 'createads/save',
+                'update-ads/save' => 'createads/update-save',
+                'update-ads' => 'createads/update',
 				'sitemap.xml' => 'sitemap/index',
 			],
         ],
         'menu' => [
             'class' => 'frontend\components\Menu'
+        ],
+        'cache' => [
+            'class' => 'common\components\Cache',
+            'host'=>'127.0.0.1',
+    'port' => '6379'
         ],
         'view' => [
             'class' => 'frontend\components\View'

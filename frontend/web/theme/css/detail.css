@@ -34,7 +34,7 @@
 
 .b-detail__head {
     padding: 0 0 10px 0;
-    margin-bottom: 35px;
+    margin-bottom: 5px;
 }
 
 .b-detail__head-title {
@@ -137,9 +137,33 @@
 
 .b-detail__main-aside-about {
     margin-bottom: 25px;
-    border: 2px solid #bbbbbb;
+    border: 1px solid #ddd;
+    border-top: 7px solid #ddd;
 }
 
+.catalog .b-detail__main-aside-about {
+    margin-bottom: 25px;
+    border: 1px solid #ddd;
+    position: relative;
+    top: -10px;
+    background: white;
+}
+
+.catalog .b-infoBar {
+    position: relative;
+    top: 0;
+    width: 100%;
+}
+
+.catalog .b-items {
+    margin-top: -25px;
+}
+.b-makers__item {
+    min-width: 150px!important;
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif!important;
+    font-size: 17px!important;
+    line-height: 22px!important;
+}
 .b-detail__main-aside-about-call {
     padding: 20px 0 25px 80px;
     position: relative;

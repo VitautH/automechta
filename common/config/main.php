@@ -10,6 +10,17 @@ return [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
         ],
+        'elasticsearch' => [
+            'class' => 'yii\elasticsearch\Connection',
+            'nodes' => [
+                ['http_address' => '127.0.0.1:9200'],
+                // configure more hosts if you have a cluster
+            ],
+        ],
+        'productEvent' => [
+            'class' => \common\models\ProductEvent::className(),
+           'on updateProduct' => ['common\models\ProductEvent', 'updateProduct'],
+        ],
         'uploads' => [
             'class' => 'common\components\Uploads'
         ],
@@ -22,8 +33,25 @@ return [
                 ],
             ],
         ],
+        'redis' => [
+            'class' => 'yii\redis\Connection',
+            'hostname' => 'localhost',
+            'port' => 6379,
+            'database' => 0,
+        ],
+        'session' => [
+
+            'class' => 'yii\redis\Session',
+
+        ],
+
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => 'common\components\Cache',
+            'host' => '127.0.0.1',
+            'port' => '6379'
+        ],
+        'indexing' => [
+            'class' => 'common\components\Indexing',
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,

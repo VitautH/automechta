@@ -62,7 +62,8 @@
 
 .b-infoBar {
     padding: 10px 0;
-    margin-top: 15px;
+    margin-top: 0;
+    margin-bottom: 20px;
 }
 
 .b-infoBar__compare {
@@ -147,7 +148,7 @@
 
 .b-infoBar__select-one:last-child {
     margin-right: 0;
-    float: right;
+    float: left;
 }
 
 .b-infoBar__select {
@@ -178,6 +179,16 @@
     display: inline-block;
     margin-left: -1.5px;
     font-size: 18px;
+}
+
+.b-infoBar .edit {
+    float: right;
+}
+
+.b-infoBar .edit a {
+    color: #999;
+    font: 400 12px 'Open Sans', sans-serif;
+    display: inline-block;
 }
 
 .b-product-info {
@@ -226,6 +237,7 @@ select.m-select + span.fa {
 
 .b-items__aside {
     text-align: center;
+    padding-top: 10px;
 }
 
 .b-items__aside-main-body {
@@ -234,6 +246,9 @@ select.m-select + span.fa {
 
 .b-items .s-title {
     margin-bottom: 25px;
+    display: inline-block!important;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .b-items__aside-main-body-item {
@@ -471,7 +486,7 @@ select.m-select + span.fa {
 }
 
 .b-items__cars-one-info-header > span {
-   color: green;
+    color: green;
     display: inline-block;
     font: 700 20px 'PT Sans', sans-serif;
 }
@@ -523,6 +538,7 @@ select.m-select + span.fa {
     margin-top: 0;
     text-align: center;
 }
+
 .b-items__pagination a.btn {
     left: 10px;
     position: absolute;
@@ -531,10 +547,12 @@ select.m-select + span.fa {
     padding-right: 20px;
     background-color: #9f9f9f;
 }
+
 .b-items__pagination a.btn i {
     color: white;
     margin-left: 15px;
 }
+
 .b-items__pagination-main {
     display: inline-block;
     padding: 5px;
@@ -594,7 +612,7 @@ ul.b-items__pagination-main {
 
 .b-items__pagination-main > li.m-left:hover, .b-items__pagination-main > li.m-right:hover {
     background: #df4142;
-    color:white;
+    color: white;
 }
 
 .b-items__pagination-main > li.m-left.disabled:hover, .b-items__pagination-main > li.m-right.disabled:hover {
@@ -624,7 +642,7 @@ ul.b-items__pagination-main {
 .b-items__pagination-main > span.m-active a, .b-items__pagination-main > span:hover a,
 .b-items__pagination-main > li.m-active a, .b-items__pagination-main > li:hover a {
     text-decoration: none;
-    color: white!important;
+    color: white !important;
 }
 
 .b-items__pagination-main > span.m-active, .b-items__pagination-main > span:hover,
@@ -902,8 +920,8 @@ ul.b-items__pagination-main {
 }
 
 .b-makers__list__main {
-    border: 2px solid grey;
     padding: 20px;
+    padding-bottom: 30px;
 }
 
 .b-makers__item {

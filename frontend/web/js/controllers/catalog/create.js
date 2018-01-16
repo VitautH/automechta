@@ -46,4 +46,5 @@ define(['jquery', 'application', 'preloader', 'uploader', 'maskedinput'], functi
     if ($('#user-phone_2').length) {
         $('#user-phone_2').mask("+375 (99) 999-99-99");
     }
+
 });

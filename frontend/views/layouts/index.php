@@ -4,6 +4,7 @@
 /* @var $content string */
 
 use yii\helpers\Html;
+use common\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
@@ -12,7 +13,6 @@ use common\widgets\Alert;
 use common\models\Menu as MenuModel;
 use common\models\AppData;
 use yii\widgets\Menu;
-use yii\helpers\Url;
 use common\models\Product;
 use common\models\Specification;
 use common\models\Page;
@@ -27,21 +27,19 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
     <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
     <html lang="<?= Yii::$app->language ?>">
     <head>
-        <meta name="yandex-verification" content="d1668a24657ff9c4"/>
-        <meta name="google-site-verification" content="iZfn4HRVixNo6LGlr0Hqf1hmWhhkETauoslFwTThEJE"/>
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-110162737-1"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() {
-                dataLayer.push(arguments);
-            }
-            gtag('js', new Date());
+        <meta name="yandex-verification" content="d1668a24657ff9c4" />
+<meta name="google-site-verification" content="iZfn4HRVixNo6LGlr0Hqf1hmWhhkETauoslFwTThEJE" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110162737-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-            gtag('config', 'UA-110162737-1');
-        </script>
+  gtag('config', 'UA-110162737-1');
+</script>
 
-        <meta name="yandex-verification" content="6671e701e627845e"/>
+        <meta name="yandex-verification" content="6671e701e627845e" />
         <meta charset="<?= Yii::$app->charset ?>">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
         <?= Html::csrfMetaTags() ?>
@@ -155,33 +153,33 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                         </div>
                         <div class="collapse navbar-collapse navbar-main-slide" id="nav">
                             <ul>
-                                <?php if (Yii::$app->user->isGuest): ?>
+                            <?php if (Yii::$app->user->isGuest): ?>
 
-                                    <li><a href="<?= Url::to(['/site/login']) ?>">
-                                            <?= Yii::t('app', 'Log in') ?>
-                                        </a>
+                                <li>    <a href="<?= Url::to(['/site/login']) ?>">
+                                        <?= Yii::t('app', 'Log in') ?>
+                                    </a>
 
-                                        <a href="<?= Url::to(['/site/signup']) ?>">
-                                            Регистрация
-                                        </a>
-                                    </li>
-                                <?php else: ?>
-                                    <li>
-                                        <a class="account_link" href="
+                                    <a href="<?= Url::to(['/site/signup']) ?>">
+                                        Регистрация
+                                    </a>
+                                </li>
+                            <?php else: ?>
+                                 <li>
+                                     <a class="account_link" href="
                     <?= Url::to(['/account/index']) ?>"><?= Yii::t('app', 'Account') ?></a>
 
-                                        <a data-method="post" href="
+                                    <a data-method="post" href="
                     <?= Url::to(['/site/logout']) ?>"><b><?= Yii::t('app', 'Logout') ?></b> (
-                                            <?= Yii::$app->user->identity->username ?>)
-                                        </a>
-                                    </li>
-                                <?php endif; ?>
+                                        <?= Yii::$app->user->identity->username ?>)
+                                    </a>
+                                 </li>
+                            <?php endif; ?>
                                 <li>
                                     <a href="/catalog/create" class="btn m-btn m-btn-dark header-create-button">
                                         <?= Yii::t('app', 'ADD YOUR VEHICLE') ?>
                                     </a>
                                 </li>
-                            </ul>
+                        </ul>
                             <?=
                             Menu::widget([
                                 'activateParents' => true,
@@ -214,14 +212,14 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                 </div>
             </div>
             <div class="row visible-xs visible-sm phone_number">
-                <div class="col-xs-6 col-sm-6">
-                    <a href="tel:<?= $appData['phone'] ?>" class="inheritColor"><?= $appData['phone'] ?></a>
+                    <div class="col-xs-6 col-sm-6">
+                        <a href="tel:<?= $appData['phone'] ?>" class="inheritColor"><?= $appData['phone'] ?></a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6">
+                        <a href="tel:<?= $appData['phone_2'] ?>"
+                           class="inheritColor"><?= $appData['phone_2'] ?></a>
+                    </div>
                 </div>
-                <div class="col-xs-6 col-sm-6">
-                    <a href="tel:<?= $appData['phone_2'] ?>"
-                       class="inheritColor"><?= $appData['phone_2'] ?></a>
-                </div>
-            </div>
         </div>
     </header>
     <!--b-topBar-->
@@ -268,6 +266,13 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
     <!--b-nav-->
     <?= $content ?>
     <!--b-info-->
+<?php
+if (Yii::$app->cache->exists('footer')){
+    echo Yii::$app->cache->get('footer');
+}
+else {
+    ob_start();
+    ?>
     <div class="additional_block">
         <div class="container">
             <div class="row">
@@ -280,7 +285,7 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                 <div class="col-md-3 col-xs-6">
                     <div class="b-info__latest">
                         <div class="h3"><a
-                                    href="/catalog?ProductSearchForm[type]=3">
+                                    href="<?=Url::UrlBaseCategory(Url::MOTO)?>">
                                 Мотоциклы в кредит</a></div>
                         <?php
                         $latestProducts = Product::find()->where('type=:type', array(':type' => 3))->active()->orderBy('id DESC')->limit(2)->all();
@@ -288,14 +293,14 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
                         <?php foreach ($latestProducts as $latestProduct): ?>
                             <div class="b-info__latest-article wow zoomInUp" data-wow-delay="0.3s">
                                 <div class="b-info__latest-article-photo">
-                                    <a href="<?= $latestProduct->getUrl() ?>">
+                                    <a href="<?= URL::UrlShowProduct($latestProduct->id)?>">
                                         <img src="<?= $latestProduct->getTitleImageUrl(80, 53) ?>"
                                              alt="<?= $latestProduct->getFullTitle() ?>"/>
                                     </a>
                                 </div>
                                 <div class="b-info__latest-article-info">
                                     <h6>
-                                        <a href="<?= $latestProduct->getUrl() ?>"><?= $latestProduct->getFullTitle() ?></a>
+                                        <a href="<?= URL::UrlShowProduct($latestProduct->id)?>"><?= $latestProduct->getFullTitle() ?></a>
                                     </h6>
                                     <span>
                                         <?= Yii::$app->formatter->asDecimal($latestProduct->getByrPrice()) ?> BYN<br>
@@ -378,6 +383,12 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
             </div>
         </div>
     </footer><!--b-footer-->
+    <?php
+    $content = ob_get_contents();
+    Yii::$app->cache->set('footer', $content);
+    ob_end_flush();
+}
+?>
     <?php $this->endBody() ?>
     <link rel="stylesheet" href="/theme/assets/bxslider/jquery.bxslider.css">
     <link rel="stylesheet" href="/theme/assets/owl-carousel/owl.carousel.css">
@@ -411,5 +422,5 @@ $commonWebPath = '..' . Yii::$app->assetManager->getPublishedUrl('@common/web');
     </script>
     </body>
     </html>
-
+    Отработало за <?=Yii::getLogger()->getElapsedTime();?> с. Скушано памяти: <?=round(memory_get_peak_usage()/(1024*1024),2)."MB"?>
 <?php $this->endPage() ?>

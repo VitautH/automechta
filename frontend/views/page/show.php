@@ -43,7 +43,7 @@ $this->title = $metaData[MetaData::TYPE_TITLE]->i18n()->value;
 <section class="b-article">
     <div class="container">
         <div class="row">
-            <div class="col-md-9 col-xs-12">
+            <div class="col-md-12 col-xs-12">
                 <div class="b-article__main">
                     <div class="b-blog__posts-one">
                         <div class="row m-noBlockPadding">
@@ -72,26 +72,6 @@ $this->title = $metaData[MetaData::TYPE_TITLE]->i18n()->value;
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3 col-xs-12">
-                <aside class="b-blog__aside">
-                    <div class="b-blog__aside-popular wow zoomInUp" data-wow-delay="0.5s">
-                        <header class="s-lineDownLeft">
-                            <h2 class="s-titleDet"><?= Yii::t('app', 'More articles') ?></h2>
-                        </header>
-                        <div class="b-blog__aside-popular-posts">
-                            <?php foreach($asidePages as $asidePage): ?>
-                                <div class="b-blog__aside-popular-posts-one">
-                                    <a href="<?= $asidePage->getUrl() ?>">
-                                        <img class="img-responsive" src="<?= $asidePage->getTitleImageUrl(270, 150) ?>" alt="<?= $asidePage->i18n()->header ?>" />
-                                    </a>
-                                    <h4><a href="<?= $asidePage->getUrl() ?>"><?= $asidePage->i18n()->header ?></a></h4>
-                                    <div class="b-blog__aside-popular-posts-one-date"><span class="fa fa-calendar-o"></span></div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                </aside>
             </div>
         </div>
     </div>

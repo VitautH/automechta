@@ -22,16 +22,6 @@ body {
     margin-right: 0;
 }
 
-.s-title {
-    font: 700 18px 'Open Sans', sans-serif;
-    margin: 0 0 50px 0;
-    padding: 0 15px;
-    border-left: 4px solid #f76d2b;
-    border-right: 4px solid #f76d2b;
-    text-transform: uppercase;
-    display: inline-block;
-    letter-spacing: 1px;
-}
 
 .s-title a {
     text-decoration: none;
@@ -52,6 +42,7 @@ body {
 .s-shadow.b-breadCumbs {
     box-shadow: 0px 30px 50px -24px rgba(0, 0, 0, 0.1);
     z-index: 1000;
+    margin-top: 0;
 }
 
 .s-whiteShadow {

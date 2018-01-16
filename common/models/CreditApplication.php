@@ -62,7 +62,8 @@ class CreditApplication extends \yii\db\ActiveRecord
             [['phone'],'required'],
             [['name','firstname', 'dob', 'sex', 'family_status', 'job', 'experience', 'salary', 'loans_payment', 'product', 'credit_amount', 'term', 'information_on_income'], 'safe'],
             [['name', 'lastname', 'firstname', 'job', 'experience', 'product', 'credit_amount', 'information_on_income'], 'string'],
-            [['phone', 'dob', 'term'], 'string', 'max' => 256]
+            [['phone', 'dob', 'term'], 'string', 'max' => 256],
+            ['phone', 'string', 'min' => 9, 'message' => 'Телефон должен содержать минимум 9 символа.'],
         ];
     }
 

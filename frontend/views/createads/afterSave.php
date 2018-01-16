@@ -45,7 +45,7 @@ $appData = AppData::getData();
                 <header class="b-contacts__form-header s-lineDownLeft">
                     <h2 class="s-titleDet"><?= Yii::t('app', 'Go to') ?></h2>
                 </header>
-                <a href="/catalog" class="btn m-btn m-btn-dark">
+                <a href="/cars" class="btn m-btn m-btn-dark">
                     <?= Yii::t('app', 'Catalog') ?> <span class="fa fa-angle-right"></span>
                 </a>
                 <a href="/account" class="btn m-btn m-btn-dark">

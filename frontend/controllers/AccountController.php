@@ -1,4 +1,5 @@
 <?php
+
 namespace frontend\controllers;
 
 use common\models\ProductSearch;
@@ -43,27 +44,27 @@ class AccountController extends Controller
         //$searchModel = new ProductSearch();
         $params = Yii::$app->request->get();
         //$searchModel->loadI18n($params);
-      //  $searchModel->created_by = Yii::$app->user->id;
+        //  $searchModel->created_by = Yii::$app->user->id;
         $query = Product::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-        $query->where(['created_by'=>Yii::$app->user->id]);
-        $query->andWhere(['!=','status',Product::STATUS_UNPUBLISHED]);
+        $query->where(['created_by' => Yii::$app->user->id]);
+        $query->andWhere(['!=', 'status', Product::STATUS_UNPUBLISHED]);
         $query->orderBy('product.updated_at DESC');
         /** @var ActiveDataProvider $dataProvider */
-      //  $dataProvider = $searchModel->search();
-      //  $dataProvider->query->where(['created_by'=>Yii::$app->user->id])->orWhere(['status'=>Product::STATUS_TO_BE_VERIFIED])->orWhere(['status'=>Product::STATUS_PUBLISHED])->orderBy('product.updated_at DESC');
-       // $dataProvider->sort = false;
+        //  $dataProvider = $searchModel->search();
+        //  $dataProvider->query->where(['created_by'=>Yii::$app->user->id])->orWhere(['status'=>Product::STATUS_TO_BE_VERIFIED])->orWhere(['status'=>Product::STATUS_PUBLISHED])->orderBy('product.updated_at DESC');
+        // $dataProvider->sort = false;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success',  Yii::t('app', 'Saved'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Saved'));
             return $this->refresh();
         } else {
             return $this->render('index', [
                 'model' => $model,
                 'dataProvider' => $dataProvider,
-               // 'searchModel' => $searchModel,
+                // 'searchModel' => $searchModel,
             ]);
         }
     }
@@ -86,16 +87,17 @@ class AccountController extends Controller
 
         Yii::$app->response->format = Response::FORMAT_JSON;
 
-        $time = time() - (1*24*60*60);
-        if($model->updated_at < $time) {
+        $time = time() - (1 * 24 * 60 * 60);
+        if ($model->updated_at < $time) {
             $model->updated_at = $time;
             if ($model->save()) {
+                Yii::$app->cache->deleteKey('main_page');
+
                 return ['status' => 'success', 'id' => $id];
             } else {
                 return ['status' => 'failed', 'id' => $id];
             }
-        }
-        else {
+        } else {
             return ['status' => 'failed', 'id' => $id];
         }
     }
@@ -116,12 +118,13 @@ class AccountController extends Controller
             Yii::$app->user->denyAccess();
         }
 
-       $model->status= Product::STATUS_UNPUBLISHED;
+        $model->status = Product::STATUS_UNPUBLISHED;
         $model->save();
+        Yii::$app->cache->deleteKey('main_page');
         Uploads::deleteImages('product', $id);
         if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['status' => 'success', 'id'=>$id];
+            return ['status' => 'success', 'id' => $id];
         } else {
             return $this->redirect(['index']);
         }
