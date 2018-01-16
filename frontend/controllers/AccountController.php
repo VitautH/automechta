@@ -12,6 +12,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 use common\models\Uploads;
+use yii\web\HttpException;
 
 /**
  * Account controller
@@ -41,10 +42,6 @@ class AccountController extends Controller
         $model = User::findOne(Yii::$app->user->id);
         $model->setScenario('sellerContacts');
 
-        //$searchModel = new ProductSearch();
-        $params = Yii::$app->request->get();
-        //$searchModel->loadI18n($params);
-        //  $searchModel->created_by = Yii::$app->user->id;
         $query = Product::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -52,10 +49,7 @@ class AccountController extends Controller
         $query->where(['created_by' => Yii::$app->user->id]);
         $query->andWhere(['!=', 'status', Product::STATUS_UNPUBLISHED]);
         $query->orderBy('product.updated_at DESC');
-        /** @var ActiveDataProvider $dataProvider */
-        //  $dataProvider = $searchModel->search();
-        //  $dataProvider->query->where(['created_by'=>Yii::$app->user->id])->orWhere(['status'=>Product::STATUS_TO_BE_VERIFIED])->orWhere(['status'=>Product::STATUS_PUBLISHED])->orderBy('product.updated_at DESC');
-        // $dataProvider->sort = false;
+
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', Yii::t('app', 'Saved'));
@@ -64,7 +58,6 @@ class AccountController extends Controller
             return $this->render('index', [
                 'model' => $model,
                 'dataProvider' => $dataProvider,
-                // 'searchModel' => $searchModel,
             ]);
         }
     }
@@ -109,8 +102,9 @@ class AccountController extends Controller
      */
     public function actionDeleteProduct($id)
     {
-        $model = Product::findOne($id);
-        if ($model === null) {
+        $model = Product::find()->where(['id'=>$id])->one();
+
+        if ($model->id === null) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
 
@@ -121,7 +115,14 @@ class AccountController extends Controller
         $model->status = Product::STATUS_UNPUBLISHED;
         $model->save();
         Yii::$app->cache->deleteKey('main_page');
-        Uploads::deleteImages('product', $id);
+
+        try {
+            Uploads::deleteImages('product', $id);
+        }
+        catch (HttpException $e){
+
+        }
+        
         if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ['status' => 'success', 'id' => $id];
