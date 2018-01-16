@@ -135,8 +135,9 @@ $form = ActiveForm::begin([
     Найдено <span id="count"><?= $total ?></span> объявлений
         </span>
             <div class="b-search__main-form-submit">
-                <button type="submit" class="btn m-btn" id="search">Найти <span
-                            class="fa fa-angle-right"></span></button>
+                <button type="submit" class="btn m-btn" id="search">Найти
+                    <span class="fa fa-search" aria-hidden="true"></span>
+                </button>
             </div>
 
         </div>
