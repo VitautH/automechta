@@ -1,4 +1,5 @@
 <?php
+
 namespace common\models;
 
 use Yii;
@@ -50,6 +51,7 @@ class User extends ActiveRecord implements IdentityInterface
     const PHONE_PROVIDER_VELC = 1;
     const PHONE_PROVIDER_MTS = 2;
     const PHONE_PROVIDER_LIFE = 3;
+    const PHONE_PROVIDER_CITY = 4;
 
     public $password_raw;
     public $password_repeat;
@@ -78,11 +80,11 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'email', 'first_name', 'phone'], 'required', 'on'=>'sellerContacts'],
+            [['username', 'email', 'first_name', 'phone'], 'required', 'on' => 'sellerContacts'],
             [['username', 'email', 'password_reset_token'], 'unique'],
-            [['email'], 'safe','on'=>self::SCENARIO_SIGN_IN_SOCIAL],
-            [['source_id'], 'unique','on'=>self::SCENARIO_SIGN_IN_SOCIAL],
-            [['source_id'], 'required','on'=>self::SCENARIO_SIGN_IN_SOCIAL],
+            [['email'], 'safe', 'on' => self::SCENARIO_SIGN_IN_SOCIAL],
+            [['source_id'], 'unique', 'on' => self::SCENARIO_SIGN_IN_SOCIAL],
+            [['source_id'], 'required', 'on' => self::SCENARIO_SIGN_IN_SOCIAL],
             [['phone_provider', 'region', 'phone_provider_2'], 'integer'],
             [['username', 'email'], 'required'],
             ['password_hash', 'required', 'when' => function ($model) {
@@ -91,14 +93,14 @@ class User extends ActiveRecord implements IdentityInterface
             ['email', 'email'],
             [['username', 'phone', 'address', 'city', 'phone_2'], 'trim'],
             [['source'], 'safe'],
-            ['password_raw', 'required', 'when' => function($model) {
+            ['password_raw', 'required', 'when' => function ($model) {
                 return trim($model->password_repeat) !== '' || trim($model->password_hash) === '';
             }],
-            ['password_repeat', 'required', 'when' => function($model) {
+            ['password_repeat', 'required', 'when' => function ($model) {
                 return trim($model->password_raw) !== '' || trim($model->password_hash) === '';
             }],
             ['password_raw', 'string', 'length' => [5, 64]],
-            ['password_repeat', 'compare', 'compareAttribute'=>'password_raw'/*, 'message'=>"Passwords are not matching"*/],
+            ['password_repeat', 'compare', 'compareAttribute' => 'password_raw'/*, 'message'=>"Passwords are not matching"*/],
             ['username', 'string', 'length' => [4, 64]],
             [['first_name', 'last_name', 'middle_name', 'patronymic'], 'string', 'max' => 256],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
@@ -213,8 +215,8 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
     }
-	
-	/**
+
+    /**
      * Finds user by username or email
      *
      * @param string $identity
@@ -271,7 +273,7 @@ class User extends ActiveRecord implements IdentityInterface
             return false;
         }
 
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
+        $timestamp = (int)substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
     }
@@ -436,8 +438,9 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             self::PHONE_PROVIDER_VELC => 'Velcom',
-            self::PHONE_PROVIDER_MTS=> 'MTS',
-            self::PHONE_PROVIDER_LIFE=> 'Life',
+            self::PHONE_PROVIDER_MTS => 'MTS',
+            self::PHONE_PROVIDER_LIFE => 'Life',
+            self::PHONE_PROVIDER_CITY => 'Городской',
         ];
     }
 
@@ -448,8 +451,8 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             self::PHONE_PROVIDER_VELC => '/theme/images/elements/velcom.png',
-            self::PHONE_PROVIDER_MTS=> '/theme/images/elements/mts.png',
-            self::PHONE_PROVIDER_LIFE=> '/theme/images/elements/life.png',
+            self::PHONE_PROVIDER_MTS => '/theme/images/elements/mts.png',
+            self::PHONE_PROVIDER_LIFE => '/theme/images/elements/life.png',
         ];
     }
 

@@ -5,11 +5,13 @@ use yii\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use common\helpers\MdlHtml;
+use common\models\AuthAssignment;
 
 /* @var $this yii\web\View */
 $name = Yii::t('app', 'Users');
 $this->title = $name;
 $this->registerJs("require(['controllers/users/index']);", \yii\web\View::POS_HEAD);
+var_dump(AuthAssignment::find()->select('item_name')->where(['user_id' => 999])->one()->item_name);
 ?>
 <div class="mdl-grid page-header mdl-shadow--2dp">
     <div class="mdl-cell mdl-cell--12-col">
@@ -17,7 +19,8 @@ $this->registerJs("require(['controllers/users/index']);", \yii\web\View::POS_HE
             'links' => Yii::$app->menu->getBreadcrumbs()
         ]) ?>
         <h2><?= $name ?></h2>
-        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab mdl-button--colored page-header__fab" href="<?= Url::to(['users/create']) ?>">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab mdl-button--colored page-header__fab"
+           href="<?= Url::to(['users/create']) ?>">
             <i class="material-icons">add</i>
         </a>
     </div>
@@ -33,7 +36,7 @@ $this->registerJs("require(['controllers/users/index']);", \yii\web\View::POS_HE
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'tableOptions' => [
-                'class'=>'mdl-data-table mdl-data-table--no-border mdl-js-data-table'
+                'class' => 'mdl-data-table mdl-data-table--no-border mdl-js-data-table'
             ],
             'columns' => [
                 [
@@ -41,6 +44,25 @@ $this->registerJs("require(['controllers/users/index']);", \yii\web\View::POS_HE
                     'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
                     'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
                     'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                ],
+                [
+                    'attribute' => 'status',
+                    'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                    'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                    'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        $status = AuthAssignment::find()->select('item_name')->where(['user_id' => $data->id])->one();
+                        switch ($status->item_name) {
+                            case 'RegisteredUnconfirmed':
+                                return 'Не подтверждён';
+                                break;
+                            case 'Registered':
+                                return 'Подтверждён';
+                                break;
+                        }
+                    }
+
                 ],
                 [
                     'attribute' => 'username',

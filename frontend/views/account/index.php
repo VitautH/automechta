@@ -6,6 +6,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use common\helpers\Url as UrlProduct;
 use yii\bootstrap\ActiveForm;
 use yii\widgets\Breadcrumbs;
 use common\models\AppData;
@@ -95,6 +96,165 @@ var up_url = $(this).data('up_url');
 <section class="b-contacts s-shadow">
     <div class="container">
         <div class="row">
+            <div class="col-xs-8">
+                <header class="b-contacts__form-header s-lineDownLeft wow zoomInUp" data-wow-delay="0.5s"
+                        style="visibility: visible; animation-delay: 0.5s; animation-name: zoomInUp;">
+                    <h2 class="s-titleDet"><?= Yii::t('app', 'Your ads') ?></h2>
+                </header>
+                <p class="hint-block">Объявление может быть поднято не чаще чем один раз в 24 часа.</p>
+                <br>
+                <?php \yii\widgets\Pjax::begin([
+                    'id' => 'product_grid_wrapper',
+                    'linkSelector' => '#producttype_grid_wrapper a:not(.button-col a)'
+                ]); ?>
+                <?=
+                GridView::widget([
+                    'id' => 'product_grid',
+                    'dataProvider' => $dataProvider,
+                    'tableOptions' => [
+                        'class' => 'table table-condensed',
+                        'style' => 'table-layout: fixed;',
+                    ],
+                    'layout' => "\n{items}\n{pager}",
+                    'pager' => [
+                        'class' => 'frontend\widgets\CustomPager',
+                        'options' => ['class' => 'b-items__pagination-main'],
+                        'prevPageCssClass' => 'm-left',
+                        'nextPageCssClass' => 'm-right',
+                        'activePageCssClass' => 'm-active',
+                        'wrapperOptions' => ['class' => 'b-items__pagination wow zoomInUp', 'data-wow-delay' => '0.5s']
+                    ],
+                    'columns' => [
+                        [
+                            'value' => function (Product $model, $key, $index, $column) {
+                                $foto = Html::img($model->getTitleImageUrl(270, 150));
+                                if ($model->status === Product::STATUS_PUBLISHED) {
+                                    $foto = Html::a($foto, UrlProduct::UrlShowProduct($model->id), ['class'=>'show-product']);
+                                }
+                                return $foto;
+                            },
+                            'format' => 'html',
+                            'headerOptions' => ['class' => ''],
+                            'filterOptions' => ['class' => ''],
+                            'contentOptions' => ['class' => ''],
+                        ],
+                        [
+                            'attribute' => 'Модель',
+                            'value' => function (Product $model, $key, $index, $column) {
+                                $make = $model->getMake0()->one();
+                                return $make->name . ' ' . $model->model;
+                            },
+                            'headerOptions' => ['class' => ''],
+                            'filterOptions' => ['class' => ''],
+                            'contentOptions' => ['class' => ''],
+                        ],
+                        [
+                            'attribute' => 'Стоимость',
+                            'value' => function (Product $model, $key, $index, $column) {
+                                $make = $model->getMake0()->one();
+                                return $model->price . ' $';
+                            },
+                            'headerOptions' => ['class' => ''],
+                            'filterOptions' => ['class' => ''],
+                            'contentOptions' => ['class' => ''],
+                        ],
+                        [
+                            'attribute' => 'Дата подачи',
+                            'value' => function (Product $model, $key, $index, $column) {
+                                $make = $model->getMake0()->one();
+                                return Yii::$app->formatter->asDate($model->created_at);
+                            },
+                            'headerOptions' => ['class' => ''],
+                            'filterOptions' => ['class' => ''],
+                            'contentOptions' => ['class' => ''],
+                        ],
+                        [
+                            'attribute' => 'Дата обновления',
+                            'value' => function (Product $model, $key, $index, $column) {
+                                $make = $model->getMake0()->one();
+                                return Yii::$app->formatter->asDate($model->updated_at);
+                            },
+                            'headerOptions' => ['class' => ''],
+                            'filterOptions' => ['class' => ''],
+                            'contentOptions' => ['class' => ''],
+                        ],
+                        [
+                            'class' => 'yii\grid\ActionColumn',
+                            'template' => '{show}{update}{delete}{up}',
+                            'contentOptions' => ['class' => 'button-col'],
+                            //'headerOptions' => ['style' => 'width: 400;'],
+                            'buttons' => [
+                                'delete' => function ($url, $model, $key) {
+                                    return Html::a('<span class="fa fa-remove"></span>', '#',
+                                        [
+                                            'class' => 'js-delete-row',
+                                            'style' => 'margin-right: 10px',
+                                            'data-delete_url' => Url::to(['account/delete-product', 'id' => $model->id]),
+                                            'title' => Yii::t('app', 'Delete'),
+                                        ]
+                                    );
+                                },
+                                'update' => function ($url, $model, $key) {
+                                    return Html::a(
+                                        '<span class="fa fa-edit"></span>',
+                                        Url::to(['/update-ads', 'id' => $model->id]),
+                                        [
+                                            'style' => 'margin-right: 10px',
+                                            'title' => Yii::t('app', 'Edit'),
+                                        ]
+                                    );
+                                },
+                                'up' => function ($url, $model, $key) {
+                                    if ($model->updated_at < (time() - (1 * 24 * 60 * 60))) {
+                                        $result = Html::a('<span class="">UP</span>', '#',
+                                            [
+                                                'class' => 'js-up-row',
+                                                'id' => $model->id,
+                                                'data-up_url' => Url::to(['account/up-product', 'id' => $model->id]),
+                                                'title' => 'Поднять объявление',
+                                            ]
+                                        );
+                                    } else {
+                                        $timeToUp = $model->updated_at + (1 * 24 * 60 * 60);
+                                        $result = Html::a('<span style="opacity: 0.5;" class="">UP</span>', '#',
+                                            [
+                                                'onclick' => 'return false;',
+                                                'title' => 'Может быть поднято ' . Yii::$app->formatter->asDatetime($timeToUp),
+                                                'class' => 'js-up-disabled',
+                                            ]
+                                        );
+                                        $now = new DateTime();
+                                        $timeLeft =  explode('/',Yii::$app->formatter->asDuration(($timeToUp - $now->getTimestamp()),'/'));
+
+                                        $result .= '<br><span class="nextUp">Следующее обновление через ' .$timeLeft[0] . '</span>';
+                                    }
+                                    return $result;
+                                },
+                                'show' => function ($url, $model, $key) {
+                                    if ($model->status === Product::STATUS_TO_BE_VERIFIED) {
+                                        return Html::a('<span class="fa fa-eye"></span>',  UrlProduct::UrlShowPreviewProduct($model->id),
+                                            [
+                                                'target' => '_blank',
+                                                'style' => 'margin-right: 10px',
+                                                'title' => 'Предпросмотр',
+                                            ]
+                                        );
+                                    }
+                                },
+                            ]
+                        ],
+                    ]
+                ]);
+                ?>
+                <?php
+                \yii\widgets\Pjax::end();
+                ?>
+                <div style="text-align: right;">
+                    <a href="/create-ads" class="btn m-btn m-btn-dark">
+                        Добавить авто <span class="fa fa-angle-right"></span>
+                    </a>
+                </div>
+            </div>
             <div class="col-xs-4">
                 <?= Alert::widget() ?>
                 <div class="b-contacts__form">
@@ -163,165 +323,6 @@ var up_url = $(this).data('up_url');
                                     class="fa fa-angle-right"></span></button>
                     </div>
                     <?php ActiveForm::end(); ?>
-                </div>
-            </div>
-            <div class="col-xs-8">
-                <header class="b-contacts__form-header s-lineDownLeft wow zoomInUp" data-wow-delay="0.5s"
-                        style="visibility: visible; animation-delay: 0.5s; animation-name: zoomInUp;">
-                    <h2 class="s-titleDet"><?= Yii::t('app', 'Your ads') ?></h2>
-                </header>
-                <p class="hint-block">Объявление может быть поднято не чаще чем один раз в 24 часа.</p>
-                <br>
-                <?php \yii\widgets\Pjax::begin([
-                    'id' => 'product_grid_wrapper',
-                    'linkSelector' => '#producttype_grid_wrapper a:not(.button-col a)'
-                ]); ?>
-                <?=
-                GridView::widget([
-                    'id' => 'product_grid',
-                    'dataProvider' => $dataProvider,
-                    'tableOptions' => [
-                        'class' => 'table table-condensed',
-                        'style' => 'table-layout: fixed;',
-                    ],
-                    'layout' => "\n{items}\n{pager}",
-                    'pager' => [
-                        'class' => 'frontend\widgets\CustomPager',
-                        'options' => ['class' => 'b-items__pagination-main'],
-                        'prevPageCssClass' => 'm-left',
-                        'nextPageCssClass' => 'm-right',
-                        'activePageCssClass' => 'm-active',
-                        'wrapperOptions' => ['class' => 'b-items__pagination wow zoomInUp', 'data-wow-delay' => '0.5s']
-                    ],
-                    'columns' => [
-                        [
-                            'value' => function (Product $model, $key, $index, $column) {
-                                $foto = Html::img($model->getTitleImageUrl(270, 150));
-                                if ($model->status === Product::STATUS_PUBLISHED) {
-                                    $foto = Html::a($foto, Url::to(['catalog/show', 'id' => $model->id]));
-                                }
-                                return $foto;
-                            },
-                            'format' => 'html',
-                            'headerOptions' => ['class' => ''],
-                            'filterOptions' => ['class' => ''],
-                            'contentOptions' => ['class' => ''],
-                        ],
-                        [
-                            'attribute' => 'Модель',
-                            'value' => function (Product $model, $key, $index, $column) {
-                                $make = $model->getMake0()->one();
-                                return $make->name . ' ' . $model->model;
-                            },
-                            'headerOptions' => ['class' => ''],
-                            'filterOptions' => ['class' => ''],
-                            'contentOptions' => ['class' => ''],
-                        ],
-                        [
-                            'attribute' => 'Стоимость',
-                            'value' => function (Product $model, $key, $index, $column) {
-                                $make = $model->getMake0()->one();
-                                return $model->price . ' $';
-                            },
-                            'headerOptions' => ['class' => ''],
-                            'filterOptions' => ['class' => ''],
-                            'contentOptions' => ['class' => ''],
-                        ],
-                        [
-                            'attribute' => 'Дата подачи',
-                            'value' => function (Product $model, $key, $index, $column) {
-                                $make = $model->getMake0()->one();
-                                return Yii::$app->formatter->asDate($model->created_at);
-                            },
-                            'headerOptions' => ['class' => ''],
-                            'filterOptions' => ['class' => ''],
-                            'contentOptions' => ['class' => ''],
-                        ],
-                        [
-                            'attribute' => 'Дата обновления',
-                            'value' => function (Product $model, $key, $index, $column) {
-                                $make = $model->getMake0()->one();
-                                return Yii::$app->formatter->asDate($model->updated_at);
-                            },
-                            'headerOptions' => ['class' => ''],
-                            'filterOptions' => ['class' => ''],
-                            'contentOptions' => ['class' => ''],
-                        ],
-                        [
-                            'class' => 'yii\grid\ActionColumn',
-                            'template' => '{show}{update}{delete}{up}',
-                            'contentOptions' => ['class' => 'button-col'],
-                            //'headerOptions' => ['style' => 'width: 400;'],
-                            'buttons' => [
-                                'delete' => function ($url, $model, $key) {
-                                    return Html::a('<span class="fa fa-remove"></span>', '#',
-                                        [
-                                            'class' => 'js-delete-row',
-                                            'style' => 'margin-right: 10px',
-                                            'data-delete_url' => Url::to(['account/delete-product', 'id' => $model->id]),
-                                            'title' => Yii::t('app', 'Delete'),
-                                        ]
-                                    );
-                                },
-                                'update' => function ($url, $model, $key) {
-                                    return Html::a(
-                                        '<span class="fa fa-edit"></span>',
-                                        Url::to(['catalog/update', 'id' => $model->id]),
-                                        [
-                                            'style' => 'margin-right: 10px',
-                                            'title' => Yii::t('app', 'Edit'),
-                                        ]
-                                    );
-                                },
-                                'up' => function ($url, $model, $key) {
-                                    if ($model->updated_at < (time() - (1 * 24 * 60 * 60))) {
-                                        $result = Html::a('<span class="">UP</span>', '#',
-                                            [
-                                                'class' => 'js-up-row',
-                                                'id' => $model->id,
-                                                'data-up_url' => Url::to(['account/up-product', 'id' => $model->id]),
-                                                'title' => 'Поднять объявление',
-                                            ]
-                                        );
-                                    } else {
-                                        $timeToUp = $model->updated_at + (1 * 24 * 60 * 60);
-                                        $result = Html::a('<span style="opacity: 0.5;" class="">UP</span>', '#',
-                                            [
-                                                'onclick' => 'return false;',
-                                                'title' => 'Может быть поднято ' . Yii::$app->formatter->asDatetime($timeToUp),
-                                                'class' => 'js-up-disabled',
-                                            ]
-                                        );
-                                        $now = new DateTime();
-                                        $timeLeft =  explode('/',Yii::$app->formatter->asDuration(($timeToUp - $now->getTimestamp()),'/'));
-
-                                        $result .= '<br><span class="nextUp">Следующее обновление через ' .$timeLeft[0] . '</span>';
-                                    }
-                                    return $result;
-                                },
-                                'show' => function ($url, $model, $key) {
-                                    if ($model->status === Product::STATUS_PUBLISHED) {
-                                        return Html::a('<span class="fa fa-eye"></span>', Url::to(['catalog/show', 'id' => $model->id]),
-                                            [
-                                                'target' => '_blank',
-                                                'style' => 'margin-right: 10px',
-                                                'title' => Yii::t('app', 'Show in catalog'),
-                                            ]
-                                        );
-                                    }
-                                },
-                            ]
-                        ],
-                    ]
-                ]);
-                ?>
-                <?php
-                \yii\widgets\Pjax::end();
-                ?>
-                <div style="text-align: right;">
-                    <a href="/catalog/create" class="btn m-btn m-btn-dark">
-                        Добавить авто <span class="fa fa-angle-right"></span>
-                    </a>
                 </div>
             </div>
         </div>
