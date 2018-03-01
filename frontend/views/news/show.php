@@ -13,8 +13,8 @@ use yii\helpers\Html;
 $appData = AppData::getData();
 $popularNews = Page::find()->active()->news()->orderBy('views DESC')->limit(2)->all();
 $metaData = MetaData::getModels($model);
-
-$this->registerMetaData($metaData)
+$this->title= $model->i18n()->header;
+$this->title = $model->i18n()->header;
 ?>
 
 <section class="b-pageHeader" style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
@@ -44,19 +44,28 @@ $this->registerMetaData($metaData)
                 <div class="b-article__main">
                     <div class="b-blog__posts-one">
                         <div class="row m-noBlockPadding">
-                            <div class="col-sm-11 col-xs-12">
                                 <div class="b-blog__posts-one-body">
                                     <header class="b-blog__posts-one-body-head wow zoomInUp" data-wow-delay="0.5s">
-                                        <h2 class="s-titleDet"><?= $model->i18n()->header ?></h2>
+                                        <h2 class="s-titleDet s-title"><?= $model->i18n()->header ?></h2>
                                         <div class="b-blog__posts-one-body-head-notes">
-                                            <span class="b-blog__posts-one-body-head-notes-note"><span class="fa fa-calendar-o"></span><?= Yii::$app->formatter->asDate($model->created_at) ?></span>
-                                            <span class="b-blog__posts-one-body-head-notes-note"><span class="fa fa-eye"></span><?= Yii::t('app', '{n,plural,=0{# Views} =1{# View} one{# View} other{# Views}}', ['n'=> $model->views]) ?></span>
+                                            <span class="b-blog__posts-one-body-head-notes-note"><span
+                                                        class="fa fa-calendar-o"></span><?= Yii::$app->formatter->asDate($model->created_at) ?></span>
+                                            <span class="b-blog__posts-one-body-head-notes-note"><span
+                                                        class="fa fa-eye"></span><?= Yii::t('app', '{n,plural,=0{# Views} =1{# View} one{# View} other{# Views}}', ['n' => $model->views]) ?></span>
                                         </div>
                                     </header>
                                     <div class="b-blog__posts-one-body-main wow zoomInUp" data-wow-delay="0.5s">
-                                        <div class="b-blog__posts-one-body-main-img">
-                                            <img class="img-responsive" src="<?= $model->getTitleImageUrl(750, 300) ?>" alt="<?= $model->i18n()->header ?>"/>
-                                        </div>
+                                        <?php
+                                        if ($model->i18n->main_image !== null):
+                                            ?>
+                                            <div class="b-blog__posts-one-body-main-img">
+                                                <img class="img-responsive"
+                                                     src="<?= $model->getTitleImageUrl(750, 300) ?>"
+                                                     alt="<?= $model->i18n()->header ?>"/>
+                                            </div>
+                                            <?php
+                                        endif;
+                                        ?>
                                     </div>
                                     <div class="b-blog__posts-one-body-why wow zoomInUp" data-wow-delay="0.5s">
                                         <p>
@@ -64,7 +73,6 @@ $this->registerMetaData($metaData)
                                         </p>
                                     </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -76,22 +84,22 @@ $this->registerMetaData($metaData)
                             <h2 class="s-titleDet"><?= Yii::t('app', 'POPULAR POSTS') ?></h2>
                         </header>
                         <div class="b-blog__aside-popular-posts">
-                            <?php foreach($popularNews as $popularNewsModel): ?>
+                            <?php foreach ($popularNews as $popularNewsModel): ?>
                                 <div class="b-blog__aside-popular-posts-one">
                                     <a href="<?= $popularNewsModel->getUrl() ?>">
-                                        <img class="img-responsive" src="<?= $popularNewsModel->getTitleImageUrl(270, 150) ?>" alt="<?= $popularNewsModel->i18n()->header ?>" />
+                                        <img class="img-responsive"
+                                             src="<?= $popularNewsModel->getTitleImageUrl(270, 150) ?>"
+                                             alt="<?= $popularNewsModel->i18n()->header ?>"/>
                                     </a>
-                                    <h4><a href="<?= $popularNewsModel->getUrl() ?>"><?= $popularNewsModel->i18n()->header ?></a></h4>
-                                    <div class="b-blog__aside-popular-posts-one-date"><span class="fa fa-calendar-o"></span><?= Yii::$app->formatter->asDate($popularNewsModel->created_at) ?></div>
+                                    <h4>
+                                        <a href="<?= $popularNewsModel->getUrl() ?>"><?= $popularNewsModel->i18n()->header ?></a>
+                                    </h4>
+                                    <div class="b-blog__aside-popular-posts-one-date"><span
+                                                class="fa fa-calendar-o"></span><?= Yii::$app->formatter->asDate($popularNewsModel->created_at) ?>
+                                    </div>
                                 </div>
                             <?php endforeach; ?>
                         </div>
-                    </div>
-                    <div class="b-detail__main-aside-about-call">
-                        <span class="fa fa-phone"></span>
-                        <p>Задайте вопрос по кредитованию</p>
-                        <div><?= $appData['phone'] ?></div>
-                        <p>Пн-Вс : 10:00 - 18:00 Без выходных</p>
                     </div>
                 </aside>
             </div>

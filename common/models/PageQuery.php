@@ -1,7 +1,7 @@
 <?php
 
 namespace common\models;
-
+use common\models\behaviors\I18nBehavior;
 /**
  * This is the ActiveQuery class for [[Page]].
  *
@@ -9,21 +9,32 @@ namespace common\models;
  */
 class PageQuery extends \yii\db\ActiveQuery
 {
+
     public function active()
     {
         $this->andWhere('[[status]]='.Page::STATUS_PUBLISHED);
+
         return $this;
     }
 
     public function news()
     {
         $this->andWhere('[[type]]='.Page::TYPE_NEWS);
+
         return $this;
     }
+
+//    public function last ()
+//    {
+//        $this>andWhere('[[main_image]]!='.null);
+//
+//        return $this;
+//    }
 
     public function aside()
     {
         $this->andWhere('[[in_aside]]=1');
+
         return $this;
     }
 

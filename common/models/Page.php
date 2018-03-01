@@ -137,4 +137,18 @@ class Page extends \yii\db\ActiveRecord
         $this->views = ($this->views + 1);
         $this->save();
     }
+     public function getTitleImage ($width=null, $height=null){
+         if ($this->main_image === null){
+           return  $image = $this->getTitleImageUrl($width, $height);
+         }
+         else {
+             $image = $this->main_image;
+             if($image !== null) {
+                 return $image;
+             }
+             else {
+                 return null;
+             }
+         }
+     }
 }

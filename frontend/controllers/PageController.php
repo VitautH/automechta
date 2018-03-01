@@ -1,4 +1,5 @@
 <?php
+
 namespace frontend\controllers;
 
 use yii\data\ActiveDataProvider;
@@ -12,6 +13,7 @@ use common\models\Page;
 class PageController extends Controller
 {
     public $layout = 'index';
+    public $bodyClass;
 
     /**
      * @param string $alias page alias
@@ -23,16 +25,15 @@ class PageController extends Controller
         $model = $this->findModel($alias);
 
         $model->increaseViews();
-if ($alias == 'avto-v-kredit'){
-    return $this->render('avto-v-kredit', [
-        'model' => $model,
-    ]);
-}
-else {
-    return $this->render('show', [
-        'model' => $model,
-    ]);
-}
+        if ($alias == 'avto-v-kredit') {
+            return $this->render('avto-v-kredit', [
+                'model' => $model,
+            ]);
+        } else {
+            return $this->render('show', [
+                'model' => $model,
+            ]);
+        }
 
     }
 
