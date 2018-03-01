@@ -17,8 +17,9 @@ class CreditApplicationController extends \yii\web\Controller
     {
         $searchModel = new CreditApplicationSearch();
         $params = Yii::$app->request->get();
-        //$searchModel->load($params);
+        $searchModel->load($params);
         $dataProvider = $searchModel->search($params);
+
 
         if (!isset($params['sort'])) {
             $dataProvider->query->orderBy('id DESC');
@@ -51,6 +52,56 @@ class CreditApplicationController extends \yii\web\Controller
             'model' => $model,
         ]);
     }
+
+    /**
+     * Add credit application.
+     * If creation is successful, the browser will be redirected to the 'index' page.
+     * @return mixed
+     */
+    public function actionCreate()
+    {
+        if (!Yii::$app->user->can('createReview')) {
+            Yii::$app->user->denyAccess();
+        }
+
+        $model = new CreditApplication();
+        $data = Yii::$app->request->post();
+        $model->status = CreditApplication::STATUS_CREATE_BY_MANAGER;
+
+        if ($model->load($data)) {
+            $model->date_arrive = CreditApplication::dateToUnix($data["CreditApplication"]['date_arrive']);
+            $model->save();
+
+            return $this->redirect(['index']);
+        } else {
+            return $this->render('create', [
+                'model' => $model
+            ]);
+        }
+    }
+
+    /**
+     * Add credit application.
+     * If creation is successful, the browser will be redirected to the 'index' page.
+     * @return mixed
+     */
+    public function actionSave($id)
+    {
+        if (!Yii::$app->user->can('createReview')) {
+            Yii::$app->user->denyAccess();
+        }
+
+        $model = CreditApplication::findOne($id);
+        $data = Yii::$app->request->post();
+
+        if ($model->load($data)) {
+            $model->date_arrive = CreditApplication::dateToUnix($data["CreditApplication"]['date_arrive']);
+            $model->save();
+
+            return $this->redirect(['index']);
+        }
+    }
+
 
     /**
      * Deletes an existing application model.

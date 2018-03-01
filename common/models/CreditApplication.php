@@ -1,9 +1,10 @@
 <?php
 
 namespace common\models;
+
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
-
+use DateTime;
 use Yii;
 
 /**
@@ -34,7 +35,7 @@ class CreditApplication extends \yii\db\ActiveRecord
 {
     const STATUS_PUBLISHED = 1;
     const STATUS_UNPUBLISHED = 2;
-
+    const STATUS_CREATE_BY_MANAGER = 3;
     const SEX_MALE = 1;
     const SEX_FEMALE = 2;
 
@@ -59,10 +60,10 @@ class CreditApplication extends \yii\db\ActiveRecord
     {
         return [
             [['status', 'sex', 'family_status', 'previous_conviction', 'salary', 'loans_payment', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
-            [['phone'],'required'],
-            [['name','firstname', 'dob', 'sex', 'family_status', 'job', 'experience', 'salary', 'loans_payment', 'product', 'credit_amount', 'term', 'information_on_income'], 'safe'],
+            [['phone'], 'required'],
+            [['name', 'firstname', 'dob', 'sex', 'family_status', 'job', 'experience', 'salary', 'loans_payment', 'product', 'credit_amount', 'term', 'date_arrive','information_on_income'], 'safe'],
             [['name', 'lastname', 'firstname', 'job', 'experience', 'product', 'credit_amount', 'information_on_income'], 'string'],
-            [['phone', 'dob', 'term'], 'string', 'max' => 256],
+            [['phone', 'dob', 'term', 'note'], 'string', 'max' => 256],
             ['phone', 'string', 'min' => 9, 'message' => 'Телефон должен содержать минимум 9 символа.'],
         ];
     }
@@ -95,13 +96,16 @@ class CreditApplication extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
             'created_by' => Yii::t('app', 'Created By'),
             'updated_by' => Yii::t('app', 'Updated By'),
+            'note' => Yii::t('app', 'Заметка'),
+            'date_arrive' => Yii::t('app', 'Дата приезда'),
         ];
     }
 
     /**
      * @return array
      */
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             [
                 'class' => TimestampBehavior::className(),
@@ -111,6 +115,13 @@ class CreditApplication extends \yii\db\ActiveRecord
             ],
         ];
     }
+
+
+  public static function dateToUnix($date){
+      $date = new DateTime($date);
+
+      return $date->getTimestamp();
+  }
 
     /**
      * @return array
@@ -173,7 +184,7 @@ class CreditApplication extends \yii\db\ActiveRecord
     public static function getTermList()
     {
 
-        return [   
+        return [
             '6m' => Yii::t('app', '6 month'),
             '12m' => Yii::t('app', 'One year'),
             '24m' => Yii::t('app', '2 years'),
