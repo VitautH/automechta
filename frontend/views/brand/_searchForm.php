@@ -104,6 +104,13 @@ $('#productsearchform_spec_73 option[value=" . $_params_['ProductSearchForm']['s
 if (!empty($_params_['ProductSearchForm']['makes'])) {
     $searchForm->make = $_params_['ProductSearchForm']['makes'];
 }
+if (!empty($_params_['ProductSearchForm']['model'])) {
+    $searchForm->model = $_params_['ProductSearchForm']['model'];
+}
+
+if (!empty($_params_['model_name'])) {
+    $searchForm->model = $_params_['model_name'];
+}
 
 ?>
 <form class="js-catalog-search-form">
@@ -128,7 +135,7 @@ if (!empty($_params_['ProductSearchForm']['makes'])) {
             <span class="fa fa-caret-down"></span>
         </div>
     </div>
-    <div class="item">
+    <div class="item item-year">
         <label class="two_blocks"><?= Yii::t('app', 'YEAR RANGE') ?>:</label>
         <div class="two_blocks">
             <?= Html::dropDownList(
@@ -147,7 +154,7 @@ if (!empty($_params_['ProductSearchForm']['makes'])) {
             <span class="fa fa-caret-down"></span>
         </div>
     </div>
-    <div class="item" style="float: left;">
+    <div class="item item-price" style="float: left;">
         <label class="two_blocks"><?= Yii::t('app', 'PRICE') ?> USD:</label>
         <div class="two_blocks" style="margin-left: 8%;">
             <?= Html::dropDownList(

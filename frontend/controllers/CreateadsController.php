@@ -32,6 +32,7 @@ use yii\db\IntegrityException;
 class CreateadsController extends Controller
 {
     public $layout = 'index';
+    public $bodyClass;
 
     public function beforeAction($action)
     {
@@ -138,7 +139,7 @@ class CreateadsController extends Controller
                     try {
                         $model->save();
                         $this->saveSpecifications($model);
-                        $model->updateMetaData();
+                        $model->saveProductMetaData();
 
                         return $this->renderPartial('_step_1', [
                             'model' => $model,
@@ -183,6 +184,8 @@ class CreateadsController extends Controller
             } else {
                 $model = $this->findModel($id);
                 $model->setScenario(Product::SCENARIO_STEP_2);
+                $this->saveUploads($model);
+
                 if ($model->loadI18n($request) && $model->validateI18n()) {
                     try {
                         $model->save();
@@ -332,16 +335,16 @@ class CreateadsController extends Controller
                 $model = $this->findModel($id);
                 $model->status = Product::STATUS_TO_BE_VERIFIED;
                 $this->fillSpecifications($model);
+                $this->saveUploads($model);
+
                 if ($model->loadI18n($request) && $model->validateI18n()) {
                     if ($request["Product"]['currency'] == 1) {
                         $model->price = $model->exchangeBynToUsd($request["Product"]['price']);
                     }
                     try {
-
                         $model->save();
                         $this->saveSpecifications($model);
-                        $model->updateMetaData();
-
+                        $model->updateProductMetaData();
 
                         return $this->render('afterSave', [
                             'model' => $model,

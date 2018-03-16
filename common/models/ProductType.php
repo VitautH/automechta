@@ -25,6 +25,11 @@ use yii\db\Query;
  */
 class ProductType extends \yii\db\ActiveRecord
 {
+    const CARS = 2;
+    const MOTO = 3;
+    const SCOOTER = 4;
+    const ATV = 5;
+
     /**
      * @inheritdoc
      */
@@ -57,7 +62,8 @@ class ProductType extends \yii\db\ActiveRecord
         ];
     }
 
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             'tree' => [
                 'class' => NestedSetsBehavior::className(),
@@ -156,9 +162,10 @@ class ProductType extends \yii\db\ActiveRecord
 
         return $result;
     }
+
     public static function getTypeAsArray($type)
     {
-        $types = self::find()->where(['id'=>$type])->all();
+        $types = self::find()->where(['id' => $type])->all();
         $result = [];
 
         foreach ($types as $type) {

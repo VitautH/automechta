@@ -1,5 +1,4 @@
 <?php
-
 use yii\widgets\ListView;
 use common\models\Product;
 use common\models\AppData;
@@ -14,13 +13,16 @@ use yii\helpers\Html;
 use yii\helpers\StringHelper;
 use common\models\User;
 use common\models\City;
+use frontend\models\Bookmarks;
+use common\models\ProductType;
 
 /* @var $this yii\web\View */
 /* @var $provider yii\data\ActiveDataProvider */
 
 $tableView = filter_var(Yii::$app->request->get('tableView', 'false'), FILTER_VALIDATE_BOOLEAN);
 $this->registerJsFile("@web/js/readmore.js");
-
+$this->registerJs("require(['controllers/catalog/bookmarks']);", \yii\web\View::POS_HEAD);
+$this->registerCssFile('@web/css/fontawesome-all.min.css');
 $this->registerJs("require(['controllers/catalog/index']);", \yii\web\View::POS_HEAD);
 $this->registerJs("    
  $(document).ready(function(){
@@ -39,24 +41,35 @@ if (ScreenWidth < 767){
 $productModel = new Product();
 $appData = AppData::getData();
 switch ($type) {
-    case 2:
+    case ProductType::CARS:
         $typeName = "автомобилей";
         $typeNames = "автомобили";
         $shortTypeName = "авто";
         break;
-    case 3:
+    case ProductType::MOTO:
         $typeNames = "мотоциклы";
         $typeName = "мотоциклов";
         $shortTypeName = "мотоцикла";
         break;
+    case ProductType::SCOOTER:
+        $typeNames = "скутера";
+        $typeName = "скутеров";
+        $shortTypeName = "скутера";
+        break;
+    case ProductType::ATV:
+        $typeNames = "квадроциклы";
+        $typeName = "квадроциклов";
+        $shortTypeName = "квадроцикла";
+        break;
 }
 
-if (!empty($_params_['ProductSearchForm']['make']) || !empty($_params_['ProductSearchForm']['model'])) {
-    $makesModel = ProductMake::findOne($_params_['ProductSearchForm']['make'])->name . ' ' . $_params_['ProductSearchForm']['model'];
-    $header = 'Продажа ' . $makesModel . '  в Беларуси в кредит';
-    $this->title = 'Купить ' . $makesModel . ' в Беларуси в кредит - цены, характеристики, фото. Продажа ' . $makesModel . ' в автосалоне АвтоМечта в Беларуси в кредит';
-} else {
-    $header = 'Продажа ' . $typeName . '  в Беларуси в кредит';
+if(!empty($_params_['ProductSearchForm']['make']) || !empty($_params_['ProductSearchForm']['model'])){
+    $makesModel = ProductMake::findOne($_params_['ProductSearchForm']['make'])->name.' '.$_params_['ProductSearchForm']['model'];
+    $header =  'Продажа '.$makesModel.'  в Беларуси в кредит';
+    $this->title = 'Купить ' .$makesModel. ' в Беларуси в кредит - цены, характеристики, фото. Продажа '.$makesModel.' в автосалоне АвтоМечта в Беларуси в кредит';
+}
+else {
+    $header =  'Продажа '.$typeName.'  в Беларуси в кредит';
     $this->title = 'Каталог ' . $typeName . ' с фото и ценой в Беларуси в кредит';
 }
 
@@ -129,8 +142,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                             </div>
                         </form>
                         <div class="search_button_container visible-xs visible-sm">
-                            <span id="search_button_mobile" class="search_button_mobile visible-xs visible-sm">Поиск <i
-                                        class="fa fa-search" aria-hidden="true"></i> </span>
+                            <span id="search_button_mobile" class="search_button_mobile visible-xs visible-sm">Поиск <i class="fa fa-search" aria-hidden="true"></i> </span>
                         </div>
                     </div>
                 </div>
@@ -166,8 +178,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                                 </div>
                                 <div class="photo_mobile_block  visible-xs col-xs-4">
                                     <a href="<?= Url::UrlShowProduct($product->id) ?>" class="b-items__cars-one-img">
-                                        <img src="<?= $product->title_image ?>"
-                                             alt="<?= Html::encode($product->title) ?>"
+                                        <img src="<?= $product->title_image ?>" alt="<?= Html::encode($product->title) ?>"
                                              class="hover-light-img"/>
                                         <?php if ($product->priority == 1): ?>
                                             <span class="b-items__cars-one-img-type m-premium"></span>
@@ -179,8 +190,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                                 </div>
                                 <div class="col-md-4 col-sm-4 visible-sm visible-md visible-lg  visible-xl">
                                     <a href="<?= Url::UrlShowProduct($product->id) ?>" class="b-items__cars-one-img">
-                                        <img src="<?= $product->title_image ?>"
-                                             alt="<?= Html::encode($product->title) ?>"
+                                        <img src="<?= $product->title_image ?>" alt="<?= Html::encode($product->title) ?>"
                                              class="hover-light-img"/>
                                         <?php if ($product->priority == 1): ?>
                                             <span class="b-items__cars-one-img-type m-premium"></span>
@@ -207,7 +217,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                                             ?>
                                             ,  <?= Html::encode($spec->format) ?> <?= $spec->unit ?>
 
-                                        <?
+                                            <?
                                         endif;
                                         ?>
                                     <?php endforeach; ?>
@@ -219,6 +229,28 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                                         <h2>
                                             <a href="<?= Url::UrlShowProduct($product->id) ?>"><?= Html::encode($product->title) ?></a>
                                         </h2>
+                                        <?php
+                                        if (Yii::$app->user->isGuest):
+                                            ?>
+                                            <a class="unregister" href="/site/login">  <span class="star-ico"> <i class="far fa-star"></i></span></a>
+                                        <?php
+                                        else:
+                                            ?>
+                                            <?php
+                                            if (Bookmarks::find()->where(['user_id'=>Yii::$app->user->id])->andWhere(['product_id'=>$product->id])->exists()):
+                                                ?>
+                                                <a href="#" title="Удалить из закладок" id="delete-bookmarks" class="bookmarks active" data-product="<?= $product->id;?>">  <span class="star-ico"> <i class="far fa-star"></i></span></a>
+
+                                            <?php
+                                            else:
+                                                ?>
+                                                <a href="#" title="Добавить в закладки" id="add-bookmarks" class="bookmarks inactive" data-product="<?= $product->id;?>">  <span class="star-ico"> <i class="far fa-star"></i></span></a>
+                                            <?php
+                                            endif;
+                                            ?>
+                                        <?php
+                                        endif;
+                                        ?>
                                     </div>
                                     <div class="s-noRightMargin row visible-sm visible-md visible-lg  visible-xl">
                                         <div class="col-md-3 col-sm-3">
@@ -267,7 +299,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                                                                                 <span class="b-items__cars-one-info-value"><?= Html::encode($spec->format) ?> <?= $spec->unit ?></span>
                                                                             </td>
                                                                         </tr>
-                                                                    <?
+                                                                        <?
                                                                     endif;
                                                                     ?>
                                                                 <?php endforeach; ?>
@@ -289,7 +321,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                                                                         <span class="b-items__cars-one-info-value"><?= Html::encode($spec->format) ?> <?= $spec->unit ?></span>
                                                                     </td>
                                                                 </tr>
-                                                            <?
+                                                                <?
                                                             endif;
                                                             ?>
                                                         <?php endforeach; ?>
@@ -306,7 +338,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                                     </div>
                                 </div>
                             </div>
-                        <?php
+                            <?php
 
                         endforeach;
 
@@ -332,7 +364,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                                 <a class="prev_btn btn m-btn m-btn-dark"
                                    href="<?= Url::current(['page' => $currentPage - 1]) ?>"
                                    data-page="19"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a>
-                            <?php
+                                <?php
                             endif;
                             ?>
                             <span class="count_pages"> <?= $currentPage; ?> из <?= $lastPage; ?></span>
@@ -340,7 +372,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                                 <a class="next_btn btn m-btn m-btn-dark"
                                    href="<?= Url::current(['page' => $currentPage + 1]) ?>">Следующая <i
                                             class="fa fa-angle-double-right" aria-hidden="true"></i></a>
-                            <?php
+                                <?php
                             endif;
                             ?>
                         </div>
@@ -355,17 +387,17 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                                 <h3>Консультация по кредиту:</h3>
                                 <div>
  <span class="icon-phone-provider">
-        <?= Html::img(User::getPhoneProviderIcons()[$appData['phone_credit_provider_1']], ['style' => 'height:22px']) ?>
+        <?= Html::img(User::getPhoneProviderIcons()[ $appData['phone_credit_provider_1']], ['style' => 'height:22px']) ?>
         </span>
-                                    <a href="tel:<?= $appData['phone_credit_1'] ?>"><?= $appData['phone_credit_1'] ?></a>
+                                    <a href="tel:<?= $appData['phone_credit_1'] ?>"><?= $appData['phone_credit_1']?></a>
                                     <br>
                                     <span class="icon-phone-provider">
-        <?= Html::img(User::getPhoneProviderIcons()[$appData['phone_credit_provider_2']], ['style' => 'height:22px']) ?>
+        <?= Html::img(User::getPhoneProviderIcons()[ $appData['phone_credit_provider_2']], ['style' => 'height:22px']) ?>
         </span>
                                     <a href="tel:<?= $appData['phone_credit_2'] ?>"><?= $appData['phone_credit_2'] ?></a>
                                     <br>
                                     <span class="icon-phone-provider">
-        <?= Html::img(User::getPhoneProviderIcons()[$appData['phone_credit_provider_3']], ['style' => 'height:22px']) ?>
+        <?= Html::img(User::getPhoneProviderIcons()[ $appData['phone_credit_provider_3']], ['style' => 'height:22px']) ?>
         </span>
                                     <a href="tel:<?= $appData['phone_credit_3'] ?>"><?= $appData['phone_credit_3'] ?></a>
                                 </div>
@@ -393,7 +425,7 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                         <div class="spravka-btn">
                             <a href="/documents/spravka-2018.doc">Справка о доходах</a>
                         </div>
-                        <h2 class="s-title  visible-md visible-lg">Поиск авто</h2>
+                        <h2 class="s-title  visible-md visible-lg">Поиск <?php echo $shortTypeName; ?></h2>
                         <div id="search_block_desktop" class="visible-md visible-lg">
                             <div class="search_block">
                                 <?= $this->render('_searchForm', $_params_) ?>

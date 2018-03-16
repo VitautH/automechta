@@ -18,6 +18,10 @@ select {
     vertical-align: bottom
 }
 
+.m-index .b-featured {
+    padding: 0 0 40px 0 !important;
+}
+
 .material-icons {
     font-family: 'Material Icons';
     font-weight: normal;
@@ -1312,12 +1316,6 @@ select {
     margin-top: 20px !important;
 }
 
-.m-index .b-featured {
-
-    padding: 50px 0 75px 0 !important;
-
-}
-
 .b-makers, .catalog .b-makers {
     margin-top: 10px !important;
     margin-left: 0 !important;
@@ -1605,13 +1603,24 @@ a.reset-password {
     border-radius: 30px;
 }
 
+#complaint_block form textarea {
+    background-color: white;
+}
+
 #complaint_block form textarea, #complaint_block_mobile form textarea {
     border-radius: 10px;
     margin-bottom: 20px;
-    background-color: #fff;
-    fill: #fff;
     width: 100%;
     padding: 7px;
+    color: black !important;
+    -webkit-appearance: none;
+    background: transparent;
+    fill: transparent;
+}
+
+#complaint_block_mobile form textarea::placeholder {
+    background: transparent;
+    fill: transparent;
 }
 
 .b24-widget-button-crmform {
@@ -1830,7 +1839,6 @@ span.m-premium {
     background: black;
     opacity: 0.7;
     position: absolute;
-    top: 138px;
     width: 100%;
     height: 200px;
 }
@@ -2071,7 +2079,7 @@ Create Ads
     margin-bottom: 20px !important;
 }
 
-.create_ads label {
+.create_ads label, #credit-application-form label {
     float: left;
     display: table-cell;
     vertical-align: top;
@@ -2083,13 +2091,30 @@ Create Ads
     font-weight: normal;
 }
 
+#credit-application-form label {
+    width: 30% !important;
+}
+
 .create_ads select.m-select + span.fa {
     top: 15px;
     right: 17px;
     position: relative;
 }
 
-.create_ads select.m-select, .create_ads input[type='text'], .create_ads textarea {
+#credit-application-form .s-relative span.fa {
+    top: 14px;
+    left: 81%;
+    position: absolute;
+    z-index: 9999;
+    color: #df4142;
+}
+
+#credit-application-form .b-submit__main-element {
+    margin-bottom: 10px;
+}
+
+.create_ads select.m-select, .create_ads input[type='text'], .create_ads textarea,
+#credit-application-form select.m-select, #credit-application-form input, #credit-application-formtextarea {
     width: 50% !important;
     float: left;
     margin-left: 10px;
@@ -2115,7 +2140,7 @@ Create Ads
     height: 100px;
 }
 
-.create_ads .hint-block {
+.create_ads .hint-block, #credit-application-form .hint-block {
     color: #777;
     font-size: 12px;
     line-height: 1.5;
@@ -2126,7 +2151,7 @@ Create Ads
     right: -120px;
 }
 
-.create_ads .help-block {
+.create_ads .help-block, #credit-application-form .help-block {
     clear: both;
     text-align: left;
 }
@@ -2393,6 +2418,20 @@ form.create_ads {
     margin-top: 20px;
 }
 
+.create-ads-step-1 .scooter .add-item-icon {
+    background: url(../theme/images/scooter.jpg);
+    background-repeat: no-repeat;
+    background-size: 130px 105px;
+    margin-top: 20px;
+}
+
+.create-ads-step-1 .atv .add-item-icon {
+    background: url(../theme/images/atv.jpg);
+    background-repeat: no-repeat;
+    background-size: 150px 100px;
+    margin-top: 20px;
+}
+
 .create-ads-step-1 .add-item-name {
     display: inline-block;
     vertical-align: bottom;
@@ -2414,6 +2453,10 @@ form.create_ads {
     margin-top: 17%;
     margin-left: 10px;
 }
+.create-ads-step-1 .scooter .add-item-name,.create-ads-step-1 .atv .add-item-name {
+    margin-top: 15%;
+    margin-left: 15px;
+}
 
 /*
 End Create Ads
@@ -2426,6 +2469,7 @@ End Create Ads
     color: #df4142;
     font-size: 16px;
     cursor: pointer;
+    text-align: center;
 }
 
 .search_button_mobile .fa-search {

@@ -10,11 +10,15 @@ namespace common\helpers;
 
 use common\models\ProductMake;
 use common\models\Product;
+use common\models\ProductType;
 
 class Url extends \yii\helpers\Url
 {
     const CARS = 2;
     const MOTO = 3;
+    const SCOOTER = 4;
+    const ATV = 5;
+
 
     public static function UrlBaseCategory($type)
     {
@@ -24,6 +28,12 @@ class Url extends \yii\helpers\Url
                 break;
             case self::MOTO:
                 $type = 'moto';
+                break;
+            case self::SCOOTER:
+                $type = 'scooter';
+                break;
+            case self::ATV:
+                $type = 'atv';
                 break;
         }
 
@@ -40,6 +50,12 @@ class Url extends \yii\helpers\Url
                 break;
             case self::MOTO:
                 $type = 'moto';
+                break;
+            case self::SCOOTER:
+                $type = 'scooter';
+                break;
+            case self::ATV:
+                $type = 'atv';
                 break;
         }
         $brand = str_replace(' ', '+', $brand);
@@ -59,6 +75,12 @@ class Url extends \yii\helpers\Url
                     break;
                 case self::MOTO:
                     $type = 'moto';
+                    break;
+                case self::SCOOTER:
+                    $type = 'scooter';
+                    break;
+                case self::ATV:
+                    $type = 'atv';
                     break;
             }
 
@@ -80,6 +102,12 @@ class Url extends \yii\helpers\Url
                 case self::MOTO:
                     $type = 'moto';
                     break;
+                case self::SCOOTER:
+                    $type = 'scooter';
+                    break;
+                case self::ATV:
+                    $type = 'atv';
+                    break;
             }
 
             $url = "https://" . $_SERVER['HTTP_HOST'] . "/" . $type . "/" . $brand . "/" . $model . "/" . $id."";
@@ -99,6 +127,12 @@ class Url extends \yii\helpers\Url
                 break;
             case self::MOTO:
                 $type = 'moto';
+                break;
+            case self::SCOOTER:
+                $type = 'scooter';
+                break;
+            case self::ATV:
+                $type = 'atv';
                 break;
         }
 

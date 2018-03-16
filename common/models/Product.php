@@ -11,6 +11,7 @@ use yii\db\Query;
 use yii\helpers\Url;
 use yii\base\Event;
 use common\models\AppData;
+use common\models\ProductType;
 
 /**
  * This is the model class for table "product".
@@ -37,6 +38,8 @@ use common\models\AppData;
  */
 class Product extends \yii\db\ActiveRecord
 {
+    const HIGHT_PRIORITY = 1;
+    const LOW_PRIORITY = 0;
     const STATUS_PUBLISHED = 1;
     const STATUS_UNPUBLISHED = 2;
     const STATUS_TO_BE_VERIFIED = 3;
@@ -68,8 +71,8 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['region', 'city_id', 'phone_provider'], 'integer', 'on' => self::SCENARIO_CREATEADS],
-            [['first_name', 'phone', 'video', 'phone_2'], 'safe', 'on' => self::SCENARIO_CREATEADS],
+            [['region', 'city_id', 'phone_provider', 'phone_provider_2', 'phone_provider_3'], 'integer', 'on' => self::SCENARIO_CREATEADS],
+            [['first_name', 'phone', 'video', 'phone_2', 'phone_3'], 'safe', 'on' => self::SCENARIO_CREATEADS],
             [['type', 'make', 'model', 'year', 'price', 'priority'], 'required', 'on' => self::SCENARIO_DEFAULT],
             [['exchange', 'currency', 'auction'], 'integer', 'on' => self::SCENARIO_DEFAULT],
             [['first_name', 'phone_provider', 'phone', 'region', 'city_id'], 'required', 'on' => self::SCENARIO_CREATEADS],
@@ -92,6 +95,8 @@ class Product extends \yii\db\ActiveRecord
                 'phone',
                 'phone_provider_2',
                 'phone_2',
+                'phone_provider_3',
+                'phone_3',
                 'region',
             ],
             self::SCENARIO_STEP_1 => [
@@ -114,6 +119,8 @@ class Product extends \yii\db\ActiveRecord
                 'phone',
                 'phone_provider_2',
                 'phone_2',
+                'phone_provider_3',
+                'phone_3',
                 'region',
                 'city_id',
             ],
@@ -123,6 +130,8 @@ class Product extends \yii\db\ActiveRecord
                 'phone',
                 'phone_provider_2',
                 'phone_2',
+                'phone_provider_3',
+                'phone_3',
                 'region',
                 'city_id',
                 'email',
@@ -149,6 +158,8 @@ class Product extends \yii\db\ActiveRecord
                 'video',
                 'phone_2',
                 'phone_provider_2',
+                'phone_provider_3',
+                'phone_3',
                 'type',
                 'make',
                 'model',
@@ -196,6 +207,8 @@ class Product extends \yii\db\ActiveRecord
             'phone_provider' => 'Оператор',
             'phone_2' => 'Доп. телефон',
             'phone_provider_2' => 'Оператор',
+            'phone_3' => 'Доп. телефон',
+            'phone_provider_3' => 'Оператор',
         ];
     }
 
@@ -247,37 +260,170 @@ class Product extends \yii\db\ActiveRecord
     }
 
     /**
-     * If metadata is empty generate it
+     * Generate MetaData
      */
-    public function updateMetaData()
+    public function saveProductMetaData()
     {
-        $metaDataModels = MetaData::getModels($this);
-        foreach ($metaDataModels as $metaDataModel) {
-            if ($metaDataModel->type == MetaData::TYPE_TITLE && empty($metaDataModel->i18n()->value)) {
-                $specs = ProductSpecification::find()
-                    ->innerJoin('specification', 'specification.id=product_specification.specification_id')
-                    ->where('product_id=:product_id AND specification.in_meta=1', [':product_id' => $this->id])
-                    ->all();
+        $metaTitleModel = new MetaData();
 
-                $specsStr = '';
+        $metaTitleModel->linked_table = static::TABLE_NAME;
+        $metaTitleModel->linked_id = $this->id;
+        $metaTitleModel->type = MetaData::TYPE_TITLE;
+        $specs = ProductSpecification::find()
+            ->innerJoin('specification', 'specification.id=product_specification.specification_id')
+            ->where('product_id=:product_id AND specification.in_meta=1', [':product_id' => $this->id])
+            ->all();
 
-                foreach ($specs as $spec) {
+        $specsStr = '';
 
-                    $specsStr .= ', ' . $spec->value;
-                    $unit = trim($spec->getSpecification()->one()->i18n()->unit);
-                    if ($unit !== '') {
-                        $specsStr .= ' ' . $spec->getSpecification()->one()->i18n()->unit;
-                    }
-                }
+        foreach ($specs as $spec) {
 
-                $metaDataModel->i18n()->value = $this->getFullTitle() . $specsStr . ', купить в кредит в Минске.';
-                $metaDataModel->save();
-            }
-            if ($metaDataModel->type == MetaData::TYPE_DESCRIPTION && empty($metaDataModel->i18n()->value)) {
-                $metaDataModel->i18n()->value = $this->i18n()->seller_comments;
-                $metaDataModel->save();
+            $specsStr .= ', ' . $spec->value;
+            $unit = trim($spec->getSpecification()->one()->i18n()->unit);
+            if ($unit !== '') {
+                $specsStr .= ' ' . $spec->getSpecification()->one()->i18n()->unit;
             }
         }
+
+        $metaTitleModel->i18n()->value = $this->getFullTitle() . $specsStr . ', купить в кредит в Минске.';
+        $metaTitleModel->save();
+        unset($metaTitleModel);
+
+        $metaDescriptionModel = new MetaData();
+
+        $metaDescriptionModel->linked_table = static::TABLE_NAME;
+        $metaDescriptionModel->linked_id = $this->id;
+        $metaDescriptionModel->type = MetaData::TYPE_DESCRIPTION;
+
+        switch ($this->type) {
+
+            case ProductType::CARS:
+                $productType = 'автомобиль';
+                break;
+            case ProductType::MOTO:
+                $productType = 'мотоцикл';
+                break;
+            case ProductType::SCOOTER:
+                $productType = 'скутер';
+                break;
+            case ProductType::ATV:
+                $productType = 'квадроцикл';
+                break;
+        }
+
+        $description = 'Купить ' . $productType . ' ' . $this->getFullTitle() . ' ' . $specsStr . ' .Цена ' . $this->price . ' в кредит в Минске. Частное объявление о продаже квадроцикла на сайте Автомечта.' . $this->i18n()->seller_comments;
+        $metaDescriptionModel->i18n()->value = $description;
+        $metaDescriptionModel->save();
+        unset($metaDescriptionModel);
+
+        $metaKeywordsModel = new MetaData();
+
+        $metaKeywordsModel->linked_table = static::TABLE_NAME;
+        $metaKeywordsModel->linked_id = $this->id;
+        $metaKeywordsModel->type = MetaData::TYPE_KEYWORDS;
+
+        switch ($this->type) {
+
+            case ProductType::CARS:
+                $productType = 'автомобиль';
+                break;
+            case ProductType::MOTO:
+                $productType = 'мотоцикл';
+                break;
+            case ProductType::SCOOTER:
+                $productType = 'скутер';
+                break;
+            case ProductType::ATV:
+                $productType = 'квадроцикл';
+                break;
+        }
+
+        $keywords = $this->getShortTitle() . ' , ' . $this->year . ' г.в., Минск, объявление, продам, ' . $productType . ' , купить ' . $productType . ', автомечта, кредит, купить в кредит, купить в кредит в  Минске';
+
+        try {
+            $metaKeywordsModel->i18n()->value = $keywords;
+            $metaKeywordsModel->save();
+        } catch (\yii\base\Exception $exception) {
+
+        }
+
+        unset($metaKeywordsModel);
+    }
+
+    /*
+     * Update MetaData
+     */
+    public function updateProductMetaData()
+    {
+        $metaTitleModel = MetaData::find()->where(['and', ['linked_table' => static::TABLE_NAME], ['linked_id' => $this->id], ['type' => MetaData::TYPE_TITLE]])->one();
+        $specs = ProductSpecification::find()
+            ->innerJoin('specification', 'specification.id=product_specification.specification_id')
+            ->where('product_id=:product_id AND specification.in_meta=1', [':product_id' => $this->id])
+            ->all();
+
+        $specsStr = '';
+
+        foreach ($specs as $spec) {
+
+            $specsStr .= ', ' . $spec->value;
+            $unit = trim($spec->getSpecification()->one()->i18n()->unit);
+            if ($unit !== '') {
+                $specsStr .= ' ' . $spec->getSpecification()->one()->i18n()->unit;
+            }
+        }
+
+        $metaTitleModel->i18n()->value = $this->getFullTitle() . $specsStr . ', купить в кредит в Минске.';
+        $metaTitleModel->save();
+        unset($metaTitleModel);
+
+        $metaDescriptionModel = MetaData::find()->where(['and', ['linked_table' => static::TABLE_NAME], ['linked_id' => $this->id], ['type' => MetaData::TYPE_DESCRIPTION]])->one();
+        switch ($this->type) {
+
+            case ProductType::CARS:
+                $productType = 'автомобиль';
+                break;
+            case ProductType::MOTO:
+                $productType = 'мотоцикл';
+                break;
+            case ProductType::SCOOTER:
+                $productType = 'скутер';
+                break;
+            case ProductType::ATV:
+                $productType = 'квадроцикл';
+                break;
+        }
+
+        $description = 'Купить ' . $productType . ' ' . $this->getFullTitle() . ' ' . $specsStr . ' .Цена ' . $this->price . ' в кредит в Минске. Частное объявление о продаже квадроцикла на сайте Автомечта.' . $this->i18n()->seller_comments;
+        $metaDescriptionModel->i18n()->value = $description;
+        $metaDescriptionModel->save();
+        unset($metaDescriptionModel);
+
+        $metaKeywordsModel = MetaData::find()->where(['and', ['linked_table' => static::TABLE_NAME], ['linked_id' => $this->id], ['type' => MetaData::TYPE_KEYWORDS]])->one();
+        switch ($this->type) {
+
+            case ProductType::CARS:
+                $productType = 'автомобиль';
+                break;
+            case ProductType::MOTO:
+                $productType = 'мотоцикл';
+                break;
+            case ProductType::SCOOTER:
+                $productType = 'скутер';
+                break;
+            case ProductType::ATV:
+                $productType = 'квадроцикл';
+                break;
+        }
+
+        $keywords = $this->getShortTitle() . ' , ' . $this->year . ' г.в., Минск, объявление, продам, ' . $productType . ' , купить ' . $productType . ', автомечта, кредит, купить в кредит, купить в кредит в  Минске';
+
+        try {
+            $metaKeywordsModel->i18n()->value = $keywords;
+            $metaKeywordsModel->save();
+        } catch (\Error $error) {
+
+        }
+        unset($metaKeywordsModel);
     }
 
     public function transactions()
@@ -401,6 +547,14 @@ class Product extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return string;
+     */
+    public function getShortTitle()
+    {
+        return $this->getMake0()->one()->name . ' ' . $this->model;
+    }
+
+    /**
      * @inheritdoc
      * @return ProductQuery the active query used by this AR class.
      */
@@ -423,7 +577,7 @@ class Product extends \yii\db\ActiveRecord
             $product ['id'] = $model->id;
             $product ['make'] = $model->getMake0()->one()->name;
             $product ['type'] = $model->type;
-            $product['makeid'] = ProductMake::find()->where(['and', ['depth' => $model->type], ['name' => $model->model], ['product_type' => $model->type]])->one()->id;
+            $product['makeid'] = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $model->model], ['product_type' => $model->type]])->one()->id;
             $product ['model'] = $model->model;
             $product ['year'] = $model->year;
             $product['views'] = $model->views;
@@ -441,7 +595,9 @@ class Product extends \yii\db\ActiveRecord
             $product ['updated_at'] = $model->updated_at;
             $product ['phone'] = $model->phone;
             $product ['phone_2'] = $model->phone_2;
+            $product ['phone_3'] = $model->phone_3;
             $product ['phone_provider_2'] = $model->phone_provider_2;
+            $product ['phone_provider_3'] = $model->phone_provider_3;
             $product ['first_name'] = $model->first_name;
             $product ['region'] = $model->region;
             $product ['city_id'] = $model->city_id;
@@ -508,6 +664,7 @@ class Product extends \yii\db\ActiveRecord
              */
             $similarProducts = Product::find()
                 ->where(['status' => Product::STATUS_PUBLISHED])
+                ->andwhere(['!=', 'id', $model->id])
                 ->andwhere(['make' => $model->make])
                 ->andWhere(['model' => $model->model])
                 ->orderBy('RAND()')
@@ -520,6 +677,8 @@ class Product extends \yii\db\ActiveRecord
                 $product['similar'][$i]['full_title'] = $similarProduct->getFullTitle();
                 $product['similar'][$i]['price_byn'] = $similarProduct->getByrPrice();
                 $product['similar'][$i]['price_usd'] = $similarProduct->getUsdPrice();
+                $product['similar'][$i]['city_id'] = $similarProduct->city_id;
+                $product['similar'][$i]['year'] = $similarProduct->year;
                 $product['similar'][$i]['spec'] = [];
                 foreach ($similarProduct->getSpecifications(Specification::PRIORITY_HIGHEST) as $params => $productSpec) {
                     $spec = $productSpec->getSpecification()->one();
@@ -562,9 +721,9 @@ class Product extends \yii\db\ActiveRecord
     public static function getStatuses()
     {
         return [
-            self::STATUS_PUBLISHED => 'Опубликован',
-            self::STATUS_UNPUBLISHED => 'Не опубликован',
-            self::STATUS_TO_BE_VERIFIED => 'Подлежит проверке',
+            self::STATUS_PUBLISHED => Yii::t('app', 'Published'),
+            self::STATUS_UNPUBLISHED => Yii::t('app', 'Unpublished'),
+            self::STATUS_TO_BE_VERIFIED => Yii::t('app', 'Подлежит проверке'),
             self::STATUS_BEFORE_CREATE_ADS => 'В работе',
         ];
     }

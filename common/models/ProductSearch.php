@@ -26,6 +26,7 @@ class ProductSearch extends Product
 {
 
     const SCENARIO_SEARCH = 'search';
+    public $email;
 
     public function init()
     {
@@ -41,6 +42,7 @@ class ProductSearch extends Product
             'status',
             'type',
             'make',
+            'email',
             'phone',
             'model',
             'price',
@@ -58,7 +60,7 @@ class ProductSearch extends Product
 
     public function behaviors()
     {
-        $behaviors =  parent::behaviors();
+        $behaviors = parent::behaviors();
         $behaviors[] = [
             'class' => DateRangeSearchBehavior::className()
         ];
@@ -81,6 +83,10 @@ class ProductSearch extends Product
         $query->andFilterWhere(['priority' => $this->priority]);
         $query->andFilterWhere(['status' => $this->status]);
         $query->andFilterWhere(['id' => $this->id]);
+        if ($this->email !== null) {
+            $this->created_by = User::find()->where(['email' => $this->email])->one()->id;
+            $query->andFilterWhere(['created_by' => $this->created_by]);
+        }
         $query->andFilterWhere(['year' => $this->year]);
         $query->andFilterWhere(['like', 'model', $this->model]);
         if ($this->make != 0) {

@@ -30,6 +30,7 @@ use common\models\Complaint;
 class CatalogController extends Controller
 {
     public $layout = 'index';
+    public $bodyClass;
 
     public function behaviors()
     {
@@ -97,13 +98,19 @@ class CatalogController extends Controller
     public function actionPreview($productType, $maker, $modelauto, $id)
     {
 
-        if ($productType == 'cars' || $productType == 'moto') {
+        if ($productType == 'cars' || $productType == 'moto'|| $productType == 'scooter'|| $productType == 'atv') {
             switch ($productType) {
                 case 'cars':
-                    $productType = 2;
+                    $productType = ProductType::CARS;
                     break;
                 case 'moto':
-                    $productType = 3;
+                    $productType = ProductType::MOTO;
+                    break;
+                case 'scooter':
+                    $productType =  ProductType::SCOOTER;
+                    break;
+                case 'atv':
+                    $productType =  ProductType::ATV;
                     break;
             }
             $modelauto = str_replace('+', ' ', $modelauto);
@@ -149,6 +156,8 @@ class CatalogController extends Controller
                     $product ['phone'] = $model->phone;
                     $product ['phone_2'] = $model->phone_2;
                     $product ['phone_provider_2'] = $model->phone_provider_2;
+                    $product ['phone_3'] = $model->phone_3;
+                    $product ['phone_provider_3'] = $model->phone_provider_3;
                     $product ['first_name'] = $model->first_name;
                     $product ['region'] = $model->region;
                     $product ['city_id'] = $model->city_id;
@@ -259,13 +268,19 @@ class CatalogController extends Controller
     }
     public function actionNewshow($productType, $maker, $modelauto, $id)
     {
-        if ($productType == 'cars' || $productType == 'moto') {
+        if ($productType == 'cars' || $productType == 'moto'|| $productType == 'scooter'|| $productType == 'atv') {
             switch ($productType) {
                 case 'cars':
-                    $productType = 2;
+                    $productType = ProductType::CARS;
                     break;
                 case 'moto':
-                    $productType = 3;
+                    $productType = ProductType::MOTO;
+                    break;
+                case 'scooter':
+                    $productType =  ProductType::SCOOTER;
+                    break;
+                case 'atv':
+                    $productType =  ProductType::ATV;
                     break;
             }
             $modelauto = str_replace('+', ' ', $modelauto);
@@ -296,7 +311,7 @@ class CatalogController extends Controller
                         $product ['id'] = $model->id;
                         $product ['make'] = $model->getMake0()->one()->name;
                         $product ['type'] = $model->type;
-                        $product['makeid'] = ProductMake::find()->where(['and', ['depth' => $model->type], ['name' => $model->model], ['product_type' => $model->type]])->one()->id;
+                        $product['makeid'] = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $model->model], ['product_type' => $model->type]])->one()->id;
                         $product ['model'] = $model->model;
                         $product ['year'] = $model->year;
                         $product ['title'] = $model->getFullTitle();
@@ -380,6 +395,7 @@ class CatalogController extends Controller
                          */
                         $similarProducts = Product::find()
                             ->where(['status' => Product::STATUS_PUBLISHED])
+                            ->andwhere(['!=', 'id', $model->id])
                             ->andwhere(['make' => $model->make])
                             ->andWhere(['model' => $model->model])
                             ->orderBy('RAND()')
@@ -422,6 +438,8 @@ class CatalogController extends Controller
 
                     }
                     // End Cache
+
+                    $this->bodyClass = 'card-product-page';
 
                     return $this->render('show', [
                         'product' => $product,
@@ -539,6 +557,11 @@ class CatalogController extends Controller
 
         $meta['description'] = $meta['title'] . ' купить в кредит в Минске';
         $meta['keywords'] = $meta['title'] . ' купить в кредит в Минске';
+
+        Yii::$app->view->registerMetaTag([
+            'property' => 'og:title',
+            'content' =>$meta['title']
+        ]);
 
         return $meta;
     }
