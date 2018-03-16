@@ -325,14 +325,14 @@ $.ajax({
                     },
                     'contentOptions' => ['class' => 'auto-width-col center-align'],
                     'headerOptions' => ['style' => 'width: 70px;'],
-                    //'filter' => MdlHtml::activeInput('text', $searchModel, 'email')
+                    'filter' => MdlHtml::activeInput('text', $searchModel, 'email')
                 ],
 
                 [
                     'label' => $searchModel->getAttributeLabel('make'),
                     'value' => function (Product $model, $key, $index, $column) {
                         $make = $model->getMake0()->one();
-                        return $make->name;
+                        return $make['name'];
                     },
                     'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
                     'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],

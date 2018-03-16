@@ -25,6 +25,7 @@ class ProductmakeController extends TreeController
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'move-node' => ['post'],
+                    'add-model' => ['post'],
                     'delete' => ['post'],
                 ],
             ],
@@ -38,7 +39,7 @@ class ProductmakeController extends TreeController
     {
         $actions = parent::actions();
         $actions['load-tree']['nameAttribute'] = function ($model) {
-            $type = ProductType::find()->where('id='.$model->product_type)->one();
+            $type = ProductType::find()->where('id=' . $model->product_type)->one();
             $result = $model->name;
             if ($type) {
                 $result .= ' (' . $type->i18n()->name . ')';
@@ -47,6 +48,44 @@ class ProductmakeController extends TreeController
             return $result;
         };
         return $actions;
+    }
+
+    public function actionAddModel()
+    {
+        if (Yii::$app->request->isAjax) {
+            if (!Yii::$app->user->can('createProductMake')) {
+                Yii::$app->user->denyAccess();
+            };
+
+            /* response will be in JSON format */
+            Yii::$app->response->format = 'json';
+            $data = Yii::$app->request->post();
+            $nameModel = $data["ProductMake"]["name"];
+            $parentId = $data["ProductMake"]["parentId"];
+            $product_type = $data["ProductMake"]["product_type"];
+            $arrayModels = ProductMake::getModelsListWithId($parentId, $product_type);
+            if (!empty($arrayModels)) {
+                $lft = current(ProductMake::getModelsListWithId($parentId, $product_type))['id'];
+                $rgt = next(ProductMake::getModelsListWithId($parentId, $product_type))['id'];
+            } else {
+                $lft = null;
+                $rgt = null;
+            }
+            $model = new ProductMake();
+            if ($model->load($data) && $model->validate()) {
+                $root = ProductMake::getRoot();
+                $model->appendTo($root);
+                $model->depth = 2;
+                if ($model->save()) {
+                    return json_encode(['nameModel' => $nameModel, 'id' => $model->id, 'parentId' => $parentId, 'lft' => $lft, 'rgt' => $rgt]);
+                }
+
+            } else {
+                return false;
+            }
+        } else {
+            Yii::$app->user->denyAccess();
+        }
     }
 
     /**
@@ -87,7 +126,6 @@ class ProductmakeController extends TreeController
         };
 
         $model = new ProductMake();
-
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $root = ProductMake::getRoot();
             $model->appendTo($root);

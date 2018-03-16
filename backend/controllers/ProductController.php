@@ -17,6 +17,7 @@ use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
 use yii\data\ActiveDataProvider;
 use common\controllers\behaviors\UploadsBehavior;
+use yii\web\NotFoundHttpException;
 
 class ProductController extends \yii\web\Controller
 {
@@ -67,6 +68,41 @@ class ProductController extends \yii\web\Controller
         ]);
     }
 
+    public function actionClearcache()
+    {
+        if (!Yii::$app->user->can('deleteProduct')) {
+            Yii::$app->user->denyAccess();
+        }
+
+        if (Yii::$app->request->isAjax) {
+            if (Yii::$app->cache->clearAll()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            Yii::$app->user->denyAccess();
+        }
+    }
+
+
+    public function actionIndexingproduct()
+    {
+        if (!Yii::$app->user->can('deleteProduct')) {
+            Yii::$app->user->denyAccess();
+        }
+
+        if (Yii::$app->request->isAjax) {
+            if (Yii::$app->indexing->IndexingAllProduct()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            Yii::$app->user->denyAccess();
+        }
+    }
+
     /**
      * Creates a new product.
      * If creation is successful, the browser will be redirected to the 'index' page.
@@ -91,7 +127,8 @@ class ProductController extends \yii\web\Controller
             $model->save();
             $this->saveUploads($model);
             $this->saveSpecifications($model);
-            $this->saveProductMetaData($model);
+            $model->saveProductMetaData();
+            Yii::$app->cache->deleteKey('main_page');
             return $this->redirect(['index']);
         } else {
             $model->make = key(ProductMake::getMakesList($model->type));
@@ -111,40 +148,48 @@ class ProductController extends \yii\web\Controller
 
         if (Yii::$app->request->isAjax) {
             $request = Yii::$app->request->post();
-            function delete($items){
-                foreach ($items as $item){
-                   $this->findModel($item)->delete();
+            function delete($items)
+            {
+                foreach ($items as $item) {
+                    $model = Product::findOne($item);
+                    $model->delete();
+                    Yii::$app->cache->deleteKey('main_page');
                 }
+                return true;
             }
 
-            function published($items){
-                foreach ($items as $item){
-                    $model = $this->findModel($item);
+            function published($items)
+            {
+                foreach ($items as $item) {
+                    $model = Product::findOne($item);
                     $model->status = Product::STATUS_PUBLISHED;
-                   $model->save();
+                    $model->save();
                 }
+                return true;
             }
 
-            function unpublished($items){
-                foreach ($items as $item){
+            function unpublished($items)
+            {
+                foreach ($items as $item) {
                     $model = Product::findOne($item);
                     $model->status = Product::STATUS_UNPUBLISHED;
-                   if($model->save()) {
-                       Uploads::deleteImages('product', $item);
-                   }
+                    if ($model->save()) {
+                        Uploads::deleteImages('product', $item);
+                    }
                 }
+                return true;
             }
 
-            switch ($request['action']){
+            switch ($request['action']) {
                 case 'delete':
-                   delete ($request ['ads']);
+                    delete($request ['ads']);
                     break;
                 case Product::STATUS_PUBLISHED:
-                    published ($request ['ads']);
+                    published($request ['ads']);
                     break;
 
                 case Product::STATUS_UNPUBLISHED:
-                    unpublished ($request ['ads']);
+                    unpublished($request ['ads']);
                     break;
 
             }
@@ -165,10 +210,12 @@ class ProductController extends \yii\web\Controller
         if (!Yii::$app->user->can('updateProduct')) {
             Yii::$app->user->denyAccess();
         }
+
         $model = $this->findModel($id);
         $model->loadDefaultValues();
         $productSpecificationModels = $this->fillSpecifications($model);
         $request = Yii::$app->request->post();
+
         if ($request['Product']['status'] == Product::STATUS_UNPUBLISHED) {
             Uploads::deleteImages('product', $id);
         }
@@ -178,7 +225,9 @@ class ProductController extends \yii\web\Controller
             $model->save();
             $this->saveUploads($model);
             $this->saveSpecifications($model);
-            $this->saveProductMetaData($model);
+            $model->updateProductMetaData();;
+            Yii::$app->cache->deleteKey('main_page');
+
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
@@ -201,6 +250,7 @@ class ProductController extends \yii\web\Controller
         }
         $this->findModel($id)->delete();
         Uploads::deleteImages('product', $id);
+        Yii::$app->cache->deleteKey('main_page');
         if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
         } else {
@@ -336,14 +386,16 @@ class ProductController extends \yii\web\Controller
     }
 
     /**
+     * ToDo: Delete method
      * @param ActiveRecord $model
      * @return boolean
      */
-    protected function saveProductMetaData($model)
-    {
-        $this->saveMetaData($model);
-        $model->updateMetaData();
-    }
+//    protected function saveProductMetaData($model)
+//    {
+//        $this->saveMetaData($model);
+//        $model->updateMetaData();
+//    }
+
 
     /**
      * Finds the Product model based on its primary key value (id).
