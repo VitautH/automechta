@@ -1,6 +1,16 @@
 define(['jquery', 'application', 'preloader'], function ($, application, preloader) {
     'use strict';
+    $("#year_form").hide();
+    $("#price_form").hide();
+    $("#year").click(function () {
+        $("#year_form").slideToggle( "fast", function() {
+        });
 
+    });
+    $("#price").click(function () {
+        $("#price_form").slideToggle( "fast", function() {
+        });
+    });
     var $form = $('#search_form_main');
     $('[name="ProductSearchForm[type]"]').on('change', function () {
         updateMakersList($(this).val());
@@ -134,6 +144,12 @@ define(['jquery', 'application', 'preloader'], function ($, application, preload
                 break;
             case '3':
                 type = 'moto';
+                break;
+            case '4':
+                type = 'scooter';
+                break;
+            case '5':
+                type = 'atv';
                 break;
             default:
                 type = 'cars';

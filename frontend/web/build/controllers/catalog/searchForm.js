@@ -133,6 +133,12 @@ define(['jquery', 'application', 'preloader', 'urijs/URI'], function ($, applica
             case '3':
                 type = 'moto';
                 break;
+            case '4':
+                type = 'scooter';
+                break;
+            case '5':
+                type = 'atv';
+                break;
             default:
                 type = 'cars';
                 break;

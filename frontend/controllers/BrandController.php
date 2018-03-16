@@ -33,6 +33,7 @@ use yii\data\Pagination;
 class BrandController extends Controller
 {
     public $layout = 'index';
+    public $bodyClass;
     const PAGE_SIZE = 20;
 
     public function behaviors()
@@ -94,10 +95,8 @@ class BrandController extends Controller
         if (isset($params['page']) || isset($params['per-page']) || isset($params['sort']) ||
             isset($params['tableView']) || isset($params['ProductSearchForm'])
         ) {
-            \Yii::$app->view->registerMetaTag([
-                'name' => 'robots',
-                'content' => 'noindex, nofollow'
-            ]);
+            \Yii::$app->view->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
+
         }
 
         $searchForm->load($params);
@@ -113,7 +112,7 @@ class BrandController extends Controller
                 $limit = 'LIMIT ' . static::PAGE_SIZE;
             } else {
                 if ($lastPage >= $page) {
-                    $limit = 'LIMIT ' . static::PAGE_SIZE . ' OFFSET ' . static::PAGE_SIZE * ($page-1);
+                    $limit = 'LIMIT ' . static::PAGE_SIZE . ' OFFSET ' . static::PAGE_SIZE * ($page - 1);
                 } else {
                     Yii::$app->response->statusCode = 404;
                     throw new NotFoundHttpException('Извините, данной страницы не существует.');
@@ -210,26 +209,32 @@ class BrandController extends Controller
             ],
         ]);
         $params = Yii::$app->request->get();
-        if ($productType == 'cars' || $productType == 'moto') {
+        if ($productType == 'cars' || $productType == 'moto' || $productType == 'scooter' || $productType == 'atv') {
             switch ($productType) {
                 case 'cars':
-                    $productType = 2;
-                    $params['ProductSearchForm']['type'] = 2;
+                    $productType = ProductType::CARS;
+                    $params['ProductSearchForm']['type'] = ProductType::CARS;
                     break;
                 case 'moto':
-                    $productType = 3;
-                    $params['ProductSearchForm']['type'] = 3;
+                    $productType = ProductType::MOTO;
+                    $params['ProductSearchForm']['type'] = ProductType::MOTO;
+                    break;
+                case 'scooter':
+                    $productType = ProductType::SCOOTER;
+                    $params['ProductSearchForm']['type'] = ProductType::SCOOTER;
+                    break;
+                case 'atv':
+                    $productType = ProductType::ATV;
+                    $params['ProductSearchForm']['type'] = ProductType::ATV;
                     break;
             }
 
             if (isset($params['page']) || isset($params['per-page']) || isset($params['sort']) ||
                 isset($params['tableView']) || isset($params['ProductSearchForm'])
             ) {
-                \Yii::$app->view->registerMetaTag([
-                    'name' => 'robots',
-                    'content' => 'noindex, nofollow'
-                ]);
+                \Yii::$app->view->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
             }
+
             if (Yii::$app->cache->exists('category_' . $productType)) {
                 $count = Yii::$app->cache->getField('category_' . $productType, 'count');
             } else {
@@ -237,7 +242,9 @@ class BrandController extends Controller
                     ->from(Product::TABLE_NAME)
                     ->where(['type' => $productType])
                     ->andWhere(['status' => Product::STATUS_PUBLISHED])
+                    ->andWhere(['priority' => Product::LOW_PRIORITY])
                     ->count();
+
                 Yii::$app->cache->hmset('category_' . $productType, ['count' => $count], 10000);
             }
             $params['count'] = $count;
@@ -249,7 +256,7 @@ class BrandController extends Controller
                     $limit = 'LIMIT ' . static::PAGE_SIZE;
                 } else {
                     if ($lastPage >= $page) {
-                        $limit = 'LIMIT ' . static::PAGE_SIZE . ' OFFSET ' . ($page-1) * static::PAGE_SIZE;
+                        $limit = 'LIMIT ' . static::PAGE_SIZE . ' OFFSET ' . ($page - 1) * static::PAGE_SIZE;
                     } else {
                         Yii::$app->response->statusCode = 404;
                         throw new NotFoundHttpException('Извините, данной страницы не существует.');
@@ -284,9 +291,11 @@ class BrandController extends Controller
 
             }
 
+
             $command = $connection->createCommand("
-    SELECT id FROM " . Product::TABLE_NAME . "  WHERE  type = $productType AND  
-    status = " . Product::STATUS_PUBLISHED . " " . $sort . " " . $limit . " ");
+    SELECT id FROM " . Product::TABLE_NAME . "  WHERE  type = $productType 
+    AND priority = " . Product::LOW_PRIORITY . "
+    AND   status = " . Product::STATUS_PUBLISHED . " " . $sort . " " . $limit . " ");
             $result = $command->queryAll();
             $products = [];
 
@@ -359,18 +368,27 @@ class BrandController extends Controller
 
         $maker = str_replace('+', ' ', $maker);
         $params = Yii::$app->request->get();
-        if ($productType == 'cars' || $productType == 'moto') {
+        if ($productType == 'cars' || $productType == 'moto' || $productType == 'scooter' || $productType == 'atv') {
             switch ($productType) {
                 case 'cars':
-                    $productType = 2;
-                    $params['ProductSearchForm']['type'] = 2;
+                    $productType = ProductType::CARS;
+                    $params['ProductSearchForm']['type'] = ProductType::CARS;
                     break;
                 case 'moto':
-                    $productType = 3;
-                    $params['ProductSearchForm']['type'] = 3;
+                    $productType = ProductType::MOTO;
+                    $params['ProductSearchForm']['type'] = ProductType::MOTO;
+                    break;
+                case 'scooter':
+                    $productType = ProductType::SCOOTER;
+                    $params['ProductSearchForm']['type'] = ProductType::SCOOTER;
+                    break;
+                case 'atv':
+                    $productType = ProductType::ATV;
+                    $params['ProductSearchForm']['type'] = ProductType::ATV;
                     break;
             }
-            $maker = ProductMake::find()->where(['name' => $maker])->andWhere(['product_type'=>$productType])->one();
+            $maker = ProductMake::find()->where(['name' => $maker])->andWhere(['product_type' => $productType])->one();
+
             if (Yii::$app->cache->exists('category_' . $maker->id)) {
                 $count = Yii::$app->cache->getField('category_' . $maker->id, 'count');
             } else {
@@ -390,7 +408,7 @@ class BrandController extends Controller
                     $limit = 'LIMIT ' . static::PAGE_SIZE;
                 } else {
                     if ($lastPage >= $page) {
-                        $limit = 'LIMIT ' . static::PAGE_SIZE . ' OFFSET ' . static::PAGE_SIZE * ($page-1);
+                        $limit = 'LIMIT ' . static::PAGE_SIZE . ' OFFSET ' . static::PAGE_SIZE * ($page - 1);
                     } else {
                         Yii::$app->response->statusCode = 404;
                         throw new NotFoundHttpException('Извините, данной страницы не существует.');
@@ -424,6 +442,13 @@ class BrandController extends Controller
                 }
 
             }
+
+            if (isset($params['page']) || isset($params['per-page']) || isset($params['sort']) ||
+                isset($params['tableView']) || isset($params['ProductSearchForm'])
+            ) {
+                \Yii::$app->view->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
+            }
+
             $connection = Yii::$app->getDb();
             $command = $connection->createCommand("
     SELECT id FROM " . Product::TABLE_NAME . "  WHERE  type = $productType AND make = $maker->id AND  
@@ -475,6 +500,7 @@ class BrandController extends Controller
 
             return $this->render('maker', [
                 'products' => $products,
+                'description' => $maker->description,
                 'count' => $count,
                 'lastPage' => $lastPage,
                 'currentPage' => $page,
@@ -521,15 +547,23 @@ class BrandController extends Controller
             ],
         ]);
         $params = Yii::$app->request->get();
-        if ($productType == 'cars' || $productType == 'moto') {
+        if ($productType == 'cars' || $productType == 'moto' || $productType == 'scooter' || $productType == 'atv') {
             switch ($productType) {
                 case 'cars':
-                    $productType = 2;
-                    $params['ProductSearchForm']['type'] = 2;
+                    $productType = ProductType::CARS;
+                    $params['ProductSearchForm']['type'] = ProductType::CARS;
                     break;
                 case 'moto':
-                    $productType = 3;
-                    $params['ProductSearchForm']['type'] = 3;
+                    $productType = ProductType::MOTO;
+                    $params['ProductSearchForm']['type'] = ProductType::MOTO;
+                    break;
+                case 'scooter':
+                    $productType = ProductType::SCOOTER;
+                    $params['ProductSearchForm']['type'] = ProductType::SCOOTER;
+                    break;
+                case 'atv':
+                    $productType = ProductType::ATV;
+                    $params['ProductSearchForm']['type'] = ProductType::ATV;
                     break;
             }
 
@@ -537,8 +571,8 @@ class BrandController extends Controller
             $modelauto = str_replace('+', ' ', $modelauto);
             $maker = str_replace('+', ' ', $maker);
 
-            $maker = ProductMake::find()->where(['name' => $maker])->andWhere(['product_type'=>$productType])->one();
-
+            $maker = ProductMake::find()->where(['name' => $maker])->andWhere(['product_type' => $productType])->one();
+            $description = ProductMake::find()->select('description ')->where(['name' => $modelauto])->andWhere(['between', 'lft', $maker->lft, $maker->rgt])->andWhere(['product_type' => $productType])->one();
             if (Yii::$app->cache->exists('category_' . $maker->id . '_' . $modelauto)) {
                 $count = Yii::$app->cache->getField('category_' . $maker->id . '_' . $modelauto, 'count');
             } else {
@@ -559,7 +593,7 @@ class BrandController extends Controller
                     $limit = 'LIMIT ' . static::PAGE_SIZE;
                 } else {
                     if ($lastPage >= $page) {
-                        $limit = 'LIMIT ' . static::PAGE_SIZE . ' OFFSET ' . static::PAGE_SIZE * ($page-1);
+                        $limit = 'LIMIT ' . static::PAGE_SIZE . ' OFFSET ' . static::PAGE_SIZE * ($page - 1);
                     } else {
                         Yii::$app->response->statusCode = 404;
                         throw new NotFoundHttpException('Извините, данной страницы не существует.');
@@ -593,6 +627,12 @@ class BrandController extends Controller
                 }
 
             }
+            if (isset($params['page']) || isset($params['per-page']) || isset($params['sort']) ||
+                isset($params['tableView']) || isset($params['ProductSearchForm'])
+            ) {
+                \Yii::$app->view->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
+            }
+
 
             $connection = Yii::$app->getDb();
             $command = $connection->createCommand("
@@ -640,6 +680,7 @@ class BrandController extends Controller
 
             return $this->render('modelauto', [
                 'products' => $products,
+                'description' => $description->description,
                 'count' => $count,
                 'lastPage' => $lastPage,
                 'currentPage' => $page,
@@ -658,6 +699,10 @@ class BrandController extends Controller
 
     public function actionSearch($productType)
     {
+        \Yii::$app->view->registerMetaTag([
+            'name' => 'robots',
+            'content' => 'noindex, nofollow'
+        ]);
 
         $sortData = new Sort([
             'attributes' => [
@@ -682,20 +727,25 @@ class BrandController extends Controller
             ],
         ]);
 
-        \Yii::$app->view->registerMetaTag([
-            'name' => 'robots',
-            'content' => 'noindex, nofollow'
-        ]);
+
         $params = Yii::$app->request->get();
-        if ($productType == 'cars' || $productType == 'moto') {
+        if ($productType == 'cars' || $productType == 'moto' || $productType == 'scooter' || $productType == 'atv') {
             switch ($productType) {
                 case 'cars':
-                    $productType = 2;
-                    $params['ProductSearchForm']['type'] = 2;
+                    $productType = ProductType::CARS;
+                    $params['ProductSearchForm']['type'] = ProductType::CARS;
                     break;
                 case 'moto':
-                    $productType = 3;
-                    $params['ProductSearchForm']['type'] = 3;
+                    $productType = ProductType::MOTO;
+                    $params['ProductSearchForm']['type'] = ProductType::MOTO;
+                    break;
+                case 'scooter':
+                    $productType = ProductType::SCOOTER;
+                    $params['ProductSearchForm']['type'] = ProductType::SCOOTER;
+                    break;
+                case 'atv':
+                    $productType = ProductType::ATV;
+                    $params['ProductSearchForm']['type'] = ProductType::ATV;
                     break;
             }
 
@@ -812,7 +862,7 @@ class BrandController extends Controller
                 } else {
                     if ($lastPage >= $page) {
                         $query->limit(static::PAGE_SIZE);
-                        $query->offset(static::PAGE_SIZE * ($page-1));
+                        $query->offset(static::PAGE_SIZE * ($page - 1));
                     } else {
                         Yii::$app->response->statusCode = 404;
                         throw new NotFoundHttpException('Извините, данной страницы не существует.');
@@ -882,10 +932,10 @@ class BrandController extends Controller
             if (isset($params['page']) || isset($params['per-page']) || isset($params['sort']) ||
                 isset($params['tableView']) || isset($params['ProductSearchForm'])
             ) {
-                \Yii::$app->view->registerMetaTag([
-                    'name' => 'robots',
-                    'content' => 'noindex, nofollow'
-                ]);
+//                \Yii::$app->view->registerMetaTag([
+//                    'name' => 'robots',
+//                    'content' => 'noindex, nofollow'
+//                ]);
             }
 
             $searchForm = new ProductSearchForm();
@@ -992,7 +1042,7 @@ class BrandController extends Controller
         }
     }
 
-  
+
     /**
      * Get metadata model
      */
