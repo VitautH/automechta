@@ -23,6 +23,8 @@ use common\models\Product;
 use common\models\Page;
 use common\models\MainPage;
 use common\models\Teaser;
+use common\models\Parsernews;
+use yii\helpers\Url;
 
 /**
  * Site controller
@@ -30,6 +32,7 @@ use common\models\Teaser;
 class SiteController extends Controller
 {
     public $layout = 'index';
+    public $bodyClass;
     private $source;
     private $source_id;
 
@@ -86,6 +89,7 @@ class SiteController extends Controller
         ];
     }
 
+
     /**
      * Displays homepage.
      *
@@ -93,11 +97,21 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        if ( Yii::$app->cache->exists('main_page')) {
+        $responseGet = Yii::$app->request->get();
+        if (!empty($responseGet)) {
+            header("HTTP/1.1 301 Moved Permanently");
+            header("Location: https://" . $_SERVER['HTTP_HOST']);
+            die();
+        }
+
+        if (Yii::$app->cache->exists('main_page')) {
+            $this->bodyClass = 'main-page';
+
             return $this->render('index');
         } else {
 
-            $highPriorityProducts = Product::find()->highPriority()->orderBy('product.id DESC')->active()->limit(10)->all();
+            $latestAutosCompany = Product::find()->highPriority()->active()->orderBy('product.updated_at DESC')->limit(8)->all();
+            $latestAutosPrivate = Product::find()->lowPriority()->active()->orderBy('product.updated_at DESC')->limit(8)->all();
             $latestNews = Page::find()->active()->news()->limit(5)->orderBy('id desc')->all();
             $mainNews = $latestNews[0];
             $teasers = Teaser::find()->active()->orderBy('lft')->all();
@@ -105,9 +119,12 @@ class SiteController extends Controller
             $topMakers = ProductMake::find()->top()->limit(8)->all();
             $mainPageData = MainPage::getData();
             $sliders = Slider::find()->orderBy('lft')->published()->all();
+            $this->bodyClass = 'main-page';
+
             return $this->render('index', [
                 'sliders' => $sliders,
-                'highPriorityProducts' => $highPriorityProducts,
+                'latestAutosCompany' => $latestAutosCompany,
+                'latestAutosPrivate' => $latestAutosPrivate,
                 'mainNews' => $mainNews,
                 'teasers' => $teasers,
                 'appData' => $appData,
@@ -161,13 +178,21 @@ class SiteController extends Controller
     public function actionLogin()
     {
         if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
+            return $this->redirect(Yii::$app->user->returnUrl);
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            $url = Url::previous();
+            if (!empty($url)) {
+                return $this->redirect($url);
+            } else {
+                return $this->redirect('/account');
+            }
+
         } else {
+            $this->bodyClass = 'login-page';
+
             return $this->render('login', [
                 'model' => $model,
             ]);
@@ -183,7 +208,7 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
 
-        return $this->goHome();
+        return $this->redirect(Yii::$app->user->returnUrl);
     }
 
     /**
@@ -363,7 +388,14 @@ class SiteController extends Controller
              * Авторизация
              */
             if ($auth) {
-                Yii::$app->user->login($auth);
+                if (Yii::$app->user->login($auth)) {
+                    $url = Url::previous();
+                    if (!empty($url)) {
+                        return $this->redirect($url);
+                    } else {
+                        return $this->redirect('/account');
+                    }
+                }
             } /*
              * Регистрация
              */
@@ -397,7 +429,7 @@ class SiteController extends Controller
                         $username = $attributes['display_name'];
                         break;
                     case 'odnoklassniki':
-                        $email = $this->source_id. '@ok.ru';
+                        $email = $this->source_id . '@ok.ru';
                         $last_name = $attributes['last_name'];
                         $first_name = $attributes['first_name'];
                         $username = $first_name . ' ' . $last_name;
@@ -424,6 +456,13 @@ class SiteController extends Controller
                     $role = $auth->getRole('Registered');
                     $auth->assign($role, $user->id);
                     Yii::$app->user->login($user);
+
+                    $url = Url::previous();
+                    if (!empty($url)) {
+                        return $this->redirect($url);
+                    } else {
+                        return $this->redirect('/account');
+                    }
                 } else {
                     print_r($user->getErrors());
 
