@@ -14,11 +14,13 @@ use common\models\Product;
 use common\models\User;
 use common\widgets\Alert;
 use yii\grid\GridView;
+use common\models\AuthAssignment;
+use frontend\widgets\CustomPager;
+use frontend\assets\AppAsset;
 
-$this->title = Yii::t('app', 'Account');
+$this->title = 'Мои объявления';
 $this->params['breadcrumbs'][] = $this->title;
 $appData = AppData::getData();
-
 $this->registerCss("span.update {    
 font-size: 12px;
 font-weight: bold; }
@@ -37,69 +39,68 @@ a.js-up-row {
 color: #f76d2b;
 }
 ", \yii\web\View::POS_HEAD);
-
-$this->registerJs("
-$( document ).ready(function() {
-$('.js-delete-row').on('click',function(e){
-e.preventDefault();
-
-var r = confirm('Вы действительно хотите удалить объявление?');
-if (r == true) {
-var delete_url = $(this).data('delete_url');
-  $.ajax({
-            url: delete_url,
-            type: 'POST',
-             success: function(data) {
-                $('tr[data-key=' + data['id'] + ']').fadeOut();
-             }
-         });
-}
-})
-$('.js-up-row').on('click',function(e){
-e.preventDefault();
-var up_url = $(this).data('up_url');
-  $.ajax({
-            url: up_url,
-            type: 'POST',
-             success: function(data) {
-              if(data['status']=='success'){
-              $('<br><span class=\"update\">Объявление поднято</span>').insertAfter('#'+data['id']);
-              $('#'+data['id']).fadeOut();
-              }
-              if(data['status']=='failed'){
-              $('<br><span class=\"error\">Извините, Вы не можете поднять объявление</span>').insertAfter('#'+data['id']); 
-              $('#'+data['id']).fadeOut();
-              }
-             }
-         });
-})
-});
-", \yii\web\View::POS_END);
+$this->registerJs("require(['controllers/account/actionAds']);", \yii\web\View::POS_HEAD);
 
 ?>
 <section class="b-pageHeader" style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
     <div class="container">
-        <h1 class=" wow zoomInLeft" data-wow-delay="0.3s"><?= $this->title ?></h1>
+        <h1><?= $this->title ?></h1>
     </div>
 </section><!--b-pageHeader-->
 
-<div class="b-breadCumbs s-shadow">
-    <?= Breadcrumbs::widget([
-        'links' => [
-            $this->title
-        ],
-        'options' => ['class' => 'container wow zoomInUp', 'ata-wow-delay' => '0.5s'],
-        'itemTemplate' => "<li class='b-breadCumbs__page'>{link}</li>\n",
-        'activeItemTemplate' => "<li class='b-breadCumbs__page m-active'>{link}</li>\n",
-    ]) ?>
-</div><!--b-breadCumbs-->
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">ЛК</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/account/bookmarks">Закладки</a></li>
+                <li class="active"><a href="#">Мои объявления <span class="sr-only">(current)</span></a></li>
+                <li><a href="/account/setting">Настройки</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
 <section class="b-contacts s-shadow">
     <div class="container">
+        <?php if (Yii::$app->session->hasFlash('success')): ?>
         <div class="row">
-            <div class="col-xs-8">
-                <header class="b-contacts__form-header s-lineDownLeft wow zoomInUp" data-wow-delay="0.5s"
+            <div class="alert alert-success alert-dismissable">
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+               <span><?= Yii::$app->session->getFlash('success') ?></span>
+            </div>
+        </div>
+        <?php endif; ?>
+        <div class="row">
+            <?php
+            $status = AuthAssignment::find()->select('item_name')->where(['user_id' => $model->id])->one();
+
+            if ($status->item_name == 'RegisteredUnconfirmed'):
+            ?>
+                <div class="alert alert-danger col-md-12" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                НА ВАШ E-MAIL ОТПРАВЛЕНО ПИСЬМО С ССЫЛКОЙ ДЛЯ ПОДТВЕРЖДЕНИЯ РЕГИСТРАЦИИ
+                   <br> Пожалуйста, активируйте регистрацию, перейдя по ссылке в письме, отправленном на ваш e-mail
+
+                </div>
+          <?php
+          endif;
+            ?>
+            <div class="col-md-12">
+                <header class="b-contacts__form-header s-lineDownLeft"
                         style="visibility: visible; animation-delay: 0.5s; animation-name: zoomInUp;">
-                    <h2 class="s-titleDet"><?= Yii::t('app', 'Your ads') ?></h2>
+                    <h2 class="s-titleDet">Мои объявления</h2>
                 </header>
                 <p class="hint-block">Объявление может быть поднято не чаще чем один раз в 24 часа.</p>
                 <br>
@@ -112,7 +113,7 @@ var up_url = $(this).data('up_url');
                     'id' => 'product_grid',
                     'dataProvider' => $dataProvider,
                     'tableOptions' => [
-                        'class' => 'table table-condensed',
+                        'class' => 'account_table_product table table-condensed',
                         'style' => 'table-layout: fixed;',
                     ],
                     'layout' => "\n{items}\n{pager}",
@@ -124,10 +125,19 @@ var up_url = $(this).data('up_url');
                         'activePageCssClass' => 'm-active',
                         'wrapperOptions' => ['class' => 'b-items__pagination wow zoomInUp', 'data-wow-delay' => '0.5s']
                     ],
+
                     'columns' => [
+                       [
+                            'class' => 'yii\grid\CheckboxColumn',
+                          'checkboxOptions' => function($model, $key, $index, $widget) {
+                     if ($model->updated_at >= (time() - (1 * 24 * 60 * 60))) {
+                         return ["disabled"=>"true"];
+                     }
+                          }
+                        ],
                         [
                             'value' => function (Product $model, $key, $index, $column) {
-                                $foto = Html::img($model->getTitleImageUrl(270, 150));
+                                $foto = Html::img($model->getTitleImageUrl(267,180));
                                 if ($model->status === Product::STATUS_PUBLISHED) {
                                     $foto = Html::a($foto, UrlProduct::UrlShowProduct($model->id), ['class'=>'show-product']);
                                 }
@@ -249,80 +259,16 @@ var up_url = $(this).data('up_url');
                 <?php
                 \yii\widgets\Pjax::end();
                 ?>
-                <div style="text-align: right;">
-                    <a href="/create-ads" class="btn m-btn m-btn-dark">
-                        Добавить авто <span class="fa fa-angle-right"></span>
+                <label>Выберите действие:</label>
+                <select name="action" id="action">
+                    <option value="up">Поднять</option>
+                </select>
+                <button id="apply" name="apply">Применить</button>
+                <div class="pagination-block">
+                    <a href="/create-ads" class="btn m-btn m-btn-dark create-ads-button">
+                        <span class="fa fa-plus"></span>
+                        ПОДАТЬ ОБЪЯВЛЕНИЕ
                     </a>
-                </div>
-            </div>
-            <div class="col-xs-4">
-                <?= Alert::widget() ?>
-                <div class="b-contacts__form">
-                    <header class="b-contacts__form-header s-lineDownLeft wow zoomInUp" data-wow-delay="0.5s">
-                        <h2 class="s-titleDet"><?= Yii::t('app', 'User data') ?></h2>
-                    </header>
-                    <div id="success"></div>
-                    <?php $formWidget = ActiveForm::begin([
-                        'id' => 'account-form',
-                        'options' => [
-                            'class' => 's-form wow zoomInUp',
-                            'data-wow-delay' => '0.5s',
-                        ]
-                    ]); ?>
-                    <?= $formWidget->field($model, "first_name", ['options' => ['class' => 'b-submit__main-element wow zoomInUp', 'data-wow-delay' => '0.5s']])
-                        ->textInput(['maxlength' => true, 'class' => '']) ?>
-                    <?= $formWidget->field($model, "last_name", ['options' => ['class' => 'b-submit__main-element wow zoomInUp', 'data-wow-delay' => '0.5s']])
-                        ->textInput(['maxlength' => true, 'class' => '']) ?>
-                    <label class="control-label" for="user-phone"><?= $model->getAttributeLabel('region') ?></label>
-                    <div class='s-relative'>
-                        <?= Html::activeDropDownList(
-                            $model,
-                            'region',
-                            User::getRegions(),
-                            ['class' => 'm-select']) ?>
-                        <span class="fa fa-caret-down"></span>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-7">
-                            <?= $formWidget->field($model, "phone", ['options' => ['class' => 'b-submit__main-element']])
-                                ->textInput(['maxlength' => true, 'class' => '']) ?>
-                        </div>
-                        <div class="col-xs-5">
-                            <label class="control-label"
-                                   for="user-phone"><?= $model->getAttributeLabel('phone_provider') ?></label>
-                            <div class='s-relative'>
-                                <?= Html::activeDropDownList(
-                                    $model,
-                                    'phone_provider',
-                                    User::getPhoneProviders(),
-                                    ['class' => 'm-select']) ?>
-                                <span class="fa fa-caret-down"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-7">
-                            <?= $formWidget->field($model, "phone_2", ['options' => ['class' => 'b-submit__main-element']])
-                                ->textInput(['maxlength' => true, 'class' => '']) ?>
-                        </div>
-                        <div class="col-xs-5">
-                            <label class="control-label"
-                                   for="user-phone"><?= $model->getAttributeLabel('phone_provider') ?></label>
-                            <div class='s-relative'>
-                                <?= Html::activeDropDownList(
-                                    $model,
-                                    'phone_provider_2',
-                                    User::getPhoneProviders(),
-                                    ['class' => 'm-select']) ?>
-                                <span class="fa fa-caret-down"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn m-btn" name="contact-button"><?= Yii::t('app', 'Save') ?><span
-                                    class="fa fa-angle-right"></span></button>
-                    </div>
-                    <?php ActiveForm::end(); ?>
                 </div>
             </div>
         </div>
