@@ -62,7 +62,7 @@ $form = ActiveForm::begin([
         <div class="mdl-textfield mdl-textfield--full-width mdl-js-textfield">
             <label>Логин пользователя: </label> <b><?= $user->username ?></b><br>
             <label>Email: </label> <b><?= $user->email ?></b><br>
-            <label>Телефон:   </label><b> <b><?= $form->field($model, 'phone')->widget(\yii\widgets\MaskedInput::className(), [
+            <label>Телефон:   </label> <b><?= $form->field($model, 'phone')->widget(\yii\widgets\MaskedInput::className(), [
                 'mask' => '+375 (99) 999-99-99',
             ])->label(false); ?>
             </b>
@@ -71,6 +71,10 @@ $form = ActiveForm::begin([
                             'mask' => '+375 (99) 999-99-99',
                         ])->label(false); ?>
                     </b>
+                <label>Доп. телефон:   </label><b><?= $form->field($model, 'phone_3')->widget(\yii\widgets\MaskedInput::className(), [
+                        'mask' => '+375 (99) 999-99-99',
+                    ])->label(false); ?>
+                </b>
         </div>
     <?php endif; ?>
     <?= $form->field($model, 'id')->textInput(['name' => 'id', 'disabled' => 'disabled']) ?>
