@@ -22,6 +22,7 @@ $tableView = filter_var(Yii::$app->request->get('tableView', 'false'), FILTER_VA
 $this->registerJsFile("@web/js/readmore.js");
 $this->registerJs("require(['controllers/catalog/bookmarks']);", \yii\web\View::POS_HEAD);
 $this->registerJs("require(['controllers/catalog/index']);", \yii\web\View::POS_HEAD);
+$this->registerJs("require(['controllers/catalog/modal']);", \yii\web\View::POS_HEAD);
 $this->registerJs("    
  $(document).ready(function(){
  var ScreenWidth = screen.width; 
@@ -64,7 +65,7 @@ $this->title = 'Каталог ' . $typeName . ' с фото и ценой в Б
 
 $this->registerMetaTag([
     'name' => 'description',
-    'content' => 'Большой выбор ' . $typeName . ' с фото и ценой в кредит в каталоге компании АвтоМечта',
+    'content' => 'Большой выбор ' . $typeName . ' с фото и ценой в каталоге компании АвтоМечта',
 ]);
 $this->registerMetaTag([
     'name' => 'keywords',
@@ -86,8 +87,8 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
     <section class="b-pageHeader"
              style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
         <div class="container">
-            <h1 class="wow zoomInLeft" data-wow-delay="0.5s">Продажа <?= $typeName; ?> в Беларуси в кредит</h1>
-            <div class="b-pageHeader__search wow zoomInRight" data-wow-delay="0.5s">
+            <h1>Продажа <?= $typeName; ?> в Беларуси в кредит</h1>
+            <div class="b-pageHeader__search">
                 <h3><?= Yii::t('app', 'Your search returned {n,plural,=0{# result} =1{# result} one{# results} other{# results}} ', ['n' => $_params_['count']]) ?></h3>
             </div>
         </div>
@@ -243,7 +244,9 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                                         <?php
                                         if (Yii::$app->user->isGuest):
                                             ?>
-                                            <a class="unregister" href="/site/login">  <span class="star-ico"> <i class="far fa-star"></i></span></a>
+                                            <a href="#"  class="unregister show-modal-login">
+                                                <span class="star-ico"> <i class="far fa-star"></i></span>
+                                            </a>
                                         <?php
                                         else:
                                             ?>

@@ -22,6 +22,7 @@ use common\models\ProductType;
 $tableView = filter_var(Yii::$app->request->get('tableView', 'false'), FILTER_VALIDATE_BOOLEAN);
 $this->registerJsFile("@web/js/readmore.js");
 $this->registerJs("require(['controllers/catalog/bookmarks']);", \yii\web\View::POS_HEAD);
+$this->registerJs("require(['controllers/catalog/modal']);", \yii\web\View::POS_HEAD);
 $this->registerCssFile('@web/css/fontawesome-all.min.css');
 $this->registerJs("require(['controllers/catalog/index']);", \yii\web\View::POS_HEAD);
 $this->registerJs("    
@@ -232,7 +233,8 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                                         <?php
                                         if (Yii::$app->user->isGuest):
                                             ?>
-                                            <a class="unregister" href="/site/login">  <span class="star-ico"> <i class="far fa-star"></i></span></a>
+                                            <a href="#"  class="unregister show-modal-login"> <span class="star-ico"> <i
+                                                            class="far fa-star"></i></span></a>
                                         <?php
                                         else:
                                             ?>

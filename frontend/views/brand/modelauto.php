@@ -22,6 +22,7 @@ $tableView = filter_var(Yii::$app->request->get('tableView', 'false'), FILTER_VA
 $this->registerJs("require(['controllers/catalog/index']);
 ", \yii\web\View::POS_HEAD);
 $this->registerJs("require(['controllers/catalog/bookmarks']);", \yii\web\View::POS_HEAD);
+$this->registerJs("require(['controllers/catalog/modal']);", \yii\web\View::POS_HEAD);
 $this->registerCssFile('@web/css/fontawesome-all.min.css');
 $productModel = new Product();
 $appData = AppData::getData();
@@ -72,8 +73,8 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
             <div class="col-md-7">
                 <h1>Продажа <?= $make_name . ' ' . $_params_['model_name'] ?> в Беларуси в кредит</h1>
             </div>
-            <h1 class="wow zoomInLeft" data-wow-delay="0.5s"></h1>
-            <div class="b-pageHeader__search wow zoomInRight" data-wow-delay="0.5s">
+            <h1></h1>
+            <div class="b-pageHeader__search">
                 <h3><?= Yii::t('app', 'Your search returned {n,plural,=0{# result} =1{# result} one{# results} other{# results}} ', ['n' => $count]) ?></h3>
             </div>
         </div>
@@ -219,7 +220,8 @@ $asidePages = Page::find()->active()->aside()->orderBy('views DESC')->limit(3)->
                                         <?php
                                         if (Yii::$app->user->isGuest):
                                             ?>
-                                            <a class="unregister" href="/site/login">  <span class="star-ico"> <i class="far fa-star"></i></span></a>
+                                            <a href="#"  class="unregister show-modal-login"> <span class="star-ico"> <i
+                                                            class="far fa-star"></i></span></a>
                                         <?php
                                         else:
                                             ?>

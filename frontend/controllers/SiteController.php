@@ -24,6 +24,7 @@ use common\models\Page;
 use common\models\MainPage;
 use common\models\Teaser;
 use common\models\Parsernews;
+use yii\helpers\Url;
 
 /**
  * Site controller
@@ -88,6 +89,12 @@ class SiteController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+    {
+        Url::remember('/account/index', 'previous');
+
+        return parent::beforeAction($action);
+    }
 
     /**
      * Displays homepage.
@@ -97,7 +104,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $responseGet = Yii::$app->request->get();
-        if(!empty($responseGet)){
+        if (!empty($responseGet)) {
             header("HTTP/1.1 301 Moved Permanently");
             header("Location: https://" . $_SERVER['HTTP_HOST']);
             die();
@@ -182,7 +189,14 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->redirect('/account');
+            $urlAccount = Url::previous('previous');
+            $urlForCatalog =  Url::previous('forCatalog');
+            if (!empty($urlForCatalog)) {
+                return $this->redirect($urlForCatalog);
+            } else {
+                return $this->redirect($urlAccount);
+            }
+
         } else {
             $this->bodyClass = 'login-page';
 
@@ -382,7 +396,14 @@ class SiteController extends Controller
              */
             if ($auth) {
                 if (Yii::$app->user->login($auth)) {
-                    return $this->redirect('/account');
+                    $urlAccount = Url::previous('previous');
+                    $urlForCatalog =  Url::previous('forCatalog');
+
+                    if (!empty($urlForCatalog)) {
+                        return $this->redirect($urlForCatalog);
+                    } else {
+                        return $this->redirect($urlAccount);
+                    }
                 }
             } /*
              * Регистрация
@@ -445,12 +466,19 @@ class SiteController extends Controller
                     $auth->assign($role, $user->id);
                     Yii::$app->user->login($user);
 
-                    return $this->redirect('/account');
-                } else {
+                    $urlAccount = Url::previous('previous');
+                    $urlForCatalog =  Url::previous('forCatalog');
+                    if (!empty($urlForCatalog)) {
+                        return $this->redirect($urlForCatalog);
+                    }
+                    else {
+                        return $this->redirect($urlAccount);
+                    }
+                }
+                else {
                     print_r($user->getErrors());
 
                 }
-
             }
         }
     }

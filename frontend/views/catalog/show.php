@@ -1,4 +1,5 @@
 ﻿<?php
+
 use common\models\Product;
 use common\models\Specification;
 use common\models\ProductSpecification;
@@ -102,7 +103,7 @@ if (empty($model->first_name)) {
 
 $this->registerMetaTag([
     'property' => 'og:image',
-    'content' =>$product->title_image
+    'content' => $product->title_image
 ]);
 
 
@@ -110,274 +111,277 @@ $metaData = MetaData::getModels($model);
 $this->registerMetaData($metaData);
 
 ?>
-    <!-- Разметка с помощью микроданных, созданная Мастером разметки структурированных данных Google. -->
-    <div class="b-breadCumbs s-shadow">
-        <?= Breadcrumbs::widget([
-            'links' => [
-                [
-                    'label' => ProductType::getTypesAsArray()[$product->type],
-                    'url' => Url::UrlBaseCategory($product->type)
-                ],
-                [
-                    'label' => $product->make,
-                    'url' => Url::UrlCategoryBrand($product->type, $product->make)
-                ],
-                [
-                    'label' => $product->model,
-                    'url' => Url::UrlCategoryModel($product->type, $product->make, $product->makeid)
-                ],
-                $product->title
+<!-- Разметка с помощью микроданных, созданная Мастером разметки структурированных данных Google. -->
+<div class="b-breadCumbs s-shadow">
+    <?= Breadcrumbs::widget([
+        'links' => [
+            [
+                'label' => ProductType::getTypesAsArray()[$product->type],
+                'url' => Url::UrlBaseCategory($product->type)
             ],
-            'options' => ['class' => 'container wow zoomInUp', 'ata-wow-delay' => '0.5s'],
-            'itemTemplate' => "<li class='b-breadCumbs__page'>{link}</li>\n",
-            'activeItemTemplate' => "<li class='b-breadCumbs__page m-active'>{link}</li>\n",
-        ]) ?>
-    </div><!--b-breadCumbs-->
-    <section class="card_product b-detail">
-        <div class="container">
-            <header class="b-detail__head s-lineDownLeft wow zoomInUp" data-wow-delay="0.5s">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <?= Alert::widget() ?>
-                    </div>
-                    </div>
-                <div class="row">
-                    <div class="col-md-6 col-sm-12 col-xs-12">
-                        <?php
-                        if (Yii::$app->user->isGuest):
-                        ?>
-                        <a href="/site/login">  <span class="col-md-1 col-xs-1 col-sm-2  star-ico"> <i class="far fa-star"></i></span></a>
-                        <?php
-                        else:
-                        ?>
-                            <?php
-                        if (Bookmarks::find()->where(['user_id'=>Yii::$app->user->id])->andWhere(['product_id'=>$product->id])->exists()):
-                            ?>
-                            <a href="#" title="Удалить из закладок" id="delete-bookmarks" class="bookmarks active" data-product="<?= $product->id;?>">  <span class="col-md-1 col-xs-1 col-sm-2  star-ico"> <i class="far fa-star"></i></span></a>
-
-                            <?php
-                        else:
-                            ?>
-                            <a href="#" title="Добавить в закладки" id="add-bookmarks" class="bookmarks inactive" data-product="<?= $product->id;?>">  <span class="col-md-1 col-xs-1 col-sm-2  star-ico"> <i class="far fa-star"></i></span></a>
-                        <?php
-                        endif;
-                            ?>
-                        <?php
-                        endif;
-                        ?>
-                        <div itemscope itemtype="http://schema.org/Product" class="col-xs-10 col-sm-10 col-md-10 col-lg-10 b-detail__head-title">
-                            <h1 itemprop="name"><?= $product->make ?> <?= $model->model ?>, <?= $model->year ?></h1>
-                            <h3><?= $product->short_title ?></h3>
-                        </div>
-                    </div>
+            [
+                'label' => $product->make,
+                'url' => Url::UrlCategoryBrand($product->type, $product->make)
+            ],
+            [
+                'label' => $product->model,
+                'url' => Url::UrlCategoryModel($product->type, $product->make, $product->makeid)
+            ],
+            $product->title
+        ],
+        'options' => ['class' => 'container wow zoomInUp', 'ata-wow-delay' => '0.5s'],
+        'itemTemplate' => "<li class='b-breadCumbs__page'>{link}</li>\n",
+        'activeItemTemplate' => "<li class='b-breadCumbs__page m-active'>{link}</li>\n",
+    ]) ?>
+</div><!--b-breadCumbs-->
+<section class="card_product b-detail">
+    <div class="container">
+        <header class="b-detail__head s-lineDownLeft wow zoomInUp" data-wow-delay="0.5s">
+            <div class="row">
+                <div class="col-xs-12">
+                    <?= Alert::widget() ?>
                 </div>
-            </header>
-        </div>
-        <div class="b-infoBar">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <span class="b-product-info"><span>№</span> : <?= $product->id ?></span>
-                        <span class="b-product-info"><span><?= Yii::t('app', 'Published') ?></span> : <?= Yii::$app->formatter->asDate($product->created_at) ?></span>
-                        <span class="b-product-info"><span><?= Yii::t('app', 'Updated') ?></span> : <?= Yii::$app->formatter->asDate($product->updated_at) ?></span>
-                        <span class="b-product-info"><span
-                                    class="fa fa-eye"></span> <?= Yii::t('app', '{n,plural,=0{# Views} =1{# View} one{# View} other{# Views}}', ['n' => $views]) ?></span>
-                        <? if (Yii::$app->user->can('deleteOwnProduct', ['model' => $product])): ?>
-                            <span class="b-product-info edit"><a
-                                        href="/update-ads?id=<?= $product->id ?>">Редактировать</a> </span>
-                            <?php
-                        endif;
+            </div>
+            <div class="flex-row">
+                <?php
+                if (Yii::$app->user->isGuest):
+                    ?>
+                    <a href="#" class="show-modal-login"> <span class="star-ico"> <i
+                                    class="far fa-star"></i></span></a>
+                <?php
+                else:
+                    ?>
+                    <?php
+                    if (Bookmarks::find()->where(['user_id' => Yii::$app->user->id])->andWhere(['product_id' => $product->id])->exists()):
                         ?>
-                    </div>
+                        <a href="#" title="Удалить из закладок" id="delete-bookmarks" class="bookmarks active"
+                           data-product="<?= $product->id; ?>"> <span class="star-ico"> <i
+                                        class="far fa-star"></i></span></a>
+
+                    <?php
+                    else:
+                        ?>
+                        <a href="#" title="Добавить в закладки" id="add-bookmarks" class="bookmarks inactive"
+                           data-product="<?= $product->id; ?>"> <span class="star-ico"> <i
+                                        class="far fa-star"></i></span></a>
+                    <?php
+                    endif;
+                    ?>
+                <?php
+                endif;
+                ?>
+                <div itemscope itemtype="http://schema.org/Product" class="b-detail__head-title">
+                    <h1 itemprop="name"><?= $product->make ?> <?= $model->model ?>, <?= $model->year ?></h1>
+                    <h3><?= $product->short_title ?></h3>
+                </div>
+            </div>
+        </header>
+    </div>
+    <div class="b-infoBar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="b-product-info"><span>№</span> : <?= $product->id ?></span>
+                    <span class="b-product-info"><span><?= Yii::t('app', 'Published') ?></span> : <?= Yii::$app->formatter->asDate($product->created_at) ?></span>
+                    <span class="b-product-info"><span><?= Yii::t('app', 'Updated') ?></span> : <?= Yii::$app->formatter->asDate($product->updated_at) ?></span>
+                    <span class="b-product-info"><span
+                                class="fa fa-eye"></span> <?= Yii::t('app', '{n,plural,=0{# Views} =1{# View} one{# View} other{# Views}}', ['n' => $views]) ?></span>
+                    <? if (Yii::$app->user->can('deleteOwnProduct', ['model' => $product])): ?>
+                        <span class="b-product-info edit"><a
+                                    href="/update-ads?id=<?= $product->id ?>">Редактировать</a> </span>
+                    <?php
+                    endif;
+                    ?>
                 </div>
             </div>
         </div>
-        <!--b-infoBar-->
+    </div>
+    <!--b-infoBar-->
 
-        <div class="b-detail__main">
-            <div class="left_block col-xs-12 visible-md visible-lg">
-                <div class="b-detail__head-price">
-                    <div itemprop="offers" itemscope itemtype="http://schema.org/Offer"
-                         class="b-detail__head-price-num">
+    <div class="b-detail__main">
+        <div class="left_block col-xs-12 visible-md visible-lg">
+            <div class="b-detail__head-price">
+                <div itemprop="offers" itemscope itemtype="http://schema.org/Offer"
+                     class="b-detail__head-price-num">
                         <span itemprop="price"
                               content="<?= $product->price_byn ?>">  <?= Yii::$app->formatter->asDecimal($product->price_byn) ?> </span>
-                        <span itemprop="priceCurrency" content="BYN">BYN </span>
-                        <span class="b-detail__head-price-num-usd"><?= Yii::$app->formatter->asDecimal($product->price_usd) ?>
-                            $</span>
-                    </div>
-                    <div class="b-detail__head-auction-exchange">
-                        <?php if ($product->exchange): ?>
-                            <span class="b-detail__head-exchange"><?= Yii::t('app', 'Exchange') ?></span>
-                        <?php endif; ?>
-                        <?php if ($product->auction): ?>
-                            <span class="b-detail__head-auction"><?= Yii::t('app', 'Auction') ?></span>
-                        <?php endif; ?>
-                    </div>
+                    <span itemprop="priceCurrency" content="BYN">BYN </span>
+                    <span class="b-detail__head-price-num-usd"><?= Yii::$app->formatter->asDecimal($product->price_usd) ?>
+                        $</span>
                 </div>
-                <aside class="b-detail__main-aside visible-md visible-lg visible-xl">
-                    <div itemprop="description" class="b-detail__main-aside-desc">
-                        <?= $this->render('_productDescription', ['product' => $product]) ?>
-                    </div>
-                    <div class="b-detail__main-aside-about">
-                        <?= $this->render('_sellerData', ['phone' => $phone, 'phone_provider' => $phone_provider, 'phone_2' => $phone_2, 'phone_provider_2' => $phone_provider_2,  'phone_3' => $model->phone_3, 'phone_provider_3' => $model->phone_provider_3, 'first_name' => $first_name, 'region' => $product->region, 'city' => $product->city_id]) ?>
-                    </div>
-                    <?php if ($product->priority == 1): ?>
-                        <div class="b-detail__main-aside-aboutCompany">
-                            <?= $this->render('_sellerDataCompany') ?>
-                        </div>
-                    <?php endif ?>
-                </aside>
-                <div class="col-md-12 complaint_container">
-                    <?php Pjax::begin(['enablePushState' => false]); ?>
-                    <span class="complaint" id="complaint_to">Пожаловаться на объявление</span>
-                    <div id="complaint_block">
-                        <?= Html::beginForm(['/catalog/complaint'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
-                        <?
-                        $modelComplain = new Product();
-                        $modelComplain->setScenario(Product::SCENARIO_COMPLAIN);
-                        ?>
-                        <?= Html::hiddenInput('id', $product->id) ?>
-                        <?= Html::dropDownList('complaint_type', Complaint::$type_comlaint, Complaint::$type_comlaint) ?>
-                        <?= Html::textarea('complaint_text', '', ['rows' => '6', 'placeholder' => 'Введите текст жалобы']) ?>
-                        <?= Html::submitButton('Отправить', ['class' => 'btn m-btn m-btn-dark']) ?>
-                        <?= Html::endForm() ?>
-                    </div>
+                <div class="b-detail__head-auction-exchange">
+                    <?php if ($product->exchange): ?>
+                        <span class="b-detail__head-exchange"><?= Yii::t('app', 'Exchange') ?></span>
+                    <?php endif; ?>
+                    <?php if ($product->auction): ?>
+                        <span class="b-detail__head-auction"><?= Yii::t('app', 'Auction') ?></span>
+                    <?php endif; ?>
                 </div>
-                <?php Pjax::end(); ?>
             </div>
-            <div class="centr_block col-xs-12">
-                <div class="b-detail__main-info">
-                    <div class="b-detail__main-info-images">
-                        <div class="row m-smallPadding">
-                            <div class="col-xs-12 fotorama" data-nav="thumbs" data-allowfullscreen="true"
-                                 data-loop="true" data-keyboard="true"
-                                 data-click="true"
-                                 data-swipe="true"
-                                 data-width="100%"
-                                 data-minwidth="355">
-                                <?
-                                if (($product->video !== null) && ($product->video !== '')):
-                                    ?>
-                                    <a href="<?= $product->video ?>"
-                                       data-video="true">
-                                    </a>
-                                    <?
-                                endif;
-                                ?>
-                                <?php foreach ($product->image as $image): ?>
-                                    <a itemprop="image" href="<?= $image->full ?>"
-                                       data-thumb="<?= $image->thumbnail ?>">
-                                    </a>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                        <div class="left_block">
-                            <div class="b-detail__head-price visible-xs visible-sm">
-                                <div class="b-detail__head-price-num">
-                                    <?= Yii::$app->formatter->asDecimal($product->price_byn) ?> BYN
-                                    <span class="b-detail__head-price-num-usd"><?= Yii::$app->formatter->asDecimal($product->price_usd) ?>
-                                        $</span>
-                                </div>
-                                <div class="b-detail__head-auction-exchange">
-                                    <?php if ($product->exchange): ?>
-                                        <span class="b-detail__head-exchange"><?= Yii::t('app', 'Exchange') ?></span>
-                                    <?php endif; ?>
-                                    <?php if ($product->auction): ?>
-                                        <span class="b-detail__head-auction"><?= Yii::t('app', 'Auction') ?></span>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <noindex>
-                        <div itemprop="description"
-                             class="description-mobile-block b-detail__main-aside-desc visible-xs visible-sm">
-                            <?= $this->render('_productDescription', ['product' => $product]) ?>
-                        </div>
-                        <div class="seller-mobile-block b-detail__main-aside-desc visible-xs visible-sm">
-                            <?= $this->render('_sellerMobileData', ['appData'=>$appData,'product'=>$product,'phone' => $phone, 'phone_provider' => $phone_provider, 'phone_2' => $phone_2, 'phone_provider_2' => $phone_provider_2, 'phone_3' => $model->phone_3, 'phone_provider_3' => $model->phone_provider_3, 'first_name' => $first_name, 'region' => $product->region, 'city' => $product->city_id]) ?>
-                        </div>
-                    </noindex>
-                    <div class="b-detail__main-info-text">
-                        <div class="b-detail__main-aside-about-form-links">
-                            <a href="#" class="j-tab m-active s-lineDownCenter"
-                               data-to='#info1'><?= Yii::t('app', 'Seller comments') ?></a>
-                            <a href="#" class="j-tab s-lineDownCenter"
-                               data-to='#info2'><?= Yii::t('app', 'All about credit') ?></a>
-                        </div>
-                        <div id="info1">
-                            <?= Html::encode($product->seller_comments) ?>
-                        </div>
-                        <div id="info2">
-                            <?= $appData['allAboutCredit'] ?>
-                        </div>
-                    </div>
+            <aside class="b-detail__main-aside visible-md visible-lg visible-xl">
+                <div itemprop="description" class="b-detail__main-aside-desc">
+                    <?= $this->render('_productDescription', ['product' => $product]) ?>
                 </div>
-                <?
-                if (count($product->spec_additional) > 0):
+                <div class="b-detail__main-aside-about">
+                    <?= $this->render('_sellerData', ['phone' => $phone, 'phone_provider' => $phone_provider, 'phone_2' => $phone_2, 'phone_provider_2' => $phone_provider_2, 'phone_3' => $model->phone_3, 'phone_provider_3' => $model->phone_provider_3, 'first_name' => $first_name, 'region' => $product->region, 'city' => $product->city_id]) ?>
+                </div>
+                <?php if ($product->priority == 1): ?>
+                    <div class="b-detail__main-aside-aboutCompany">
+                        <?= $this->render('_sellerDataCompany') ?>
+                    </div>
+                <?php endif ?>
+            </aside>
+            <div class="col-md-12 complaint_container">
+                <?php Pjax::begin(['enablePushState' => false]); ?>
+                <span class="complaint" id="complaint_to">Пожаловаться на объявление</span>
+                <div id="complaint_block">
+                    <?= Html::beginForm(['/catalog/complaint'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+                    <?
+                    $modelComplain = new Product();
+                    $modelComplain->setScenario(Product::SCENARIO_COMPLAIN);
                     ?>
-                    <div class="b-detail__main-info-extra">
-                        <h2 class="s-titleDet"><?= Yii::t('app', 'Additional specifications') ?>:</h2>
-                        <div class="row">
-                            <?php
-                            foreach ($product->spec_additional as $spec_additional): ?>
-                                <div class="col-md-4 col-xs-3">
-                                    <ul>
-                                        <li><span class="fa fa-check"></span><?= $spec_additional->name ?>
-                                        </li>
-                                    </ul>
-                                </div>
+                    <?= Html::hiddenInput('id', $product->id) ?>
+                    <?= Html::dropDownList('complaint_type', Complaint::$type_comlaint, Complaint::$type_comlaint) ?>
+                    <?= Html::textarea('complaint_text', '', ['rows' => '6', 'placeholder' => 'Введите текст жалобы']) ?>
+                    <?= Html::submitButton('Отправить', ['class' => 'btn m-btn m-btn-dark']) ?>
+                    <?= Html::endForm() ?>
+                </div>
+            </div>
+            <?php Pjax::end(); ?>
+        </div>
+        <div class="centr_block col-xs-12">
+            <div class="b-detail__main-info">
+                <div class="b-detail__main-info-images">
+                    <div class="row m-smallPadding">
+                        <div class="col-xs-12 fotorama" data-nav="thumbs" data-allowfullscreen="true"
+                             data-loop="true" data-keyboard="true"
+                             data-click="true"
+                             data-swipe="true"
+                             data-width="100%"
+                             data-minwidth="355">
+                            <?
+                            if (($product->video !== null) && ($product->video !== '')):
+                                ?>
+                                <a href="<?= $product->video ?>"
+                                   data-video="true">
+                                </a>
+                            <?
+                            endif;
+                            ?>
+                            <?php foreach ($product->image as $image): ?>
+                                <a itemprop="image" href="<?= $image->full ?>"
+                                   data-thumb="<?= $image->thumbnail ?>">
+                                </a>
                             <?php endforeach; ?>
                         </div>
                     </div>
-                <?php endif; ?>
-                <div class="col-md-12 social-container">
-                    <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
-                    <script src="//yastatic.net/share2/share.js"></script>
-                    <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,gplus,twitter"></div>
-                </div>
-                <div class="col-md-12 complaint_container hidden-md hidden-lg">
-                    <?php Pjax::begin(['id' => 'complaint-phone', 'enablePushState' => false]); ?>
-                    <span class="complaint" id="complaint_to_mobile">Пожаловаться на объявление</span>
-                    <div id="complaint_block_mobile">
-                        <?= Html::beginForm(['/catalog/complaint'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
-                        <?
-                        $modelComplain = new Product();
-                        $modelComplain->setScenario(Product::SCENARIO_COMPLAIN);
-                        ?>
-                        <?= Html::hiddenInput('id', $product->id) ?>
-                        <?= Html::dropDownList('complaint_type', Complaint::$type_comlaint, Complaint::$type_comlaint) ?>
-                        <?= Html::textarea('complaint_text', '', ['rows' => '6', 'placeholder' => 'Введите текст жалобы']) ?>
-                        <?= Html::submitButton('Отправить', ['class' => 'btn m-btn m-btn-dark']) ?>
-                        <?= Html::endForm() ?>
+                    <div class="left_block">
+                        <div class="b-detail__head-price visible-xs visible-sm">
+                            <div class="b-detail__head-price-num">
+                                <?= Yii::$app->formatter->asDecimal($product->price_byn) ?> BYN
+                                <span class="b-detail__head-price-num-usd"><?= Yii::$app->formatter->asDecimal($product->price_usd) ?>
+                                    $</span>
+                            </div>
+                            <div class="b-detail__head-auction-exchange">
+                                <?php if ($product->exchange): ?>
+                                    <span class="b-detail__head-exchange"><?= Yii::t('app', 'Exchange') ?></span>
+                                <?php endif; ?>
+                                <?php if ($product->auction): ?>
+                                    <span class="b-detail__head-auction"><?= Yii::t('app', 'Auction') ?></span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <?php Pjax::end(); ?>
+                <br>
+                <noindex>
+                    <div itemprop="description"
+                         class="description-mobile-block b-detail__main-aside-desc visible-xs visible-sm">
+                        <?= $this->render('_productDescription', ['product' => $product]) ?>
+                    </div>
+                    <div class="seller-mobile-block b-detail__main-aside-desc visible-xs visible-sm">
+                        <?= $this->render('_sellerMobileData', ['appData' => $appData, 'product' => $product, 'phone' => $phone, 'phone_provider' => $phone_provider, 'phone_2' => $phone_2, 'phone_provider_2' => $phone_provider_2, 'phone_3' => $model->phone_3, 'phone_provider_3' => $model->phone_provider_3, 'first_name' => $first_name, 'region' => $product->region, 'city' => $product->city_id]) ?>
+                    </div>
+                </noindex>
+                <div class="b-detail__main-info-text">
+                    <div class="b-detail__main-aside-about-form-links">
+                        <a href="#" class="j-tab m-active s-lineDownCenter"
+                           data-to='#info1'><?= Yii::t('app', 'Seller comments') ?></a>
+                        <a href="#" class="j-tab s-lineDownCenter"
+                           data-to='#info2'><?= Yii::t('app', 'All about credit') ?></a>
+                    </div>
+                    <div id="info1">
+                        <?= Html::encode($product->seller_comments) ?>
+                    </div>
+                    <div id="info2">
+                        <?= $appData['allAboutCredit'] ?>
+                    </div>
+                </div>
             </div>
-            <div class="right_block col-xs-12">
-                <div class="b-items__aside">
-                    <div class="b-detail__main-aside-about visible-md visible-lg visible-xl">
-                        <div class="b-detail__main-aside-about-call b-detail__main-aside-about-call--narrow">
-                            <h3>Консультация по кредиту:</h3>
-                            <div>
- <span class="icon-phone-provider">
-        <?= Html::img(User::getPhoneProviderIcons()[ $appData['phone_credit_provider_1']], ['style' => 'height:22px']) ?>
-        </span>
-                                    <a href="tel:<?= $appData['phone_credit_1'] ?>"><?= $appData['phone_credit_1']?></a>
-                                    <br>
-                                    <span class="icon-phone-provider">
-        <?= Html::img(User::getPhoneProviderIcons()[ $appData['phone_credit_provider_2']], ['style' => 'height:22px']) ?>
-        </span>
-                                    <a href="tel:<?= $appData['phone_credit_2'] ?>"><?= $appData['phone_credit_2'] ?></a>
-                                    <br>
-                                    <span class="icon-phone-provider">
-        <?= Html::img(User::getPhoneProviderIcons()[ $appData['phone_credit_provider_3']], ['style' => 'height:22px']) ?>
-        </span>
-                                    <a href="tel:<?= $appData['phone_credit_3'] ?>"><?= $appData['phone_credit_3'] ?></a>
+            <?
+            if (count($product->spec_additional) > 0):
+                ?>
+                <div class="b-detail__main-info-extra">
+                    <h2 class="s-titleDet"><?= Yii::t('app', 'Additional specifications') ?>:</h2>
+                    <div class="row">
+                        <?php
+                        foreach ($product->spec_additional as $spec_additional): ?>
+                            <div class="col-md-4 col-xs-3">
+                                <ul>
+                                    <li><span class="fa fa-check"></span><?= $spec_additional->name ?>
+                                    </li>
+                                </ul>
                             </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <div class="col-md-12 social-container">
+                <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+                <script src="//yastatic.net/share2/share.js"></script>
+                <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,gplus,twitter"></div>
+            </div>
+            <div class="col-md-12 complaint_container hidden-md hidden-lg">
+                <?php Pjax::begin(['id' => 'complaint-phone', 'enablePushState' => false]); ?>
+                <span class="complaint" id="complaint_to_mobile">Пожаловаться на объявление</span>
+                <div id="complaint_block_mobile">
+                    <?= Html::beginForm(['/catalog/complaint'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+                    <?
+                    $modelComplain = new Product();
+                    $modelComplain->setScenario(Product::SCENARIO_COMPLAIN);
+                    ?>
+                    <?= Html::hiddenInput('id', $product->id) ?>
+                    <?= Html::dropDownList('complaint_type', Complaint::$type_comlaint, Complaint::$type_comlaint) ?>
+                    <?= Html::textarea('complaint_text', '', ['rows' => '6', 'placeholder' => 'Введите текст жалобы']) ?>
+                    <?= Html::submitButton('Отправить', ['class' => 'btn m-btn m-btn-dark']) ?>
+                    <?= Html::endForm() ?>
+                </div>
+            </div>
+            <?php Pjax::end(); ?>
+        </div>
+        <div class="right_block col-xs-12">
+            <div class="b-items__aside">
+                <div class="b-detail__main-aside-about visible-md visible-lg visible-xl">
+                    <div class="b-detail__main-aside-about-call b-detail__main-aside-about-call--narrow">
+                        <h3>Консультация по кредиту:</h3>
+                        <div>
+ <span class="icon-phone-provider">
+        <?= Html::img(User::getPhoneProviderIcons()[$appData['phone_credit_provider_1']], ['style' => 'height:22px']) ?>
+        </span>
+                            <a href="tel:<?= $appData['phone_credit_1'] ?>"><?= $appData['phone_credit_1'] ?></a>
+                            <br>
+                            <span class="icon-phone-provider">
+        <?= Html::img(User::getPhoneProviderIcons()[$appData['phone_credit_provider_2']], ['style' => 'height:22px']) ?>
+        </span>
+                            <a href="tel:<?= $appData['phone_credit_2'] ?>"><?= $appData['phone_credit_2'] ?></a>
+                            <br>
+                            <span class="icon-phone-provider">
+        <?= Html::img(User::getPhoneProviderIcons()[$appData['phone_credit_provider_3']], ['style' => 'height:22px']) ?>
+        </span>
+                            <a href="tel:<?= $appData['phone_credit_3'] ?>"><?= $appData['phone_credit_3'] ?></a>
+                        </div>
 
-                            <p>Пн-Вс : 10:00 - 18:00 <br> Без выходных</p>
+                        <p>Пн-Вс : 10:00 - 18:00 <br> Без выходных</p>
 
                         <hr>
 
@@ -396,184 +400,190 @@ $this->registerMetaData($metaData);
                         </div>
 
                     </div>
-                    </div>
-                    <div class="spravka-btn">
-                        <a href="/documents/spravka-2018.doc">Справка о доходах</a>
-                    </div>
-                    <div class="b-detail__main-aside-payment">
-                        <h2 class="s-titleDet"><?= Yii::t('app', 'CAR PAYMENT CALCULATOR') ?></h2>
-                        <div class="b-detail__main-aside-payment-form">
-                            <div class="calculator-loan" style="display: none;"></div>
-                            <form action="/" method="post" class="js-loan">
-                                <label><?= Yii::t('app', 'ENTER LOAN AMOUNT') ?></label>
-                                <input type="text" placeholder="<?= Yii::t('app', 'LOAN AMOUNT') ?>"
-                                       value="<?= $product->price_byn ?>" name="price" disabled="disabled"/>
-                                <label><?= Yii::t('app', 'Prepayment') ?></label>
-                                <input type="number" placeholder="<?= Yii::t('app', 'Prepayment') ?>"
-                                       value="0" name="prepayment" id="prepayment" min="0"
-                                       max="<?= $product->price_byn ?>"/>
-                                <label><?= Yii::t('app', 'RATE IN') ?> %</label>
-                                <div class="s-relative">
-                                    <select name="rate" class="m-select" id="rate">
-                                        <option value="<?= $appData['prior_bank']?>">Приорбанк <?= $appData['prior_bank']?>%</option>
-                                        <option value="<?= $appData['vtb_bank']?>">ВТБ <?= $appData['vtb_bank']?>%</option>
-                                        <option value="<?= $appData['bta_bank']?>">БТА <?= $appData['bta_bank']?>%</option>
-                                        <option value="<?= $appData['status_bank']?>">СтатусБанк <?= $appData['status_bank']?>%</option>
-                                    </select>
-                                    <span class="fa fa-caret-down"></span>
-                                </div>
-                                <label><?= Yii::t('app', 'LOAN TERM') ?></label>
-                                <div class="s-relative">
-                                    <select name="term" class="m-select" id="term">
-                                        <option value="6m"><?= Yii::t('app', '6 month') ?></option>
-                                        <option value="12m"><?= Yii::t('app', 'One year') ?></option>
-                                        <option value="24m"><?= Yii::t('app', '2 years') ?></option>
-                                        <option value="36m"><?= Yii::t('app', '3 years') ?></option>
-                                        <option value="48m"><?= Yii::t('app', '4 years') ?></option>
-                                        <option value="60m"
-                                                selected><?= Yii::t('app', '5 years') ?></option>
-                                    </select>
-                                    <span class="fa fa-caret-down"></span>
-                                </div>
-                                <button type="submit"
-                                        class="btn m-btn"><?= Yii::t('app', 'ESTIMATE PAYMENT') ?>
-                                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                                </button>
-                            </form>
-                            <div class="js-loan-results">
-                                <div>
-                                    <span class="js-per-month"> </span>
-                                    <span>BYN в месяц</span>
-                                </div>
+                </div>
+                <div class="spravka-btn">
+                    <a href="/documents/spravka-2018.doc">Справка о доходах</a>
+                </div>
+                <div class="b-detail__main-aside-payment">
+                    <h2 class="s-titleDet"><?= Yii::t('app', 'CAR PAYMENT CALCULATOR') ?></h2>
+                    <div class="b-detail__main-aside-payment-form">
+                        <div class="calculator-loan" style="display: none;"></div>
+                        <form action="/" method="post" class="js-loan">
+                            <label><?= Yii::t('app', 'ENTER LOAN AMOUNT') ?></label>
+                            <input type="text" placeholder="<?= Yii::t('app', 'LOAN AMOUNT') ?>"
+                                   value="<?= $product->price_byn ?>" name="price" disabled="disabled"/>
+                            <label><?= Yii::t('app', 'Prepayment') ?></label>
+                            <input type="number" placeholder="<?= Yii::t('app', 'Prepayment') ?>"
+                                   value="0" name="prepayment" id="prepayment" min="0"
+                                   max="<?= $product->price_byn ?>"/>
+                            <label><?= Yii::t('app', 'RATE IN') ?> %</label>
+                            <div class="s-relative">
+                                <select name="rate" class="m-select" id="rate">
+                                    <option value="<?= $appData['prior_bank'] ?>">
+                                        Приорбанк <?= $appData['prior_bank'] ?>%
+                                    </option>
+                                    <option value="<?= $appData['vtb_bank'] ?>">ВТБ <?= $appData['vtb_bank'] ?>%
+                                    </option>
+                                    <option value="<?= $appData['bta_bank'] ?>">БТА <?= $appData['bta_bank'] ?>%
+                                    </option>
+                                    <option value="<?= $appData['status_bank'] ?>">
+                                        СтатусБанк <?= $appData['status_bank'] ?>%
+                                    </option>
+                                </select>
+                                <span class="fa fa-caret-down"></span>
+                            </div>
+                            <label><?= Yii::t('app', 'LOAN TERM') ?></label>
+                            <div class="s-relative">
+                                <select name="term" class="m-select" id="term">
+                                    <option value="6m"><?= Yii::t('app', '6 month') ?></option>
+                                    <option value="12m"><?= Yii::t('app', 'One year') ?></option>
+                                    <option value="24m"><?= Yii::t('app', '2 years') ?></option>
+                                    <option value="36m"><?= Yii::t('app', '3 years') ?></option>
+                                    <option value="48m"><?= Yii::t('app', '4 years') ?></option>
+                                    <option value="60m"
+                                            selected><?= Yii::t('app', '5 years') ?></option>
+                                </select>
+                                <span class="fa fa-caret-down"></span>
+                            </div>
+                            <button type="submit"
+                                    class="btn m-btn"><?= Yii::t('app', 'ESTIMATE PAYMENT') ?>
+                                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                        <div class="js-loan-results">
+                            <div>
+                                <span class="js-per-month"> </span>
+                                <span>BYN в месяц</span>
                             </div>
                         </div>
                     </div>
-                    <div class="info_credit">
-                        <?= $appData['credit_information']?>
-                    </div>
-
                 </div>
+                <div class="info_credit">
+                    <?= $appData['credit_information'] ?>
+                </div>
+
             </div>
         </div>
+    </div>
 
-    </section>
-    <!--b-detail-->
-    <section class="similar_ads footer_block m-home">
-        <div class="container">
-            <?php
-            if (!empty($product->similar)): ?>
-            <div class="row">
-                <div class="col-md-12">
-                    <h2>
-                        <?= Yii::t('app', 'RELATED VEHICLES ON SALE') ?>
-                    </h2>
-                </div>
+</section>
+<!--b-detail-->
+<section class="similar_ads footer_block m-home">
+    <div class="container">
+        <?php
+        if (!empty($product->similar)): ?>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>
+                    <?= Yii::t('app', 'RELATED VEHICLES ON SALE') ?>
+                </h2>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <?php foreach ($product->similar as $similarProduct): ?>
-                        <div  class="col-md-3 b-featured__item  visible-md visible-lg visible-xl">
-                            <a href="<?= Url::UrlShowProduct($similarProduct->id) ?>">
-                                <span class="m-premium"></span>
-                                <img class="hover-light-img" width="170" height="170"
-                                     src="<?= $similarProduct->main_image_url ?>"
-                                     alt="<?= Html::encode($similarProduct->full_title) ?>"/>
-                            </a>
-                            <div class="inner_container">
-                                <div class="h5">
-                                    <a
-                                            href="<?= Url::UrlShowProduct($similarProduct->id) ?>"><?= $similarProduct->full_title ?></a>
-                                </div>
-                                <div class="b-featured__item-price">
-                                    <?= Yii::$app->formatter->asDecimal($similarProduct->price_byn) ?> BYN
-                                </div>
-                                <div class="b-featured__item-price-usd">
-                                    <?= Yii::$app->formatter->asDecimal($similarProduct->price_usd) ?> $
-                                </div>
-                                <div class="clearfix"></div>
-                                <?php foreach ($similarProduct->spec as $i => $productSpec): ?>
-                                    <?php if ($productSpec->get_title_image_url != ''): ?>
-                                        <div class="b-featured__item-count" title="<?= $productSpec->name ?>">
-                                            <img width="20" src="<?= $productSpec->get_title_image_url ?>"/>
-                                            Пробег: <?= Html::encode($productSpec->value) ?> <?= $productSpec->unit ?>
-                                        </div>
-                                        <?php
-                                        //ToDo: Переписать!!!
-                                    endif;
-                                    if ($i == 0):
-                                        ?>
-                                        <ul class="b-featured__item-links">
-                                        <?
-                                    endif;
-                                    ?>
-                                    <li>
-                                        <i class="fa fa-square" aria-hidden="true"></i>
-                                        <?= Html::encode($productSpec->priority_hight->value) ?> <?= $productSpec->priority_hight->unit ?>
-                                    </li>
-                                    <?php
-                                    if ($i == 3):
-                                        ?>
-                                        </ul>
-                                        <?
-                                    endif;
-                                    ?>
-                                <?php endforeach; ?>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <?php foreach ($product->similar as $similarProduct): ?>
+                    <div class="col-md-3 b-featured__item  visible-md visible-lg visible-xl">
+                        <a href="<?= Url::UrlShowProduct($similarProduct->id) ?>">
+                            <span class="m-premium"></span>
+                            <img class="hover-light-img" width="170" height="170"
+                                 src="<?= $similarProduct->main_image_url ?>"
+                                 alt="<?= Html::encode($similarProduct->full_title) ?>"/>
+                        </a>
+                        <div class="inner_container">
+                            <div class="h5">
+                                <a
+                                        href="<?= Url::UrlShowProduct($similarProduct->id) ?>"><?= $similarProduct->full_title ?></a>
                             </div>
-                        </div>
-                        <noindex>
-                            <div class="b-items__cars-one visible-xs visible-sm " data-key="<?= $product->id ?>">
-                                <div class="visible-sm visible-xs  b-items__cars-one-info-header s-lineDownLeft">
-                                    <h2>
-                                        <a href="<?= Url::UrlShowProduct($similarProduct->id) ?>"><?= Html::encode($similarProduct->full_title) ?></a>
-                                        <?php if ($similarProduct->exchange): ?>
-                                            <span class="b-items__cars-one-info-title b-items__cell-info-exchange"><?= Yii::t('app', 'Exchange') ?></span>
-                                        <?php endif; ?>
-                                    </h2>
-                                </div>
-                                <div class="photo_mobile_block visible-sm visible-xs col-xs-4 col-sm-6">
-                                    <a href="<?= Url::UrlShowProduct($similarProduct->id) ?>"
-                                       class="b-items__cars-one-img">
-                                        <img src="<?= $similarProduct->main_image_url ?>"
-                                             alt="<?= Html::encode($similarProduct->full_title) ?>"
-                                             class="hover-light-img"/>
-                                        <?php if ($similarProduct->priority == 1): ?>
-                                            <span class="b-items__cars-one-img-type m-premium"></span>
-                                        <?php endif; ?>
-                                        <?php if ($similarProduct->priority != 1): ?>
-                                            <span class="b-items__cars-one-img-type m-premium"></span>
-                                        <?php endif; ?>
-                                    </a>
-                                </div>
-                                <div class="spec_mobile_block col-xs-8 col-sm-6 visible-sm visible-xs">
-                                    <div class="price_mobile_block">
-                                        <h4 class="b-items__cell-info-price-byn"><?= Yii::$app->formatter->asDecimal($similarProduct->price_byn) ?>
-                                            BYN</h4>
-                                        <span class="b-items__cell-info-price-usd"><?= Yii::$app->formatter->asDecimal($similarProduct->price_usd) ?>
-                                            $ </span>
-                                        <?php if ($similarProduct->auction): ?>
-                                            <span class="b-items__cars-one-info-title b-items__cell-info-auction"><?= Yii::t('app', 'Auction') ?></span>
-                                        <?php endif; ?>
+                            <div class="b-featured__item-price">
+                                <?= Yii::$app->formatter->asDecimal($similarProduct->price_byn) ?> BYN
+                            </div>
+                            <div class="b-featured__item-price-usd">
+                                <?= Yii::$app->formatter->asDecimal($similarProduct->price_usd) ?> $
+                            </div>
+                            <div class="clearfix"></div>
+                            <?php foreach ($similarProduct->spec as $i => $productSpec): ?>
+                                <?php if ($productSpec->get_title_image_url != ''): ?>
+                                    <div class="b-featured__item-count" title="<?= $productSpec->name ?>">
+                                        <img width="20" src="<?= $productSpec->get_title_image_url ?>"/>
+                                        Пробег: <?= Html::encode($productSpec->value) ?> <?= $productSpec->unit ?>
                                     </div>
-                                    <?= $similarProduct->year ?>,
-                                    <?php foreach ($similarProduct->spec as $i => $productSpec) {
-                                        echo Html::encode($productSpec->value) . ' ';
-                                        echo $productSpec->unit . ', ';
-                                        echo Html::encode($productSpec->priority_hight->value) . ' ';
-                                        echo $productSpec->priority_hight->unit;
-                                    }
+                                <?php
+                                    //ToDo: Переписать!!!
+                                endif;
+                                if ($i == 0):
                                     ?>
-                                    <br>
-                                    <span class="city_block_mobile"><?= City::getCityName($similarProduct->city_id); ?></span>
-                                </div>
+                                    <ul class="b-featured__item-links">
+                                <?
+                                endif;
+                                ?>
+                                <li>
+                                    <i class="fa fa-square" aria-hidden="true"></i>
+                                    <?= Html::encode($productSpec->priority_hight->value) ?> <?= $productSpec->priority_hight->unit ?>
+                                </li>
+                                <?php
+                                if ($i == 3):
+                                    ?>
+                                    </ul>
+                                <?
+                                endif;
+                                ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <noindex>
+                        <div class="b-items__cars-one visible-xs visible-sm " data-key="<?= $product->id ?>">
+                            <div class="visible-sm visible-xs  b-items__cars-one-info-header s-lineDownLeft">
+                                <h2>
+                                    <a href="<?= Url::UrlShowProduct($similarProduct->id) ?>"><?= Html::encode($similarProduct->full_title) ?></a>
+                                    <?php if ($similarProduct->exchange): ?>
+                                        <span class="b-items__cars-one-info-title b-items__cell-info-exchange"><?= Yii::t('app', 'Exchange') ?></span>
+                                    <?php endif; ?>
+                                </h2>
                             </div>
-                        </noindex>
-                    <?php endforeach; ?>
-                    </div>
-                </div>
-                    </div>
-            <?php endif; ?>
+                            <div class="photo_mobile_block visible-sm visible-xs col-xs-4 col-sm-6">
+                                <a href="<?= Url::UrlShowProduct($similarProduct->id) ?>"
+                                   class="b-items__cars-one-img">
+                                    <img src="<?= $similarProduct->main_image_url ?>"
+                                         alt="<?= Html::encode($similarProduct->full_title) ?>"
+                                         class="hover-light-img"/>
+                                    <?php if ($similarProduct->priority == 1): ?>
+                                        <span class="b-items__cars-one-img-type m-premium"></span>
+                                    <?php endif; ?>
+                                    <?php if ($similarProduct->priority != 1): ?>
+                                        <span class="b-items__cars-one-img-type m-premium"></span>
+                                    <?php endif; ?>
+                                </a>
+                            </div>
+                            <div class="spec_mobile_block col-xs-8 col-sm-6 visible-sm visible-xs">
+                                <div class="price_mobile_block">
+                                    <h4 class="b-items__cell-info-price-byn"><?= Yii::$app->formatter->asDecimal($similarProduct->price_byn) ?>
+                                        BYN</h4>
+                                    <span class="b-items__cell-info-price-usd"><?= Yii::$app->formatter->asDecimal($similarProduct->price_usd) ?>
+                                        $ </span>
+                                    <?php if ($similarProduct->auction): ?>
+                                        <span class="b-items__cars-one-info-title b-items__cell-info-auction"><?= Yii::t('app', 'Auction') ?></span>
+                                    <?php endif; ?>
+                                </div>
+                                <?= $similarProduct->year ?>,
+                                <?php foreach ($similarProduct->spec as $i => $productSpec) {
+                                    echo Html::encode($productSpec->value) . ' ';
+                                    echo $productSpec->unit . ', ';
+                                    echo Html::encode($productSpec->priority_hight->value) . ' ';
+                                    echo $productSpec->priority_hight->unit;
+                                }
+                                ?>
+                                <br>
+                                <span class="city_block_mobile"><?= City::getCityName($similarProduct->city_id); ?></span>
+                            </div>
+                        </div>
+                    </noindex>
+                <?php endforeach; ?>
             </div>
         </div>
-        </div>
-    </section><!--"b-related-->
+    </div>
+    <?php endif; ?>
+    </div>
+    </div>
+    </div>
+</section><!--"b-related-->
 

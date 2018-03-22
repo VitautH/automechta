@@ -45,6 +45,13 @@ class BrandController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+    {
+        Url::remember(Url::current(),'forCatalog' );
+
+        return parent::beforeAction($action);
+    }
+
     /*
      * New Controller
      */

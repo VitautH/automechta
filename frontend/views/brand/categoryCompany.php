@@ -21,6 +21,7 @@ use frontend\models\Bookmarks;
 $tableView = filter_var(Yii::$app->request->get('tableView', 'false'), FILTER_VALIDATE_BOOLEAN);
 $this->registerJsFile("@web/js/readmore.js");
 $this->registerJs("require(['controllers/catalog/bookmarks']);", \yii\web\View::POS_HEAD);
+$this->registerJs("require(['controllers/catalog/modal']);", \yii\web\View::POS_HEAD);
 $this->registerJs("require(['controllers/catalog/index']);", \yii\web\View::POS_HEAD);
 $this->registerJs("    
  $(document).ready(function(){
@@ -87,9 +88,9 @@ $_params_['count'] = $count;
 
         <div class="container">
 
-            <h1 class="wow zoomInLeft" data-wow-delay="0.5s">Автомобили компании</h1>
+            <h1>Автомобили компании</h1>
 
-            <div class="b-pageHeader__search wow zoomInRight" data-wow-delay="0.5s">
+            <div class="b-pageHeader__search">
 
                 <h3><?= Yii::t('app', 'Your search returned {n,plural,=0{# result} =1{# result} one{# results} other{# results}} ', ['n' => $count]) ?></h3>
 
@@ -242,7 +243,8 @@ $_params_['count'] = $count;
                                     <?php
                                     if (Yii::$app->user->isGuest):
                                         ?>
-                                        <a class="unregister" href="/site/login">  <span class="star-ico"> <i class="far fa-star"></i></span></a>
+                                        <a href="#"  class="unregister show-modal-login"> <span class="star-ico"> <i
+                                                        class="far fa-star"></i></span></a>
                                     <?php
                                     else:
                                         ?>

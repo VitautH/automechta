@@ -15,7 +15,14 @@ use common\helpers\Url;
 class ToolsController extends Controller
 {
     public $layout = 'index';
+    public $bodyClass;
 
+    public function beforeAction($action)
+    {
+        Url::remember('/account/index', 'previous');
+
+        return parent::beforeAction($action);
+    }
 
     /**
      * @return index
@@ -32,6 +39,8 @@ class ToolsController extends Controller
      */
     public function actionCreditApplication($id = null)
     {
+
+
         $model = new CreditApplication();
         $model->detachBehavior('BlameableBehavior');
 

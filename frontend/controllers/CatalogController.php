@@ -23,7 +23,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\NotAcceptableHttpException;
 use yii\helpers\Json;
 use common\models\Complaint;
-
+use common\helpers\Url;
 /**
  * Catalog controller
  */
@@ -39,6 +39,13 @@ class CatalogController extends Controller
                 'class' => UploadsBehavior::className(),
             ]
         ];
+    }
+
+    public function beforeAction($action)
+    {
+        Url::remember('', 'forCatalog');
+
+        return parent::beforeAction($action);
     }
 
     /**
