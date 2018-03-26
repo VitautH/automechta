@@ -2846,12 +2846,14 @@ Begin Star Ico in product page
  */
 body.card-product-page section.card_product header.b-detail__head a span.star-ico {
     font-size: 25px;
-    float: left;
+    order: 1;
     padding-left: 0;
 }
+
 body.card-product-page section.card_product header.b-detail__head a span.star-ico i {
-  margin-top: 5px;
+    margin-top: 5px;
 }
+
 .b-items__cars-one a span.star-ico {
     font-size: 25px;
     float: left;
@@ -2874,9 +2876,9 @@ body.card-product-page section.card_product header.b-detail__head a.inactive spa
 }
 
 body.card-product-page section.card_product header.b-detail__head .b-detail__head-title {
-    margin-left: 30px;
-    display: flex;
     padding-right: 0;
+    margin-left: 20px;
+    order: 2;
 }
 
 .b-items__cars-one a.bookmarks span.star-ico, .b-items__cars-one a.unregister span.star-ico {
@@ -2886,4 +2888,108 @@ body.card-product-page section.card_product header.b-detail__head .b-detail__hea
 
 /*
 End Star Ico in product page
+ */
+
+/*
+Modal form login
+ */
+.modal-login {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 30%;
+    bottom: 0;
+    left: 30%;
+    z-index: 99999;
+    overflow: hidden;
+}
+
+.modal-login-bookmarks {
+    position: relative;
+    width: 480px;
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+    margin: 15px;
+}
+
+.modal-login-bookmarks-table {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+.modal-login-bookmarks-row {
+    display: table-row;
+}
+
+.modal-login-bookmarks-cell {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.modal-login .panel-heading {
+    width: 100%;
+    display: inline-block;
+}
+
+.modal-login .panel-heading button.modal-close {
+    display: block;
+    float: right;
+    border: none;
+    background: transparent;
+}
+
+.modal-login .panel-heading button.modal-close i.fa-close {
+    font-size: 22px;
+}
+
+.modal-login .panel-heading h2.modal-title {
+    text-align: left;
+    display: inline-block;
+}
+
+.modal-login .panel-body .login-block .login-form {
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.modal-login .panel-body .login-block .login-form input {
+    border-radius: 0 !important;
+    display: flex;
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+    width: 90% !important;
+}
+
+.modal-login .panel-body .login-block .login-form label {
+    margin-bottom: 10px;
+}
+
+/*
+End Modal form login
+ */
+/*
+Flex  start
+ */
+.flex-row {
+    display: flex;
+    justify-content: left;
+    flex-direction: row;
+}
+
+/*
+End Flex
+ */
+
+/*
+ Video block
+ */
+body.card-product-page section.card_product .video_block iframe {
+    margin-bottom: 10px;
+}
+/*
+End video
  */

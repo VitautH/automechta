@@ -21,6 +21,7 @@ use yii\helpers\ArrayHelper;
 use common\models\City;
 use frontend\assets\AppAsset;
 use frontend\models\Bookmarks;
+use common\models\VideoAuto;
 
 /* @var $this yii\web\View */
 /* @var $model Product */
@@ -109,6 +110,10 @@ $this->registerMetaTag([
 
 $metaData = MetaData::getModels($model);
 $this->registerMetaData($metaData);
+
+$makeId = ProductMake::find()->where(['product_type' => $product->type])->andWhere(['name' => $product->make])->one()->id;
+$videoModel = VideoAuto::find()->where(['type_id' => $product->type])->andWhere(['make_id' => $makeId])
+    ->andWhere(['model' => $product->model])->limit(3)->all();
 
 ?>
 <!-- Разметка с помощью микроданных, созданная Мастером разметки структурированных данных Google. -->
@@ -340,6 +345,23 @@ $this->registerMetaData($metaData);
                 <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
                 <script src="//yastatic.net/share2/share.js"></script>
                 <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,gplus,twitter"></div>
+            </div>
+            <br>
+            <div class="clearfix"></div>
+            <div class="col-md-12 video_block">
+                <noindex>
+                    <h3>Интересные видео</h3>
+                    <?php
+                    foreach ($videoModel as $video):
+                        ?>
+                        <iframe class="col-md-4" width="240" height="120"
+                                src="https://www.youtube.com/embed/<? echo $video->video_url; ?>?rel=0" frameborder="0"
+                                allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+                    <?php
+                    endforeach;
+                    ?>
+                </noindex>
             </div>
             <div class="col-md-12 complaint_container hidden-md hidden-lg">
                 <?php Pjax::begin(['id' => 'complaint-phone', 'enablePushState' => false]); ?>
