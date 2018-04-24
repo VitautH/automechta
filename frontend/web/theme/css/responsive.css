@@ -1,9 +1,10 @@
 @media screen and (min-width: 1200px) {
     html, body {
         overflow-x: hidden;
-        overflow-y: unset!important;
+        overflow-y: unset !important;
         -webkit-overflow-scrolling: touch;
     }
+
     .container {
         width: 100%;
         max-width: 1250px;
@@ -13,9 +14,10 @@
 @media screen and (min-width: 1199px) {
     html, body {
         overflow-x: hidden;
-        overflow-y: unset!important;
+        overflow-y: unset !important;
         -webkit-overflow-scrolling: touch;
     }
+
     .navbar-collapse.collapse {
         display: block !important;
     }
@@ -41,6 +43,7 @@
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
     }
+
     .b-topBar__addr {
         margin-right: 0;
         font-size: 11px;
@@ -365,6 +368,7 @@
         -webkit-overflow-scrolling: touch;
         position: unset;
     }
+
     .count_search_result {
         margin-left: -15%;
     }
@@ -377,6 +381,7 @@
         -webkit-overflow-scrolling: touch;
         position: relative;
     }
+
     .b-topBar {
         text-align: center;
     }
@@ -702,11 +707,13 @@
         -webkit-overflow-scrolling: touch;
         position: relative;
     }
+
     .b-items__cars-one a.bookmarks span.star-ico, .b-items__cars-one a.unregister span.star-ico {
         position: absolute;
         top: 0;
         right: 5px;
     }
+
     /*-------------------- Vita styles -----------------------*/
     .phone_row .b-nav__logo a img {
         margin-left: 0;
@@ -827,10 +834,9 @@
         padding-left: 0;
     }
 
-    .b-detail__head-title {
-        margin-top: -20px;
-    }
-
+    /*.b-detail__head-title {*/
+    /*margin-top: -20px;*/
+    /*}*/
     .b-detail__head-title h1 {
         font-size: 22px;
     }
@@ -1541,6 +1547,24 @@
     .social {
         margin-bottom: 10px;
     }
+
+    /*
+  Start Modal Login Bookmarks
+   */
+    .modal-login {
+        overflow-y: scroll !important;
+        right: 0;
+        left: 0;
+    }
+
+    .modal-login-bookmarks {
+        left: 0;
+        width: auto;
+    }
+
+    /*
+   End Modal Login Bookmarks
+    */
 }
 
 /*
@@ -1558,6 +1582,7 @@ Phone && Table Version
         -webkit-overflow-scrolling: touch;
         position: relative;
     }
+
     .b-topBar {
         border-bottom: 0 !important;
     }
@@ -1569,10 +1594,10 @@ Phone && Table Version
     body.card-product-page .card_product {
         height: 2150px;
     }
-    body.card-product-page section.card_product header.b-detail__head .b-detail__head-title {
-        margin-left: 20px;
-    }
 
+    /*body.card-product-page section.card_product header.b-detail__head .b-detail__head-title {*/
+    /*margin-left: 20px;*/
+    /*}*/
     .img-responsive, .thumbnail > img, .thumbnail a > img,
     .carousel-inner > .item > img, .carousel-inner > .item > a > img {
         width: 200px;
@@ -1704,10 +1729,9 @@ Phone && Table Version
         padding-left: 0;
     }
 
-    .b-detail__head-title {
-        margin-top: -20px;
-    }
-
+    /*.b-detail__head-title {*/
+    /*margin-top: -20px;*/
+    /*}*/
     .b-detail__head-title h1 {
         font-size: 22px;
     }
@@ -2705,6 +2729,24 @@ End Login page
     .b-info__contacts-item {
         margin-top: 0;
     }
+
+    /*
+  Start Modal Login Bookmarks
+   */
+    .modal-login {
+        overflow-y: scroll !important;
+        right: 0;
+        left: 0;
+    }
+
+    .modal-login-bookmarks {
+        left: 0;
+        width: auto;
+    }
+
+    /*
+   End Modal Login Bookmarks
+    */
 }
 
 @media screen and (max-width: 599px) {
@@ -2714,15 +2756,17 @@ End Login page
         -webkit-overflow-scrolling: touch;
         position: relative;
     }
-    body.card-product-page section.card_product header.b-detail__head a span.star-ico {
-        margin-top: -25px;
+
+    .create_ads .publishing .main-element-checkbox {
+        left: 22%;
     }
     body.card-product-page .card_product {
         height: 2150px;
     }
-    body.card-product-page section.card_product header.b-detail__head .b-detail__head-title {
-        margin-left: 20px;
-    }
+
+    /*body.card-product-page section.card_product header.b-detail__head .b-detail__head-title {*/
+    /*margin-left: 20px;*/
+    /*}*/
     .b-topBar {
         border-bottom: 0 !important;
     }
@@ -2788,10 +2832,9 @@ End Login page
         margin-top: -20px;
     }
 
-    .b-detail__head-title {
-        margin-top: -20px;
-    }
-
+    /*.b-detail__head-title {*/
+    /*margin-top: -20px;*/
+    /*}*/
     .b-detail__head-title h1 {
         font-size: 22px;
     }
@@ -3787,21 +3830,40 @@ End Login page
         margin-bottom: 10px;
         margin-left: 0;
     }
+
+    /*
+  Start Modal Login Bookmarks
+   */
+    .modal-login {
+        overflow-y: scroll !important;
+        right: 0;
+        left: 0;
+    }
+
+    .modal-login-bookmarks {
+        left: 0;
+        width: auto;
+    }
+
+    /*
+   End Modal Login Bookmarks
+    */
 }
 
 @media screen and (min-width: 359px) and (max-width: 400px) {
     body.card-product-page .card_product {
         height: 2150px;
     }
-    body.card-product-page section.card_product header.b-detail__head a span.star-ico {
-        margin-top: -25px;
+    .create_ads .publishing .main-element-checkbox {
+        left: 22%;
     }
     .b-world {
         margin-top: 10px;
     }
-    body.card-product-page section.card_product header.b-detail__head .b-detail__head-title {
-        margin-left: 20px;
-    }
+
+    /*body.card-product-page section.card_product header.b-detail__head .b-detail__head-title {*/
+    /*margin-left: 20px;*/
+    /*}*/
     .additional_news {
         padding-right: 20px;
         padding-left: 20px;
@@ -3814,6 +3876,24 @@ End Login page
     .b-info__contacts-item {
         margin-top: 0;
     }
+
+    /*
+  Start Modal Login Bookmarks
+   */
+    .modal-login {
+        overflow-y: scroll !important;
+        right: 0;
+        left: 0;
+    }
+
+    .modal-login-bookmarks {
+        left: 0;
+        width: auto;
+    }
+
+    /*
+   End Modal Login Bookmarks
+    */
 }
 
 @media screen and (max-width: 350px) {
@@ -3821,13 +3901,10 @@ End Login page
     body.card-product-page .card_product {
         height: 2150px;
     }
-    body.card-product-page section.card_product header.b-detail__head .b-detail__head-title {
-        margin-left: 20px;
-    }
-    body.card-product-page section.card_product header.b-detail__head a span.star-ico {
-        margin-top: -25px;
-    }
 
+    .create_ads .publishing .main-element-checkbox {
+        left: 22%;
+    }
     /*------------ Vita --------------*/
     .b-nav__logo {
         height: 70px;
@@ -3906,10 +3983,9 @@ End Login page
         margin-top: -20px;
     }
 
-    .b-detail__head-title {
-        margin-top: -20px;
-    }
-
+    /*.b-detail__head-title {*/
+    /*margin-top: -20px;*/
+    /*}*/
     .b-detail__head-title h1 {
         font-size: 22px;
     }
@@ -4869,4 +4945,22 @@ End Login page
     .b-info__contacts-item {
         margin-top: 0;
     }
+
+    /*
+    Start Modal Login Bookmarks
+     */
+    .modal-login {
+        overflow-y: scroll !important;
+        right: 0;
+        left: 0;
+    }
+
+    .modal-login-bookmarks {
+        left: 0;
+        width: auto;
+    }
+
+    /*
+   End Modal Login Bookmarks
+    */
 }

@@ -2615,6 +2615,10 @@ Card product page
     font-weight: bold;
 }
 
+.card-product-page .video_block h3 {
+    margin-top: 20px;
+}
+
 .card-product-page .seller-phone-block, .card-product-page .credit-phone-block {
     display: none;
     position: absolute;
@@ -2987,9 +2991,37 @@ End Flex
 /*
  Video block
  */
-body.card-product-page section.card_product .video_block iframe {
-    margin-bottom: 10px;
+
+body.card-product-page section.card_product #carousel-small {
+    top: 0!important;
+}
+
+body.card-product-page section.card_product #carousel-small .owl-item {
+    margin-right: 10px!important;
 }
 /*
 End video
+ */
+
+/*
+Modifications gallery block
+ */
+
+body.model-page ul.cars-modification-list .carousel-small {
+    top:unset!important;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+body.marks-list-page .count_search_result, body.modification-search-page .count_search_result{
+    color:black;
+}
+body.modification-search-page ul.sublist{
+    margin-top: 10px;
+}
+body.modification-search-page ul.sublist > li {
+    list-style: none;
+}
+/*
+End Modifications gallery block
  */

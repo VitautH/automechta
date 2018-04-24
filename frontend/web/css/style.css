@@ -1741,7 +1741,7 @@ ul.gallery .zoom span:hover {
     margin-top: -27px;
     display: block;
     color: white;
-    width: 175px;
+    width: 182px;
     margin-bottom: 8px;
 }
 
@@ -1844,12 +1844,13 @@ span.m-premium {
 }
 
 .slide_head_credit {
-    background: url(../theme/images/avto-v-kredit-bg.jpg);
+    background: url(../theme/images/avto-v-kredit-bg.jpg), #00000075;
     background-size: cover;
     background-repeat: no-repeat;
     height: 200px;
     width: 100%;
     background-attachment: fixed;
+    background-blend-mode: overlay;
 }
 
 .slide_head_credit span.title {
@@ -2068,6 +2069,10 @@ a.show-product:hover tr {
 /*
 Create Ads
  */
+.create_ads .publishing {
+    margin-top: 15px;
+}
+
 .heading_create_ads h1 {
     display: inline-block;
     vertical-align: baseline;
@@ -2077,6 +2082,30 @@ Create Ads
     letter-spacing: 0.69px;
     line-height: 36px;
     margin-bottom: 20px !important;
+}
+
+.create_ads .publishing .main-element-checkbox {
+    left: 30%;
+    margin-bottom: 0 !important;
+    column-count:1!important;
+    position: relative;
+    display: -webkit-flex;
+    -webkit-flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
+}
+.create_ads .publishing .b-submit__main-element {
+    margin-bottom: 0!important;
+}
+
+.create_ads .publishing .rules-checkbox .rules-link {
+    margin-left: 10px;
+    font-size: 16px;
+    float: right;
+}
+
+.create_ads .rules-checkbox .main-element-checkbox label.s-submitCheckLabel {
+    float: left !important;
 }
 
 .create_ads label, #credit-application-form label {
@@ -2453,7 +2482,8 @@ form.create_ads {
     margin-top: 17%;
     margin-left: 10px;
 }
-.create-ads-step-1 .scooter .add-item-name,.create-ads-step-1 .atv .add-item-name {
+
+.create-ads-step-1 .scooter .add-item-name, .create-ads-step-1 .atv .add-item-name {
     margin-top: 15%;
     margin-left: 15px;
 }
