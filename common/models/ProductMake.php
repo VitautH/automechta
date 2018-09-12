@@ -26,6 +26,9 @@ use yii\db\Query;
  */
 class ProductMake extends \yii\db\ActiveRecord
 {
+    const HIGH_PRIORITY = 1;
+    const LOW_PRIORITY = 0;
+
     /**
      * @inheritdoc
      */
@@ -40,9 +43,9 @@ class ProductMake extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'string'],
+            [['name','description'], 'string'],
             [['name'], 'required'],
-            [['created_at', 'updated_at', 'created_by', 'updated_by', 'lft', 'rgt', 'depth', 'product_type'], 'integer']
+            [['created_at', 'updated_at', 'created_by', 'updated_by', 'lft', 'rgt', 'depth', 'product_type','priority'], 'integer']
         ];
     }
 
@@ -54,11 +57,12 @@ class ProductMake extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
+            'description' => Yii::t('app', 'Описание'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'created_by' => Yii::t('app', 'Created By'),
             'updated_by' => Yii::t('app', 'Updated By'),
-            'id' => Yii::t('app', 'ID'),
+            'priority' =>'Приоритет',
             'lft' => Yii::t('app', 'Lft'),
             'rgt' => Yii::t('app', 'Rgt'),
             'product_type' => Yii::t('app', 'Product type'),
@@ -104,6 +108,40 @@ class ProductMake extends \yii\db\ActiveRecord
     }
 
     /**
+     * Get list of makes high priority indexed by id
+     * @param integer $type
+     * @param integer $hasProducts (if true returns only makers, which have products)
+     * @return array
+     */
+    public static function getMakesListHighPrirority($type = null, $hasProducts = null){
+        $query = (new Query())->select('product_make.name, product_make.id,product_make.url_logo, product_make.priority')->from('product_make')->where(['product_make.priority'=>self::HIGH_PRIORITY])->andWhere('depth=1')->indexBy('id');
+        if ($type !== null) {
+            $type = intval($type);
+            $query->andWhere('product_type=:product_type', [':product_type'=>$type]);
+        }
+        if ($hasProducts) {
+            $query->join('INNER JOIN','product', 'product_make.id = product.make')->andWhere('product.status=1');
+        }
+        return $query->all();
+    }
+    /**
+     * Get list of makes low priority indexed by id
+     * @param integer $type
+     * @param integer $hasProducts (if true returns only makers, which have products)
+     * @return array
+     */
+    public static function getMakesListLowPrirority($type = null, $hasProducts = null){
+        $query = (new Query())->select('product_make.name, product_make.id,product_make.url_logo, product_make.priority')->from('product_make')->where(['product_make.priority'=>self::LOW_PRIORITY])->andWhere('depth=1')->indexBy('id');
+        if ($type !== null) {
+            $type = intval($type);
+            $query->andWhere('product_type=:product_type', [':product_type'=>$type]);
+        }
+        if ($hasProducts) {
+            $query->join('INNER JOIN','product', 'product_make.id = product.make')->andWhere('product.status=1');
+        }
+        return $query->all();
+    }
+    /**
      * Get list of makes indexed by id
      * @param integer $type
      * @return array
@@ -130,7 +168,7 @@ class ProductMake extends \yii\db\ActiveRecord
      */
     public static function getMakesListWithId($type = null, $hasProducts = null)
     {
-        $query = (new Query())->select('product_make.name, product_make.id')->from('product_make')->where('depth=1')->indexBy('id');
+        $query = (new Query())->select('product_make.name, product_make.id,product_make.url_logo')->from('product_make')->where('depth=1')->indexBy('id');
         if ($type !== null) {
             $type = intval($type);
             $query->andWhere('product_type=:product_type', [':product_type'=>$type]);

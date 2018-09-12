@@ -61,7 +61,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function tableName()
     {
-        return '{{%user}}';
+        return 'user';
     }
 
     /**
@@ -444,15 +444,16 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+
     /**
      * @return array
      */
     public static function getPhoneProviderIcons()
     {
         return [
-            self::PHONE_PROVIDER_VELC => '/theme/images/elements/velcom.png',
-            self::PHONE_PROVIDER_MTS => '/theme/images/elements/mts.png',
-            self::PHONE_PROVIDER_LIFE => '/theme/images/elements/life.png',
+            self::PHONE_PROVIDER_VELC => '/theme/images/elements/velcom-icon.png',
+            self::PHONE_PROVIDER_MTS => '/theme/images/elements/mts-icon.png',
+            self::PHONE_PROVIDER_LIFE => '/theme/images/elements/life-icon.png',
         ];
     }
 

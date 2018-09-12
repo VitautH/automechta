@@ -12,6 +12,7 @@ use common\models\Page;
 class ReviewsController extends Controller
 {
     public $layout = 'index';
+    public $bodyClass;
 
     /**
      * @param string $alias page alias

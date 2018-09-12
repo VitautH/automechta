@@ -9,6 +9,11 @@ use yii\helpers\Html;
 /* @var $model Page */
 /* @var $provider yii\data\ActiveDataProvider */
 
+\Yii::$app->view->registerMetaTag([
+    'name' => 'robots',
+    'content' => 'noindex, nofollow'
+]);
+
 $this->registerJs("require(['controllers/tools/calculator']);", \yii\web\View::POS_HEAD);
 
 $appData = AppData::getData();
@@ -17,7 +22,7 @@ $this->title = 'Кредитный калькулятор';
 
 <section class="b-pageHeader" style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
     <div class="container">
-        <h1 class=" wow zoomInLeft" data-wow-delay="0.3s"><?= $this->title ?></h1>
+        <h1><?= $this->title ?></h1>
     </div>
 </section><!--b-pageHeader-->
 
@@ -35,11 +40,8 @@ $this->title = 'Кредитный калькулятор';
 <section class="b-article">
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-xs-12 col-md-offset-2">
-                <div class="b-article__main">
-                    <div class="b-blog__posts-one">
+            <div class="col-md-8 col-xs-12 col-md-offset-2 col-xs-offset-0">
                         <div class="row m-noBlockPadding">
-                            <div class="col-sm-11 col-xs-12">
                                 <div class="b-detail__main">
                                     <div class="right_block" style="position: relative;
     width: 400px;
@@ -58,9 +60,16 @@ $this->title = 'Кредитный калькулятор';
                                                    value="0" name="prepayment" id="prepayment" min="0"
                                                    max="<?= $product->price_byn ?>"/>
                                             <label><?= Yii::t('app', 'RATE IN') ?> %</label>
-                                            <input type="text" placeholder="<?= Yii::t('app', 'RATE IN') ?> %"
-                                                   value="<?= $appData['loanRate'] ?>%" name="rate"
-                                                   disabled="disabled"/>
+                                            <div class="s-relative">
+                                                <select name="rate" class="m-select" id="rate">
+                                                    <option value="<?= $appData['prior_bank']?>">Приорбанк <?= $appData['prior_bank']?>%</option>
+                                                    <option value="<?= $appData['vtb_bank']?>">ВТБ <?= $appData['vtb_bank']?>%</option>
+                                                    <option value="<?= $appData['bta_bank']?>">БТА <?= $appData['bta_bank']?>%</option>
+                                                    <option value="<?= $appData['idea_bank']?>">ИдеяБанк <?= $appData['idea_bank']?>%</option>
+                                                    <option value="<?= $appData['status_bank']?>">СтатусБанк <?= $appData['status_bank']?>%</option>
+                                                </select>
+                                                <span class="fa fa-caret-down"></span>
+                                            </div>
                                             <label><?= Yii::t('app', 'LOAN TERM') ?></label>
                                             <div class="s-relative">
                                                 <select name="term" class="m-select" id="term">
@@ -89,11 +98,8 @@ $this->title = 'Кредитный калькулятор';
                                 </div>
                                     </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 </section><!--b-article-->

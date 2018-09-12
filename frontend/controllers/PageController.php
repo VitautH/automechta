@@ -13,7 +13,7 @@ use common\helpers\Url;
  */
 class PageController extends Controller
 {
-    public $layout = 'index';
+    public $layout = 'new-index';
     public $bodyClass;
 
     public function beforeAction($action)
@@ -33,16 +33,54 @@ class PageController extends Controller
         $model = $this->findModel($alias);
 
         $model->increaseViews();
-        if ($alias == 'avto-v-kredit') {
-            return $this->render('avto-v-kredit', [
-                'model' => $model,
-            ]);
-        } else {
-            return $this->render('show', [
-                'model' => $model,
-            ]);
-        }
 
+        switch ($alias) {
+            case 'avto-v-kredit':
+                $this->bodyClass = 'avto-v-kredit';
+                $this->layout = 'new-index';
+
+                return $this->render('avto-v-kredit', [
+                    'model' => $model,
+                ]);
+                break;
+            case 'oformlenie-schet-spravki':
+                $this->bodyClass = 'oformlenie-schet-spravki';
+                $this->layout = 'new-index';
+
+                return $this->render('oformlenie-schet-spravki', [
+                    'model' => $model,
+                ]);
+                break;
+            case 'obmen-avto':
+                $this->bodyClass = 'trade-in';
+                $this->layout = 'new-index';
+
+                return $this->render('trade-in', [
+                    'model' => $model,
+                ]);
+                break;
+            case 'srochnyj-vykup':
+                $this->bodyClass = 'srochnyj-vykup';
+                $this->layout = 'new-index';
+
+                return $this->render('srochnyj-vykup', [
+                    'model' => $model,
+                ]);
+                break;
+            case 'prijom-avto-na-komissiju':
+                $this->bodyClass = 'prijom-avto-na-komissiju';
+                $this->layout = 'new-index';
+
+                return $this->render('prijom-avto-na-komissiju', [
+                    'model' => $model,
+                ]);
+                break;
+            default:
+                return $this->render('show', [
+                    'model' => $model,
+                ]);
+                break;
+        }
     }
 
     /**

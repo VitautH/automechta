@@ -4,6 +4,7 @@ namespace common\models;
 
 use common\models\behaviors\UploadsBehavior;
 use Yii;
+use yii\base\ErrorException;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
 use common\models\behaviors\I18nBehavior;
@@ -50,9 +51,15 @@ class Product extends \yii\db\ActiveRecord
     const SCENARIO_CREATEADS = 'createAds';
     const SCENARIO_BEFORE_CREATEADS = 'beforeCreateAds';
     const SCENARIO_STEP_1 = 'step-1';
+    const SCENARIO_BOAT = 'boat';
+    const SCENARIO_DELETE = 'delete';
     const SCENARIO_STEP_2 = 'step-2';
     const SCENARIO_STEP_3 = 'step-3';
     const TABLE_NAME = 'product';
+    const USD = 0;
+    const  BYN = 1;
+    const BAN = 1;
+    const UN_BAN = 0;
     private static $maxPrice;
     private static $minPrice;
     private static $yearsList;
@@ -74,6 +81,8 @@ class Product extends \yii\db\ActiveRecord
             [['region', 'city_id', 'phone_provider', 'phone_provider_2', 'phone_provider_3'], 'integer', 'on' => self::SCENARIO_CREATEADS],
             [['first_name', 'phone', 'video', 'phone_2', 'phone_3'], 'safe', 'on' => self::SCENARIO_CREATEADS],
             [['type', 'make', 'model', 'year', 'price', 'priority'], 'required', 'on' => self::SCENARIO_DEFAULT],
+            [['id', 'type', 'priority', 'status','created_at', 'created_by'], 'required', 'on' => self::SCENARIO_DELETE],
+            [['type', 'make', 'year', 'price', 'priority', 'region', 'city_id', 'phone_provider', 'first_name', 'last_name'], 'required', 'on' => self::SCENARIO_BOAT],
             [['exchange', 'currency', 'auction'], 'integer', 'on' => self::SCENARIO_DEFAULT],
             [['first_name', 'phone_provider', 'phone', 'region', 'city_id'], 'required', 'on' => self::SCENARIO_CREATEADS],
             [['model'], 'string', 'max' => 2048],
@@ -82,13 +91,24 @@ class Product extends \yii\db\ActiveRecord
                 return Yii::$app->user->can('changeProductPriority');
             }],
             [['video'], 'safe'],
-            [['status', 'type', 'make', 'price', 'views', 'created_at', 'updated_at', 'created_by', 'updated_by', 'exchange', 'currency', 'auction'], 'integer'],
+            [[ 'ban'], 'integer', 'when' => function ($model) {
+                return Yii::$app->user->can('deleteProduct');
+            }],
+            [['status', 'type', 'make', 'price', 'views','priceByn', 'created_at', 'updated_at', 'created_by', 'updated_by', 'exchange', 'currency', 'auction'], 'integer'],
         ];
     }
 
     public function scenarios()
     {
         return [
+            self::SCENARIO_DELETE => [
+                'id',
+                'priority',
+                'type',
+                'status',
+                'created_at',
+                'created_by'
+            ],
             self::SCENARIO_SELLERCONTACTS => [
                 'first_name',
                 'phone_provider',
@@ -147,6 +167,29 @@ class Product extends \yii\db\ActiveRecord
                 'exchange',
                 'auction',
             ],
+            self::SCENARIO_BOAT => [
+                'first_name',
+                'phone_provider',
+                'phone',
+                'phone_provider_2',
+                'phone_2',
+                'phone_provider_3',
+                'phone_3',
+                'region',
+                'city_id',
+                'email',
+                'video',
+                'first_name',
+                'type',
+                'video',
+                'make',
+                'model',
+                'price',
+                'year',
+                'priority',
+                'exchange',
+                'auction',
+            ],
             self::SCENARIO_DEFAULT => [
                 'username',
                 'email',
@@ -164,10 +207,12 @@ class Product extends \yii\db\ActiveRecord
                 'make',
                 'model',
                 'price',
+                'priceByn',
                 'year',
                 'priority',
                 'exchange',
                 'auction',
+                'ban'
             ],
             self::SCENARIO_BEFORE_CREATEADS => [
                 'type',
@@ -187,6 +232,7 @@ class Product extends \yii\db\ActiveRecord
             'make' => Yii::t('app', 'Make'),
             'model' => Yii::t('app', 'Model'),
             'price' => Yii::t('app', 'Price'),
+            'priceByn' => Yii::t('app', 'Byn'),
             'year' => Yii::t('app', 'Year'),
             'views' => Yii::t('app', 'Views'),
             'priority' => Yii::t('app', 'Priority'),
@@ -209,6 +255,7 @@ class Product extends \yii\db\ActiveRecord
             'phone_provider_2' => 'Оператор',
             'phone_3' => 'Доп. телефон',
             'phone_provider_3' => 'Оператор',
+            'ban' => 'Бан'
         ];
     }
 
@@ -260,7 +307,54 @@ class Product extends \yii\db\ActiveRecord
     }
 
     /**
-     * Generate MetaData
+     * Generate MetaData for boat
+     */
+    public function saveProductBoatMetaData()
+    {
+        $make = $this->getMake0()->one()->name ;
+        $description = 'Купить ' . $make . ' .Цена ' . $this->price . ' в кредит в Минске. Объявление о продаже лодок и катеров в Беларуси на сайте Автомечта.' . $this->i18n()->seller_comments;
+        $keywords = 'Купить '.$make.', '.$make.' '.$this->year . ' г.в., Минск, объявление, продам, водный транспорт , купить, автомечта, кредит, купить в кредит, купить в кредит в  Минске';
+        $title = 'Купить лодку ' . $this->year . ' г.в.   в кредит в Минске. Объявление о продаже лодок и катеров в Беларуси в кредит на сайте Автомечта';
+        $metaTitleModel = new MetaData();
+
+        $metaTitleModel->linked_table = static::TABLE_NAME;
+        $metaTitleModel->linked_id = $this->id;
+        $metaTitleModel->type = MetaData::TYPE_TITLE;
+
+
+        $metaTitleModel->i18n()->value = $title;
+        $metaTitleModel->save();
+        unset($metaTitleModel);
+
+        $metaDescriptionModel = new MetaData();
+        $metaDescriptionModel->linked_table = static::TABLE_NAME;
+        $metaDescriptionModel->linked_id = $this->id;
+        $metaDescriptionModel->type = MetaData::TYPE_DESCRIPTION;
+
+
+
+        $metaDescriptionModel->i18n()->value = $description;
+        $metaDescriptionModel->save();
+        unset($metaDescriptionModel);
+
+        $metaKeywordsModel = new MetaData();
+
+        $metaKeywordsModel->linked_table = static::TABLE_NAME;
+        $metaKeywordsModel->linked_id = $this->id;
+        $metaKeywordsModel->type = MetaData::TYPE_KEYWORDS;
+
+        try {
+            $metaKeywordsModel->i18n()->value = $keywords;
+            $metaKeywordsModel->save();
+        } catch (\yii\base\Exception $exception) {
+
+        }
+
+        unset($metaKeywordsModel);
+    }
+
+    /**
+     * Generate MetaData all type product
      */
     public function saveProductMetaData()
     {
@@ -286,6 +380,7 @@ class Product extends \yii\db\ActiveRecord
         }
 
         $metaTitleModel->i18n()->value = $this->getFullTitle() . $specsStr . ', купить в кредит в Минске.';
+
         $metaTitleModel->save();
         unset($metaTitleModel);
 
@@ -308,6 +403,9 @@ class Product extends \yii\db\ActiveRecord
                 break;
             case ProductType::ATV:
                 $productType = 'квадроцикл';
+                break;
+            case ProductType::BOAT:
+                $productType = 'водный транспорт';
                 break;
         }
 
@@ -336,6 +434,9 @@ class Product extends \yii\db\ActiveRecord
             case ProductType::ATV:
                 $productType = 'квадроцикл';
                 break;
+            case ProductType::BOAT:
+                $productType = 'водный транспорт';
+                break;
         }
 
         $keywords = $this->getShortTitle() . ' , ' . $this->year . ' г.в., Минск, объявление, продам, ' . $productType . ' , купить ' . $productType . ', автомечта, кредит, купить в кредит, купить в кредит в  Минске';
@@ -351,71 +452,110 @@ class Product extends \yii\db\ActiveRecord
     }
 
     /*
-     * Update MetaData
+     * Update MetaData for all type product
      */
     public function updateProductMetaData()
     {
-        $metaTitleModel = MetaData::find()->where(['and', ['linked_table' => static::TABLE_NAME], ['linked_id' => $this->id], ['type' => MetaData::TYPE_TITLE]])->one();
-        $specs = ProductSpecification::find()
-            ->innerJoin('specification', 'specification.id=product_specification.specification_id')
-            ->where('product_id=:product_id AND specification.in_meta=1', [':product_id' => $this->id])
-            ->all();
+        if ($this->type != ProductType::BOAT) {
+            $metaTitleModel = MetaData::find()->where(['and', ['linked_table' => static::TABLE_NAME], ['linked_id' => $this->id], ['type' => MetaData::TYPE_TITLE]])->one();
+            $specs = ProductSpecification::find()
+                ->innerJoin('specification', 'specification.id=product_specification.specification_id')
+                ->where('product_id=:product_id AND specification.in_meta=1', [':product_id' => $this->id])
+                ->all();
 
-        $specsStr = '';
+            $specsStr = '';
 
-        foreach ($specs as $spec) {
+            foreach ($specs as $spec) {
 
-            $specsStr .= ', ' . $spec->value;
-            $unit = trim($spec->getSpecification()->one()->i18n()->unit);
-            if ($unit !== '') {
-                $specsStr .= ' ' . $spec->getSpecification()->one()->i18n()->unit;
+                $specsStr .= ', ' . $spec->value;
+
+                $unit = trim($spec->getSpecification()->one()->i18n()->unit);
+                if ($unit !== '') {
+                    $specsStr .= ' ' . $spec->getSpecification()->one()->i18n()->unit;
+                }
             }
-        }
 
-        $metaTitleModel->i18n()->value = $this->getFullTitle() . $specsStr . ', купить в кредит в Минске.';
+            $metaTitleModel->i18n()->value = $this->getFullTitle() . $specsStr . ', купить в кредит в Минске.';
+            $metaTitleModel->save();
+            unset($metaTitleModel);
+
+            $metaDescriptionModel = MetaData::find()->where(['and', ['linked_table' => static::TABLE_NAME], ['linked_id' => $this->id], ['type' => MetaData::TYPE_DESCRIPTION]])->one();
+            switch ($this->type) {
+
+                case ProductType::CARS:
+                    $productType = 'автомобиль';
+                    break;
+                case ProductType::MOTO:
+                    $productType = 'мотоцикл';
+                    break;
+                case ProductType::SCOOTER:
+                    $productType = 'скутер';
+                    break;
+                case ProductType::ATV:
+                    $productType = 'квадроцикл';
+                    break;
+            }
+
+            $description = 'Купить ' . $productType . ' ' . $this->getFullTitle() . ' ' . $specsStr . ' .Цена ' . $this->price . ' в кредит в Минске. Частное объявление о продаже квадроцикла на сайте Автомечта.' . $this->i18n()->seller_comments;
+            $metaDescriptionModel->i18n()->value = $description;
+            $metaDescriptionModel->save();
+            unset($metaDescriptionModel);
+
+            $metaKeywordsModel = MetaData::find()->where(['and', ['linked_table' => static::TABLE_NAME], ['linked_id' => $this->id], ['type' => MetaData::TYPE_KEYWORDS]])->one();
+            switch ($this->type) {
+
+                case ProductType::CARS:
+                    $productType = 'автомобиль';
+                    break;
+                case ProductType::MOTO:
+                    $productType = 'мотоцикл';
+                    break;
+                case ProductType::SCOOTER:
+                    $productType = 'скутер';
+                    break;
+                case ProductType::ATV:
+                    $productType = 'квадроцикл';
+                    break;
+                case ProductType::BOAT:
+                    $productType = 'лодка';
+                    break;
+            }
+
+            $keywords = $this->getShortTitle() . ' , ' . $this->year . ' г.в., Минск, объявление, продам, ' . $productType . ' , купить ' . $productType . ', автомечта, кредит, купить в кредит, купить в кредит в  Минске';
+
+            try {
+                $metaKeywordsModel->i18n()->value = $keywords;
+                $metaKeywordsModel->save();
+            } catch (\Error $error) {
+
+            }
+            unset($metaKeywordsModel);
+        }
+        else {
+            $this->updateProductBoatMetaData();
+        }
+    }
+
+    /*
+        * Update MetaData for boat product
+        */
+    public function updateProductBoatMetaData()
+    {
+        $make = $this->getMake0()->one()->name ;
+        $description = 'Купить ' . $make . ' .Цена ' . $this->price . ' в кредит в Минске. Объявление о продаже лодок и катеров в Беларуси на сайте Автомечта.' . $this->i18n()->seller_comments;
+        $keywords = 'Купить '.$make.', '.$make.' '.$this->year . ' г.в., Минск, объявление, продам, водный транспорт , купить, автомечта, кредит, купить в кредит, купить в кредит в  Минске';
+        $title = 'Купить лодку ' . $this->year . ' г.в.   в кредит в Минске. Объявление о продаже лодок и катеров в Беларуси в кредит на сайте Автомечта';
+        $metaTitleModel = MetaData::find()->where(['and', ['linked_table' => static::TABLE_NAME], ['linked_id' => $this->id], ['type' => MetaData::TYPE_TITLE]])->one();
+        $metaTitleModel->i18n()->value = $title;
         $metaTitleModel->save();
         unset($metaTitleModel);
 
         $metaDescriptionModel = MetaData::find()->where(['and', ['linked_table' => static::TABLE_NAME], ['linked_id' => $this->id], ['type' => MetaData::TYPE_DESCRIPTION]])->one();
-        switch ($this->type) {
-
-            case ProductType::CARS:
-                $productType = 'автомобиль';
-                break;
-            case ProductType::MOTO:
-                $productType = 'мотоцикл';
-                break;
-            case ProductType::SCOOTER:
-                $productType = 'скутер';
-                break;
-            case ProductType::ATV:
-                $productType = 'квадроцикл';
-                break;
-        }
-
-        $description = 'Купить ' . $productType . ' ' . $this->getFullTitle() . ' ' . $specsStr . ' .Цена ' . $this->price . ' в кредит в Минске. Частное объявление о продаже квадроцикла на сайте Автомечта.' . $this->i18n()->seller_comments;
         $metaDescriptionModel->i18n()->value = $description;
         $metaDescriptionModel->save();
         unset($metaDescriptionModel);
 
         $metaKeywordsModel = MetaData::find()->where(['and', ['linked_table' => static::TABLE_NAME], ['linked_id' => $this->id], ['type' => MetaData::TYPE_KEYWORDS]])->one();
-        switch ($this->type) {
-
-            case ProductType::CARS:
-                $productType = 'автомобиль';
-                break;
-            case ProductType::MOTO:
-                $productType = 'мотоцикл';
-                break;
-            case ProductType::SCOOTER:
-                $productType = 'скутер';
-                break;
-            case ProductType::ATV:
-                $productType = 'квадроцикл';
-                break;
-        }
-
-        $keywords = $this->getShortTitle() . ' , ' . $this->year . ' г.в., Минск, объявление, продам, ' . $productType . ' , купить ' . $productType . ', автомечта, кредит, купить в кредит, купить в кредит в  Минске';
 
         try {
             $metaKeywordsModel->i18n()->value = $keywords;
@@ -424,6 +564,7 @@ class Product extends \yii\db\ActiveRecord
 
         }
         unset($metaKeywordsModel);
+
     }
 
     public function transactions()
@@ -492,14 +633,20 @@ class Product extends \yii\db\ActiveRecord
      */
     public function exchangeBynToUsd($byn)
     {
-        $appData = AppData::getData();
-        if (!is_numeric($appData['usdRate'])) {
-            $rate = 1;
-        } else {
-            $rate = $appData['usdRate'];
-        }
+        if ($this->priority == static::HIGHT_PRIORITY) {
 
-        return intval($byn / $rate);
+            $appData = AppData::getData();
+            if (!is_numeric($appData['usdRate'])) {
+                $rate = 1;
+            } else {
+                $rate = $appData['usdRate'];
+            }
+
+            return intval($byn / $rate);
+        }
+        else  {
+            return   Yii::$app->currency->getCurrencyToByn(145)->convertCurrencyToUsd($byn);
+        }
     }
 
     /**
@@ -516,7 +663,7 @@ class Product extends \yii\db\ActiveRecord
         if ($this->currency === 0) { // price in usd
             return intval($this->price);
         } else {
-            return intval($this->price / $rate);
+            return   Yii::$app->currency->getCurrencyToByn(145)->convertCurrencyToUsd($this->priceByn);
         }
     }
 
@@ -525,16 +672,85 @@ class Product extends \yii\db\ActiveRecord
      */
     public function getByrPrice()
     {
-        $appData = AppData::getData();
-        if (!is_numeric($appData['usdRate'])) {
-            $rate = 1;
-        } else {
-            $rate = $appData['usdRate'];
+        if ($this->priority == static::HIGHT_PRIORITY) {
+            $appData = AppData::getData();
+            if (!is_numeric($appData['usdRate'])) {
+                $rate = 1;
+            } else {
+                $rate = $appData['usdRate'];
+            }
+            if ($this->currency === 0) { // price in usd
+                return intval($this->price * $rate);
+            } else {
+                return intval($this->price);
+            }
         }
-        if ($this->currency === 0) { // price in usd
-            return intval($this->price * $rate);
-        } else {
-            return intval($this->price);
+        else  {
+            if ($this->currency === 0) { // price in usd
+                return   Yii::$app->currency->getCurrencyToByn(145)->convertCurrencyToByn($this->price);
+
+            } else {
+                return intval($this->priceByn);
+            }
+        }
+    }
+
+    /**
+     * @return float
+     */
+    public static function getUsdPriceProduct($id)
+    {
+        $model = self::findOne($id);
+
+        if ($model !== null) {
+            $appData = AppData::getData();
+            if (!is_numeric($appData['usdRate'])) {
+                $rate = 1;
+            } else {
+                $rate = $appData['usdRate'];
+            }
+            if ($model->currency === 0) { // price in usd
+                return intval($model->price);
+            } else {
+                return Yii::$app->currency->getCurrencyToByn(145)->convertCurrencyToUsd($model->priceByn);
+            }
+        }
+        else {
+            return null;
+        }
+    }
+
+    /**
+     * @return float
+     */
+    public static function getByrPriceProduct($id)
+    {
+        $model = self::findOne($id);
+
+        if ($model !== null) {
+            if ($model->priority == static::HIGHT_PRIORITY) {
+                $appData = AppData::getData();
+                if (!is_numeric($appData['usdRate'])) {
+                    $rate = 1;
+                } else {
+                    $rate = $appData['usdRate'];
+                }
+                if ($model->currency === 0) { // price in usd
+                    return intval($model->price * $rate);
+                } else {
+                    return intval($model->price);
+                }
+            } else {
+                if ($model->currency === 0) { // price in usd
+                    return Yii::$app->currency->getCurrencyToByn(145)->convertCurrencyToByn($model->price);
+
+                } else {
+                    return intval($model->priceByn);
+                }
+            }
+        }
+        else {
+            return null;
         }
     }
 
@@ -583,6 +799,7 @@ class Product extends \yii\db\ActiveRecord
             $product['views'] = $model->views;
             $product ['title'] = $model->getFullTitle();
             $product ['title_image'] = $model->getTitleImageUrl(267, 180);
+            $product['full_title_image'] = $model->getTitleImageUrl();
             $product ['short_title'] = $model->i18n()->title;
             $product ['price_byn'] = $model->getByrPrice();
             $product ['price_usd'] = $model->getUsdPrice();
@@ -610,7 +827,8 @@ class Product extends \yii\db\ActiveRecord
             $product ['image'] = [];
             foreach ($uploads as $i => $upload) {
                 $product  ['image'] [$i] ['full'] = $upload->getThumbnail(800, 460);
-                $product  ['image'] [$i] ['thumbnail'] = $upload->getThumbnail(115, 85);
+                $product  ['image'] [$i] ['thumbnail'] = $upload->getThumbnail(320, 240);
+                $product ['image'] [$i]  ['full_title_image'] = $upload->getFullImage();
             }
 
             /*
@@ -679,6 +897,7 @@ class Product extends \yii\db\ActiveRecord
                 $product['similar'][$i]['price_usd'] = $similarProduct->getUsdPrice();
                 $product['similar'][$i]['city_id'] = $similarProduct->city_id;
                 $product['similar'][$i]['year'] = $similarProduct->year;
+                $product['similar'][$i]['comment'] = $similarProduct->i18n()->seller_comments;
                 $product['similar'][$i]['spec'] = [];
                 foreach ($similarProduct->getSpecifications(Specification::PRIORITY_HIGHEST) as $params => $productSpec) {
                     $spec = $productSpec->getSpecification()->one();
@@ -703,7 +922,7 @@ class Product extends \yii\db\ActiveRecord
                 'counter' => $views,
             ];
             unset($product);
-            Yii::$app->cache->hmset('product_' . $id, $params, 172800);
+            Yii::$app->cache->hmset('product_' . $id, $params, 86400);
             unset($params);
             gc_collect_cycles();
             $result['product'] = json_decode(Yii::$app->cache->getField('product_' . $id, 'product'));
@@ -739,6 +958,15 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
+
+    public static function getBynPrice ($productId){
+        $model = (new Query())
+            ->select('id,priority,price')
+            ->from('product')
+            ->where('priority=' . self::HIGHT_PRIORITY)
+           ->exists();
+
+    }
     /**
      * @return array
      */

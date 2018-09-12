@@ -18,6 +18,7 @@ class Url extends \yii\helpers\Url
     const MOTO = 3;
     const SCOOTER = 4;
     const ATV = 5;
+    const WATER = 6;
 
 
     public static function UrlBaseCategory($type)
@@ -34,6 +35,9 @@ class Url extends \yii\helpers\Url
                 break;
             case self::ATV:
                 $type = 'atv';
+                break;
+            case self::WATER:
+                $type = 'boat';
                 break;
         }
 
@@ -57,6 +61,9 @@ class Url extends \yii\helpers\Url
             case self::ATV:
                 $type = 'atv';
                 break;
+            case self::WATER:
+                $type = 'water';
+                break;
         }
         $brand = str_replace(' ', '+', $brand);
         $url = "https://" . $_SERVER['HTTP_HOST'] . "/" . $type . "/" . $brand;
@@ -69,51 +76,36 @@ class Url extends \yii\helpers\Url
         $modelAuto = ProductMake::find()->where(['id' => $model])->one()->name;
         $modelAuto = str_replace(' ', '+', $modelAuto);
         $brand = str_replace(' ', '+', $brand);
-            switch ($type) {
-                case self::CARS:
-                    $type = 'cars';
-                    break;
-                case self::MOTO:
-                    $type = 'moto';
-                    break;
-                case self::SCOOTER:
-                    $type = 'scooter';
-                    break;
-                case self::ATV:
-                    $type = 'atv';
-                    break;
-            }
-
-            $url = "https://" . $_SERVER['HTTP_HOST'] . "/" . $type . "/" . $brand . "/" . $modelAuto;
-            return $url;
+        switch ($type) {
+            case self::CARS:
+                $type = 'cars';
+                break;
+            case self::MOTO:
+                $type = 'moto';
+                break;
+            case self::SCOOTER:
+                $type = 'scooter';
+                break;
+            case self::ATV:
+                $type = 'atv';
+                break;
+            case self::WATER:
+                $type = 'water';
+                break;
         }
-        public static function UrlShowProduct($id)
-        {
-            $product = Product::findOne($id);
-            $type = $product->type;
-            $brand = ProductMake::find()->where(['id' => $product->make])->one()->name;
-            $brand = str_replace(' ', '+', $brand);
-            $model = $product->model;
-            $model = str_replace(' ', '+', $model);
-            switch ($type) {
-                case self::CARS:
-                    $type = 'cars';
-                    break;
-                case self::MOTO:
-                    $type = 'moto';
-                    break;
-                case self::SCOOTER:
-                    $type = 'scooter';
-                    break;
-                case self::ATV:
-                    $type = 'atv';
-                    break;
-            }
 
-            $url = "https://" . $_SERVER['HTTP_HOST'] . "/" . $type . "/" . $brand . "/" . $model . "/" . $id."";
-            return $url;
-        }
-    public static function UrlShowPreviewProduct($id)
+        $url = "https://" . $_SERVER['HTTP_HOST'] . "/" . $type . "/" . $brand . "/" . $modelAuto;
+        return $url;
+    }
+
+    public static function UrlShowProductBoat($id)
+    {
+        $url = "https://" . $_SERVER['HTTP_HOST'] . "/boat/" . $id . "";
+
+        return $url;
+    }
+
+    public static function UrlShowProduct($id)
     {
         $product = Product::findOne($id);
         $type = $product->type;
@@ -136,7 +128,38 @@ class Url extends \yii\helpers\Url
                 break;
         }
 
-        $url = "https://" . $_SERVER['HTTP_HOST'] . "/" . $type . "/" . $brand . "/" . $model . "/preview/" . $id."";
+        $url = "https://" . $_SERVER['HTTP_HOST'] . "/" . $type . "/" . $brand . "/" . $model . "/" . $id . "";
+
+        return $url;
+    }
+
+    public static function UrlShowPreviewProduct($id)
+    {
+        $product = Product::findOne($id);
+        $type = $product->type;
+        $brand = ProductMake::find()->where(['id' => $product->make])->one()->name;
+        $brand = str_replace(' ', '+', $brand);
+        $model = $product->model;
+        $model = str_replace(' ', '+', $model);
+        switch ($type) {
+            case self::CARS:
+                $type = 'cars';
+                break;
+            case self::MOTO:
+                $type = 'moto';
+                break;
+            case self::SCOOTER:
+                $type = 'scooter';
+                break;
+            case self::ATV:
+                $type = 'atv';
+                break;
+            case self::WATER:
+                $type = 'water';
+                break;
+        }
+
+        $url = "https://" . $_SERVER['HTTP_HOST'] . "/" . $type . "/" . $brand . "/" . $model . "/preview/" . $id . "";
         return $url;
     }
 }

@@ -68,21 +68,25 @@ class ProductSearchForm extends Model
     /**
      * @return array
      */
-    public function getSpecificationModels()
+    public function getSpecificationModels($id = null)
     {
         $models = [];
         if ($this->type !== null) {
-            $query = Specification::find()
-                ->innerJoin('product_type_specifications', 'specification.id = product_type_specifications.specification')
-                ->andWhere('product_type_specifications.type=:type', [':type' => $this->type])
-                ->andWhere('depth>0')
-                ->andWhere('in_search=1')
-                ->orderBy('lft');
+            $query = Specification::find();
+            $query->innerJoin('product_type_specifications', 'specification.id = product_type_specifications.specification');
+            if ($id !== null){
+                $query->andWhere(['specification.id'=>$id]);
+            }
+            $query->andWhere('product_type_specifications.type=:type', [':type' => $this->type]);
+            $query->andWhere('depth>0');
+            $query->andWhere('in_search=1');
+            $query->orderBy('lft');
 
             $models = $query->all();
         }
         return $models;
     }
+
 
     /**
      * @param Query $query

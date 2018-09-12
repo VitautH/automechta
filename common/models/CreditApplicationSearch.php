@@ -26,11 +26,14 @@ class CreditApplicationSearch extends CreditApplication
         $scenarios[self::SCENARIO_SEARCH] = [
             'status',
             'name',
+            'phone',
             'firstname',
             'lastname',
             'product',
             'updated_at',
             'created_at',
+            'date_arrive',
+            'is_arrive',
         ];
 
         return $scenarios;
@@ -58,8 +61,16 @@ class CreditApplicationSearch extends CreditApplication
         }
 
         $this->fillDateRangeAttributes($query);
+        $query->andFilterWhere(['firstname' => $this->firstname]);
+        $query->andFilterWhere(['name' => $this->name]);
+        $query->andFilterWhere(['lastname' => $this->lastname]);
         $query->andFilterWhere(['status' => $this->status]);
-
+        $query->andFilterWhere(['phone' => $this->phone]);
+        $query->andFilterWhere(['is_arrive' => $this->is_arrive]);
+        if(!empty($this->date_arrive)) {
+            $query->andFilterWhere(['date_arrive' => CreditApplication::dateToUnix($this->date_arrive)]);
+        }
+        
         return $dataProvider;
     }
 }

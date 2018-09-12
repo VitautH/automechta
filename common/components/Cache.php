@@ -1,20 +1,21 @@
-<?
-
+<?php
 namespace common\components;
 
 use Yii;
 use yii\base\Component;
 use Redis;
+use yii\base\Event;
 
 class Cache extends Component
 {
+    const EVENT_UPDATE_PRODUCT = 'updateProduct';
     private static $host;
     private static $port;
     public static $cache;
 
     public final function __construct(array $config = [])
     {
-        self::$host = $config['host'];
+               self::$host = $config['host'];
         self::$port = $config['port'];
 
         return self::run();
@@ -27,7 +28,11 @@ class Cache extends Component
 
         return self::$cache;
     }
+    public  static function updateProduct (ProductEvent $event)
+    {
+       self::deleteKey($event->productId);
 
+    }
     public static function exists($key)
     {
         if (self::$cache->exists($key)) {

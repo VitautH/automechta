@@ -1,0 +1,215 @@
+body {
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    overflow-x: hidden !important;
+    overflow-y: scroll !important;
+    margin: 0 !important;
+}
+.popup{
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+    background: #00000070;
+}
+#product_grid .danger {
+    background-color: #f7a298;
+}
+.modal-block {
+    display: none;
+    position: fixed;
+    top: 10%;
+    right: 30%;
+    left: 30%;
+    background: white;
+    z-index: 999999;
+    height: auto;
+    overflow: hidden;
+    outline: 0;
+}
+.modal-block  .header {
+    width: 100%;
+    height: 40px;
+}
+.modal-block  .header  button.close {
+    margin-top: 5px;
+    margin-right: 5px;
+}
+.modal-block  .header  button.close span{
+    font-size: 30px;
+}
+
+.modal-block .body {
+padding: 10px;
+}
+header.main-header nav.navbar .navbar-custom-menu ul.navbar-nav {
+    flex-direction: row !important;
+}
+
+header.main-header .navbar .nav > li > a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}
+
+header.main-header .tasks-menu .footer-task {
+    color: black;
+    font-size: 12px;
+}
+.dataTable .mdl-textfield
+{
+    width: auto!important;
+}
+
+table.credit-application thead tr > th {
+    display: inline-block;
+}
+
+.main-header .navbar {
+    padding: 0!important;
+}
+
+li.open ul.dropdown-menu {
+    display: block;
+}
+
+img.profile-user-img{
+    position: relative;
+    left: 26%;
+}
+
+ul.nav-tabs > li{
+    padding: 9px;
+    font-size: 16px;
+}
+.user-setting .dropzone .dz-message {
+word-wrap: break-word;
+width: 100%;
+left: 30px;
+    position: absolute;
+}
+
+.user-setting .dropzone {
+    padding: 5px;
+}
+.user-setting  .hint-upload-photo {
+    padding: 15px;
+
+}
+
+.user-setting .dropzone .dz-rotate, .user-setting .dropzone .dz-title-image, .user-setting .dropzone .dz-copy-to-clipboard{
+    display: none!important;
+}
+.employees-main .widget-user-desc {
+    font-size: 16px;
+}
+
+.employees-main .widget-user .widget-user-image {
+    top: 70px!important;
+}
+
+.employees-main .modal-dialog {
+    margin-top: 150px;
+}
+
+.employees-main .in  {
+    opacity: 1!important;
+}
+
+.employees-main  .modal-title {
+    margin-top: 0!important;
+}
+
+.employees-main .modal-body {
+    padding-top: 0px;
+}
+
+/*
+Report Form
+ */
+form#report-field-form{
+    padding: 10px;
+}
+/*
+Chat
+ */
+.direct-chat-messages .media  {
+    width:  300px;
+}
+.direct-chat-messages .media   img.media-object{
+    width: 100%;
+}
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.upload-btn-wrapper button{
+    background: transparent;
+    border: none;
+}
+.upload-btn-wrapper button span{
+    font-size: 22px;
+    color: #df4142;
+    margin-bottom: 5px;
+}
+.upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+.file-uploading{
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+/*
+End report form
+ */
+#credit-application_grid button.status-arrived {
+    color:green;
+}
+#credit-application_grid button.status-no_phoned {
+    color:#00c0ef;
+}
+
+@media only screen and (min-width : 320px) {
+    .grid-view {
+        overflow-x: scroll;
+    }
+    section.sidebar{
+        margin-top: 40px;
+    }
+}
+
+@media only screen and (min-width : 480px) {
+    .grid-view {
+        overflow-x: scroll;
+    }
+    section.sidebar{
+        margin-top: 40px;
+    }
+}
+@media only screen and (min-width : 768px) {
+    .grid-view {
+        overflow-x: scroll;
+    }
+    section.sidebar{
+        margin-top: 40px;
+    }
+}
+@media only screen and (min-width : 992px) {
+    .grid-view {
+        overflow-x: hidden;
+    }
+
+section.sidebar{
+    margin-top: 40px;
+}
+}

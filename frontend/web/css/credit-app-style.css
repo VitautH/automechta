@@ -1,0 +1,117 @@
+.header {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+a {
+    color: #333333!important;
+}
+.download-income {
+    text-align: center;
+    padding: 15px;
+    width: 100%;
+    display: inline-block;
+    border: 3px solid #db4544;
+    margin-top: 35px;
+    margin-bottom: 30px;
+    font-size: 19px;
+}
+
+body.credit-application #credit-application-form label {
+    width: 100% !important;
+    display: block !important;
+    padding: 0 !important;
+    color: black;
+    font-size: 16px;
+}
+
+body.credit-application #credit-application-form select.m-select, body.credit-application #credit-application-form input, body.credit-application #credit-application-form textarea {
+    width: 100% !important;
+    float: left !important;
+    display: block !important;
+    -webkit-appearance: unset !important;
+    -moz-appearance: unset !important;
+}
+.credit-application .b-detail__main-aside-payment {
+    background: whitesmoke;
+    padding: 20px;
+    border: 2px solid #db4544;
+}
+.credit-application .b-detail__main-aside-payment h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+.credit-application  .b-detail__main-aside-payment input, .credit-application  .b-detail__main-aside-payment select {
+    margin-bottom: 15px;
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #c5c3c3;
+}
+
+.credit-application  .js-loan-results {
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+}
+
+.credit-application .js-loan-results p {
+    text-align: center;
+    font-size: 14px;
+}
+
+
+.credit-application .b-detail__main-aside-payment .custom-button {
+    font-size: 15px;
+}
+.credit-application  .b-detail__main-aside-payment .custom-button {
+    text-align: center;
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+}
+@media (max-width: 550px) {
+    .header {
+        margin-top: 20px;
+        margin-bottom:0!important;
+    }
+    .credit .info_credit .avatar {
+        width: 100px!important;
+        height: 100px!important;
+        left: 34%!important;
+    }
+    .credit .info_credit p {
+        margin-top: 0!important;
+    }
+
+    .credit .contact-block  p {
+        margin-top: 0!important;
+        text-align: center!important;
+        font-size: 16px;
+    }
+    .credit .contact-block  span {
+        text-align: center!important;
+        margin-top: 0!important;
+    }
+    .header h3 {
+        font-size: 22px;
+    }
+
+    body.credit-application #credit-application-form select.m-select, body.credit-application #credit-application-form input, body.credit-application #credit-application-form textarea {
+margin-left: 0!important;
+        width: 100% !important;
+    }
+
+    body.credit-application #credit-application-form label {
+        font-size: 14px;
+    }
+
+    body.credit-application #credit-application-form   .custom-button {
+        width: 100%!important;
+    }
+    .b-contacts {
+        padding-top: 0!important;
+    }
+    .credit {
+        margin-top: 0!important;
+    }
+}

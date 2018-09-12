@@ -1,0 +1,351 @@
+.account-page ul.nav {
+    margin-top: 20px;
+}
+.account-page nav .nav-tabs {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    margin: 0 0 19px 0;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+.account-page nav .nav-tabs .nav-item {
+    margin-right: 20px;
+}
+
+.account-page nav .nav-tabs .nav-item {
+    width: auto;
+}
+
+.account-page nav  .nav-tabs .nav-link:hover, .account-page nav  .nav-tabs .nav-link.active {
+    border-width: 3px;
+}
+
+.account-page nav  .nav-tabs .nav-item a {
+    font-size: 16px;
+    padding-left: 0;
+    padding-right: 8px;
+}
+.account-page nav  .nav-tabs .nav-link:hover,.account-page nav  .nav-tabs .nav-link.active {
+    border-width: 2px;
+}
+
+.account-page nav  .nav-tabs .nav-item a {
+    font-size: 13px;
+}
+
+.account-page nav  .nav-tabs .nav-item a {
+    text-align: center;
+}
+
+.account-page  .alert {
+    border-radius: 0;
+}
+.account-page .btn-up-ads {
+    border: 2px solid #db4544;
+    border-radius: 0;
+    padding: 10px;
+}
+.account-page .btn-up-ads:hover, .account-page .btn-up-ads:focus, .account-page .btn-up-ads:active {
+    color: white;
+    background: #db4544;
+}
+.account-page .container-ads {
+    margin-top: 30px;
+    margin-left: 0;
+    padding-left: 0;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+.account-page .container-ads table thead {
+    background: #f5f5f5;
+}
+.account-page .container-ads table tbody tr:hover {
+    background: #f5f5f5;
+}
+
+.account-page .container-ads table thead th
+{
+    border: none!important;
+}
+
+.account-page .container-ads table td {
+    vertical-align: middle;
+}
+
+.account-page .add-ads button, .account-page button.save{
+    height: 100%;
+    width: 100%;
+    border: none;
+    background: #db4544;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 10px;
+    font-size: 16px!important;
+}
+.account-page .add-ads button i, .account-page button.save  i {
+    margin-right: 10px;
+}
+
+.account-page p.hint-up{
+    margin-left: 15px;
+    margin-top: 10px;
+}
+.account-page table .image-ads img {
+    width: 170px
+}
+
+.account-page table thead th {
+    vertical-align: middle;
+}
+
+.account-page  table .button-col a {
+    font-size: 22px;
+}
+
+.account-page input{
+    border-radius: 0;
+}
+
+.account-page  select {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding: 3px 10px;
+    /* border: none; */
+    background: transparent;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0;
+}
+.account-page  .select-form i {
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    z-index: 0;
+    font-size: 14px;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+.account-page input:focus, .account-page input:active,.account-page select:focus, .account-page select:active {
+    border: 1px solid #db4544;
+    box-shadow:none;
+}
+.sorter span {
+    margin-right: 10px;
+}
+.sorter span, .sorter a {
+    font-size: 11px;
+}
+.sorter ul {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+.sorter ul li {
+    display: inline-block;
+}
+.sorter a {
+    margin-right: 24px;
+}
+.sorter li a i {
+    margin-left: 5px;
+    vertical-align: middle;
+}
+.sorter a.desc, .sorter a.asc {
+    text-decoration: underline;
+}
+
+.account-page  .select-form {
+    margin-top: 10px;
+}
+
+span.update {
+    font-size: 12px;
+    font-weight: bold; }
+
+span.error{
+    font-size: 12px;
+    font-weight: bold;
+    color:red;
+}
+
+span.nextUp {
+    font-size: 12px;
+}
+
+a.js-up-row {
+    color: #f76d2b;
+}
+
+.account-page table .image-ads  img {
+    width: 150px;
+}
+
+.page-link:hover, .page-link:focus, .page-link:active, .page-link.active {
+    background: #db4544;
+    color: #fff;
+    border-color: #db4544;
+}
+.pagination .page-link {
+    color: #db4544;
+    border-color: #db4544;
+    font-size: 12px;
+}
+.pagination ul li {
+    display: inline-block;
+    margin: 0 3px;
+}
+.page-link {
+    padding: 0!important;
+}
+.pagination li.page-link a {
+    font-size: 11px;
+    font-family: 'HelveticaRoman', sans-serif;
+    cursor: pointer;
+    height: 38px;
+    width: 38px;
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+}
+.page-link:hover a, .page-link:focus a, .page-link:active a, .page-link.active a {
+    color: white!important;
+}
+.pagination {
+    margin-left: 5px;
+}
+@media (min-width: 1200px){
+    .pagination ul li {
+        margin: 0 9px;
+    }
+    .pagination a {
+        font-size: 16px;
+        font-weight: 600;
+    }
+    .pagination .page-link {
+        font-size: 18px;
+        margin-right: 10px;
+    }
+    .account-page  .select-form {
+        margin-top: 0px;
+    }
+    .sorter a {
+        margin-right: 44px;
+    }
+    .sorter span, .sorter a {
+        font-size: 14px;
+    }
+
+    .sorter {
+        padding: 10px 0;
+    }
+    .sorter span {
+        margin-right: 18px;
+    }
+    .sorter span, .sorter a {
+        font-size: 14px;
+    }
+    .sorter {
+        padding: 10px 0;
+    }
+    .account-page table .image-ads img {
+        width: 267px;
+        height: 180px;
+    }
+    .account-page nav .nav-tabs {
+        margin-bottom: 34px;
+    }
+    .account-page nav   .nav-tabs .nav-item {
+        margin-right: 10px;
+    }
+
+    .account-page nav .nav-tabs .nav-link:hover,  .account-page nav .nav-tabs .nav-link.active {
+        border-width: 6px;
+    }
+
+    .account-page nav .nav-tabs .nav-item a {
+        font-size: 18px!important;
+        padding: 15px;
+    }
+    .account-page .container-ads {
+        margin-top: 30px;
+        margin-left: 0;
+        padding-left: 0;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        overflow-x:hidden;
+        overflow-y: hidden;
+        width: 100%;
+    }
+    .account-page table .image-ads img {
+        width: 267px;
+        height: 180px;
+    }
+}
+@media (min-width: 992px){
+    .account-page  .select-form {
+        margin-top: 0px;
+    }
+    .account-page .add-ads  button, .account-page button.save  {
+        font-size: 12px;
+    }
+    .account-page nav .nav-tabs {
+        overflow-x: hidden;
+    }
+    .account-page nav .nav-tabs .nav-item a {
+        font-size: 15px;
+    }
+
+    .account-page table .image-ads img {
+        width: 267px;
+        height: 180px;
+    }
+
+    .account-page .container-ads {
+        margin-top: 30px;
+        margin-left: 0;
+        padding-left: 0;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px){
+    .account-page table .image-ads img {
+        width: 267px;
+        height: 180px;
+    }
+    .account-page nav .nav-tabs .nav-link:hover,     .account-page nav .nav-tabs .nav-link.active {
+        border-width: 4px;
+    }
+
+
+
+    .account-page .container-ads {
+        margin-top: 30px;
+        margin-left: 0;
+        padding-left: 0;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        width: 100%;
+    }
+}
+

@@ -51,13 +51,16 @@ class SpecificationForm extends \yii\base\Model
     public static function getDropDownControl(SpecificationModel $specification, ProductSpecification $productSpecification, ActiveForm $form)
     {
         $optionsList = array_combine($specification->i18n()->getValuesArray(), $specification->i18n()->getValuesArray());
-        $class= null;
+        $class = null;
+        $required = null;
+
         if ($specification->required === 1) {
-            $class='required-field';
+            $class = 'required-field';
+            $required = 'required';
         }
 
         $options = [
-            'class' => 'm-select '.$class,
+            'class' => 'm-select ' . $class,
             'prompt' => 'Выбрать'
         ];
         $label = self::getLabel($specification);
@@ -67,8 +70,24 @@ class SpecificationForm extends \yii\base\Model
             $hint = '&nbsp;';
         }
 
+        $html = '<div class="form-field row ' . $required . '">
+    <div class="col-lg-2">
+    <label class="control-label">' . $label . '</label>
+    </div>
+<div class="col-lg-5">
+
+' . $form->field($productSpecification, "[{$specification->id}]value", [])
+                ->dropDownList($optionsList, $options)->label(false) . '
+
+
+    </div>
+    </div>';
+
+
+        return $html;
+
         return $form->field($productSpecification, "[{$specification->id}]value", [
-            'template' => "<label>".$label."</label>\n<div class='s-relative'>\n{input}\n<span class=\"fa fa-caret-down\"></span>\n\n{hint}\n{error}</div>",
+            'template' => "<label>" . $label . "</label>\n<div class='s-relative'>\n{input}\n<span class=\"fa fa-caret-down\"></span>\n\n{hint}\n{error}</div>",
             'options' => ['class' => 'b-submit__main-element wow zoomInUp', 'data-wow-delay' => '0.5s']
         ])
             ->dropDownList($optionsList, $options)->hint($hint);
@@ -77,39 +96,72 @@ class SpecificationForm extends \yii\base\Model
     public static function getNumericControl(SpecificationModel $specification, ProductSpecification $productSpecification, ActiveForm $form)
     {
         $label = self::getLabel($specification);
-        $class= null;
+        $class = null;
+        $required = null;
+
         if ($specification->required === 1) {
-            $class='required-field';
+            $class = 'required-field';
+            $required = 'required';
         }
         $hint = $specification->i18n()->comment;
         if (empty($hint)) {
             $hint = '&nbsp;';
         }
 
-        return $form->field($productSpecification, "[{$specification->id}]value", [
-            'template' => "<label>".$label."</label>\n<div class='s-relative'>\n{input}\n\n{error}</div>",
-            'options' => ['class' => 'b-submit__main-element wow zoomInUp', 'data-wow-delay' => '0.5s'],
-        ])
-        ->textInput(['maxlength' => true, 'class' => $class, 'placeholder'=>$hint])->hint($hint);
+        $html = '<div class="form-field row ' . $required . '">
+    <div class="col-lg-2">
+    <label class="control-label">' . $label . '</label>
+    </div>
+<div class="col-lg-5">
+' . $form->field($productSpecification, "[{$specification->id}]value", [])
+                ->textInput(['maxlength' => true, 'class' => $class, 'placeholder' => $hint])->label(false) . '
+    </div>
+    </div>';
+
+
+        return $html;
+
+
+//        return $form->field($productSpecification, "[{$specification->id}]value", [
+//            'template' => "<label>" . $label . "</label>\n<div class='s-relative'>\n{input}\n\n{error}</div>",
+//            'options' => ['class' => 'b-submit__main-element wow zoomInUp', 'data-wow-delay' => '0.5s'],
+//        ])
+//            ->textInput(['maxlength' => true, 'class' => $class, 'placeholder' => $hint])->hint($hint);
     }
 
     public static function getTextControl(SpecificationModel $specification, ProductSpecification $productSpecification, ActiveForm $form)
     {
         $label = self::getLabel($specification);
-        $class= null;
+        $class = null;
+        $required = null;
+
         if ($specification->required === 1) {
-            $class='required-field';
+            $class = 'required-field';
+            $required = 'required';
         }
+
         $hint = $specification->i18n()->comment;
         if (empty($hint)) {
             $hint = '&nbsp;';
         }
 
-        return $form->field($productSpecification, "[{$specification->id}]value", [
-            'template' => "<label>".$label."</label>\n<div class='s-relative'>\n{input}\n\n{error}</div>",
-            'options' => ['class' => 'b-submit__main-element wow zoomInUp', 'data-wow-delay' => '0.5s'],
-        ])
-        ->textInput(['maxlength' => true, 'class' => $class, 'placeholder'=>$hint])->hint($hint);
+        $html = '<div class="form-field row ' . $required . '">
+    <div class="col-lg-2">
+    <label class="control-label">' . $label . '</label>
+    </div>
+<div class="col-lg-5">
+' . $form->field($productSpecification, "[{$specification->id}]value", [])
+                ->textInput(['maxlength' => true, 'class' => $class, 'placeholder' => $hint])->label(false) . '
+    </div>
+    </div>';
+
+
+        return $html;
+//        return $form->field($productSpecification, "[{$specification->id}]value", [
+//            'template' => "<label>".$label."</label>\n<div class='s-relative'>\n{input}\n\n{error}</div>",
+//            'options' => ['class' => 'b-submit__main-element'],
+//        ])
+//        ->textInput(['maxlength' => true, 'class' => $class, 'placeholder'=>$hint])->hint($hint);
     }
 
     public static function getBooleanControl(SpecificationModel $specification, ProductSpecification $productSpecification, ActiveForm $form)
@@ -119,10 +171,10 @@ class SpecificationForm extends \yii\base\Model
         $id = Html::getInputId($productSpecification, "[{$specification->id}]value");
         return $form->field($productSpecification, "[{$specification->id}]value", [
             'template' => "\n{input}
-<label class=\"s-submitCheckLabel\" for=\"$id\"><span class=\"fa fa-check\"></span></label>
-<label class=\"s-submitCheck\" for=\"$id\">".$specification->i18n()->name."</label>
+<label class=\"s-submitCheckLabel\" for=\"$id\"><i class=\"fas fa-check\"></i></label>
+<label class=\"s-submitCheck\" for=\"$id\">" . $specification->i18n()->name . "</label>
 {hint}\n",
-            'options' => ['class' => 'b-submit__main-element b-submit__main-element-checkbox wow zoomInUp', 'data-wow-delay' => '0.5s'],
+            'options' => ['class' => 'b-submit__main-element b-submit__main-element-checkbox'],
         ])
             ->checkbox([], false);
     }

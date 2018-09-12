@@ -120,10 +120,10 @@ class Menu extends CommonMenu
                 ],
                 [
                     'label' => Yii::t('app', 'Main page'),
-                    'url' => ['slider/index'],
+                    'url' => ['/'],
                     'items' => [
                         [
-                            'label' => Yii::t('app', 'Manage slider'),
+                            'label' => Yii::t('app', 'Слайдер'),
                             'url' => ['slider/index'],
                             'items' => [
                                 ['label' => Yii::t('app', 'Manage slider'), 'url' => ['slider/index'], 'options' => ['class' => 'hidden']],
@@ -144,6 +144,15 @@ class Menu extends CommonMenu
                             'label' => Yii::t('app', 'Main page data'),
                             'url' => ['mainpage/index'],
                         ],
+                    ],
+                ],
+                [
+                    'label' => Yii::t('app', 'Слайдер'),
+                    'url' => ['slider/index'],
+                    'items' => [
+                        ['label' => Yii::t('app', 'Manage slider'), 'url' => ['slider/index'], 'options' => ['class' => 'hidden']],
+                        ['label' => Yii::t('app', 'Create slider'), 'url' => ['slider/create'], 'options' => ['class' => 'hidden']],
+                        ['label' => Yii::t('app', 'Update slider'), 'url' => ['slider/update'], 'options' => ['class' => 'hidden']],
                     ],
                 ],
                 [
@@ -188,20 +197,41 @@ class Menu extends CommonMenu
                         ],
                     ],
                 ],
-                [
-                    'label' => Yii::t('app', 'Reviews'),
-                    'url' => ['reviews/index'],
-                    'items' => [
-                        ['label' => Yii::t('app', 'Manage reviews'), 'url' => ['reviews/index']],
-                        ['label' => Yii::t('app', 'Create review'), 'url' => ['reviews/create']],
-                        ['label' => Yii::t('app', 'Update review'), 'url' => ['reviews/update']],
-                    ],
-                ],
+//                [
+//                    'label' => Yii::t('app', 'Reviews'),
+//                    'url' => ['reviews/index'],
+//                    'items' => [
+//                        ['label' => Yii::t('app', 'Manage reviews'), 'url' => ['reviews/index']],
+//                        ['label' => Yii::t('app', 'Create review'), 'url' => ['reviews/create']],
+//                        ['label' => Yii::t('app', 'Update review'), 'url' => ['reviews/update']],
+//                    ],
+//                ],
                 [
                     'label' => Yii::t('app', 'Credit Applications'),
                     'url' => ['credit-application/index'],
                     'items' => [
                         ['label' => Yii::t('app', 'Credit applications view'), 'url' => ['credit-application/view'], 'options' => ['class' => 'hidden']],
+                    ],
+                ],
+                [
+                    'label' => Yii::t('app', 'Жалобы'),
+                    'url' => ['/complaint'],
+                    'items' => [
+                        ['label' => Yii::t('app', 'Жалобы'), 'url' => ['/complaint']],
+                    ],
+                ],
+                [
+                    'label' => Yii::t('app', 'Рассылки'),
+                    'url' => ['/mailing-lists/index'],
+                    'items' => [
+                        ['label' => Yii::t('app', 'Рассылки'), 'url' => ['/mailing-lists/index']],
+                    ],
+                ],
+                [
+                    'label' => '',
+                    'url' => ['#'],
+                    'items' => [
+                        ['label' => Yii::t('app', 'Видео'), 'url' => ['/parservideo/index']],
                     ],
                 ],
                 [

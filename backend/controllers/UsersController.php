@@ -2,6 +2,8 @@
 
 namespace backend\controllers;
 
+use backend\models\Reports;
+use common\models\AuthItem;
 use Yii;
 use yii\filters\VerbFilter;
 use common\models\UserSearch;
@@ -10,6 +12,12 @@ use yii\web\Response;
 use yii\web\NotFoundHttpException;
 use yii\widgets\ActiveForm;
 use yii\web\ForbiddenHttpException;
+use yii\data\ActiveDataProvider;
+use yii\web\Controller;
+use common\models\Uploads;
+use yii\web\HttpException;
+use common\models\AuthAssignment;
+use backend\models\Tasks;
 
 /**
  * Class UserController
@@ -57,6 +65,45 @@ class UsersController extends \yii\web\Controller
             'searchModel' => $searchModel,
         ]);
     }
+
+    /**
+     * List of users
+     *
+     * @return string
+     */
+    public function actionAccount()
+    {
+        $modelPhoto = Uploads::find()->where(['linked_table' => 'user'])->andWhere(['linked_id' => Yii::$app->user->id])->one();
+        if (empty($modelPhoto)) {
+            $modelPhoto = new Uploads();
+        }
+
+        $report = new Reports();
+        $modelTask = new Tasks();
+
+        $model = User::findOne(Yii::$app->user->id);
+
+        $role = AuthAssignment::find()->select('item_name')->where(['user_id' => Yii::$app->user->id])->one();
+        $userRole = array();
+        $userRole['name'] = Yii::t('app', $role->item_name);
+        $userRole['id'] = AuthItem::find()->select('id')->where(['name'=> $role->item_name])->one()->id;
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Saved'));
+            return $this->refresh();
+        } else {
+
+            return $this->render('account', [
+                'model' => $model,
+                'userRole' => $userRole,
+                'modelReport' => $report,
+                'modelPhoto' => $modelPhoto,
+                'modelTask'=>$modelTask
+
+            ]);
+        }
+    }
+
 
     /**
      * Creates a new User.

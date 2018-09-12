@@ -1,0 +1,343 @@
+<?php
+
+namespace common\models;
+
+use Yii;
+use yii\base\Exception;
+use yii\web\UploadedFile;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
+use yii\helpers\Url;
+use Imagine\Image\ManipulatorInterface;
+use yii\imagine\Image;
+use common\models\AppData;
+use common\controllers\UploadsController;
+use CURLFile;
+
+/**
+ * This is the model class for table "uploads".
+ *
+ * @property integer $id
+ * @property string $linked_table
+ * @property integer $linked_id
+ * @property integer $type
+ * @property integer $status
+ * @property string $name
+ * @property string $hash
+ * @property string $extension
+ * @property integer $size
+ * @property integer $mime_type
+ * @property integer $created_at
+ * @property integer $updated_at
+ * @property integer $created_by
+ * @property integer $updated_by
+ */
+class Uploads extends \yii\db\ActiveRecord
+{
+
+    const TYPE_REGULAR = 0;
+    const TYPE_TITLE = 1;
+    const KEY = '5ccee5ce1b993bd17b6a12cd2d613b0a';
+    const STATIC_SERVER = '10.1.1.15';
+
+    /**
+     * @var UploadedFile
+     */
+    public $file;
+    static $hash;
+
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'uploads';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['linked_id', 'type', 'status', 'size', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['linked_table', 'hash', 'extension', 'size', 'name'], 'required'],
+            [['linked_table', 'name', 'hash', 'extension', 'mime_type'], 'string', 'max' => 256],
+            [['file'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, gif, xls, doc, jpeg', 'maxSize' => 10485760],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'linked_table' => Yii::t('app', 'Linked Table'),
+            'linked_id' => Yii::t('app', 'Linked ID'),
+            'type' => Yii::t('app', 'Type'),
+            'status' => Yii::t('app', 'Status'),
+            'name' => Yii::t('app', 'Name'),
+            'hash' => Yii::t('app', 'Hash'),
+            'extension' => Yii::t('app', 'Extension'),
+            'size' => Yii::t('app', 'Size'),
+            'mime_type' => Yii::t('app', 'Mime Type'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+            'created_by' => Yii::t('app', 'Created By'),
+            'updated_by' => Yii::t('app', 'Updated By'),
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+            ],
+            [
+                'class' => BlameableBehavior::className(),
+            ],
+        ];
+    }
+
+    public function upload()
+    {
+        $file = $this->file;
+        $result = false;
+        $hash = $this->getHash($file);
+        $hashDir = Yii::$app->uploads->getFolderPathByHash($hash);
+
+        if (!file_exists($hashDir) && !is_dir($hashDir)) {
+            mkdir($hashDir, 0755, true);
+        }
+
+        $this->setAttributes([
+            'hash' => $hash,
+            'extension' => $file->extension,
+            'size' => $file->size,
+            'name' => $file->name,
+            'mime_type' => $file->type,
+        ]);
+
+        if ($this->validate()) {
+            ini_set('memory_limit', -1);
+            $path = $hashDir . DIRECTORY_SEPARATOR . $hash . '.' . $file->extension;
+            $result = ($this->save() && $file->saveAs($path));
+
+            if ($result && Yii::$app->uploads->isImage($path)) {
+                Yii::$app->uploads->limitSize($hash);
+            }
+        }
+
+        try {
+            $this->setWatermark($path);
+        } catch (Throwable $t) {
+            return $result;
+        } catch (Exception $e) {
+            return $result;
+        }
+
+
+        return $result;
+    }
+
+    public function uploadCdn ()
+    {
+        $file = $this->file;
+        $hash = $this->getHash($file);
+        $this->setAttributes([
+            'hash' => $hash,
+            'extension' => $file->extension,
+            'size' => $file->size,
+            'name' => $file->name,
+            'mime_type' => $file->type,
+        ]);
+
+        if ($this->validate()) {
+            ini_set('memory_limit', -1);
+            $path = $hash . '.' . $file->extension;
+            if ($this->save()) {
+                $url = static::STATIC_SERVER . '/Uploads.php?action=upload';
+
+                $post = ['key' => static::KEY, 'hash' => $hash, 'path' => $path, 'file' => new CURLFile($file->tempName, mime_content_type($file->tempName), $file->name)];
+                $ch = curl_init($url);
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                $result = curl_exec($ch);
+                if (curl_errno($ch) == 0) {
+                    curl_close($ch);
+                    if ($result == '1'){
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+
+                } else {
+                    curl_close($ch);
+                   return false;
+                }
+
+            }
+        }
+    }
+
+    /* Watermark
+     *  @return void
+     */
+    private function setWatermark($path)
+    {
+        /*
+         * Watermark Logo (image)
+         */
+        $appData = AppData::getData();
+        $photosize = getimagesize($path);
+        $watermarkfile = Yii::$app->uploads->getThumbnail($appData['logo']->hash, 220, 180, 'inset');
+
+        /*
+         * Watermark position Center
+         */
+        $watermarksize = getimagesize($watermarkfile);
+        // $posX = ($photosize[0] / 2) - ($watermarksize[0] / 2);
+        // $posY = ($photosize[1] / 2) - ($watermarksize[1] / 2);
+
+        /*
+         * Watermark position Top-left
+         */
+        $posX = 20;
+        $posY = 5;
+        if ($photosize[0] > 850) {
+            Image::watermark($path, \Yii::getAlias('@frontend') . '/web' . $watermarkfile, [$posX, $posY])->save($path);
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getAbsoluteUrl()
+    {
+        $path = Yii::$app->uploads->getFolderUrlByHash($this->hash);
+        return $path . '/' . $this->hash . '.' . $this->extension;
+    }
+    /**
+     * @return string
+     */
+    public function getAbsoluteUrlCdn()
+    {
+        $path = Yii::$app->uploads->getFolderUrlByHashCdn($this->hash);
+        return $path . '/' . $this->hash . '.' . $this->extension;
+    }
+
+    public function beforeDelete()
+    {
+        $path = Yii::$app->uploads->getFullPathByHash($this->hash);
+
+        if (file_exists($path)) {
+            unlink($path);
+        }
+        return parent::beforeDelete();
+    }
+
+    /**
+     * @inheritdoc
+     * @return UploadsQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new UploadsQuery(get_called_class());
+    }
+
+    /**
+     * @param $width
+     * @param $height
+     * @param $mode
+     * @return string
+     */
+    public function getThumbnail($width, $height, $mode = ManipulatorInterface::THUMBNAIL_OUTBOUND)
+    {
+        return Yii::$app->uploads->getThumbnail($this->hash, $width, $height, $mode);
+    }
+
+    /**
+     * @param $width
+     * @param $height
+     * @param $mode
+     * @return string
+     */
+    public function getThumbnailCdn($width, $height, $mode = ManipulatorInterface::THUMBNAIL_OUTBOUND)
+    {
+        return Yii::$app->uploads->getThumbnailCdn($this->hash, $width, $height, $mode);
+    }
+
+    /**
+     * @param $mode
+     * @return string
+     */
+    public function getImage()
+    {
+        return Yii::$app->uploads->getThumbnail($this->hash);
+    }
+    /**
+     * @param $mode
+     * @return string
+     */
+    public function getImageCdn()
+    {
+        return Yii::$app->uploads->getThumbnailCdn($this->hash);
+    }
+    /**
+     * @return boolean
+     */
+    public function fileExists($hash = null)
+    {
+        if ($hash !== null) {
+            return file_exists(Yii::$app->uploads->getFullPathByHash($hash));
+        } else {
+            return file_exists(Yii::$app->uploads->getFullPathByHash($this->hash));
+        }
+    }
+
+    /**
+     * @param UploadedFile $file
+     * @return string
+     */
+    private function getHash(UploadedFile $file)
+    {
+        $str = $file->name . $file->extension . $file->size . time() . rand();
+        //$hexadecimal = hash('sha256', $str);
+        //return base_convert($hexadecimal, 16, 36);
+        return md5($str);
+    }
+
+    /*
+     * @param $linked_table, $linked_id
+     * @return bool
+     */
+    public function deleteImages($linked_table, $linked_id)
+    {
+        $arrayImages = static::find()->where(['linked_table' => $linked_table])->andWhere(['linked_id' => $linked_id])->asArray()->all();
+
+        foreach ($arrayImages as $image) {
+            if (file_exists(Yii::$app->uploads->getFullPathByHash($image['hash']))) {
+                unlink(Yii::$app->uploads->getFullPathByHash($image['hash']));
+            }
+
+            if (file_exists('/home/admin/web/automechta.by/public_html/frontend/web/' . Yii::$app->uploads->getThumbnail($image['hash']))) {
+                unlink('/home/admin/web/automechta.by/public_html/frontend/web/' . Yii::$app->uploads->getThumbnail($image['hash']));
+            }
+        }
+        unset($arrayImages);
+        $model = new UploadsController();
+        $model->actionRemove($image['id']);
+    }
+}
+
+

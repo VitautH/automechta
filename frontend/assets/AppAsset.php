@@ -19,7 +19,8 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css;
 
-    public $js = [];
+    public $js = [
+    ];
     public $depends = [
         'yii\web\YiiAsset',
         'common\assets\RequirejsAsset',
@@ -33,7 +34,9 @@ class AppAsset extends AssetBundle
     {
         parent::init();
         $this->css = [
-            'css/style.css?=' . \Yii::$app->params['version']
+            '/css/new-bootstrap.css?=' . \Yii::$app->params['version'],
+            '/css/new-style.css?=' . \Yii::$app->params['version'],
+            '/theme/css/font-awesome.min.css?=' . \Yii::$app->params['version'],
         ];
     }
 }

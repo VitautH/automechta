@@ -131,13 +131,13 @@ class Uploads extends \yii\db\ActiveRecord
             }
         }
 
-        try {
-            $this->setWatermark($path);
-        } catch (Throwable $t) {
-            return $result;
-        } catch (Exception $e) {
-            return $result;
-        }
+//        try {
+//            $this->setWatermark($path);
+//        } catch (Throwable $t) {
+//            return $result;
+//        } catch (Exception $e) {
+//            return $result;
+//        }
 
 
         return $result;
@@ -206,9 +206,9 @@ class Uploads extends \yii\db\ActiveRecord
      * @param $mode
      * @return string
      */
-    public function getThumbnail($width, $height, $mode = ManipulatorInterface::THUMBNAIL_OUTBOUND)
+    public function getThumbnail($width, $height)
     {
-        return Yii::$app->uploads->getThumbnail($this->hash, $width, $height, $mode);
+        return Yii::$app->uploads->getThumbnail($this->hash,$this->server, $width, $height);
     }
 
     /**
@@ -217,7 +217,16 @@ class Uploads extends \yii\db\ActiveRecord
      */
     public function getImage()
     {
-        return Yii::$app->uploads->getThumbnail($this->hash);
+        return Yii::$app->uploads->getThumbnail($this->hash,$this->server);
+    }
+
+    /**
+     * @param $mode
+     * @return string
+     */
+    public function getFullImage()
+    {
+        return Yii::$app->uploads->getFullImage($this->hash,$this->server);
     }
 
     /**

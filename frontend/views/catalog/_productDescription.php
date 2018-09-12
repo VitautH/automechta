@@ -65,4 +65,11 @@ use yii\helpers\Html;
         <p class="b-detail__main-aside-desc-value"><?= Html::encode($product->spec[5]->format) ?> <?= $product->spec[5]->unit ?></p>
     </div>
 </div>
-
+<div class="row">
+    <div class="col-xs-6">
+        <h4 class="b-detail__main-aside-desc-title"><?= $product->spec[7]->name ?></h4>
+    </div>
+    <div class="col-xs-6">
+        <p class="b-detail__main-aside-desc-value"><?= Html::encode($product->spec[7]->format) ?></p>
+    </div>
+</div>

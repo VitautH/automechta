@@ -1,0 +1,232 @@
+.prijom-avto-na-komissiju .header {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.prijom-avto-na-komissiju h3 {
+    font-size: 22px;
+}
+
+.prijom-avto-na-komissiju .image img {
+    width: 100%;
+}
+
+.prijom-avto-na-komissiju .about-vykup {
+    margin-top: 40px;
+}
+
+.prijom-avto-na-komissiju  p {
+    text-align: justify;
+    font-size: 14px;
+}
+
+.prijom-avto-na-komissiju .text-block h3 {
+    font-size: 22px;
+    margin-top: 50px;
+}
+
+.prijom-avto-na-komissiju.text-block p, .prijom-avto-na-komissiju .about-vykup p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.prijom-avto-na-komissiju .about-vykup h3 {
+    font-size: 22px;
+}
+
+.prijom-avto-na-komissiju .documents {
+    background: whitesmoke;
+    padding: 20px;
+    margin-bottom: 40px;
+}
+
+.prijom-avto-na-komissiju .documents h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.prijom-avto-na-komissiju .bottom .text-block h3 {
+    font-size: 22px;
+    margin-top: unset;
+    margin-bottom: 15px;
+}
+
+.prijom-avto-na-komissiju .content {
+    margin-top: 20px;
+}
+
+.prijom-avto-na-komissiju .contact {
+    background: whitesmoke;
+    padding: 20px;
+}
+
+.prijom-avto-na-komissiju .contact h3 {
+    margin-bottom: 20px;
+}
+
+.prijom-avto-na-komissiju .contact .phone-block i {
+    position: relative;
+    display: block;
+    top: 40%;
+    color: #db4544;
+    font-size: 18px;
+}
+
+.prijom-avto-na-komissiju .contact .phone-block a {
+    margin-bottom: 12px;
+    display: block;
+    margin-left: 5px;
+    font-size: 18px;
+    vertical-align: middle;
+    margin-top: 8px;
+}
+
+.prijom-avto-na-komissiju .contact .open-hours, .prijom-avto-na-komissiju .contact .address {
+    margin-bottom: 14px;
+    margin-top: 8px;
+    font-size: 18px;
+}
+
+.prijom-avto-na-komissiju .contact .open-hours i, .prijom-avto-na-komissiju .contact .address i, .prijom-avto-na-komissiju .contact .email i {
+    color: #db4544;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.prijom-avto-na-komissiju .call-back-block .custom-button {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.prijom-avto-na-komissiju .call-back-block {
+    position: absolute;
+    bottom: 0;
+}
+
+.prijom-avto-na-komissiju .comissija {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.prijom-avto-na-komissiju .comissija h3 {
+    margin-bottom: 20px;
+}
+
+.prijom-avto-na-komissiju ul {
+    padding: 0;
+}
+
+.prijom-avto-na-komissiju ul li {
+    list-style: none;
+    margin-bottom: 10px;
+}
+
+.prijom-avto-na-komissiju ul li .list {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #db4544;
+    border-radius: 100%;
+    color: #db4544;
+}
+
+.prijom-avto-na-komissiju ul li .list span {
+    text-align: center;
+    display: block;
+    margin-top: 2px;
+}
+
+.prijom-avto-na-komissiju ul li .text {
+    margin-top: 5px;
+}
+
+@media screen and (max-width: 599px) {
+    .prijom-avto-na-komissiju.header {
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    .prijom-avto-na-komissiju .header h3 {
+        font-size: 18px;
+    }
+
+    .prijom-avto-na-komissiju .text-block h3 {
+        font-size: 18px;
+        margin-top: 20px;
+    }
+
+    .prijom-avto-na-komissiju .text-block p, .prijom-avto-na-komissiju.about-vykup p {
+        font-size: 14px;
+        margin-bottom: unset;
+    }
+
+    .prijom-avto-na-komissiju .documents {
+        padding: 10px;
+        margin-top: 20px;
+    }
+
+    .prijom-avto-na-komissiju .about-vykup {
+        margin-top: 10px;
+    }
+
+    .prijom-avto-na-komissiju .documents .col {
+        padding-left: 35px;
+    }
+
+    .prijom-avto-na-komissiju.bottom .text-block h3 {
+        font-size: 18px;
+        margin-top: unset;
+        margin-bottom: 15px;
+    }
+
+    .prijom-avto-na-komissiju .contact h3 {
+        text-align: left;
+        margin-bottom: 10px;
+    }
+
+    .prijom-avto-na-komissiju .contact .phone-block {
+        margin-bottom: 10px;
+    }
+
+    .prijom-avto-na-komissiju .contact .phone-block a {
+        display: block;
+        margin-left: 5px;
+        font-size: 16px;
+        vertical-align: middle;
+        margin-bottom: 5px;
+        margin-top: 0;
+    }
+
+    .prijom-avto-na-komissiju .contact .phone-block i {
+        top: 35%;
+    }
+
+    .prijom-avto-na-komissiju .contact .open-hours, .prijom-avto-na-komissiju .contact .address {
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+
+    .prijom-avto-na-komissiju h3 {
+        font-size: 18px !important;
+    }
+
+    .prijom-avto-na-komissiju p {
+        font-size: 14px !important;
+    }
+
+    .prijom-avto-na-komissiju ul {
+        margin-left: 15px;
+    }
+
+    .prijom-avto-na-komissiju .contact {
+        padding: 15px;
+    }
+    .prijom-avto-na-komissiju .call-back-block {
+         position: unset;
+         bottom: unset;
+    }
+    .prijom-avto-na-komissiju .call-back-block .custom-button {
+        width: 100%;
+    }
+
+}

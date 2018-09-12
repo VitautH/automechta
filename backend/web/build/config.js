@@ -23,6 +23,7 @@ require.config({
     baseUrl : '/build',
     paths : {
         /* Helpers */
+        'moment' : '../assets/e13874f1/js/helpers/moment',
         'modal' : '../assets/e13874f1/js/helpers/modal',
         'gridview' : '../assets/e13874f1/js/helpers/gridview',
         'list' : '../assets/e13874f1/js/helpers/list',
@@ -35,6 +36,8 @@ require.config({
         'tinymceHelper' : '../assets/e13874f1/js/helpers/tinymceHelper',
         'uploader' : '../assets/e13874f1/js/helpers/uploader',
         'helpers' : '../assets/e13874f1/js/helpers/helpers',
+ 'uploader' : '../assets/e13874f1/js/helpers/uploader',
+    'preloader' : 'helpers/preloader',
 
         /* Modules */
         'application' : 'application',
@@ -48,6 +51,7 @@ require.config({
         'globalize': '../assets/fbab3cf2/dist/globalize/message',
         'dropzone': '../assets/a9762452/dist/dropzone-amd-module',
         'select2' : '../assets/6858b90e/dist/js/select2.full',
+ 'maskedinput' : '../assets/e13874f1/js/libs/jquery.maskedinput/jquery.maskedinput',
 
         /* Controllers */
         'controllers/users/index' : 'controllers/users/index',

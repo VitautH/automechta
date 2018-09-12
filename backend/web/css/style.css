@@ -7626,3 +7626,19 @@ table.mdl-data-table {
     height: 120px;
     width: 120px !important;
 }
+
+.page-header .btn {
+    float: left;
+    margin-right: 10px;
+    padding: 7px;
+    background: #bf3e3e;
+    cursor: pointer;
+}
+
+.complaint table {
+    width: 100%;
+}
+
+.complaint table td {
+    text-align: center;
+}

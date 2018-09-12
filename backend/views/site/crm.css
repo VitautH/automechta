@@ -1,0 +1,17 @@
+body {
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    overflow-x: hidden !important;
+    overflow-y: scroll !important;
+    margin: 0 !important;
+}
+
+header.main-header nav.navbar .navbar-custom-menu ul.navbar-nav {
+    flex-direction: row !important;
+}
+
+header.main-header .navbar .nav > li > a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}

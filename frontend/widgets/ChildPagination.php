@@ -70,7 +70,7 @@ class ChildPagination extends LinkPager
             if (($page = $this->currentPage + 1) >= $this->pageCount - 1) {
                 $page = $this->pageCount - 1;
             }
-        return $this->renderButton('Следующая  <i class="fa fa-angle-double-right" aria-hidden="true"></i>', $page, $this->nextPageCssClass, $this->currentPage >= $this->pageCount - 1, false);
+        return $this->renderButton('Следующая страница <i class="ml-1 fas fa-arrow-right"></i>', $page, $this->nextPageCssClass, $this->currentPage >= $this->pageCount - 1, false);
 
         }
     }
@@ -98,7 +98,7 @@ class ChildPagination extends LinkPager
         $linkOptions = $this->linkOptions;
         $linkOptions['data-page'] = $page;
 
-        return Html::a($label, $this->pagination->createUrl($page), ['rel'=>'next','class'=>'btn m-btn m-btn-dark']);
+        return Html::a($label, $this->pagination->createUrl($page), ['rel'=>'canonical','class'=>'btn m-btn m-btn-dark']);
     }
 
     /**

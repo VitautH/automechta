@@ -4,27 +4,23 @@
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 
-$name = Yii::t('app', 'Menu');
+$name = 'Марки';
 $this->title = $name;
 $this->registerJs("require(['controllers/productmake/index']);", \yii\web\View::POS_HEAD);
 
 ?>
-<div class="mdl-grid page-header mdl-shadow--2dp">
-    <div class="mdl-cell mdl-cell--12-col">
-        <?= Breadcrumbs::widget([
-            'links' => Yii::$app->menu->getBreadcrumbs()
-        ]) ?>
-        <h2><?= $name ?></h2>
-        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab mdl-button--colored page-header__fab" href="<?= Url::to(['productmake/create']) ?>">
-            <i class="material-icons">add</i>
-        </a>
-    </div>
-</div>
-<div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--padding mdl-cell--12-col mdl-shadow--2dp">
-        <div class="js-tree">
-
+<div class="row">
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title"><?php echo $name;?></h3>
+            <a class="btn btn-app" href="<?= Url::to(['productmake/create']) ?>">
+                <i class="fa fa-plus"></i> Добавить
+            </a>
         </div>
     </div>
 </div>
-
+<div class="row">
+        <!-- /.box-header -->
+        <div class="js-tree">
+    </div>
+</div>
