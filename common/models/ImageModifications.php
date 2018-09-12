@@ -5,15 +5,21 @@ namespace common\models;
 use common\models\AutoMakes;
 use common\models\AutoModels;
 use common\models\AutoModifications;
+use Yii;
+use yii\web\UploadedFile;
+use Imagine\Image\ManipulatorInterface;
+use yii\imagine\Image;
 
 class ImageModifications extends \yii\db\ActiveRecord
 {
+
+
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'modification_image';
+        return 'auto_modification_image';
     }
 
     /**
@@ -27,4 +33,5 @@ class ImageModifications extends \yii\db\ActiveRecord
             [['url'], 'string'],
         ];
     }
+
 }

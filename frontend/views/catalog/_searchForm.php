@@ -36,7 +36,7 @@ $searchForm->type = 2;
                 <span class="fa fa-caret-down"></span>
             </div>
         </div>
-        <div class="item">
+        <div class="item item-year">
             <label class="two_blocks"><?= Yii::t('app', 'YEAR RANGE') ?>: </label>
             <div class="two_blocks" style="margin-left: 3px;">
                 <?= Html::dropDownList(
@@ -55,7 +55,7 @@ $searchForm->type = 2;
                 <span class="fa fa-caret-down"></span>
             </div>
         </div>
-        <div class="item">
+        <div class="item item-price">
             <label class="two_blocks"><?= Yii::t('app', 'PRICE') ?> USD: </label>
             <div class="two_blocks" style="margin-left: 23px;">
                 <?= Html::dropDownList(

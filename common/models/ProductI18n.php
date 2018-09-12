@@ -33,7 +33,7 @@ class ProductI18n extends \yii\db\ActiveRecord
         return [
             [['parent_id'], 'integer'],
             [['title'], 'string', 'max' => 20],
-            [['seller_comments'], 'string', 'max' => 1000],
+            [['seller_comments'], 'string', 'max' => 2000],
             [['language'], 'string', 'max' => 32]
         ];
     }

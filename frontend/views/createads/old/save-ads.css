@@ -1,0 +1,22 @@
+.create-ads .header {
+    margin-top: 40px;
+}
+
+.create-ads .content {
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+.create-ads .content p {
+    font-size: 16px;
+    text-align: justify;
+}
+
+@media screen and (max-width: 599px) {
+    a.custom-button {
+        margin-bottom: 10px;
+    }
+
+    .header h3 {
+        margin-bottom: 20px;
+    }
+}

@@ -31,7 +31,7 @@ use yii\db\IntegrityException;
  */
 class CreateadsController extends Controller
 {
-    public $layout = 'index';
+    public $layout = 'new-index';
     public $bodyClass;
 
     public function beforeAction($action)
@@ -100,18 +100,100 @@ class CreateadsController extends Controller
                 }
             }
 
+            $this->bodyClass = 'create-ads';
+
             return $this->render('create', [
                 'model' => $model,
                 'form' => $form,
                 'productSpecifications' => $productSpecificationModels,
             ]);
         } else {
+            $this->bodyClass = 'create-ads';
+
             return $this->render('create', [
                 'model' => $model,
                 'form' => $form,
             ]);
         }
 
+    }
+
+    public function actionBoat($id = null)
+    {
+        if(Yii::$app->user->isGuest){
+            Yii::$app->user->denyAccess('Извините, чтобы разместить объявление Вам необходимо заново войти в свой аккаунт  
+            или зарегистрироваться на сайте');
+        }
+        else {
+
+            $request = Yii::$app->request->post();
+
+            if (empty($request)) {
+                $model = new Product();
+                $model->type = 6;
+                $model->setScenario(Product::SCENARIO_BEFORE_CREATEADS);
+                $model->status = Product::STATUS_BEFORE_CREATE_ADS;
+                $model->priority = 0;
+                $model->save();
+                $model->saveProductBoatMetaData();
+                $id = $model->id;
+                $model = $this->findModel($id);
+
+                $this->bodyClass = 'create-ads';
+
+                return $this->render('boat', [
+                    'model' => $model,
+                ]);
+            } else {
+                if ($id == null) {
+                    Yii::$app->user->denyAccess();
+                } else {
+                    $model = $this->findModel($id);
+                    $model->status = Product::STATUS_TO_BE_VERIFIED;
+                    $model->setScenario(Product::SCENARIO_BOAT);
+                    if ($model->loadI18n($request) && $model->validateI18n()) {
+
+                        try {
+
+                            if ($model->save()) {
+                                Yii::$app->redis->executeCommand('PUBLISH', [
+                                    'channel' => 'notification',
+                                    'message' => Json::encode(['message' => 'Объявление'])
+                                ]);
+                            }
+
+                            $this->bodyClass = 'create-ads';
+
+                            return $this->render('afterSave', [
+                                'model' => $model,
+                            ]);
+                        } catch (IntegrityException $e) {
+                            if (Yii::$app->user->isGuest) {
+                                throw new \yii\web\HttpException(500, "Извините, чтобы разместить объявление 
+                            Вам необходимо заново войти в свой аккаунт
+            или зарегистрироваться на сайте", 405);
+                            } else {
+                                throw new \yii\web\HttpException(500, "Произошла ошибка при выборе типа 
+                            транспортного средства.", 405);
+                            }
+                        } catch (\Exception $e) {
+                            if (Yii::$app->user->isGuest) {
+                                throw new \yii\web\HttpException(500, "Извините, чтобы разместить объявление 
+                            Вам необходимо заново войти в свой аккаунт
+            или зарегистрироваться на сайте", 405);
+                            } else {
+                                throw new \yii\web\HttpException(500, "Произошла ошибка при выборе типа 
+                            транспортного средства.", 405);
+                            }
+                        }
+
+                    } else {
+                        var_dump($model->getErrors());
+                    }
+
+                }
+            }
+        }
     }
 
     public function actionStep1($id)
@@ -135,11 +217,14 @@ class CreateadsController extends Controller
                     $model->status = Product::STATUS_BEFORE_CREATE_ADS;
                     if ($request["Product"]['currency'] == 1) {
                         $model->price = $model->exchangeBynToUsd($request["Product"]['price']);
+                        $model->priceByn = $request["Product"]['price'];
                     }
                     try {
                         $model->save();
                         $this->saveSpecifications($model);
                         $model->saveProductMetaData();
+
+                        $this->bodyClass = 'create-ads';
 
                         return $this->renderPartial('_step_1', [
                             'model' => $model,
@@ -189,6 +274,8 @@ class CreateadsController extends Controller
                 if ($model->loadI18n($request) && $model->validateI18n()) {
                     try {
                         $model->save();
+
+                        $this->bodyClass = 'create-ads';
 
                         return $this->renderPartial('_step_2', [
                             'model' => $model,
@@ -261,6 +348,7 @@ class CreateadsController extends Controller
          * SCENARIO UPDATE ADS
          */
         $model->setScenario(Product::SCENARIO_BEFORE_CREATEADS);
+        $this->bodyClass = 'create-ads';
 
         return $this->render('update-ads', [
             'model' => $model,
@@ -290,7 +378,14 @@ class CreateadsController extends Controller
 
                     try {
 
-                        $model->save();
+                        if ($model->save()) {
+                            Yii::$app->redis->executeCommand('PUBLISH', [
+                                'channel' => 'notification',
+                                'message' => Json::encode(['message' => 'Объявление'])
+                            ]);
+                        }
+
+                        $this->bodyClass = 'create-ads';
 
                         return $this->render('afterSave', [
                             'model' => $model,
@@ -340,11 +435,14 @@ class CreateadsController extends Controller
                 if ($model->loadI18n($request) && $model->validateI18n()) {
                     if ($request["Product"]['currency'] == 1) {
                         $model->price = $model->exchangeBynToUsd($request["Product"]['price']);
+                        $model->priceByn = $request["Product"]['price'];
                     }
                     try {
                         $model->save();
                         $this->saveSpecifications($model);
                         $model->updateProductMetaData();
+
+                        $this->bodyClass = 'create-ads';
 
                         return $this->render('afterSave', [
                             'model' => $model,
@@ -486,4 +584,18 @@ class CreateadsController extends Controller
         return $meta;
     }
 
+    /*
+     * Check  files
+     * @param array url files  $_POST
+     * @return bool
+     *
+     */
+ public function actionCheckfiles(){
+     if (Yii::$app->request->isAjax) {
+
+     }
+     else {
+         Yii::$app->user->denyAccess();
+     }
+ }
 }

@@ -17,6 +17,13 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'LowPriority'=>'Низкий приоритет',
+    'HighPriority'=>'Высокий приоритет',
+    'Administrator'=>'Администратор',
+    'Company'=>'Сотрудник',
+    'Manager'=>'Менеджер',
+    'CallCentr'=>'Колл-центр',
+    'Specialist'=>'Специалист',
     'ATM' => '',
     'BYN' => '',
     'Data Key' => '',

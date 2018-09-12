@@ -13,4 +13,8 @@ class AutoModification extends \yii\db\ActiveRecord
     {
         return 'auto_modification';
     }
+
+    public function getModification (){
+        return $this->hasMany(AutoModifications::className(), ['modification_id' => 'id']);
+    }
 }

@@ -1,0 +1,86 @@
+body.marks-list-page .header h3{font-size:25px;}
+body.marks-list-page .header{margin-bottom:20px;margin-top:40px;}
+.form-filter{margin-top:0;background:#f5f5f5;}
+.form-filter h2{font-size:20px;margin:7px 0 20px 0;}
+.form-filter h2{text-transform:uppercase;font-size:18px;}
+.form-filter label{font-size:15px;margin-bottom:7px;}
+.search-form .form-block .select-search-block{margin-bottom:14px;}
+.form-filter .select-search-block select{padding:5px 10px;font-size:14px;}
+.form-filter .select-search-block i{font-size:15px;}
+.form-filter #search-result{text-align:center;display:block;}
+mark, .mark{background:transparent !important;}
+.mark .item{width:100%;border:2px solid whitesmoke;height:120px;}
+body.marks-list-page .mark a:hover .item{background-color:rgba(247, 247, 247, 0.66);}
+body.marks-list-page .mark a:hover span.mark_name{color:#db4544;}
+body.marks-list-page .mark .item .mark_logo{background-repeat:no-repeat !important;background-position:center !important;background-size:55% !important;width:100% !important;height:120px;}
+body.marks-list-page .mark{height:unset !important;margin-bottom:20px;}
+body.marks-list-page .country h3{font-size:22px;margin-left:20px;padding-bottom:5px;padding-top:10px;}
+body.marks-list-page .country{width:100%;margin-left:16px;margin-right:16px;background:whitesmoke;margin-bottom:10px;cursor:pointer;}
+body.marks-list-page .country i{float:right;margin-right:20px;margin-top:5px;}
+.country-active{background:transparent !important;}
+body.marks-list-page .country-active i{float:right;margin-right:20px;margin-top:5px;color:#db4544;}
+.hidden{display:none!important;}
+body.marks-list-page .mark_name{color:#000;font-size:16px;font-weight:bold;text-decoration:none;display:block;margin-top:5px;}
+body.maker-page .models{margin-bottom:10px;margin-top:20px !important;}
+body.maker-page .image_box{position:relative;margin-left:0;margin-right:3px;margin-bottom:5px !important;width:100% !important;height:200px;background-position:center;background-size:cover;background-repeat:no-repeat;}
+body.maker-page .models{margin-bottom:10px;margin-top:30px;}
+body.maker-page .models .item{margin-bottom:20px;}
+body.maker-page .models .item .cars-models-years{clear:both;display:block;color:grey;}
+.logo-row{margin-top:50px;}
+.brand-img{display:inline-block;height:30px;background-repeat:no-repeat;width:50px;background-size:contain;background-position:center;margin-right:5px;filter:sepia(100) saturate(0.25);-webkit-filter:sepia(100) saturate(0.25);}
+.brand-name{font-size:22px;font-weight:bold;color:#505050;vertical-align:top;margin-left:5px;}
+.title-row{margin-top:40px;}
+.title-row h3{font-size:22px;}
+body.maker-page .sorter{background:whitesmoke;padding:10px 0 10px 10px;margin-top:10px;}
+body.maker-page .sorter span{margin-right:18px;}
+body.maker-page .sorter ul{display:inline-block;padding:0;margin:0;}
+body.maker-page .sorter ul li{list-style:none;display:inline-block;}
+body.maker-page .sorter a{margin-right:44px;}
+body.maker-page .sorter li a i{margin-left:5px;vertical-align:middle;}
+body.maker-page .sorter a.desc, body.maker-page .sorter a.asc{text-decoration:underline;}
+.main-image{height:300px;background-size:cover;background-position:center;background-repeat:no-repeat;}
+.thumb-image{height:140px;background-size:cover;background-position:center;margin-bottom:20px;}
+.thumb-image:hover,.main-image:hover{cursor:pointer;}
+.main-image:hover .fullscreen{display:block;}
+.main-image .fullscreen{position:absolute;right:30px;top:15px;width:40px;height:40px;background:black;opacity:0.4;display:none;}
+.main-image .fullscreen i{z-index:99999;color:white;opacity:1;font-size:25px;position:absolute;left:20%;top:20%;}
+body.model-page h2{font-size:25px!important;}
+body.model-page .photo-block{margin-top:20px;}
+.cars-params-group-title{text-align:left!important;margin-bottom:20px!important;margin-top:20px!important;}
+.cars-params-list > div{-webkit-column-rule:unset!important;-moz-column-rule:unset!important;column-rule:unset!important;margin-bottom:10px!important;}
+.more_photo{position:relative;background:black;opacity:0.5;height:inherit;}
+.count-balance-photo{position:absolute;top:35%;left:25%;color:white;font-size:22px;display:block;}
+.page-link:hover, .page-link:focus, .page-link:active, .page-link.active{background:#db4544;color:#fff;border-color:#db4544;}
+.page-link{border-color:#db4544;color:#db4544;}
+.pagination li.page-link a{font-size:16px;font-family:'HelveticaRoman', sans-serif;cursor:pointer;height:38px;width:38px;text-align:center;vertical-align:middle;display:table-cell;}
+.page-link:hover a, .page-link:focus a, .page-link:active a, .page-link.active a{color:white!important;}
+.pagination li{display:inline-block;margin:0 3px;}
+.page-link{padding:0!important;}
+.bg-row{background-image:url("../theme/images/bmw-banner.jpg");background-size:cover;height:370px;background-position:center;padding:30px;}
+.bg-row .form-filter{opacity:0.9;}
+.bg-row .block-title-banner{margin-top:115px;color:white;}
+.bg-row .block-title-banner span{font-size:18px;}
+@media (max-width:550px){body.modification-search-page h2{margin-bottom:0px!important;font-size:16px!important;}
+.bg-row{padding:10px!important;height:485px!important;}
+.bg-row .block-title-banner{margin-top:0!important;}
+.bg-row .block-title-banner h2{font-size:22px!important;}
+.bg-row .block-title-banner span{font-size:16px!important;}
+.bg-row .form-filter{margin-top:20px;}
+body.model-page h2{font-size:18px!important;}
+.thumb-image{height:80px;}
+.main-image{height:200px;}
+body.marks-list-page .header{margin-bottom:10px;margin-top:20px;}
+body.marks-list-page .header h3{font-size:20px;}
+.form-filter{margin-bottom:20px;}
+.logo-row{margin-top:20px;}
+.title-row h3{font-size:18px;}
+.title-row{margin-top:20px;}
+body.maker-page .sorter span{margin-right:10px;font-size:14px;}
+body.maker-page .sorter a{margin-right:20px;font-size:14px;margin-left:15px;}
+body.maker-page .models .item .cars-models-years{clear:none;display:inline;color:grey;margin-left:5px;}
+}
+@media (min-width:1200px){.pagination{width:60%;margin-top:65px;}
+.pagination .page-link{font-size:18px;}
+.pagination a{font-size:16px;font-weight:600;}
+.pagination li{margin:0 9px;}
+}

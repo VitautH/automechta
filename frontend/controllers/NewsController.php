@@ -6,15 +6,16 @@ use Yii;
 use yii\web\Controller;
 use common\models\Page;
 use common\helpers\Url;
+use yii\data\Pagination;
 
 /**
  * News controller
  */
 class NewsController extends Controller
 {
-    public $layout = 'index';
+    public $layout = 'new-index';
     public $bodyClass;
-    const PAGE_SIZE = 5;
+    const PAGE_SIZE = 15;
 
     public function beforeAction($action)
     {
@@ -30,21 +31,46 @@ class NewsController extends Controller
      */
     public function actionIndex()
     {
-        $query = Page::find()->andWhere(['not', ['main_image' => null]])->active()->news()->orderBy('id desc');
+        $limit = 'LIMIT ' . static::PAGE_SIZE;
+        $offset = 0;
 
-        $provider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => static::PAGE_SIZE,
-            ],
-        ]);
+        $count = Page::find()->andWhere(['not', ['main_image' => null]])->active()->news()->count();//->orderBy('id desc');
+        $lastPage = ceil($count / static::PAGE_SIZE);
+        $params = Yii::$app->request->get();
+
+        if (isset($params['page'])) {
+            $page = intval($params['page']);
+            if ($page !== 1) {
+                if ($lastPage >= $page) {
+                    $limit = 'LIMIT ' . static::PAGE_SIZE . ' OFFSET ' . static::PAGE_SIZE * ($page - 1);
+                    $offset = static::PAGE_SIZE * ($page - 1);
+                } else {
+                    Yii::$app->response->statusCode = 404;
+                    throw new NotFoundHttpException('Извините, данной страницы не существует.');
+                }
+            }
+        } else {
+            $page = 1;
+        }
+
+        $result = Page::find()->andWhere(['not', ['main_image' => null]])->active()->news()->orderBy('id desc')->limit(static::PAGE_SIZE)->offset($offset)->all();
+        $pages = new Pagination(['totalCount' => $count, 'pageSize' => static::PAGE_SIZE]);
+        $pages->pageSizeParam = false;
+
         Yii::$app->view->registerMetaTag([
             'name' => 'robots',
             'content' => 'noindex, nofollow'
         ]);
 
+        $this->bodyClass = 'news-index';
+
+
         return $this->render('index', [
-            'provider' => $provider
+            'models' => $result,
+            'count' => $count,
+            'pages' => $pages,
+            'currentPage' => $page,
+            'lastPage' => $lastPage,
         ]);
     }
 

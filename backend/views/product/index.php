@@ -1,6 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\ProductSearch */
+
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 use \yii\grid\GridView;
@@ -269,189 +270,201 @@ $.ajax({
 });
 ");
 ?>
-<div class="mdl-grid page-header mdl-shadow--2dp">
-    <div class="mdl-cell mdl-cell--12-col">
-        <?= Breadcrumbs::widget([
-            'links' => Yii::$app->menu->getBreadcrumbs()
-        ]) ?>
-        <h2><?= $name ?></h2>
-        <div id="loader" style="display:none;">
-            <div id="circularG_1" class="circularG"></div>
-            <div id="circularG_2" class="circularG"></div>
-            <div id="circularG_3" class="circularG"></div>
-            <div id="circularG_4" class="circularG"></div>
-            <div id="circularG_5" class="circularG"></div>
-            <div id="circularG_6" class="circularG"></div>
-            <div id="circularG_7" class="circularG"></div>
-            <div id="circularG_8" class="circularG"></div>
+<div id="loader" style="display:none;">
+    <div id="circularG_1" class="circularG"></div>
+    <div id="circularG_2" class="circularG"></div>
+    <div id="circularG_3" class="circularG"></div>
+    <div id="circularG_4" class="circularG"></div>
+    <div id="circularG_5" class="circularG"></div>
+    <div id="circularG_6" class="circularG"></div>
+    <div id="circularG_7" class="circularG"></div>
+    <div id="circularG_8" class="circularG"></div>
+</div>
+<div class="row">
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Объявления</h3>
+            <a class="btn btn-app" href="<?= Url::to(['product/create']) ?>">
+                <i class="fa fa-plus"></i> Добавить
+            </a>
+            <a class="btn btn-app" id="indexing_product">
+                <i class="fa fa-repeat"></i> Индексировать товары
+            </a>
+            <a class="btn btn-app" id="clear_cache">
+                <i class="fa fa-trash"></i> Очистить кеш
+            </a>
         </div>
-        <div class="btn" id="clear_cache">Очистить кеш</div>
-        <div class="btn" id="indexing_product">Индексировать товары</div>
-        <a class="js-create-product mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab mdl-button--colored page-header__fab"
-           href="<?= Url::to(['product/create']) ?>">
-            <i class="material-icons">add</i>
-        </a>
     </div>
 </div>
-<div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--padding mdl-cell--12-col mdl-shadow--2dp">
-        <?php \yii\widgets\Pjax::begin([
-            'id' => 'product_grid_wrapper',
-            'linkSelector' => '#producttype_grid_wrapper a:not(.button-col a)'
-        ]); ?>
-        <?=
-        GridView::widget([
-            'id' => 'product_grid',
-            'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'tableOptions' => [
-                'class' => 'mdl-data-table mdl-data-table--no-border mdl-js-data-table'
-            ],
-            'columns' => [
-                [
-                    'class' => 'yii\grid\CheckboxColumn',
+<div class="row">
+    <div class="box">
+        <!-- /.box-header -->
+        <div class="box-body">
+            <?php \yii\widgets\Pjax::begin([
+                'id' => 'product_grid_wrapper',
+                'linkSelector' => '#producttype_grid_wrapper a:not(.button-col a)'
+            ]); ?>
+            <?=
+            GridView::widget([
+                'id' => 'product_grid',
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'tableOptions' => [
+                    'role' => 'grid',
+                    'class' => 'table table-bordered table-striped dataTable mdl-js-data-table'
                 ],
-                [
-                    'attribute' => 'id',
-                    'contentOptions' => ['class' => 'auto-width-col center-align'],
-                    'headerOptions' => ['style' => 'width: 70px;'],
-                    'filter' => MdlHtml::activeInput('text', $searchModel, 'id')
-                ],
-                [
-                    'attribute' => 'email',
-                    'value' => function ($model, $key, $index, $column) {
-                        $email = User::find()->where(['id' => $model->created_by])->one()->email;
-                        return $email;
-                    },
-                    'contentOptions' => ['class' => 'auto-width-col center-align'],
-                    'headerOptions' => ['style' => 'width: 70px;'],
-                    'filter' => MdlHtml::activeInput('text', $searchModel, 'email')
-                ],
-
-                [
-                    'label' => $searchModel->getAttributeLabel('make'),
-                    'value' => function (Product $model, $key, $index, $column) {
-                        $make = $model->getMake0()->one();
-                        return $make['name'];
-                    },
-                    'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filter' => MdlHtml::activeDropDownList($searchModel, 'make', $makesList),
-                ],
-                [
-                    'label' => $searchModel->getAttributeLabel('model'),
-                    'value' => function ($model, $key, $index, $column) {
-                        return $model->model;
-                    },
-                    'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filter' => MdlHtml::activeInput('text', $searchModel, 'model')
-                ],
-
-                [
-                    'label' => $searchModel->getAttributeLabel('year'),
-                    'value' => function ($model, $key, $index, $column) {
-                        return $model->year;
-                    },
-                    'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filter' => MdlHtml::activeInput('text', $searchModel, 'year')
-                ],
-                [
-                    'attribute' => 'priority',
-                    'value' => function ($model, $key, $index, $column) {
-                        return Product::getPriorities()[$model->priority];
-                    },
-                    'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filter' => MdlHtml::activeDropDownList($searchModel, 'priority', Product::getPriorities(), ['prompt' => Yii::t('app', 'Any')]),
-                ],
-                [
-                    'attribute' => 'status',
-                    'value' => function ($model, $key, $index, $column) {
-                        return Product::getStatuses()[$model->status];
-                    },
-                    'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filter' => MdlHtml::activeDropDownList($searchModel, 'status', Product::getStatuses(), ['prompt' => Yii::t('app', 'Any')]),
-                ],
-                [
-                    'label' => $searchModel->getAttributeLabel('phone'),
-                    'value' => function ($model, $key, $index, $column) {
-                        return $model->phone;
-                    },
-                    'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filter' => MaskedInput::widget([
-                        'class' => 'mdl-textfield__input',
-                        'model' => $searchModel,
-                        'name' => 'ProductSearch[phone]',
-                        'mask' => '+375 (99) 999-99-99',
-                        'value' => $searchModel->phone
-                    ])
-
-                ],
-                [
-                    'attribute' => 'created_at',
-                    'format' => ['date', 'php:Y-m-d H:m:s'],
-                    'headerOptions' => ['style' => 'width: 215px;'],
-                    'contentOptions' => ['class' => 'auto-width-col center-align'],
-                    'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filter' => MdlHtml::activeInput('text', $searchModel, 'created_at')
-                ],
-                [
-                    'attribute' => 'updated_at',
-                    'format' => ['date', 'php:Y-m-d H:m:s'],
-                    'headerOptions' => ['style' => 'width: 215px;'],
-                    'contentOptions' => ['class' => 'auto-width-col center-align'],
-                    'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filter' => MdlHtml::activeInput('text', $searchModel, 'updated_at')
-                ],
-                [
-                    'class' => 'yii\grid\ActionColumn',
-                    'template' => '{update}{delete}',
-                    'contentOptions' => ['class' => 'button-col'],
-                    'buttons' => [
-                        'delete' => function ($url, $model, $key) {
-                            return Html::button(
-                                '<i class="material-icons red-text">delete</i>',
-                                [
-                                    'class' => 'mdl-button mdl-js-button mdl-button--icon mdl-button--accent js-delete-row',
-                                    'data-delete_url' => Url::to(['product/delete', 'id' => $model->id]),
-                                    'title' => Yii::t('app', 'Delete'),
-                                ]
-                            );
+                'rowOptions' => function ($model) {
+                    if ($model->ban == Product::BAN) {
+                        return ['role' => 'row','class' => 'danger odd','id'=>'product-'.$model->id,];
+                    }
+                    else {
+                        return ['role' => 'row','class' => 'odd','id'=>'product-'.$model->id,];
+                    }
+                },
+                'columns' => [
+                    [
+                        'class' => 'yii\grid\CheckboxColumn',
+                    ],
+                    [
+                        'attribute' => 'id',
+                        //'headerOptions' => ['style' => 'width: 70px;'],
+                        'filter' => MdlHtml::activeInput('text', $searchModel, 'id')
+                    ],
+                    [
+                        'attribute' => 'email',
+                        'value' => function ($model, $key, $index, $column) {
+                            $email = User::find()->where(['id' => $model->created_by])->one()->email;
+                            return $email;
                         },
-                        'update' => function ($url, $model, $key) {
-                            return Html::a(
-                                '<i class="material-icons teal-text">mode_edit</i>',
-                                Url::to(['product/update', 'id' => $model->id]),
-                                [
-                                    'class' => 'mdl-button mdl-js-button mdl-button--icon mdl-button--colored',
-                                    'title' => Yii::t('app', 'Edit'),
-                                ]
-                            );
-                        }
-                    ]
-                ],
-            ]
-        ]);
-        ?>
-        <label>Выберите действие:</label>
-        <select name="action" id="action">
-            <option value="<?= Product::STATUS_UNPUBLISHED; ?>">Снять с публикации</option>
-            <option value="<?= Product::STATUS_PUBLISHED; ?>">Опубликовать</option>
-            <option value="delete">Удалить</option>
-        </select>
-        <button id="apply" name="apply">Применить</button>
-        <?php
-        \yii\widgets\Pjax::end();
-        ?>
+                        //'headerOptions' => ['style' => 'width: 70px;'],
+                        'filter' => MdlHtml::activeInput('text', $searchModel, 'email')
+                    ],
+
+                    [
+                        'label' => $searchModel->getAttributeLabel('make'),
+                        'value' => function (Product $model, $key, $index, $column) {
+                            $make = $model->getMake0()->one();
+                            return $make['name'];
+                        },
+                        //'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                        'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                        'filter' => MdlHtml::activeDropDownList($searchModel, 'make', $makesList),
+                    ],
+                    [
+                        'label' => $searchModel->getAttributeLabel('model'),
+                        'value' => function ($model, $key, $index, $column) {
+                            return $model->model;
+                        },
+                        //'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                        'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                        'filter' => MdlHtml::activeInput('text', $searchModel, 'model')
+                    ],
+
+                    [
+                        'label' => $searchModel->getAttributeLabel('year'),
+                        'value' => function ($model, $key, $index, $column) {
+                            return $model->year;
+                        },
+                        // 'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                        'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                        'filter' => MdlHtml::activeInput('text', $searchModel, 'year')
+                    ],
+                    [
+                        'attribute' => 'priority',
+                        'value' => function ($model, $key, $index, $column) {
+                            return Product::getPriorities()[$model->priority];
+                        },
+                        // 'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                        'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                        'filter' => MdlHtml::activeDropDownList($searchModel, 'priority', Product::getPriorities(), ['prompt' => Yii::t('app', 'Any')]),
+                    ],
+                    [
+                        'attribute' => 'status',
+                        'value' => function ($model, $key, $index, $column) {
+                            return Product::getStatuses()[$model->status];
+                        },
+                        //'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                        'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                        'filter' => MdlHtml::activeDropDownList($searchModel, 'status', Product::getStatuses(), ['prompt' => Yii::t('app', 'Any')]),
+                    ],
+                    [
+                        'label' => $searchModel->getAttributeLabel('phone'),
+                        'value' => function ($model, $key, $index, $column) {
+                            return $model->phone;
+                        },
+                        // 'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                        'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                        'filter' => MaskedInput::widget([
+                            'class' => 'mdl-textfield__input',
+                            'model' => $searchModel,
+                            'name' => 'ProductSearch[phone]',
+                            'mask' => '+375 (99) 999-99-99',
+                            'value' => $searchModel->phone
+                        ])
+
+                    ],
+                    [
+                        'attribute' => 'created_at',
+                        'format' => ['date', 'php:Y-m-d H:m:s'],
+                        // 'headerOptions' => ['style' => 'width: 215px;'],
+                        'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                        'filter' => MdlHtml::activeInput('text', $searchModel, 'created_at')
+                    ],
+                    [
+                        'attribute' => 'updated_at',
+                        'format' => ['date', 'php:Y-m-d H:m:s'],
+                        // 'headerOptions' => ['style' => 'width: 215px;'],
+                        'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                        'filter' => MdlHtml::activeInput('text', $searchModel, 'updated_at')
+                    ],
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'template' => '{update}{delete}{ban}',
+                        'contentOptions' => ['class' => 'button-col'],
+                        'buttons' => [
+                            'delete' => function ($url, $model, $key) {
+                                return Html::button(
+                                    '<i class="fa fa-trash"></i>',
+                                    [
+                                        'class' => 'btn btn-default  mdl-js-button mdl-button--icon mdl-button--accent js-delete-row',
+                                        'data-delete_url' => Url::to(['product/delete', 'id' => $model->id]),
+                                        'title' => Yii::t('app', 'Delete'),
+                                    ]
+                                );
+                            },
+                            'update' => function ($url, $model, $key) {
+                                return Html::a(
+                                    '<i class="fa fa-edit"></i>',
+                                    Url::to(['product/update', 'id' => $model->id]),
+                                    [
+                                        'class' => 'btn btn-default  mdl-js-button mdl-button--icon mdl-button--colored',
+                                        'title' => Yii::t('app', 'Edit'),
+                                    ]
+                                );
+                            },
+                            'ban' =>function ($url, $model,$key){
+                return Html::a('<i class="fa fa-ban"></i>',
+                                    Url::to(['product/ban', 'id' => $model->id]),
+                                    [
+                                        'class' => 'add-to-ban btn btn-default  mdl-js-button mdl-button--icon mdl-button--colored',
+                                        'title' => Yii::t('app', 'Ban'),
+                                    ]);
+                            }
+                        ]
+                    ],
+                ]
+            ]);
+            ?>
+            <label>Выберите действие:</label>
+            <select name="action" id="action">
+                <option value="<?= Product::STATUS_UNPUBLISHED; ?>">Снять с публикации</option>
+                <option value="<?= Product::STATUS_PUBLISHED; ?>">Опубликовать</option>
+                <option value="delete">Удалить</option>
+            </select>
+            <button id="apply" name="apply">Применить</button>
+            <?php
+            \yii\widgets\Pjax::end();
+            ?>
+        </div>
     </div>
 </div>

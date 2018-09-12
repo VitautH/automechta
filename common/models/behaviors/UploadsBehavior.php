@@ -59,8 +59,47 @@ class UploadsBehavior extends Behavior
         if (empty($uploads)) {
             $uploads = $this->getUploads();
         }
-        if (!empty($uploads) && $uploads[0]->fileExists()) {
-            $result = Yii::$app->uploads->getThumbnail($uploads[0]->hash, $width, $height);
+        // && $uploads[0]->fileExists()
+        if (!empty($uploads)) {
+            $result = Yii::$app->uploads->getThumbnail($uploads[0]->hash, $uploads[0]->server,$width, $height);
+        }
+        return $result;
+    }
+
+    /**
+     * @param int $width
+     * @param int $height
+     * @return mixed
+     */
+    public function getTitleImage($width = 1920, $height = 800)
+    {
+        $result = Yii::$app->uploads->getDummyImageUrl();
+        $uploads = $this->getUploads(Uploads::TYPE_TITLE);
+        if (empty($uploads)) {
+            $uploads = $this->getUploads();
+        }
+        //&& $uploads[0]->fileExists()
+        if (!empty($uploads)) {
+            $result = Yii::$app->uploads->getThumbnail($uploads[0]->hash,$uploads[0]->server, $width, $height);
+        }
+        return $result;
+    }
+
+    /**
+     * @param int $width
+     * @param int $height
+     * @return mixed
+     */
+    public function getFullImage()
+    {
+        $result = Yii::$app->uploads->getDummyImageUrl();
+        $uploads = $this->getUploads(Uploads::TYPE_TITLE);
+        if (empty($uploads)) {
+            $uploads = $this->getUploads();
+        }
+        //&& $uploads[0]->fileExists()
+        if (!empty($uploads)) {
+            $result = Yii::$app->uploads->getFullImage($uploads[0]->hash,$uploads[0]->server);
         }
         return $result;
     }

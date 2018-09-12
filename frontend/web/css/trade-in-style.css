@@ -1,0 +1,143 @@
+.trade-in .header {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.trade-in  .content .text-block p {
+    text-align: justify;
+    font-size: 15px;
+}
+.trade-in  .content .features {
+    position: relative;
+    top: 30%;
+}
+
+.trade-in  .content .features h3{
+    margin-bottom: 20px;
+}
+
+.trade-in  .content .features ul {
+    padding: 0;
+}
+.trade-in  .content .features ul li {
+     list-style: none;
+ }
+
+.trade-in  .content .features ul li i {
+    color: green;
+    margin-right: 10px;
+}
+.trade-in  .bottom h3 {
+    margin-bottom: 20px;
+}
+
+.trade-in  .bottom  p {
+    text-align: justify;
+}
+
+.trade-in  .consultation {
+    margin-top: 20px;
+    background: whitesmoke;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.trade-in  .consultation .cirkle {
+    background: url(../theme/images/call-avto-v-kredit.png) no-repeat top;
+    background-size: contain;
+}
+
+.trade-in  .consultation .phone-block a {
+    margin-bottom: 12px;
+    display: block;
+    margin-left: 5px;
+    font-size: 18px;
+    vertical-align: middle;
+    margin-top: 8px;
+}
+
+.trade-in  .consultation .open-hours, .trade-in  .consultation .address {
+    margin-bottom: 14px;
+    margin-top: 8px;
+    font-size: 18px;
+}
+
+.trade-in  .consultation .open-hours i, .trade-in  .consultation .address i, .trade-in .consultation .email i {
+    color: #db4544;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.trade-in  .consultation .phone-block i {
+    position: relative;
+    display: block;
+    top: 30%;
+    color: #db4544;
+    font-size: 18px;
+}
+
+.trade-in  .consultation .phone-block {
+    margin-left: 20px;
+}
+
+.trade-in .consultation h3 {
+    margin-bottom: 20px;
+}
+
+.trade-in .consultation .custom-button {
+    border: 2px solid #be2322;
+    background: transparent;
+    color: #be2322;
+}
+
+.trade-in .consultation .custom-button:hover, .trade-in .consultation .custom-button:focus, .trade-in  .consultation .custom-button:active {
+    border: 2px solid transparent;
+    background: #be2322;
+    color: white;
+}
+@media screen and (max-width: 599px) {
+    .trade-in .header h3 {
+    font-size: 18px;
+}
+
+    .trade-in  .content .image  img {
+        width: 100%;
+    }
+
+    .trade-in .header {
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .trade-in  .content .image  {
+    margin-bottom: 15px;
+}
+
+    .trade-in .content .features h3 {
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+    .trade-in .content .features {
+        position: unset;
+        top: unset;
+    }
+    .trade-in .content .features ul li {
+        list-style: none;
+        font-size: 14px;
+    }
+    .trade-in .bottom h3 {
+        margin-bottom: 10px;
+        font-size: 18px;
+        margin-top: 20px;
+    }
+    .trade-in .bottom p {
+        font-size: 12px;
+    }
+    .trade-in .content .text-block p {
+        font-size: 12px;
+    }
+
+    .trade-in .content .features  p {
+    font-size: 12px;
+}
+}

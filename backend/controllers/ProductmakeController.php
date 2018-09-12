@@ -88,6 +88,31 @@ class ProductmakeController extends TreeController
         }
     }
 
+    public function actionChangePriority($type,$id,$priority)
+    {
+        if (Yii::$app->request->isAjax) {
+            if (!Yii::$app->user->can('createProductMake')) {
+                Yii::$app->user->denyAccess();
+            };
+
+            /* response will be in JSON format */
+            Yii::$app->response->format = 'json';
+
+            $model = ProductMake::find()->where(['product_type'=>$type])->andWhere(['id'=>$id])->one();
+            $model->priority = $priority;
+
+            if ($model->save()){
+                return ['status' => 'success', 'priority'=>$priority];
+            }
+            else {
+                return ['status' => 'failed'];
+            }
+
+        } else {
+            Yii::$app->user->denyAccess();
+        }
+    }
+
     /**
      * Lists all product makes.
      * @return mixed

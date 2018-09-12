@@ -24,6 +24,7 @@ use yii\web\NotAcceptableHttpException;
 use yii\helpers\Json;
 use common\models\Complaint;
 use common\helpers\Url;
+
 /**
  * Catalog controller
  */
@@ -71,6 +72,7 @@ class CatalogController extends Controller
         $model = $this->findModel($id);
         if (($model->status !== Product::STATUS_PUBLISHED) || (empty($model))) {
             Yii::$app->response->statusCode = 404;
+            $this->layout = 'new-index';
 
             return $this->render('sold');
         } else {
@@ -94,7 +96,9 @@ class CatalogController extends Controller
 
         $model->increaseViews();
 
-        return $this->render('show', [
+        $this->layout='new-index';
+
+        return $this->render('newShow', [
             'model' => $model,
         ]);
     }
@@ -105,7 +109,7 @@ class CatalogController extends Controller
     public function actionPreview($productType, $maker, $modelauto, $id)
     {
 
-        if ($productType == 'cars' || $productType == 'moto'|| $productType == 'scooter'|| $productType == 'atv') {
+        if ($productType == 'cars' || $productType == 'moto' || $productType == 'scooter' || $productType == 'atv') {
             switch ($productType) {
                 case 'cars':
                     $productType = ProductType::CARS;
@@ -114,10 +118,10 @@ class CatalogController extends Controller
                     $productType = ProductType::MOTO;
                     break;
                 case 'scooter':
-                    $productType =  ProductType::SCOOTER;
+                    $productType = ProductType::SCOOTER;
                     break;
                 case 'atv':
-                    $productType =  ProductType::ATV;
+                    $productType = ProductType::ATV;
                     break;
             }
             $modelauto = str_replace('+', ' ', $modelauto);
@@ -130,6 +134,7 @@ class CatalogController extends Controller
 
                 if (($model->status !== Product::STATUS_TO_BE_VERIFIED) || (empty($model))) {
                     Yii::$app->response->statusCode = 404;
+                    $this->layout = 'new-index';
 
                     return $this->render('sold');
                 } else {
@@ -149,7 +154,7 @@ class CatalogController extends Controller
                     $product ['model'] = $model->model;
                     $product ['year'] = $model->year;
                     $product ['title'] = $model->getFullTitle();
-                    $product ['title_image'] =  $model->getTitleImageUrl(267, 180);
+                    $product ['title_image'] = $model->getTitleImageUrl(267, 180);
                     $product ['short_title'] = $model->i18n()->title;
                     $product ['price_byn'] = $model->getByrPrice();
                     $product ['price_usd'] = $model->getUsdPrice();
@@ -177,7 +182,7 @@ class CatalogController extends Controller
                     $product ['image'] = [];
                     foreach ($uploads as $i => $upload) {
                         $product  ['image'] [$i] ['full'] = $upload->getThumbnail(800, 460);
-                        $product  ['image'] [$i] ['thumbnail'] = $upload->getThumbnail(115, 85);
+                        $product  ['image'] [$i] ['thumbnail'] = $upload->getThumbnail(320, 240);
                     }
 
                     /*
@@ -238,6 +243,9 @@ class CatalogController extends Controller
                         ->all();
                     $product ['similar'] = [];
                     foreach ($similarProducts as $i => $similarProduct) {
+                        $makeName = ProductMake::findOne($similarProduct->make)->name;
+                        $product['similar'][$i]['make_name'] = $makeName;
+                        $product['similar'][$i]['year'] = $similarProduct->year;
                         $product['similar'][$i]['id'] = $similarProduct->id;
                         $product['similar'][$i]['main_image_url'] = $similarProduct->getTitleImageUrl(640, 480);
                         $product['similar'][$i]['full_title'] = $similarProduct->getFullTitle();
@@ -253,7 +261,7 @@ class CatalogController extends Controller
                         }
                         unset($productSpec);
                         unset($params);
-                        foreach ($similarProduct->getSpecifications(Specification::PRIORITY_HIGH) as $params=>$productSpec) {
+                        foreach ($similarProduct->getSpecifications(Specification::PRIORITY_HIGH) as $params => $productSpec) {
                             $spec = $productSpec->getSpecification()->one();
                             $product['similar'][$i]['spec'][$params]['priority_hight']['name'] = $spec->i18n()->name;
                             $product['similar'][$i]['spec'][$params]['priority_hight']['value'] = $productSpec->getFormattedValue();
@@ -273,9 +281,10 @@ class CatalogController extends Controller
             }
         }
     }
+
     public function actionNewshow($productType, $maker, $modelauto, $id)
     {
-        if ($productType == 'cars' || $productType == 'moto'|| $productType == 'scooter'|| $productType == 'atv') {
+        if ($productType == 'cars' || $productType == 'moto' || $productType == 'scooter' || $productType == 'atv') {
             switch ($productType) {
                 case 'cars':
                     $productType = ProductType::CARS;
@@ -284,10 +293,10 @@ class CatalogController extends Controller
                     $productType = ProductType::MOTO;
                     break;
                 case 'scooter':
-                    $productType =  ProductType::SCOOTER;
+                    $productType = ProductType::SCOOTER;
                     break;
                 case 'atv':
-                    $productType =  ProductType::ATV;
+                    $productType = ProductType::ATV;
                     break;
             }
             $modelauto = str_replace('+', ' ', $modelauto);
@@ -299,6 +308,7 @@ class CatalogController extends Controller
             ) {
                 if (($model->status !== Product::STATUS_PUBLISHED) || (empty($model))) {
                     Yii::$app->response->statusCode = 404;
+                    $this->layout = 'new-index';
 
                     return $this->render('sold');
                 } else {
@@ -322,7 +332,8 @@ class CatalogController extends Controller
                         $product ['model'] = $model->model;
                         $product ['year'] = $model->year;
                         $product ['title'] = $model->getFullTitle();
-                        $product ['title_image'] =  $model->getTitleImageUrl(267, 180);
+                        $product ['title_image'] = $model->getTitleImageUrl(267, 180);
+                        $product  ['full_title_image'] = $model->getTitleImageUrl();
                         $product ['short_title'] = $model->i18n()->title;
                         $product ['price_byn'] = $model->getByrPrice();
                         $product ['price_usd'] = $model->getUsdPrice();
@@ -347,8 +358,9 @@ class CatalogController extends Controller
                         $uploads = $model->getUploads();
                         $product ['image'] = [];
                         foreach ($uploads as $i => $upload) {
+                            $product ['image'] [$i]  ['full_title_image'] = $upload->getFullImage();
                             $product  ['image'] [$i] ['full'] = $upload->getThumbnail(800, 460);
-                            $product  ['image'] [$i] ['thumbnail'] = $upload->getThumbnail(115, 85);
+                            $product  ['image'] [$i] ['thumbnail'] = $upload->getThumbnail(320, 240);
                         }
 
                         /*
@@ -425,7 +437,7 @@ class CatalogController extends Controller
                             }
                             unset($productSpec);
                             unset($params);
-                            foreach ($similarProduct->getSpecifications(Specification::PRIORITY_HIGH) as $params=>$productSpec) {
+                            foreach ($similarProduct->getSpecifications(Specification::PRIORITY_HIGH) as $params => $productSpec) {
                                 $spec = $productSpec->getSpecification()->one();
                                 $product['similar'][$i]['spec'][$params]['priority_hight']['name'] = $spec->i18n()->name;
                                 $product['similar'][$i]['spec'][$params]['priority_hight']['value'] = $productSpec->getFormattedValue();
@@ -438,8 +450,8 @@ class CatalogController extends Controller
                         $views = $product['views'];
                         $model->views;
                         $params = [
-                            'product'=>json_encode($product),
-                              'counter'=>$model->views,
+                            'product' => json_encode($product),
+                            'counter' => $model->views,
                         ];
                         Yii::$app->cache->hmset('product_' . $id, $params, 172800);
 
@@ -447,8 +459,9 @@ class CatalogController extends Controller
                     // End Cache
 
                     $this->bodyClass = 'card-product-page';
+                    $this->layout='new-index';
 
-                    return $this->render('show', [
+                    return $this->render('newShow', [
                         'product' => $product,
                         'views' => $views,
                         'model' => $model,
@@ -459,6 +472,7 @@ class CatalogController extends Controller
 
             } else {
                 Yii::$app->response->statusCode = 404;
+                $this->layout = 'new-index';
 
                 return $this->render('sold');
             }
@@ -468,6 +482,138 @@ class CatalogController extends Controller
         }
 
     }
+
+    public function actionBoatshow($id)
+    {
+        if (($model = Product::find()->where(['id' => $id])->andWhere(['type' => ProductType::BOAT])->one()) !== null
+        ) {
+            if (($model->status !== Product::STATUS_PUBLISHED) || (empty($model))) {
+                Yii::$app->response->statusCode = 404;
+                $this->layout = 'new-index';
+
+                return $this->render('sold');
+            } else {
+                $model->increaseViews();
+
+                // Cache
+                if (Yii::$app->cache->exists('product_' . $id)) {
+                    Yii::$app->cache->hincr('product_' . $id);
+                    $product = json_decode(Yii::$app->cache->getField('product_' . $id, 'product'));
+                    $views = Yii::$app->cache->getField('product_' . $id, 'counter');
+                } else {
+
+                    /*
+                     * Product
+                     */
+                    $product = [];
+                    $product ['id'] = $model->id;
+                    $product ['make'] = $model->getMake0()->one()->name;
+                    $product ['type'] = $model->type;
+                    $product['makeid'] = ProductMake::find()->where(['and', ['depth' => 2], ['name' => $model->model], ['product_type' => $model->type]])->one()->id;
+                    $product ['model'] = $model->model;
+                    $product ['year'] = $model->year;
+                    $product ['title'] = $model->getFullTitle();
+                    $product ['title_image'] = $model->getTitleImageUrl(267, 180);
+                    $product ['short_title'] = $model->i18n()->title;
+                    $product ['price_byn'] = $model->getByrPrice();
+                    $product ['price_usd'] = $model->getUsdPrice();
+                    $product ['exchange'] = $model->exchange;
+                    $product ['auction'] = $model->auction;
+                    $product ['priority'] = $model->priority;
+                    $product ['seller_comments'] = $model->i18n()->seller_comments;
+                    $product ['created_at'] = $model->created_at;
+                    $product ['created_by'] = $model->created_by;
+                    $product ['updated_at'] = $model->updated_at;
+                    $product ['phone'] = $model->phone;
+                    $product ['phone_2'] = $model->phone_2;
+                    $product ['phone_provider_2'] = $model->phone_provider_2;
+                    $product ['first_name'] = $model->first_name;
+                    $product ['region'] = $model->region;
+                    $product ['city_id'] = $model->city_id;
+                    $product ['video'] = $model->video;
+
+                    /*
+                     * Image
+                     */
+                    $uploads = $model->getUploads();
+                    $product ['image'] = [];
+                    foreach ($uploads as $i => $upload) {
+                        $product  ['image'] [$i] ['full'] = $upload->getThumbnail(800, 460);
+                        $product  ['image'] [$i] ['thumbnail'] = $upload->getThumbnail(320, 240);
+                    }
+
+
+                    /*
+                     * Similar product
+                     */
+                    $similarProducts = Product::find()
+                        ->where(['status' => Product::STATUS_PUBLISHED])
+                        ->andWhere(['!=', 'id', $model->id])
+                        ->andWhere(['type' => ProductType::BOAT])
+                        ->orderBy('RAND()')
+                        ->limit(4)
+                        ->all();
+
+                    $product ['similar'] = [];
+                    foreach ($similarProducts as $i => $similarProduct) {
+                        $product['similar'][$i]['id'] = $similarProduct->id;
+                        $makeName = ProductMake::findOne($similarProduct->make)->name;
+                        $product['similar'][$i]['make_name'] = $makeName;
+                        $product['similar'][$i]['year'] = $similarProduct->year;
+                        $product['similar'][$i]['main_image_url'] = $similarProduct->getTitleImageUrl(640, 480);
+                        $product['similar'][$i]['full_title'] = $similarProduct->getFullTitle();
+                        $product['similar'][$i]['price_byn'] = $similarProduct->getByrPrice();
+                        $product['similar'][$i]['price_usd'] = $similarProduct->getUsdPrice();
+                        $product['similar'][$i]['comment'] =  $similarProduct->i18n()->seller_comments;
+                        $product['similar'][$i]['spec'] = [];
+                        foreach ($similarProduct->getSpecifications(Specification::PRIORITY_HIGHEST) as $params => $productSpec) {
+                            $spec = $productSpec->getSpecification()->one();
+                            $product['similar'][$i]['spec'][$params]['name'] = $spec->i18n()->name;
+                            $product['similar'][$i]['spec'][$params]['get_title_image_url'] = $spec->getTitleImageUrl(20, 20);
+                            $product['similar'][$i]['spec'][$params]['value'] = $productSpec->getFormattedValue();
+                            $product['similar'][$i]['spec'][$params]['unit'] = $spec->i18n()->unit;
+                        }
+                        unset($productSpec);
+                        unset($params);
+                        foreach ($similarProduct->getSpecifications(Specification::PRIORITY_HIGH) as $params => $productSpec) {
+                            $spec = $productSpec->getSpecification()->one();
+                            $product['similar'][$i]['spec'][$params]['priority_hight']['name'] = $spec->i18n()->name;
+                            $product['similar'][$i]['spec'][$params]['priority_hight']['value'] = $productSpec->getFormattedValue();
+                            $product['similar'][$i]['spec'][$params]['priority_hight']['unit'] = $spec->i18n()->unit;
+                        }
+                    }
+
+
+                    $product = json_encode($product);
+                    $views = $product['views'];
+                    $model->views;
+                    $params = [
+                        'product' => json_encode($product),
+                        'counter' => $model->views,
+                    ];
+                    Yii::$app->cache->hmset('product_' . $id, $params, 172800);
+
+                }
+                // End Cache
+
+                $this->layout='new-index';
+
+                return $this->render('newShow', [
+                    'product' => $product,
+                    'views' => $views,
+                    'model' => $model,
+                ]);
+            }
+
+
+        } else {
+            Yii::$app->response->statusCode = 404;
+            $this->layout = 'new-index';
+
+            return $this->render('sold');
+        }
+    }
+
     public function actionComplaint()
     {
         if (Yii::$app->request->isAjax) {
@@ -482,6 +628,12 @@ class CatalogController extends Controller
             $model->complaint_text = $request['complaint_text'];
             $model->product_id = $request['id'];
             if ($model->save()) {
+
+                Yii::$app->redis->executeCommand('PUBLISH', [
+                    'channel' => 'notification',
+                    'message' => Json::encode(['message' => 'Жалоба'])
+                ]);
+
                 return '<div class="alert alert-success" role="alert" style="margin-top: 10px;">Ваша жалоба на объявление принята</div>';
             } else {
                 return '<div class="alert alert-danger" role="alert" style="margin-top: 10px;">Произошла ошибка</div>';
@@ -528,6 +680,7 @@ class CatalogController extends Controller
             return $model;
         } else {
             Yii::$app->response->statusCode = 404;
+            $this->layout = 'new-index';
 
             return $this->render('sold');
         }
@@ -567,7 +720,7 @@ class CatalogController extends Controller
 
         Yii::$app->view->registerMetaTag([
             'property' => 'og:title',
-            'content' =>$meta['title']
+            'content' => $meta['title']
         ]);
 
         return $meta;

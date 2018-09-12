@@ -32,29 +32,41 @@ $this->title = "Видео";
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'columns' => [
-                'id',
                 [
-                    'attribute' => 'type_id',
+                    'attribute' => 'product_id',
+                    'label'=>'Объявление',
+                    'format' => 'html',
+                    'value' => function ($model) {
+                        return Html::a('№ '.$model->product_id,'/product/update?id='.$model->product_id);
+                    },
+                ],
+                [
+                    'attribute' => 'product_type',
                     'label'=>'Тип',
                     'format' => 'raw',
                     'value' => function ($model) {
-                        return ProductType::getType($model->type_id);
+                        return ProductType::getType($model->product_type);
                     },
-                    'filter' => MdlHtml::activeDropDownList($searchModel, 'type_id', $typesList),
+                    'filter' => MdlHtml::activeDropDownList($searchModel, 'product_type', $typesList),
                 ],
                 [
-                    'attribute' => 'make_id',
+                    'attribute' => 'product_make',
                     'label'=>'Марка',
                     'format' => 'raw',
                     'value' => function ($model) {
-                        return ProductMake::find()->select('name')->where(['id' => $model->make_id])->andWhere(['product_type' => $model->type_id])->one()->name;
+                        return ProductMake::find()->select('name')->where(['id' => $model->product_make])->andWhere(['product_type' => $model->product_type])->one()->name;
                     },
-                    'filter' => MdlHtml::activeDropDownList($searchModel, 'make_id', $makesList),
+                    'filter' => MdlHtml::activeDropDownList($searchModel, 'product_make', $makesList),
                 ],
                 [
                     'attribute' => 'model',
                     'label'=>'Модель',
                     'filter' => MdlHtml::activeInput('text', $searchModel, 'model')
+                ],
+                [
+                    'attribute' => 'year',
+                    'label'=>'Год',
+                    'filter' => MdlHtml::activeInput('text', $searchModel, 'year')
                 ],
                 [
                     'attribute' => 'video_url',

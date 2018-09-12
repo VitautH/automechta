@@ -57,11 +57,11 @@ define(['jquery', 'i18n', 'application', 'preloader', 'tree', 'modal'], function
                     updateItem(id);
                 },
             },
-            {
-                name : __('app', 'Delete'),
-                callback : function (id) {
-                    deleteItem(id);
-                },
+             {
+                 name : __('app', 'Delete'),
+                 callback : function (id) {
+                     deleteItem(id);
+                 },
             },
         ],
         dataUrl : '/productmake/load-tree',

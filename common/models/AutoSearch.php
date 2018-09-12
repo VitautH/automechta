@@ -17,7 +17,6 @@ use yii\db\Query;
 class AutoSearch extends Model
 {
     const SCENARIO_SEARCH = 'search';
-    public $region;
     public $make;
     public $model;
     public $yearFrom;
@@ -33,7 +32,6 @@ class AutoSearch extends Model
     {
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_SEARCH] = [
-            'region',
             'make',
             'models',
             'yearFrom',
@@ -53,7 +51,6 @@ class AutoSearch extends Model
             'make' => Yii::t('app', 'Марка'),
             'yearFrom' => Yii::t('app', 'Год выпуска от'),
             'yearTo' => Yii::t('app', 'Год выпуска до'),
-            'region' => Yii::t('app', 'Регион'),
         ];
     }
 
@@ -64,8 +61,8 @@ class AutoSearch extends Model
     public function rules()
     {
         return [
-            [['model', 'make', 'region'], 'required'],
-            [['model', 'make', 'region', 'yearFrom', 'yearTo'], 'safe'],
+            [['model', 'make'], 'required'],
+            [['model', 'make', 'yearFrom', 'yearTo'], 'safe'],
         ];
     }
 
@@ -77,10 +74,6 @@ class AutoSearch extends Model
     {
         $query = AutoModifications::find();
 
-        if (!empty($this->region) && empty($this->make)) {
-            $query->where(['region_id' => $this->region]);
-        }
-
         if (!empty($this->make) && empty($this->model)) {
             $query->where(['make_id' => $this->make]);
         }
@@ -89,10 +82,13 @@ class AutoSearch extends Model
             $query->where(['model_id' => $this->model]);
         }
         if (!empty($this->yearFrom)) {
+            // $query->andWhere('auto_modifications.yearFrom>=:yearFrom', [':yearFrom' => $this->yearFrom]);
             $query->andWhere(['or', ['>=', 'auto_modifications.yearFrom', $this->yearFrom], ['or', ['auto_modifications.modification_name' => null]]]);
         }
         if (!empty($this->yearTo)) {
+            // $query->andWhere('auto_modifications.yearTo<=:yearTo', [':yearTo' => $this->yearTo]);
             $query->andWhere(['or', ['<=', 'auto_modifications.yearTo', $this->yearTo], ['or', ['auto_modifications.modification_name' => null]]]);
+
         }
 
         $query->orderBy('auto_modifications.yearFrom ASC');
@@ -104,23 +100,10 @@ class AutoSearch extends Model
     /**
      * @return array
      */
-    public static function getRegions()
-    {
-        $regions = array();
-        foreach (AutoRegions::find()->all() as $region) {
-            $regions[$region->id] = $region->region_name;
-        }
-
-        return $regions;
-    }
-
-    /**
-     * @return array
-     */
-    public static function getMakes($regionId = 1)
+    public static function getMakes()
     {
         $makes = array();
-        foreach (AutoMakes::find()->where(['region_id' => $regionId])->all() as $make) {
+        foreach (AutoMakes::find()->all() as $make) {
             $makes[$make->id] = $make->name;
         }
 
@@ -181,5 +164,22 @@ class AutoSearch extends Model
         }
 
         return $years;
+    }
+
+    public static function getCountModifications($id)
+    {
+        $allModifications = AutoModifications::findOne($id);
+        $query = AutoModification::find();
+        $query->where(['modification_id' => $id]);
+        $query->andFilterWhere(['>=', 'yearFrom', $allModifications->yearFrom]);
+        if ($allModifications->yearTo == 'н.в.') {
+            $query->andWhere("yearTo <= " . date("Y") . " OR yearTo = 'н.в.'");
+        } else {
+            $query->andFilterWhere(['<=', 'yearTo', $allModifications->yearTo]);
+        }
+
+        $count = $query->count();
+
+        return $count;
     }
 }

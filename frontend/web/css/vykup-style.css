@@ -1,0 +1,268 @@
+.srochnyj-vykup .header {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.srochnyj-vykup .about-vykup {
+    margin-top: 40px;
+}
+
+.srochnyj-vykup .about-vykup p {
+    text-align: justify;
+}
+
+.srochnyj-vykup .text-block h3 {
+    font-size: 22px;
+    margin-top: 110px;
+}
+
+.srochnyj-vykup .text-block p, .srochnyj-vykup .about-vykup p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.srochnyj-vykup .about-vykup h3 {
+    font-size: 22px;
+}
+
+.srochnyj-vykup .image img {
+    width: 100%;
+}
+
+.srochnyj-vykup .documents {
+    background: whitesmoke;
+    padding: 20px;
+    margin-bottom: 40px;
+}
+
+.srochnyj-vykup .documents h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.srochnyj-vykup .bottom .text-block h3 {
+    font-size: 22px;
+    margin-top: unset;
+    margin-bottom: 15px;
+}
+
+.srochnyj-vykup span.red {
+    color: #db4544;
+}
+
+.srochnyj-vykup .scheme h3 {
+    text-align: center;
+}
+
+.srochnyj-vykup .scheme span {
+    text-align: center;
+    display: block;
+    margin-bottom: 40px;
+}
+
+.srochnyj-vykup .scheme .circle-icon {
+    width: 130px;
+    height: 130px;
+    background: whitesmoke;
+    border-radius: 100%;
+    margin-left: 25%;
+}
+
+.srochnyj-vykup .scheme .phone-icon {
+    background: url(../theme/images/phone-red.png) no-repeat center;
+    background-size: 80px 80px;
+    background-color: whitesmoke;
+}
+
+.srochnyj-vykup .scheme .money-icon {
+    background: url(../theme/images/money-red.png) no-repeat center;
+    background-size: 80px 80px;
+    background-color: whitesmoke;
+}
+
+.srochnyj-vykup .scheme .marker-icon {
+    background: url(../theme/images/marker-red.png) no-repeat center;
+    background-size: 80px 80px;
+    background-color: whitesmoke;
+}
+
+.srochnyj-vykup .scheme .phone-icon:hover, .srochnyj-vykup .scheme .phone-icon:active {
+    background: url(../theme/images/phone-black.png) no-repeat center;
+    background-size: 80px 80px;
+    background-color: whitesmoke;
+    cursor: pointer;
+}
+
+.srochnyj-vykup .scheme .money-icon:hover, .srochnyj-vykup .scheme .money-icon:active {
+    background: url(../theme/images/money-black.png) no-repeat center;
+    background-size: 80px 80px;
+    background-color: whitesmoke;
+    cursor: pointer;
+}
+
+.srochnyj-vykup .scheme .marker-icon:hover, .srochnyj-vykup .scheme .marker-icon:active {
+    background: url(../theme/images/marker-black.png) no-repeat center;
+    background-size: 80px 80px;
+    background-color: whitesmoke;
+    cursor: pointer;
+}
+
+.srochnyj-vykup .scheme .scheme-text span.title {
+    margin-top: 20px;
+    display: block;
+    font-weight: bold;
+    text-align: unset;
+    margin-bottom: unset;
+}
+
+.srochnyj-vykup .content {
+    margin-top: 20px;
+}
+
+.srochnyj-vykup .contact {
+    background: whitesmoke;
+    padding: 20px;
+}
+
+.srochnyj-vykup .contact h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.srochnyj-vykup .contact .phone-block i {
+    position: relative;
+    display: block;
+    top: 40%;
+    color: #db4544;
+    font-size: 18px;
+}
+
+.srochnyj-vykup .contact .phone-block a {
+    margin-bottom: 12px;
+    display: block;
+    margin-left: 5px;
+    font-size: 18px;
+    vertical-align: middle;
+    margin-top: 8px;
+}
+
+.srochnyj-vykup .contact .open-hours, .srochnyj-vykup .contact .address {
+    margin-bottom: 12px;
+}
+
+.srochnyj-vykup .contact .open-hours i, .srochnyj-vykup .contact .address i, .srochnyj-vykup .contact .email i {
+    color: #db4544;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.srochnyj-vykup .contact .custom-button {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.srochnyj-vykup .documents .creative {
+    background: url(../theme/images/creative.png) no-repeat center;
+    background-size: 123px 120px;
+}
+
+@media screen and (max-width: 599px) {
+    .srochnyj-vykup .header {
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    .srochnyj-vykup .documents .creative {
+        background: url(../theme/images/creative.png) no-repeat left;
+        background-size: 83px 80px;
+        height: 80px;
+        margin-left: 15px;
+    }
+
+    .srochnyj-vykup .header h3 {
+        font-size: 18px;
+    }
+
+    .srochnyj-vykup .text-block h3 {
+        font-size: 18px;
+        margin-top: 20px;
+    }
+
+    .srochnyj-vykup .text-block p, .srochnyj-vykup .about-vykup p {
+        font-size: 14px;
+        margin-bottom: unset;
+    }
+
+    .srochnyj-vykup .documents {
+        padding: 10px;
+        margin-top: 20px;
+    }
+
+    .srochnyj-vykup .about-vykup {
+        margin-top: 10px;
+    }
+
+    .srochnyj-vykup .documents .col {
+        padding-left: 35px;
+    }
+
+    .srochnyj-vykup .bottom .text-block h3 {
+        font-size: 18px;
+        margin-top: unset;
+        margin-bottom: 15px;
+    }
+
+    .srochnyj-vykup .scheme {
+        margin-top: 20px;
+    }
+
+    .srochnyj-vykup .scheme h3 {
+        font-size: 18px;
+        text-align: justify;
+    }
+
+    .srochnyj-vykup .scheme span {
+        text-align: justify;
+        display: block;
+        margin-bottom: 20px;
+    }
+
+    .srochnyj-vykup .scheme .circle-icon {
+        margin-left: 0;
+        width: 100px;
+        height: 100px;
+        background-size: 60px 60px;
+    }
+
+    .srochnyj-vykup .scheme .circle-icon:hover, .srochnyj-vykup .scheme .circle-icon:focus, .srochnyj-vykup .scheme .circle-icon:active {
+        background-size: 60px 60px;
+    }
+
+    .srochnyj-vykup .contact h3 {
+        text-align: left;
+        margin-bottom: 10px;
+    }
+
+    .srochnyj-vykup .contact .phone-block {
+        margin-bottom: 10px;
+    }
+
+    .srochnyj-vykup .contact .phone-block a {
+        display: block;
+        margin-left: 5px;
+        font-size: 16px;
+        vertical-align: middle;
+        margin-bottom: 5px;
+        margin-top: 0;
+    }
+
+    .srochnyj-vykup .contact .phone-block i {
+        top: 35%;
+    }
+
+    .srochnyj-vykup .contact .open-hours, .srochnyj-vykup .contact .address {
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+}

@@ -65,7 +65,7 @@ class ProductmakeController extends TreeController
 
             $searchForm = new ProductSearchForm();
             $query = Product::find()->active();
-            $params['ProductSearchForm']['makes'] = ProductMake::find()->where(['id' => $params['ProductSearchForm']['makes']])->one()->name;
+            $searchForm->load($params);
             if (!empty($params['ProductSearchForm']['specs'])) {
                 $searchForm->specifications = $params['ProductSearchForm']['specs'];
             }
@@ -96,7 +96,6 @@ class ProductmakeController extends TreeController
             if (!empty($params['ProductSearchForm']['model'])) {
                 $searchForm->model = $params['ProductSearchForm']['model'];
             }
-            $searchForm->load($params);
             $total = $searchForm->search($query)->count();
 
             return $total;

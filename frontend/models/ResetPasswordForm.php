@@ -38,6 +38,7 @@ class ResetPasswordForm extends Model
         parent::__construct($config);
     }
 
+
     /**
      * @inheritdoc
      */
@@ -46,6 +47,17 @@ class ResetPasswordForm extends Model
         return [
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
+        ];
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'password' => 'Пароль',
         ];
     }
 

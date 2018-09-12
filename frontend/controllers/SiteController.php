@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\ProductType;
 use Yii;
 use common\models\LoginForm;
 use common\models\Slider;
@@ -25,13 +26,18 @@ use common\models\MainPage;
 use common\models\Teaser;
 use common\models\Parsernews;
 use yii\helpers\Url;
+use yii\helpers\StringHelper;
+use yii\helpers\Html;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
+
 
 /**
  * Site controller
  */
 class SiteController extends Controller
 {
-    public $layout = 'index';
+    public $layout = 'new-index';
     public $bodyClass;
     private $source;
     private $source_id;
@@ -42,6 +48,12 @@ class SiteController extends Controller
     public function behaviors()
     {
         return [
+//            'httpCache' => [
+//                'class' => 'yii\filters\HttpCache',
+//                'only' => ['carousel'],
+//                'sessionCacheLimiter' => 'private_no_expire',
+//                'cacheControlHeader' => 'public, max-age=3600',
+//            ],
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => ['logout', 'signup'],
@@ -58,14 +70,9 @@ class SiteController extends Controller
                     ],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
         ];
     }
+
 
     /**
      * @inheritdoc
@@ -110,35 +117,58 @@ class SiteController extends Controller
             die();
         }
 
-        if (Yii::$app->cache->exists('main_page')) {
-            $this->bodyClass = 'main-page';
+        $this->layout = 'index';
+        $this->bodyClass = 'main-page';
 
-            return $this->render('index');
-        } else {
+        $carousels = Product::find()->highPriority()->active()->orderBy('product.updated_at DESC')->limit(16)->all();
+        $news = Page::find()->andWhere(['not', ['main_image' => null]])->active()->offset(1)->news()->limit(5)->orderBy('id desc')->all();
+        $mainNews = Page::find()->andWhere(['not', ['main_image' => null]])->active()->news()->limit(1)->orderBy('id desc')->one();
+        $appData = AppData::getData();
 
-            $latestAutosCompany = Product::find()->highPriority()->active()->orderBy('product.updated_at DESC')->limit(8)->all();
-            $latestAutosPrivate = Product::find()->lowPriority()->active()->orderBy('product.updated_at DESC')->limit(8)->all();
-            $latestNews = Page::find()->active()->news()->limit(5)->orderBy('id desc')->all();
-            $mainNews = $latestNews[0];
-            $teasers = Teaser::find()->active()->orderBy('lft')->all();
-            $appData = AppData::getData();
-            $topMakers = ProductMake::find()->top()->limit(8)->all();
-            $mainPageData = MainPage::getData();
-            $sliders = Slider::find()->orderBy('lft')->published()->all();
-            $this->bodyClass = 'main-page';
+        $mainPageData = MainPage::getData();
 
-            return $this->render('index', [
-                'sliders' => $sliders,
-                'latestAutosCompany' => $latestAutosCompany,
-                'latestAutosPrivate' => $latestAutosPrivate,
-                'mainNews' => $mainNews,
-                'teasers' => $teasers,
-                'appData' => $appData,
-                'topMakers' => $topMakers,
-                'mainPageData' => $mainPageData,
-            ]);
+        $this->bodyClass = 'main-page';
+
+        return $this->render('index', [
+            'carousels' => $carousels,
+            'news' => $news,
+            'mainNews' => $mainNews,
+            'appData' => $appData,
+            'mainPageData' => $mainPageData,
+        ]);
+    }
+
+    public function actionCarousel($type)
+    {
+        if (Yii::$app->request->isAjax) {
+            switch ($type) {
+                case 'CompanyCars':
+
+                    $carousels = Product::find()->highPriority()->active()->orderBy('product.updated_at DESC')->limit(16)->all();
+
+                    break;
+                case 'PrivateCars':
+
+                    $carousels = Product::find()->where(['type' => ProductType::CARS])->lowPriority()->active()->orderBy('product.updated_at DESC')->limit(16)->all();
+
+                    break;
+                case 'Motos':
+
+                    $carousels = Product::find()->orWhere(['type' => ProductType::MOTO])->orWhere(['type' => ProductType::SCOOTER])->orWhere((['type' => ProductType::ATV]))->active()->orderBy('product.updated_at DESC')->limit(16)->all();
+
+                    break;
+
+                case 'Boat':
+
+                    $carousels = Product::find()->where(['type' => ProductType::BOAT])->active()->orderBy('product.updated_at DESC')->limit(16)->all();
+
+                    break;
+            }
+
+            return $this->renderAjax('_carousel', ['carousels' => $carousels, 'type' => $type]);
         }
     }
+
 
     /**
      * Render partial product list view.
@@ -147,16 +177,16 @@ class SiteController extends Controller
      * @throws NotFoundHttpException
      * @return mixed
      */
-    public function actionProductlist($make)
-    {
-        $currentMaker = ProductMake::find()->where('id=:id', [':id' => $make])->one();
-        if ($currentMaker === null) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-        return Yii::$app->controller->renderPartial('_productList', [
-            'currentMaker' => $currentMaker
-        ]);
-    }
+//    public function actionProductlist($make)
+//    {
+//        $currentMaker = ProductMake::find()->where('id=:id', [':id' => $make])->one();
+//        if ($currentMaker === null) {
+//            throw new NotFoundHttpException('The requested page does not exist.');
+//        }
+//        return Yii::$app->controller->renderPartial('_productList', [
+//            'currentMaker' => $currentMaker
+//        ]);
+//    }
 
     /**
      * Render brand view.
@@ -165,16 +195,16 @@ class SiteController extends Controller
      * @throws NotFoundHttpException
      * @return mixed
      */
-    public function actionBrand($make)
-    {
-        $currentMaker = ProductMake::find()->where('id=:id', [':id' => $make])->one();
-        if ($currentMaker === null) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-        return Yii::$app->controller->renderPartial('_productList', [
-            'currentMaker' => $currentMaker
-        ]);
-    }
+//    public function actionBrand($make)
+//    {
+//        $currentMaker = ProductMake::find()->where('id=:id', [':id' => $make])->one();
+//        if ($currentMaker === null) {
+//            throw new NotFoundHttpException('The requested page does not exist.');
+//        }
+//        return Yii::$app->controller->renderPartial('_productList', [
+//            'currentMaker' => $currentMaker
+//        ]);
+//    }
 
     /**
      * Logs in a user.
@@ -190,7 +220,7 @@ class SiteController extends Controller
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             $urlAccount = Url::previous('previous');
-            $urlForCatalog =  Url::previous('forCatalog');
+            $urlForCatalog = Url::previous('forCatalog');
             if (!empty($urlForCatalog)) {
                 return $this->redirect($urlForCatalog);
             } else {
@@ -198,11 +228,12 @@ class SiteController extends Controller
             }
 
         } else {
-            $this->bodyClass = 'login-page';
-
-            return $this->render('login', [
-                'model' => $model,
-            ]);
+//            $this->bodyClass = 'login-page';
+//
+//            return $this->render('login', [
+//                'model' => $model,
+//            ]);
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 
@@ -225,6 +256,9 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
+        $this->layout = 'new-index';
+        $this->bodyClass = 'contact-page';
+
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail(AppData::getData()['adminEmail'])) {
@@ -246,10 +280,10 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
+//    public function actionAbout()
+//    {
+//        return $this->render('about');
+//    }
 
     /**
      * Signs user up.
@@ -259,19 +293,38 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post())) {
+        $request = \Yii::$app->getRequest();
+
+        if ($request->isPost && $model->load($request->post())) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
-                    return $this->render('aftersignup', [
-                        'model' => $model,
-                    ]);
+
+                    return $this->redirect('/site/aftersignup');
                 }
             }
+            var_dump($model->getErrors());
         }
+        else {
 
-        return $this->render('signup', [
-            'model' => $model,
-        ]);
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    public function actionAftersignup(){
+
+        return $this->render('aftersignup');
+    }
+
+    public function actionSignupvalidation(){
+        $model = new SignupForm();
+        $request = \Yii::$app->getRequest();
+        if ($request->isPost && $model->load($request->post())) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+
+            return ActiveForm::validate($model);
+        }
     }
 
     /**
@@ -302,23 +355,37 @@ class SiteController extends Controller
      */
     public function actionRequestPasswordReset()
     {
-        $model = new PasswordResetRequestForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-
-                //return $this->goHome();
-                return $this->render('requestPasswordResetEmailSent', [
-                    'model' => $model,
-                ]);
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $model = new PasswordResetRequestForm();
+            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                if ($model->sendEmail()) {
+                    return ['status' => 'success', 'text'=>'Ссылка для сброса пароля отправлена Вам на E-mail.'];
+                } else {
+                    return ['status' => 'success', 'text'=>'Произошла ошибка. Нам не удалось отправить Вам ссылку на воостановление пароля на Ваш e-mail'];
+                }
             } else {
-                Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
+                return ['status' => 'error', 'text'=>'Извините, такой E-mail не существует!'];
             }
-        }
+        } else {
+            $model = new PasswordResetRequestForm();
+            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                if ($model->sendEmail()) {
+                    Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
 
-        return $this->render('requestPasswordResetToken', [
-            'model' => $model,
-        ]);
+                    //return $this->goHome();
+                    return $this->render('requestPasswordResetEmailSent', [
+                        'model' => $model,
+                    ]);
+                } else {
+                    Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
+                }
+            }
+
+            return $this->render('requestPasswordResetToken', [
+                'model' => $model,
+            ]);
+        }
     }
 
     /**
@@ -397,7 +464,7 @@ class SiteController extends Controller
             if ($auth) {
                 if (Yii::$app->user->login($auth)) {
                     $urlAccount = Url::previous('previous');
-                    $urlForCatalog =  Url::previous('forCatalog');
+                    $urlForCatalog = Url::previous('forCatalog');
 
                     if (!empty($urlForCatalog)) {
                         return $this->redirect($urlForCatalog);
@@ -467,15 +534,13 @@ class SiteController extends Controller
                     Yii::$app->user->login($user);
 
                     $urlAccount = Url::previous('previous');
-                    $urlForCatalog =  Url::previous('forCatalog');
+                    $urlForCatalog = Url::previous('forCatalog');
                     if (!empty($urlForCatalog)) {
                         return $this->redirect($urlForCatalog);
-                    }
-                    else {
+                    } else {
                         return $this->redirect($urlAccount);
                     }
-                }
-                else {
+                } else {
                     print_r($user->getErrors());
 
                 }

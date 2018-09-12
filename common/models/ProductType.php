@@ -29,6 +29,7 @@ class ProductType extends \yii\db\ActiveRecord
     const MOTO = 3;
     const SCOOTER = 4;
     const ATV = 5;
+    const BOAT = 6;
 
     /**
      * @inheritdoc
@@ -151,9 +152,15 @@ class ProductType extends \yii\db\ActiveRecord
      * Get list of types where key is type `id` and value is name of type according to current language.
      * @return array
      */
-    public static function getTypesAsArray()
+    public static function getTypesAsArray($withoutType =null)
     {
-        $types = self::find()->where('depth>0')->all();
+        if ($withoutType == null) {
+            $types = self::find()->where('depth>0')->all();
+        }
+        else {
+            $types = self::find()->where('depth>0')->andWhere(['!=','id', $withoutType])->all();
+
+        }
         $result = [];
 
         foreach ($types as $type) {
@@ -162,6 +169,8 @@ class ProductType extends \yii\db\ActiveRecord
 
         return $result;
     }
+
+
 
     public static function getTypeAsArray($type)
     {
@@ -173,5 +182,16 @@ class ProductType extends \yii\db\ActiveRecord
         }
 
         return $result;
+    }
+
+    /*
+     * Get name type product
+     * @return string
+     */
+    public static function getType($type)
+    {
+        $result = self::find()->where(['id' => $type])->one();
+
+        return $result->i18n()->name;
     }
 }

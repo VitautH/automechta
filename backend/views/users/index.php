@@ -11,22 +11,22 @@ use common\models\AuthAssignment;
 $name = Yii::t('app', 'Users');
 $this->title = $name;
 $this->registerJs("require(['controllers/users/index']);", \yii\web\View::POS_HEAD);
-var_dump(AuthAssignment::find()->select('item_name')->where(['user_id' => 999])->one()->item_name);
 ?>
-<div class="mdl-grid page-header mdl-shadow--2dp">
-    <div class="mdl-cell mdl-cell--12-col">
-        <?= Breadcrumbs::widget([
-            'links' => Yii::$app->menu->getBreadcrumbs()
-        ]) ?>
-        <h2><?= $name ?></h2>
-        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab mdl-button--colored page-header__fab"
-           href="<?= Url::to(['users/create']) ?>">
-            <i class="material-icons">add</i>
-        </a>
+
+<div class="row">
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title"><?php echo $name;?></h3>
+            <a class="btn btn-app" href="<?= Url::to(['users/create']) ?>">
+                <i class="fa fa-plus"></i> Добавить
+            </a>
+        </div>
     </div>
 </div>
-<div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--padding mdl-cell--12-col mdl-shadow--2dp">
+<div class="row">
+    <div class="box">
+        <!-- /.box-header -->
+        <div class="box-body">
         <?php \yii\widgets\Pjax::begin([
             'id' => 'user_grid_wrapper',
             'linkSelector' => '#user_grid_wrapper a:not(.button-col a)'
@@ -36,20 +36,23 @@ var_dump(AuthAssignment::find()->select('item_name')->where(['user_id' => 999])-
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'tableOptions' => [
-                'class' => 'mdl-data-table mdl-data-table--no-border mdl-js-data-table'
+                'role' => 'grid',
+                'class' => 'table table-bordered table-striped dataTable mdl-js-data-table'
             ],
+            'rowOptions' => ['role' => 'row', 'class' => 'odd'],
             'columns' => [
                 [
                     'attribute' => 'id',
-                    'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                    //'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                   //// 'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                    //'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                    'filter' => MdlHtml::activeInput('text', $searchModel, 'id')
                 ],
                 [
                     'attribute' => 'status',
-                    'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                   // 'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                   // 'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                   // 'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
                     'format' => 'raw',
                     'value' => function ($data) {
                         $status = AuthAssignment::find()->select('item_name')->where(['user_id' => $data->id])->one();
@@ -66,38 +69,38 @@ var_dump(AuthAssignment::find()->select('item_name')->where(['user_id' => 999])-
                 ],
                 [
                     'attribute' => 'username',
-                    'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                    //'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                    //'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                    //'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
                     'filter' => MdlHtml::activeInput('text', $searchModel, 'username')
                 ],
                 [
                     'attribute' => 'email',
-                    'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                   // 'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                  //  'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                 //   'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
                     'filter' => MdlHtml::activeInput('text', $searchModel, 'email')
                 ],
                 [
                     'attribute' => 'phone',
-                    'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                   // 'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                   // 'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                   // 'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
                     'filter' => MdlHtml::activeInput('text', $searchModel, 'phone')
                 ],
                 [
                     'attribute' => 'phone_2',
-                    'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
-                    'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                    //'headerOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                    //'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                   // 'contentOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
                     'filter' => MdlHtml::activeInput('text', $searchModel, 'phone_2')
                 ],
                 [
                     'attribute' => 'created_at',
                     'format' => ['date', 'php:Y-m-d H:m:s'],
-                    'headerOptions' => ['style' => 'width: 215px;'],
-                    'contentOptions' => ['class' => 'auto-width-col center-align'],
-                    'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
+                   // 'headerOptions' => ['style' => 'width: 215px;'],
+                   // 'contentOptions' => ['class' => 'auto-width-col center-align'],
+                   // 'filterOptions' => ['class' => 'mdl-data-table__cell--non-numeric'],
                     'filter' => MdlHtml::activeInput('text', $searchModel, 'created_at')
                 ],
                 [
@@ -107,9 +110,9 @@ var_dump(AuthAssignment::find()->select('item_name')->where(['user_id' => 999])-
                     'buttons' => [
                         'delete' => function ($url, $model, $key) {
                             return Html::button(
-                                '<i class="material-icons red-text">delete</i>',
+                                '<i class="fa fa-trash"></i>',
                                 [
-                                    'class' => 'mdl-button mdl-js-button mdl-button--icon mdl-button--accent js-delete-row',
+                                    'class' => 'btn btn-default mdl-js-button mdl-button--icon mdl-button--accent js-delete-row',
                                     'data-delete_url' => Url::to(['users/delete', 'id' => $model->id]),
                                     'title' => Yii::t('app', 'Delete'),
                                 ]
@@ -117,10 +120,10 @@ var_dump(AuthAssignment::find()->select('item_name')->where(['user_id' => 999])-
                         },
                         'update' => function ($url, $model, $key) {
                             return Html::a(
-                                '<i class="material-icons teal-text">mode_edit</i>',
+                                '<i class="fa fa-edit"></i>',
                                 Url::to(['users/update', 'id' => $model->id]),
                                 [
-                                    'class' => 'mdl-button mdl-js-button mdl-button--icon mdl-button--colored',
+                                    'class' => 'btn btn-default mdl-js-button mdl-button--icon mdl-button--colored',
                                     'title' => Yii::t('app', 'Edit'),
                                 ]
                             );
@@ -136,5 +139,6 @@ var_dump(AuthAssignment::find()->select('item_name')->where(['user_id' => 999])-
         \yii\widgets\Pjax::end();
         ?>
     </div>
+</div>
 </div>
 

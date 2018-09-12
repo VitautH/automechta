@@ -1,0 +1,346 @@
+.avto-v-kredit .banner {
+    background: url(../theme/images/bg-49.png) no-repeat center;
+    background-size: cover;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}
+
+.avto-v-kredit .header {
+    margin-top: 40px;
+    margin-bottom: 20px;
+
+}
+.menu-credit-clculator  .b-detail__main-aside-payment {
+    background: whitesmoke!important;
+    padding: unset!important;
+    border: unset!important;
+}
+
+.avto-v-kredit h3, h2 {
+    font-size: 25px;
+
+}
+
+.avto-v-kredit p {
+    font-size: 14px;
+    text-align: justify;
+}
+
+.avto-v-kredit .banner i {
+    display: block;
+    font-size: 22px;
+    margin-bottom: 10px;
+    margin-top: 30px;
+}
+
+.avto-v-kredit .content, .avto-v-kredit .conditions, .avto-v-kredit .documents {
+    margin-top: 40px;
+}
+
+.avto-v-kredit .demands ul, .avto-v-kredit .conditions ul {
+    margin-top: 20px;
+    font-size: 14px;
+    list-style: none;
+}
+
+.avto-v-kredit .demands ul li::before, .avto-v-kredit .conditions ul li::before {
+    content: "• ";
+    color: #db4544;
+    font-size: 18px;
+}
+
+.avto-v-kredit .documents {
+    background-color: whitesmoke;
+    margin-bottom: 40px;
+    padding: 20px;
+}
+
+.avto-v-kredit .documents h3 {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.avto-v-kredit .documents .creative {
+    background: url(../theme/images/creative.png) no-repeat center;
+    background-size: 83px 80px
+}
+
+.avto-v-kredit .documents-for-company ul li {
+    list-style: none;
+    margin-bottom: 10px;
+}
+
+.avto-v-kredit .documents-for-company ul li .list {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #db4544;
+    border-radius: 100%;
+    color: #db4544;
+    margin-top: 15px;
+}
+
+.avto-v-kredit .documents-for-company ul li .list span {
+    text-align: center;
+    display: block;
+    margin-top: 2px;
+}
+
+.avto-v-kredit .documents-for-company ul li .text {
+    margin-top: 5px;
+}
+
+.avto-v-kredit .consultation {
+    margin-top: 20px;
+    background: whitesmoke;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.avto-v-kredit .consultation .cirkle {
+    background: url(../theme/images/call-avto-v-kredit.png) no-repeat top;
+    background-size: contain;
+}
+
+.avto-v-kredit .consultation .phone-block a {
+    margin-bottom: 12px;
+    display: block;
+    margin-left: 5px;
+    font-size: 18px;
+    vertical-align: middle;
+    margin-top: 8px;
+}
+
+.avto-v-kredit .consultation .open-hours, .avto-v-kredit .consultation .address {
+    margin-bottom: 14px;
+    margin-top: 8px;
+    font-size: 18px;
+}
+
+.avto-v-kredit .consultation .open-hours i, .avto-v-kredit .consultation .address i, .avto-v-kredit .consultation .email i {
+    color: #db4544;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.avto-v-kredit .consultation .phone-block i {
+    position: relative;
+    display: block;
+    top: 30%;
+    color: #db4544;
+    font-size: 18px;
+}
+
+.avto-v-kredit .consultation .phone-block {
+    margin-left: 20px;
+}
+
+.avto-v-kredit .consultation h3 {
+    margin-left: 13%;
+    margin-bottom: 20px;
+}
+
+.avto-v-kredit .consultation .custom-button {
+    border: 2px solid #be2322;
+    background: transparent;
+    color: #be2322;
+}
+
+.avto-v-kredit .consultation .custom-button:hover, .avto-v-kredit .consultation .custom-button:focus, .avto-v-kredit .consultation .custom-button:active {
+    border: 2px solid transparent;
+    background: #be2322;
+    color: white;
+}
+
+.avto-v-kredit .credit_block, .avto-v-kredit .b-detail__main-aside-payment {
+    background: whitesmoke;
+    padding: 20px;
+    border: 2px solid #db4544;
+}
+
+.avto-v-kredit .credit_block h3, .avto-v-kredit .b-detail__main-aside-payment h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.avto-v-kredit .credit_block input, .avto-v-kredit .b-detail__main-aside-payment input, .avto-v-kredit .b-detail__main-aside-payment select {
+    margin-bottom: 15px;
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #c5c3c3;
+}
+
+.avto-v-kredit .credit_block input:active, .avto-v-kredit .credit_block input:focus,  .avto-v-kredit .b-detail__main-aside-payment select:focus, .avto-v-kredit .b-detail__main-aside-payment select:active, .avto-v-kredit .b-detail__main-aside-payment input:active,
+.avto-v-kredit .b-detail__main-aside-payment input:focus {
+    border: 1px solid #db4544;
+}
+
+.avto-v-kredit .credit_block .custom-button, .avto-v-kredit .b-detail__main-aside-payment .custom-button  {
+    text-align: center;
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.avto-v-kredit  select {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding: 3px 10px;
+    border: none;
+    background: white;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+.avto-v-kredit  .m-select i {
+    position: absolute;
+    top: 40%;
+    right: 10px;
+    z-index: 0;
+    font-size: 11px;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+.avto-v-kredit  .m-select {
+position: relative;
+}
+.avto-v-kredit .download-income {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background: #db4544;
+    text-align: center;
+    color: white;
+    padding: 10px;
+    display: block;
+}
+
+.avto-v-kredit .download-income:hover {
+    background: #be2322;
+}
+
+.avto-v-kredit  .js-loan-results {
+  width: 100%;
+    text-align: center;
+    font-size: 16px;
+}
+
+.avto-v-kredit  .js-loan-results  p{
+    text-align: center;
+}
+
+.avto-v-kredit  .b-detail__main-aside-payment .custom-button {
+    font-size: 15px;
+}
+
+.avto-v-kredit  .partner {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+.avto-v-kredit .partner h3 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+.avto-v-kredit .partner img {
+    width: 165px;
+    margin-left: 30px;
+    vertical-align: bottom;
+}
+.avto-v-kredit  .credit_block span.credit-application-success{
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #db4544;
+    font-weight: bold;
+}
+@media screen and (max-width: 599px) {
+    .avto-v-kredit h3, h2 {
+        font-size: 18px;
+    }
+    .avto-v-kredit .content, .avto-v-kredit .conditions, .avto-v-kredit .documents {
+        margin-top: 20px;
+    }
+    .avto-v-kredit .demands ul, .avto-v-kredit .conditions ul {
+        padding: 0;
+        margin-top: 10px;
+    }
+
+    .avto-v-kredit .documents {
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+    .avto-v-kredit .documents .creative {
+        background: url(../theme/images/creative.png) no-repeat left;
+        background-size: 83px 80px;
+        height: 80px;
+        margin-left: 10px;
+    }
+
+    .avto-v-kredit .documents-for-company ul {
+        padding-left: 15px;
+    }
+    .avto-v-kredit .documents-for-company ul li .text {
+        margin-top: 5px;
+        font-size: 14px;
+    }
+
+    .avto-v-kredit .phone-block a {
+        display: block;
+        margin-left: 5px;
+        font-size: 16px;
+        vertical-align: middle;
+        margin-bottom: 5px;
+        margin-top: 0;
+    }
+    .avto-v-kredit .phone-block i {
+        top: 35%;
+    }
+    .avto-v-kredit .open-hours,  .avto-v-kredit .address,  .avto-v-kredit .email {
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+    .avto-v-kredit .consultation {
+        padding-top: 25px;
+        padding-bottom: 25px;
+    }
+
+    .avto-v-kredit .consultation h3 {
+         margin-left:unset;
+         margin-bottom: unset;
+    }
+
+    .avto-v-kredit .consultation .open-hours, .avto-v-kredit .consultation .address, .avto-v-kredit .consultation .email{
+        margin-bottom: 14px;
+        margin-top: 8px;
+        font-size: 14px;
+    }
+
+    .avto-v-kredit .consultation .custom-button {
+        margin-top: 10px;
+        width: 100%;
+        background: #be2322;
+        color: white;
+    }
+
+    .avto-v-kredit .consultation .phone-block {
+        margin-left: 0;
+    }
+
+    .avto-v-kredit  .partner {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .avto-v-kredit .partner h3 {
+        margin-bottom: 10px;
+    }
+    .avto-v-kredit .partner img {
+        width: 125px;
+        margin-left: 15px;
+        margin-bottom: 20px;
+}
+}

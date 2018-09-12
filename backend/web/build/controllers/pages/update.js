@@ -19,7 +19,7 @@ define([
     });
 
     $('#page-alias').on('change keyup', function(){
-        $('.js-alias').text('/page/' + $(this).val());
+        $('.js-alias').text('/' + $(this).val());
     }).trigger('change');
 
 });

@@ -27,6 +27,7 @@ class UserSearch extends User
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_SEARCH] = [
             'username',
+            'id',
             'first_name',
             'last_name',
             'email',
@@ -77,6 +78,7 @@ class UserSearch extends User
 
         // adjust the query by adding the filters
         $query->andFilterWhere(['like', 'username', $this->username])
+             ->andFilterWhere(['id'=> $this->id])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'phone_2', $this->phone_2]);

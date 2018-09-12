@@ -1,0 +1,333 @@
+.create-ads .header {
+    margin-top: 40px;
+}
+
+.create-ads .content {
+    margin-top: 40px;
+}
+input:focus,select:focus,button:focus {
+    outline-style: none;
+    outline-width: 0px !important;
+    outline-color: none !important;
+}
+.create-ads select, .create-ads input, .cr.create-ads inputeate-ads textarea {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding: 7px 10px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.create-ads .select i {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    z-index: 0;
+    font-size: 11px;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.create-ads select, .create-ads input, .create-ads textarea {
+    position: relative;
+    border: 1px solid #000;
+    height: 46px;
+}
+
+.create-ads select:focus, .create-ads input:focus, .create-ads textarea:focus,
+.create-ads select:active, .create-ads input:active, .create-ads textarea:active,
+.create-ads select:hover, .create-ads input:hover, .create-ads textarea:hover {
+    border: 1px solid #db4544 !important;
+}
+
+.create-ads textarea {
+    height: 100px;
+    width: 100%;
+}
+
+.create-ads label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.create-ads .form-field {
+    margin-bottom: 30px;
+}
+
+.create-ads .form-group {
+    margin: 0;
+}
+
+.create-ads .help-block {
+    display: none;
+}
+
+.create-ads .create_ads {
+    margin-top: 20px;
+}
+
+.create-ads .create_ads .b-submit__main-element-checkbox label.s-submitCheckLabel i.fas {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    display: none;
+}
+
+.create_ads .main-element-checkbox input[type="checkbox"]:checked + label i.fas {
+    color: #df4142;
+    display: block !important;
+}
+
+.create_ads .main-element-checkbox input[type="checkbox"]:checked + label.s-submitCheck {
+    font-weight: bold;
+}
+
+.create_ads .js-show-form-step {
+    margin-top: 50px;
+    padding: 10px 50px;
+}
+
+.create_ads .exchange-auction-row {
+    margin-top: 20px;
+}
+
+.create-ads .header h4 {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.add_phone-block {
+    color: #df4142;
+    text-decoration: underline;
+    margin-top: 20px;
+}
+
+.add_phone-block:hover {
+    cursor: pointer;
+}
+
+.rules-link {
+    display: inline-block !important;
+    margin-bottom: 0;
+    margin-left: 10px;
+    vertical-align: middle;
+    cursor: pointer;
+    float: none !important;
+    width: auto !important;
+    padding-top: 0 !important;
+}
+
+.create-ads #button_publish {
+    padding: 10px 30px;
+}
+
+.create-ads form {
+    margin-bottom: 40px;
+}
+
+.photo-block {
+    background-color: #e8e8e8;
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+}
+
+.photo-block .dropzone {
+    border: 0;
+
+}
+
+.create-ads div.dz-message span.upload {
+    margin-left: 0;
+    margin-bottom: 20px;
+    padding: 10px 15px 10px 15px;
+    background-color: #df4142;
+}
+
+.create-ads .hint-upload-photo {
+    margin-top: 20px;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    text-align: justify;
+    margin-bottom: 30px;
+    clear: both;
+    float: left;
+    width: 60%;
+}
+
+.drop {
+    display: block;
+    float: right;
+    height: 120px;
+    padding: 10px;
+    background: white;
+    border: 1px dotted black;
+    margin-left: 20px;
+}
+
+.drop span {
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+    width: 36%;
+    margin-top: 15px;
+}
+
+.create-ads .hint-video h4::before {
+    background: url(../theme/images/youtube.png);
+    content: '';
+    background-size: contain;
+    width: 150px;
+    height: 60px;
+    float: left;
+    background-repeat: no-repeat;
+    margin-right: 20px;
+    margin-top: -10px;
+}
+
+.create-ads  .button_publish {
+    padding: 10px 40px;
+}
+
+.create-ads  .color-red {
+    color: #db4544;
+}
+
+.nav .vertical-line {
+    height: 70px;
+    border-left: 1px solid #db4544;
+    margin-left: 20px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.nav .step {
+    width: 40px;
+    height: 40px;
+    margin-top: 15px;
+    background: transparent;
+    border: 2px solid #cccccc;
+}
+.nav .active {
+    background: #db4544;
+    border: 2px solid #db4544;
+    color: white;
+}
+.nav .active span {
+    color:white!important;
+}
+.nav .step span {
+    display: inline-block;
+    margin-top: 3px;
+    font-size: 22px;
+    margin-left: 13px;
+    color: #cccccc;
+}
+@media screen and (max-width: 599px) {
+    .create-ads .header {
+        margin-top: 20px;
+    }
+    .create-ads .content {
+        margin-top: 20px;
+    }
+
+    h3 {
+        font-size: 22px;
+    }
+
+    .create-ads  .hint-block {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+    .create-ads .form-field {
+        margin-bottom: 10px;
+    }
+
+    .create-ads select, .create-ads input, .create-ads textarea {
+        padding: 7px 5px;
+    }
+
+    .no-padding-left {
+        padding-left: 0;
+    }
+
+    .create-ads .header h4 {
+        font-size: 13px;
+        margin-bottom: 15px;
+    }
+
+    .create_ads .main-element-checkbox {
+        -webkit-column-count: 1!important;
+        -moz-column-count: 1!important;
+        column-count: 1!important;
+        margin-bottom: 20px!important;
+    }
+
+    .create_ads .b-submit__main-element-checkbox {
+        margin-bottom: 5px !important;
+        margin-left: 15px;
+    }
+    .dropzone {
+        min-height: 150px;
+        margin-top: 40px;
+    }
+    .create-ads .hint-upload-photo {
+        margin-top: 20px;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        text-align: justify;
+        margin-bottom: 15px;
+        clear: both;
+        float: left;
+        width: 100%;
+        padding: 10px;
+    }
+
+    .drop span {
+        text-align: center;
+        display: inline-block;
+         width: 100%;
+        margin-top: 30px;
+    }
+
+    .photo-block {
+        margin-bottom: 10px;
+    }
+
+    .create-ads .hint-video h4::before {
+        width: 110px;
+    }
+
+    .create_ads .js-show-form-step {
+        margin-top:0;
+    }
+    .create-ads .header {
+        margin-top: 20px;
+    }
+
+    .add_phone-block {
+        margin-top: 10px;
+    }
+
+    .agree {
+        margin-left: 0!important;
+    }
+
+    #button_publish {
+        width: 100%;
+    }
+
+    .drop {
+        margin-left: 0;
+    }
+}
+
+
+@media screen and (max-width: 374px) {
+
+}

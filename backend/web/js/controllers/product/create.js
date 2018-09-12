@@ -23,6 +23,9 @@ function (application, $, preloader, i18nForm, tinymceHelper, uploader) {
     $('[name="Product[make]"]').on('change', function () {
         updateModelsList($(this).val());
     });
+ if ($('#product-phone').length) {
+        $('#product-phone').mask("+375 (99) 999-99-99");
+    }
 
     function updateModelsList(makeId) {
         preloader.show($form);
@@ -37,9 +40,5 @@ function (application, $, preloader, i18nForm, tinymceHelper, uploader) {
                 preloader.hide($form);
             }
         });
-    }
-
-    if ($('#product-phone').length) {
-        $('#product-phone').mask("+375 (99) 999-99-99");
     }
 });

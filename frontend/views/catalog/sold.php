@@ -3,18 +3,21 @@ use common\models\AppData;
 $this->title= "Продано";
 $appData= AppData::getData();
 ?>
-<section class="b-pageHeader"
-         style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
+<div class="breadcrumbs">
     <div class="container">
-        <h1 class="wow zoomInLeft" data-wow-delay="0.5s"> Продано </h1>
+        <ul>
+            <li><a href="/">Главная<i class="fas fa-chevron-right ml-1 ml-lg-2"></i></a></li>
+            <li><span class="no-link ml-lg-2">Продано</span></li>
+        </ul>
     </div>
-</section>
-<!--b-pageHeader-->
-<section>
-    <div class="b-detail s-shadow">
+</div>
+    <div class="sold">
    <div class="container">
        <div class="row">
-           <div class="col-md-3">
+           <div class="col-12 col-lg-8">
+               <img src="<?= '/theme/images/sold.jpg'?>"/>
+           </div>
+           <div class="ads-block col-12 col-lg-3">
                <!-- Yandex.RTB R-A-248508-1 -->
                <div id="yandex_rtb_R-A-248508-1"></div>
                <script type="text/javascript">
@@ -36,10 +39,6 @@ $appData= AppData::getData();
                    })(this, this.document, "yandexContextAsyncCallbacks");
                </script>
            </div>
-           <div class="col-md-4 col-md-offset-2">
-               <img src="<?= '/theme/images/sold.jpg'?>"/>
-           </div>
        </div>
    </div>
     </div>
-</section>

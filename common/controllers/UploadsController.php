@@ -10,6 +10,8 @@ use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use yii\imagine\Image;
 use common\models\AppData;
+use budyaga\cropper\actions\UploadAction;
+
 class UploadsController extends \yii\web\Controller
 {
 
@@ -67,11 +69,13 @@ class UploadsController extends \yii\web\Controller
             'id' => $model->id,
         ];
     }
+
     /**
      * @return array
      */
     public function actionUpload()
     {
+
         if (!Yii::$app->user->can('uploadFile')) {
             Yii::$app->user->denyAccess();
         }
@@ -103,6 +107,8 @@ class UploadsController extends \yii\web\Controller
             }
         }
     }
+
+
     /**
      * @param $id
      * @throws NotFoundHttpException if the model cannot be found

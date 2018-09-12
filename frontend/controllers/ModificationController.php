@@ -6,6 +6,7 @@ use common\models\AutoModels;
 use common\models\AutoModifications;
 use common\models\AutoModification;
 use common\models\AutoSearch;
+use common\models\ProductMake;
 use Yii;
 use yii\web\Controller;
 use common\models\AutoSpecifications;
@@ -16,16 +17,26 @@ use dastanaron\translit\Translit;
 use yii\web\HttpException;
 use yii\web\Response;
 use yii\data\ActiveDataProvider;
+use yii\data\Sort;
 
 class ModificationController extends Controller
 {
-    public $layout = 'index';
+    public $layout = 'new-index';
     public $bodyClass;
 
+    public function behaviors()
+    {
+        return [
+            'httpCache' => [
+                'class' => 'yii\filters\HttpCache',
+                'sessionCacheLimiter' => 'public',
+                'cacheControlHeader' => 'public, max-age=360000000',
+            ],
+        ];
+            }
 
     public function actionIndex()
     {
-
         $this->view->title = 'Технические характеристики автомобилей, модельный ряд, фото, комплектация';
         \Yii::$app->view->registerMetaTag([
             'name' => 'description',
@@ -46,12 +57,51 @@ class ModificationController extends Controller
 
         $mark = AutoMakes::find()->where(['slug' => $maker])->one();
 
+        $logo = ProductMake::find()->select('url_logo')->where(['like','name',$mark->name])->one();
+
         if ($mark == null) {
             Yii::$app->response->statusCode = 404;
             throw new NotFoundHttpException('Извините, данной страницы не существует.');
         }
 
-        $model = AutoModels::find()->where(['make_id' => $mark->id])->all();
+        $params = Yii::$app->request->get();
+        $sort = 'model ASC';
+        $sortData = new Sort([
+            'attributes' => [
+                'year' => [
+                    'asc' => ['year' => SORT_ASC],
+                    'desc' => ['year' => SORT_DESC],
+                    'default' => SORT_DESC,
+                    'label' => 'Дате',
+                ],
+                'alphabet' => [
+                    'asc' => ['alphabet' => SORT_ASC],
+                    'desc' => ['alphabet' => SORT_DESC],
+                    'default' => SORT_DESC,
+                    'label' => 'Алфавиту',
+                ],
+                ],
+                ]);
+
+        if (isset($params['sort'])) {
+            switch ($params['sort']) {
+                case 'alphabet':
+                    $sort = 'model DESC';
+                    break;
+                case '-alphabet':
+                    $sort = 'model ASC';
+                    break;
+                case 'year':
+                    $sort = 'yearFrom DESC';
+                    break;
+                case '-year':
+                    $sort = 'yearFrom ASC';
+                    break;
+
+            }
+
+        }
+                $model = AutoModels::find()->where(['make_id' => $mark->id])->orderBy($sort)->all();
 
         if ($model == null) {
             Yii::$app->response->statusCode = 404;
@@ -68,7 +118,10 @@ class ModificationController extends Controller
 
         return $this->render('maker', [
             'models' => $model,
+            'logo'=>$logo->url_logo,
             'markName' => $mark->name,
+            'markSlug' => $maker,
+            'sort' => $sortData,
             'title' => 'Каталог ' . $mark->name . ' характеристики, спецификации',
         ]);
     }
@@ -81,6 +134,7 @@ class ModificationController extends Controller
             Yii::$app->response->statusCode = 404;
             throw new NotFoundHttpException('Извините, данной страницы не существует.');
         }
+
         $modelAuto = AutoModels::find()->where(['make_id' => $mark->id])->andWhere(['slug' => $models])->one();
 
         $model = AutoModifications::find()->where(['model_id' => $modelAuto->id])->all();
@@ -88,6 +142,8 @@ class ModificationController extends Controller
             Yii::$app->response->statusCode = 404;
             throw new NotFoundHttpException('Извините, данной страницы не существует.');
         }
+
+        $logo = ProductMake::find()->select('url_logo')->where(['like','name',$mark->name])->one();
 
         $this->bodyClass = 'model-page';
         $this->view->title = 'Технические характеристики ' . $mark->name . ' ' . $modelAuto->model . ', модельный ряд, фото, комплектация';
@@ -103,6 +159,7 @@ class ModificationController extends Controller
             'modelName' => $modelAuto->model,
             'modelSlug' => $modelAuto->slug,
             'markSlug' => $mark->slug,
+            'logo'=>$logo->url_logo,
             'title' => 'Модификации ' . $mark->name . ' ' . $modelAuto->model . ' характеристики, спецификации',
         ]);
     }
@@ -123,6 +180,7 @@ class ModificationController extends Controller
         }
 
         $model = $this->findModel($id);
+        $logo = ProductMake::find()->select('url_logo')->where(['like','name',$markAuto->name])->one();
 
 
         $this->bodyClass = 'specification-cars-page';
@@ -140,6 +198,7 @@ class ModificationController extends Controller
             'modelSlug' => $modelAuto->slug,
             'markSlug' => $markAuto->slug,
             'modificationSlug' => $model->slug,
+            'logo'=>$logo->url_logo,
             'title' => $markAuto->name . ' ' . $modelAuto->model . ' ' . $model->modification_name,
         ]);
     }
@@ -192,7 +251,7 @@ class ModificationController extends Controller
         }
     }
 
-    public function actionSearch()
+    public function actionModificationsearch()
     {
         \Yii::$app->view->registerMetaTag([
             'name' => 'robots',
@@ -225,7 +284,7 @@ class ModificationController extends Controller
 
         $params['total'] = $query->count();
         $this->bodyClass = 'modification-search-page';
-        $dataProvider->pagination->pageSize=5;
+        $dataProvider->pagination->pageSize=7;
         
         return $this->render('search', [
             '_params_' => $params,

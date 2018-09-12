@@ -2,6 +2,7 @@
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
+
 /* @var $model \common\models\LoginForm */
 
 use yii\helpers\Html;
@@ -13,69 +14,102 @@ $this->title = Yii::t('app', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
 $appData = AppData::getData();
 ?>
-<div class="b-breadCumbs s-shadow">
-    <?= Breadcrumbs::widget([
-        'links' => [
-            Yii::t('app', 'Log in')
-        ],
-        'options' => ['class' => 'container wow zoomInUp', 'ata-wow-delay' => '0.5s'],
-        'itemTemplate' => "<li class='b-breadCumbs__page'>{link}</li>\n",
-        'activeItemTemplate' => "<li class='b-breadCumbs__page m-active'>{link}</li>\n",
-    ]) ?>
-</div><!--b-breadCumbs-->
-
-<section class="b-contacts s-shadow">
+<div class="breadcrumbs">
     <div class="container">
+        <ul>
+            <li><a href="/">Главная<i class="fas fa-chevron-right ml-1 ml-lg-2"></i></a></li>
+            <li><span class="no-link ml-lg-2">Войти</span></li>
+        </ul>
+    </div>
+</div>
+
+<div class="container">
+    <div class="header">
         <div class="row">
-            <div class="col-xs-12">
-                <div class="b-contacts__form">
-                    <p class=" wow zoomInUp" data-wow-delay="0.5s">
-                        Чтобы войти на Automechta.by, пожалуйста, авторизуйтесь с вашим E-mail и паролем или войдите через соцсети.
-                    </p>
-                </div>
+            <div class="col-12">
+                <h3>
+                    Чтобы войти на Automechta.by, пожалуйста, авторизуйтесь с вашим Логином или E-mail и паролем </h3>
+                <span>или войдите через соцсети.</span>
+
             </div>
         </div>
         <div class="row">
-            <div class="col-md-7 col-md-offset-3 col-sm-offset-0 col-xs-offset-0 col-sm-12 col-xs-12">
-                    <div class="social_login">
-                        <a href="/site/auth?authclient=vkontakte" class="vk-login"><i class="fa fa-vk" aria-hidden="true"></i></a>
-                        <a href="/site/auth?authclient=facebook" class="fb-login"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                        <a href="/site/auth?authclient=google" class="google-login"><i class="fa fa-google-plus-official" aria-hidden="true"></i></a>
-                        <a href="/site/auth?authclient=yandex" class="ya-login"><span>Я</span></a>
-                        <a href="/site/auth?authclient=odnoklassniki" class="ok-login"><i class="fa fa-odnoklassniki" aria-hidden="true"></i></a>
-                    </div>
-                    <div id="success"></div>
-                    <?php $form = ActiveForm::begin(
-                        [
-                            'id' => 'login-form',
-                            'options' => [
-                                'class' => 'login-form wow zoomInUp',
-                                'data-wow-delay' => '0.5s',
-                            ]
-                        ]
-                    );
-                    ?>
-
-                    <?= $form->field($model, 'username')->textInput(['class' => 'login-input col-xs-10 col-sm-5 col-md-5 col-xl-5'])->label(true) ?>
-
-                    <?= $form->field($model, 'password')->passwordInput(['class' => 'login-input col-xs-10 col-sm-5 col-md-5 col-xl-5'])->label(true) ?>
-                    <div class="form-group">
-                        <button type="submit" class="login-button btn m-btn m-btn-dark" name="login-button"><?= Yii::t('app', 'Login') ?><span class="fa fa-angle-right"></span></button>
-                    </div>
-                        <div class="clearfix"></div>
-                <div class="col-md-12 col-xs-12 col-sm-12">
-                    <?= $form->field($model, 'rememberMe')->checkbox() ?>
-                    <a href="/site/request-password-reset" class="reset-password">Восстановить пароль</a>
-                </div>
-                    <?php ActiveForm::end(); ?>
-               <span>Первый раз на сайте? <a href="/site/signup" class="registration">
-                    <?= Yii::t('app', 'Register') ?>
-                </a>
-                   </span>
-                </div>
-            </div>
-
+            <div id="success"></div>
         </div>
     </div>
-</section><!--b-contacts-->
+    <div class="row">
+        <div class="col-12 col-lg-5 offset-lg-4">
+            <div class="login-block">
+
+
+                <?php $form = ActiveForm::begin(
+                    [
+                        'id' => 'login-form',
+                        'enableAjaxValidation' => true,
+                        
+                        'options' => [
+                            'class' => 'login-form',
+                        ]
+                    ]
+                );
+                ?>
+
+                <div class="form-field row">
+                    <div class="col-lg-4">
+                        <label class="control-label">
+Логин / E-mail
+                        </label>
+                    </div>
+                        <div class="col-12 col-lg-8">
+                    <?= $form->field($model, 'email')->textInput(['class' => 'login-input'])->label(false) ?>
+                    </div>
+                </div>
+
+                <div class="form-field row">
+                    <div class="col-lg-4">
+                        <label class="control-label">
+Пароль
+                        </label>
+                    </div>
+                    <div class="col-12 col-lg-8">
+                    <?= $form->field($model, 'password')->passwordInput(['class' => 'login-input'])->label(false) ?>
+                </div>
+                </div>
+                <div class="remember-form-block form-block">
+                    <div class="form-group field-loginform-rememberme">
+                        <div class="checkbox">
+                            <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                        </div>
+                    </div>
+                    <a href="#" class="reset-password">Забыли пароль ?</a>
+                </div>
+                <div class="form-button form-block">
+                    <button type="submit" class="custom-button" name="login-button"><?= Yii::t('app', 'Login') ?><i
+                                class="ml-2 fas fa-angle-right"></i></button>
+                </div>
+                <?php ActiveForm::end(); ?>
+                <div class="footer">
+                    <h3>Вход через социальные сети</h3>
+                    <div class="login-block">
+                        <div class="social_login">
+                            <a href="/site/auth?authclient=vkontakte" class="vk-login"><i class="fab fa-vk fa"
+                                                                                          aria-hidden="true"></i></a>
+                            <a href="/site/auth?authclient=facebook" class="fb-login"><i class="fab fa fa-facebook"
+                                                                                         aria-hidden="true"></i></a>
+                            <a href="/site/auth?authclient=google" class="google-login"><i
+                                        class="fab fa fa-google-plus-official" aria-hidden="true"></i></a>
+                            <a href="/site/auth?authclient=yandex" class="ya-login"><span>Я</span></a>
+                            <a href="/site/auth?authclient=odnoklassniki" class="ok-login"><i
+                                        class="fab fa fa-odnoklassniki" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                    <span class="register-title">Впервые на сайте? </span>
+                    <a href="#" class="registration show-modal-registration-login-block custom-button">
+                        Регистрация </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 

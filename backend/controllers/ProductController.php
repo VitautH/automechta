@@ -54,6 +54,8 @@ class ProductController extends \yii\web\Controller
 
         $searchModel = new ProductSearch();
         $params = Yii::$app->request->get();
+
+
         $searchModel->loadI18n($params);
         /** @var ActiveDataProvider $dataProvider */
         $dataProvider = $searchModel->search();
@@ -154,6 +156,7 @@ class ProductController extends \yii\web\Controller
                     $model = Product::findOne($item);
                     $model->delete();
                     Yii::$app->cache->deleteKey('main_page');
+                    Yii::$app->parserProductVideo->delete($item);
                 }
                 return true;
             }
@@ -164,6 +167,8 @@ class ProductController extends \yii\web\Controller
                     $model = Product::findOne($item);
                     $model->status = Product::STATUS_PUBLISHED;
                     $model->save();
+
+                    Yii::$app->parserProductVideo->parser($item);
                 }
                 return true;
             }
@@ -176,6 +181,8 @@ class ProductController extends \yii\web\Controller
                     if ($model->save()) {
                         Uploads::deleteImages('product', $item);
                     }
+
+                    Yii::$app->parserProductVideo->delete($item);
                 }
                 return true;
             }
@@ -199,6 +206,43 @@ class ProductController extends \yii\web\Controller
         }
     }
 
+    /*
+     * Product to Black List
+     *  @param integer $id
+     * @return mixed
+     */
+    public function actionBan($id)
+    {
+        if (!Yii::$app->user->can('deleteProduct')) {
+            Yii::$app->user->denyAccess();
+        }
+
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $model = $this->findModel($id);
+            switch ($model->ban) {
+                case Product::BAN:
+                    $model->ban = Product::UN_BAN;
+                    $isBan = false;
+                    break;
+
+                case Product::UN_BAN:
+                    $model->ban = Product::BAN;
+                    $isBan = true;
+                    break;
+            }
+
+            if ($model->save()) {
+                return ['status' => true, 'isBan' => $isBan, 'id' => $id];
+            } else {
+                return ['status' => false];
+            }
+        } else {
+            Yii::$app->user->denyAccess();
+        }
+
+    }
+
     /**
      * Update product
      * If creation is successful, the browser will be redirected to the 'index' page.
@@ -219,9 +263,19 @@ class ProductController extends \yii\web\Controller
         if ($request['Product']['status'] == Product::STATUS_UNPUBLISHED) {
             Uploads::deleteImages('product', $id);
         }
+        if ($request['Product']['status'] == Product::STATUS_PUBLISHED) {
+            Yii::$app->parserProductVideo->parser($id);
+        }
+
         if ($model->loadI18n($request) && $model->validateI18n()) {
             $model->phone = $request['Product']['phone'];
             $model->phone_2 = $request['Product']['phone_2'];
+
+            if ($request["Product"]['currency'] == 1) {
+                $model->price = $model->exchangeBynToUsd($request["Product"]['priceByn']);
+                $model->priceByn = $request["Product"]['priceByn'];
+            }
+
             $model->save();
             $this->saveUploads($model);
             $this->saveSpecifications($model);
@@ -251,6 +305,7 @@ class ProductController extends \yii\web\Controller
         $this->findModel($id)->delete();
         Uploads::deleteImages('product', $id);
         Yii::$app->cache->deleteKey('main_page');
+        Yii::$app->parserProductVideo->delete($id);
         if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
         } else {

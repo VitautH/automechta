@@ -15,17 +15,19 @@ class AutoMakes extends \yii\db\ActiveRecord
         return 'auto_makes';
     }
 
+    public function getMakes(){
+        return $this->hasMany(AutoRegions::className(), ['region_id' => 'id']);
+    }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
-        return [
-            [['parent_id','region_id'], 'integer'],
-            [['name','region_id'], 'required'],
-            [['name', 'description'], 'string'],
-            [['logo'], 'safe'],
-        ];
-    }
+//    public function rules()
+//    {
+//        return [
+//            [['parent_id','region_id'], 'integer'],
+//            [['name'], 'required'],
+//            [['name', 'description'], 'string'],
+//        ];
+//    }
 }

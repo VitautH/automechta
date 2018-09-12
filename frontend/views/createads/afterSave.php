@@ -4,55 +4,45 @@
 
 use yii\widgets\Breadcrumbs;
 use common\models\AppData;
+use frontend\assets\AppAsset;
 
 $this->title = Yii::t('app', 'Your ad is saved');
+$this->registerCssFile("/css/save-ads.css");
+$this->registerCssFile("/css/style.css");
+AppAsset::register($this);
+
 $this->params['breadcrumbs'][] = $this->title;
 $appData = AppData::getData();
 ?>
-<section class="b-pageHeader" style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
-    <div class="container">
-        <h1 class=" wow zoomInLeft" data-wow-delay="0.3s"><?= Yii::t('app', 'Ad is saved') ?></h1>
-    </div>
-</section><!--b-pageHeader-->
 
-<div class="b-breadCumbs s-shadow">
-    <?= Breadcrumbs::widget([
-        'links' => [
-            Yii::t('app', 'Saved')
-        ],
-        'options' => ['class' => 'container wow zoomInUp', 'ata-wow-delay' => '0.5s'],
-        'itemTemplate' => "<li class='b-breadCumbs__page'>{link}</li>\n",
-        'activeItemTemplate' => "<li class='b-breadCumbs__page m-active'>{link}</li>\n",
-    ]) ?>
-</div><!--b-breadCumbs-->
-
-<section class="b-contacts s-shadow">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-6">
-                <header class="b-contacts__form-header s-lineDownLeft wow zoomInUp" data-wow-delay="0.5s">
-                    <h2 class="s-titleDet"><?= $this->title ?></h2>
-                </header>
-                <p class=" wow zoomInUp" data-wow-delay="0.5s">
-                    <?= Yii::t('app', 'Your ad is saved and will be published after validation')?>.<br>
-                    <?= Yii::t('app', 'Published announcements are available for editing in your account')?>.<br>
-                </p>
-                <p class=" wow zoomInUp" data-wow-delay="0.5s">
-                    <?= Yii::t('app', 'Thank you')?>.<br>
-                </p>
-            </div>
-            <div class="col-xs-6 wow zoomInUp" data-wow-delay="0.5s">
-                <header class="b-contacts__form-header s-lineDownLeft">
-                    <h2 class="s-titleDet"><?= Yii::t('app', 'Go to') ?></h2>
-                </header>
-                <a href="/cars" class="btn m-btn m-btn-dark">
-                    <?= Yii::t('app', 'Catalog') ?> <span class="fa fa-angle-right"></span>
-                </a>
-                <a href="/account" class="btn m-btn m-btn-dark">
-                    <?= Yii::t('app', 'Account') ?> <span class="fa fa-angle-right"></span>
-                </a>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="header">
+                <div class="row"><div class="col-12 col-lg-6"><h3>Ваше объявление сохранено</h3></div><div class="col-12 col-lg-6">
+                        <h4 style="">Перейти в</h4>
+                        <a href="/cars" class="custom-button col-12 col-lg-5">
+                            Каталог <i class="ml-2 fas fa-angle-right"></i>
+                        </a>
+                        <a href="/account" class="col-12 col-lg-5 custom-button">
+                            Личный кабинет <i class="fas fa-angle-right"></i>
+                        </a>
+                    </div></div>
             </div>
         </div>
     </div>
-</section>
+    <div class="content">
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <p>
+                    Ваше объявление будет опубликовано после проверки администратором.<br>
+                    Опубликованные объявления доступны для редактирования в вашем личном кабинете.<br>
+                </p>
+                <p>
+                    Спасибо.<br>
+                </p>
+            </div>
 
+        </div>
+    </div>
+</div>

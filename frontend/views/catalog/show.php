@@ -21,28 +21,60 @@ use yii\helpers\ArrayHelper;
 use common\models\City;
 use frontend\assets\AppAsset;
 use frontend\models\Bookmarks;
-use common\models\VideoAuto;
+use common\models\ProductVideo;
+use common\models\AutoMakes;
+use common\models\AutoModels;
+use common\models\AutoModifications;
+use common\models\AutoBody;
+use common\models\ImageModifications;
+use common\models\AutoSearch;
 
-/* @var $this yii\web\View */
-/* @var $model Product */
-/* @var $provider yii\data\ActiveDataProvider */
-//$tableView = filter_var(Yii::$app->request->get('tableView', 'false'), FILTER_VALIDATE_BOOLEAN);
-//$this->registerJsFile('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js');
 
 $this->registerJs("require(['controllers/tools/calculator']);
 ", \yii\web\View::POS_HEAD);
+$this->registerJs("require(['controllers/modification/index']);", \yii\web\View::POS_HEAD);
+$this->registerJsFile("/js/modernizm.js", ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile("/js/owl.carousel.js", ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJs("require(['controllers/catalog/modal']);", \yii\web\View::POS_HEAD);
 $this->registerJs("require(['controllers/catalog/bookmarks']);", \yii\web\View::POS_HEAD);
-$this->registerCssFile("https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css");
+$this->registerCssFile("https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.5.2/fotorama.css");
 $this->registerCssFile('@web/css/fontawesome-all.min.css');
+$this->registerCssFile('@web/css/owl.css');
+$this->registerJsFile("https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js", ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css');
 $this->registerJsFile(
-    '@web/js/fotorama.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.5.2/fotorama.js',
     ['depends' => [\yii\web\JqueryAsset::className()]]
 );
 
 $this->registerCssFile("@web/theme/assets/bxslider/jquery.bxslider.css");
-
 $this->registerJs(" 
+
+   $('.fancybox').fancybox(); 
+
+ $('#carousel-small').owlCarousel({
+    loop:true,
+    margin:10,
+    nav:false,
+  autoWidth:true,
+    items:3,
+    videoWidth:240,
+    videoHeight:220,
+    video:true,
+ lazyLoad:true,
+        center:false,
+        responsive:{
+         240:{
+                items:1
+            },
+            480:{
+                items:2
+            },
+            600:{
+                items:3
+            }
+        }
+         });
    $('.fotorama').fotorama({
         spinner: {
             lines: 13,
@@ -70,7 +102,6 @@ $this->registerJs("
    });
 
     ", \yii\web\View::POS_END);
-AppAsset::register($this);
 
 $appData = AppData::getData();
 
@@ -111,10 +142,75 @@ $this->registerMetaTag([
 $metaData = MetaData::getModels($model);
 $this->registerMetaData($metaData);
 
-$makeId = ProductMake::find()->where(['product_type' => $product->type])->andWhere(['name' => $product->make])->one()->id;
-$videoModel = VideoAuto::find()->where(['type_id' => $product->type])->andWhere(['make_id' => $makeId])
-    ->andWhere(['model' => $product->model])->limit(3)->all();
+$videoModel = ProductVideo::find()->where(['product_id' => $product->id])->limit(3)->all();
 
+if ($product->type == ProductType::CARS) {
+
+    /*
+   * Specification
+   */
+    $autoBody = $product->spec[3]->format;
+    $door = $product->spec[7]->format;
+    /*
+     * End Specification
+     */
+
+
+    $autoMakes = AutoMakes::find()->where(['like', 'name', $product->make])->one();
+    $makeSlug = $autoMakes->slug;
+    $makerId = $autoMakes->id;
+    $autoModels = AutoModels::find()->where(['like', 'make_id', $makerId])->andWhere(['like', 'model', $product->model])->one();
+    $modelSlug = $autoModels->slug;
+    $modelId = $autoModels->id;
+    $modificationName = ProductMake::findOne($product->makeid)->modification_name;
+
+    if ($modelId == null) {
+        $model_name = ProductMake::findOne($product->makeid)->model_name;
+        $autoModels = AutoModels::find()->where(['make_id' => $makerId])->andWhere(['model' => $model_name])->one();
+        $modelId = $autoModels->id;
+        $modelSlug = $autoModels->slug;
+    }
+    $query = AutoModifications::find()->where(['model_id' => $modelId]);
+
+    if (!empty($autoBody) && $autoBody !== null) {
+        $query->andFilterWhere(['like', 'modification_name', $autoBody]);
+    }
+
+    if ($modificationName != null) {
+        if (!empty($autoBody) && $autoBody !== null) {
+            $query->andFilterWhere(['like', 'modification_name', $autoBody]);
+        } else {
+            $query->andFilterWhere(['like', 'modification_name', $modificationName]);
+        }
+    }
+
+    $query->andWhere(['<=', 'yearFrom', $model->year]);
+    $query->andFilterWhere(['or', ['>=', 'yearTo', $model->year], ['yearTo' => 'н.в.']]);
+
+
+    if (($autoBody != 'седан') && ($door >= 3)) {
+        $query->andFilterWhere(['like', 'modification_name', $door . ' дв.']);
+    }
+
+    $count = $query->count();
+    if ($count == 0) {
+        unset($query);
+        $query = AutoModifications::find();
+        $query->where(['model_id' => $modelId]);
+
+        $query->andWhere(['modification_name' => null]);
+        $query->andWhere(['yearFrom' => null]);
+        $query->andWhere(['yearTo' => null]);
+    }
+
+    $modifications = $query->all();
+
+} else {
+    $modifications = null;
+}
+
+$product->price_byn = Product::getByrPriceProduct($product->id);
+$product->price_usd = Product::getUsdPriceProduct($product->id);
 ?>
 <!-- Разметка с помощью микроданных, созданная Мастером разметки структурированных данных Google. -->
 <div class="b-breadCumbs s-shadow">
@@ -209,7 +305,8 @@ $videoModel = VideoAuto::find()->where(['type_id' => $product->type])->andWhere(
                 <div itemprop="offers" itemscope itemtype="http://schema.org/Offer"
                      class="b-detail__head-price-num">
                         <span itemprop="price"
-                              content="<?= $product->price_byn ?>">  <?= Yii::$app->formatter->asDecimal($product->price_byn) ?> </span>
+                              content="<?= $product->price_byn ?>">
+                            <? echo Yii::$app->formatter->asDecimal($product->price_byn); ?> </span>
                     <span itemprop="priceCurrency" content="BYN">BYN </span>
                     <span class="b-detail__head-price-num-usd"><?= Yii::$app->formatter->asDecimal($product->price_usd) ?>
                         $</span>
@@ -258,7 +355,7 @@ $videoModel = VideoAuto::find()->where(['type_id' => $product->type])->andWhere(
             <div class="b-detail__main-info">
                 <div class="b-detail__main-info-images">
                     <div class="row m-smallPadding">
-                        <div class="col-xs-12 fotorama" data-nav="thumbs" data-allowfullscreen="true"
+                        <div class="col-xs-12  fotorama" data-nav="thumbs" data-allowfullscreen="true"
                              data-loop="true" data-keyboard="true"
                              data-click="true"
                              data-swipe="true"
@@ -274,16 +371,16 @@ $videoModel = VideoAuto::find()->where(['type_id' => $product->type])->andWhere(
                             endif;
                             ?>
                             <?php foreach ($product->image as $image): ?>
-                                <a itemprop="image" href="<?= $image->full ?>"
-                                   data-thumb="<?= $image->thumbnail ?>">
-                                </a>
+                                <div class="fotorama__wrap-link" data-img="<?= $image->full ?>"
+                                     data-thumb="<?= $image->thumbnail ?>">
+                                </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
                     <div class="left_block">
                         <div class="b-detail__head-price visible-xs visible-sm">
                             <div class="b-detail__head-price-num">
-                                <?= Yii::$app->formatter->asDecimal($product->price_byn) ?> BYN
+                                <? echo Yii::$app->formatter->asDecimal($product->price_byn); ?>  BYN
                                 <span class="b-detail__head-price-num-usd"><?= Yii::$app->formatter->asDecimal($product->price_usd) ?>
                                     $</span>
                             </div>
@@ -348,21 +445,126 @@ $videoModel = VideoAuto::find()->where(['type_id' => $product->type])->andWhere(
             </div>
             <br>
             <div class="clearfix"></div>
-            <div class="col-md-12 video_block">
-                <noindex>
-                    <h3>Интересные видео</h3>
-                    <?php
-                    foreach ($videoModel as $video):
-                        ?>
-                        <iframe class="col-md-4" width="240" height="120"
-                                src="https://www.youtube.com/embed/<? echo $video->video_url; ?>?rel=0" frameborder="0"
-                                allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <?php
+            if ($videoModel != null):
+                ?>
+                <div class="col-md-12 video_block">
+                    <noindex>
+                        <h3>Популярные видео</h3>
+                        <div class="visible-xs visible-sm owl-carousel owl-theme" id="carousel-small">
+                            <?php
+                            foreach ($videoModel as $video):
+                                ?>
+                                <div class="item-video" data-merge="3">
+                                    <a class="owl-video"
+                                       href="https://www.youtube.com/watch?v=<? echo $video->video_url; ?>">
+                                    </a>
+                                </div>
+                            <?php
+                            endforeach;
+                            ?>
+                        </div>
+                        <div class="visible-lg visible-xl visible-md">
+                            <?php
+                            foreach ($videoModel as $video):
+                                ?>
+                                <iframe width="220" height="160"
+                                        src="https://www.youtube.com/embed/<? echo $video->video_url; ?>">
+                                </iframe>
+                            <?php
+                            endforeach;
+                            ?>
+                        </div>
+                    </noindex>
+                </div>
+            <?php
+            endif;
+            ?>
+            <?php
+            if ($modifications != null):
+                ?>
+                <div class="col-md-12 modification_block">
+                    <?php foreach ($modifications as $modification):
 
+                        if ($modification->modification_name == null) {
+                            $modification->modification_name = $product->make . ' ' . $model->model;
+                        }
+                        ?>
+                        <h2>
+                            <a href="/catalog/<?php echo $makeSlug . '/' . $modelSlug; ?>"><?php echo $modification->modification_name; ?>
+                                <?php echo $modification->years; ?></a></h2>
+
+                        <?php
+                        $imagesModel = ImageModifications::find()->where(['modifications_id' => $modification->id])->all();
+                        $imagesCount = ImageModifications::find()->where(['modifications_id' => $modification->id])->count();
+
+                        if ($imagesCount > 6) {
+                            $desctopCountImage = 6;
+                        } else {
+                            $desctopCountImage = $imagesCount;
+                        }
+                        $this->registerJs(" 
+ $('.carousel-small-" . $model->id . "').owlCarousel({
+      loop:false,
+    margin:10,
+    autoWidth:true,
+    touchDrag:true,
+    mouseDrag:true,
+    dots:true,
+     items:" . $imagesCount . ",
+    responsive:{
+         240:{
+                items:1
+            },
+            360:{
+                items:2
+            },
+              600:{
+               items:" . ($desctopCountImage - 2) . "
+            },
+            900:{
+               items:" . $desctopCountImage . "
+            }
+        }
+         });
+         
+           ", \yii\web\View::POS_END);
+                        AppAsset::register($this);
+                        ?>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="modification-carousel carousel-small-<?php echo $model->id; ?>  owl-carousel owl-theme">
+                                    <?php
+                                    foreach ($imagesModel as $image):
+                                        ?>
+                                        <div>
+                                            <a data-fancybox="gallery-<?php echo $model->id; ?>"
+                                               href="<? echo $image->img_url; ?>">
+                                                <img width="139" height="100" src="<? echo $image->img_url; ?>"/>
+                                            </a>
+                                        </div>
+                                    <?php
+                                    endforeach;
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="more" id="<?php echo $modification->id; ?>"
+                             data-url="/modification/load-modification?id=<?php echo $modification->id; ?>">Показать
+                            <?php
+                            echo AutoSearch::getCountModifications($modification->id);
+                            ?>
+                            модификаций
+                        </div>
                     <?php
                     endforeach;
                     ?>
-                </noindex>
-            </div>
+                </div>
+            <?php
+            endif;
+            ?>
+
             <div class="col-md-12 complaint_container hidden-md hidden-lg">
                 <?php Pjax::begin(['id' => 'complaint-phone', 'enablePushState' => false]); ?>
                 <span class="complaint" id="complaint_to_mobile">Пожаловаться на объявление</span>
@@ -433,11 +635,11 @@ $videoModel = VideoAuto::find()->where(['type_id' => $product->type])->andWhere(
                         <form action="/" method="post" class="js-loan">
                             <label><?= Yii::t('app', 'ENTER LOAN AMOUNT') ?></label>
                             <input type="text" placeholder="<?= Yii::t('app', 'LOAN AMOUNT') ?>"
-                                   value="<?= $product->price_byn ?>" name="price" disabled="disabled"/>
+                                   value="<? echo $product->price_byn; ?>" name="price" disabled="disabled"/>
                             <label><?= Yii::t('app', 'Prepayment') ?></label>
                             <input type="number" placeholder="<?= Yii::t('app', 'Prepayment') ?>"
                                    value="0" name="prepayment" id="prepayment" min="0"
-                                   max="<?= $product->price_byn ?>"/>
+                                   max="<? echo $product->price_byn; ?>"/>
                             <label><?= Yii::t('app', 'RATE IN') ?> %</label>
                             <div class="s-relative">
                                 <select name="rate" class="m-select" id="rate">
@@ -445,6 +647,8 @@ $videoModel = VideoAuto::find()->where(['type_id' => $product->type])->andWhere(
                                         Приорбанк <?= $appData['prior_bank'] ?>%
                                     </option>
                                     <option value="<?= $appData['vtb_bank'] ?>">ВТБ <?= $appData['vtb_bank'] ?>%
+                                    </option>
+                                    <option value="<?= $appData['idea_bank'] ?>">Идея Банк <?= $appData['idea_bank'] ?>%
                                     </option>
                                     <option value="<?= $appData['bta_bank'] ?>">БТА <?= $appData['bta_bank'] ?>%
                                     </option>
@@ -503,7 +707,12 @@ $videoModel = VideoAuto::find()->where(['type_id' => $product->type])->andWhere(
         </div>
         <div class="row">
             <div class="col-md-12">
-                <?php foreach ($product->similar as $similarProduct): ?>
+                <?php foreach ($product->similar as $similarProduct):
+
+                    $similarProduct->price_byn = Product::getByrPriceProduct($similarProduct->id);
+                    $similarProduct->price_usd = Product::getUsdPriceProduct($similarProduct->id);
+
+                    ?>
                     <div class="col-md-3 b-featured__item  visible-md visible-lg visible-xl">
                         <a href="<?= Url::UrlShowProduct($similarProduct->id) ?>">
                             <span class="m-premium"></span>
@@ -513,8 +722,7 @@ $videoModel = VideoAuto::find()->where(['type_id' => $product->type])->andWhere(
                         </a>
                         <div class="inner_container">
                             <div class="h5">
-                                <a
-                                        href="<?= Url::UrlShowProduct($similarProduct->id) ?>"><?= $similarProduct->full_title ?></a>
+                                <a href="<?= Url::UrlShowProduct($similarProduct->id) ?>"><?= $similarProduct->full_title ?></a>
                             </div>
                             <div class="b-featured__item-price">
                                 <?= Yii::$app->formatter->asDecimal($similarProduct->price_byn) ?> BYN

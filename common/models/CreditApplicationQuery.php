@@ -15,6 +15,14 @@ class CreditApplicationQuery extends \yii\db\ActiveQuery
         return $this;
     }
 
+    public function arriveTomorrow()
+    {
+        $tomorrow = CreditApplication::dateToUnix(date("Y-m-d", strtotime('tomorrow')));
+        $this->andWhere(['date_arrive'=>$tomorrow]);
+
+        return $this;
+    }
+
     /**
      * @inheritdoc
      * @return CreditApplication[]|array

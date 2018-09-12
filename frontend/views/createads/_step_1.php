@@ -1,6 +1,11 @@
 <?
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use frontend\assets\AppAsset;
+
+$this->registerJs("require(['controllers/catalog/create']);", \yii\web\View::POS_HEAD);
+$this->registerCssFile("/css/style.css");
+AppAsset::register($this);
 ?>
 <?php $formWidget = ActiveForm::begin([
         'id' => 'create_product_form',

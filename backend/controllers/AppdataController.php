@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\AppData;
+use common\models\AppRegistry;
 use Yii;
 use yii\web\Response;
 use yii\filters\VerbFilter;
@@ -35,6 +36,70 @@ class AppdataController extends \yii\web\Controller
     public function actionIndex()
     {
         $this->redirect(['update']);
+    }
+
+    /**
+     * SaveBank application data
+     * @return mixed
+     */
+    public function actionSaveBank()
+    {
+        if (!Yii::$app->user->can('updateAppData')) {
+            Yii::$app->user->denyAccess();
+        }
+        $data = Yii::$app->request->post()[AppRegistry::getModelsName()];
+var_dump($data);
+die();
+        for ($i = 1; $i <= count($data); $i++) {
+            if (AppRegistry::findOne(['data_key'=>'credit_bank_' . $i])){
+                $model=AppRegistry::findOne(['data_key'=>'credit_bank_' . $i]);
+                $model->label = $data["credit_bank_" . $i . ""]["label"];
+                $model->data_value = $data["credit_bank_" . $i . ""]["value"];
+                if (!$model->save()) {
+                    var_dump($model->getErrors());
+                }
+                unset($model);
+            }
+            else {
+                $model = new AppRegistry();
+                $model->visibility = 'credit_page';
+                $model->data_type = 'credit_bank';
+                $model->field_type = 'input';
+                $model->label = $data["credit_bank_" . $i . ""]["label"];
+                $model->data_key = 'credit_bank_' . $i;
+                $model->data_value = $data["credit_bank_" . $i . ""]["value"];
+                if (!$model->save()) {
+                    var_dump($model->getErrors());
+                }
+                unset($model);
+            }
+        }
+        return $this->redirect(['update']);
+    }
+
+    /**
+     * SaveBank application data
+     * @return mixed
+     */
+    public function actionDeleteBank()
+    {
+        if (!Yii::$app->user->can('updateAppData')) {
+            Yii::$app->user->denyAccess();
+        }
+        if (Yii::$app->request->isAjax) {
+            $request = Yii::$app->request->post();
+            $dataKey = $request['data-key'];
+
+            if (AppRegistry::findOne(['data_key' => $dataKey])->delete()) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+
     }
 
     /**
@@ -94,7 +159,7 @@ class AppdataController extends \yii\web\Controller
                     'AppData' => ['data_key' => $model->data_key],
                 ];
                 $model->loadI18n($i18nData);
-            } elseif(isset($data['AppData'][$model->data_key])) {
+            } elseif (isset($data['AppData'][$model->data_key])) {
                 $model->load(['AppData' => $data['AppData'][$model->data_key]]);
             }
         }

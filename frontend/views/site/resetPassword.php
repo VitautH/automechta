@@ -13,47 +13,37 @@ $this->title = Yii::t('app', 'Reset password');
 $this->params['breadcrumbs'][] = $this->title;
 $appData = AppData::getData();
 ?>
-<section class="b-pageHeader" style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
+<div class="breadcrumbs">
     <div class="container">
-        <h1 class=" wow zoomInLeft" data-wow-delay="0.3s"><?= Yii::t('app', 'Log in') ?></h1>
+        <ul>
+            <li><a href="/">Главная<i class="fas fa-chevron-right ml-1 ml-lg-2"></i></a></li>
+            <li><span class="no-link ml-lg-2">Сброс пароля</span></li>
+        </ul>
     </div>
-</section><!--b-pageHeader-->
+</div>
 
-<div class="b-breadCumbs s-shadow">
-    <?= Breadcrumbs::widget([
-        'links' => [
-            $this->title
-        ],
-        'options' => ['class' => 'container wow zoomInUp', 'ata-wow-delay' => '0.5s'],
-        'itemTemplate' => "<li class='b-breadCumbs__page'>{link}</li>\n",
-        'activeItemTemplate' => "<li class='b-breadCumbs__page m-active'>{link}</li>\n",
-    ]) ?>
-</div><!--b-breadCumbs-->
-
-<section class="b-contacts s-shadow">
+<div class="reset-password-page">
     <div class="container">
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-12 col-lg-4 offset-lg-4">
                 <div class="b-contacts__form">
-                    <header class="b-contacts__form-header s-lineDownLeft wow zoomInUp" data-wow-delay="0.5s">
-                        <h2 class="s-titleDet"><?= Html::encode($this->title) ?></h2>
-                    </header>
-                    <p class=" wow zoomInUp" data-wow-delay="0.5s">
+                    <div class="header">
+                        <h3><?= Html::encode($this->title) ?></h3>
+                    </div>
+                    <p class="">
                         <?= Yii::t('app', 'Please choose your new password')?>:
                     </p>
                     <div id="success"></div>
                     <?php $form = ActiveForm::begin([
                         'id' => 'reset-password-form',
                         'options' => [
-                            'class' => 's-form wow zoomInUp',
-                            'data-wow-delay' => '0.5s',
                         ]
                     ]); ?>
 
-                    <?= $form->field($model, 'password')->passwordInput() ?>
+                    <?= $form->field($model, 'password')->passwordInput()->label(false) ?>
 
                     <div class="form-group">
-                        <button type="submit" class="btn m-btn" name="login-button"><?= Yii::t('app', 'Save') ?><span class="fa fa-angle-right"></span></button>
+                        <button type="submit" class="custom-button" name="login-button"><?= Yii::t('app', 'Save') ?><i class="ml-2 fas fa-angle-right"></i></button>
                     </div>
 
                     <?php ActiveForm::end(); ?>
@@ -61,4 +51,4 @@ $appData = AppData::getData();
             </div>
         </div>
     </div>
-</section><!--b-contacts-->
+</div><!--b-contacts-->

@@ -10,33 +10,24 @@ $this->title = Yii::t('app', 'You have been registered');
 $this->params['breadcrumbs'][] = $this->title;
 $appData = AppData::getData();
 ?>
-<section class="b-pageHeader" style="background: url(<?= $appData['headerBackground']->getAbsoluteUrl() ?>) center;">
+<div class="breadcrumbs">
     <div class="container">
-        <h1 class="wow zoomInLeft" data-wow-delay="0.3s"><?= $this->title ?></h1>
+        <ul>
+            <li><a href="/">Главная<i class="fas fa-chevron-right ml-1 ml-lg-2"></i></a></li>
+            <li><span class="no-link ml-lg-2">Вы зарегистрированы</span></li>
+        </ul>
     </div>
-</section><!--b-pageHeader-->
+</div>
 
-<div class="b-breadCumbs s-shadow">
-    <?= Breadcrumbs::widget([
-        'links' => [
-            $this->title
-        ],
-        'options' => ['class' => 'container wow zoomInUp', 'ata-wow-delay' => '0.5s'],
-        'itemTemplate' => "<li class='b-breadCumbs__page'>{link}</li>\n",
-        'activeItemTemplate' => "<li class='b-breadCumbs__page m-active'>{link}</li>\n",
-    ]) ?>
-</div><!--b-breadCumbs-->
-
-
-<section class="b-contacts s-shadow">
+<div class="aftersingup">
     <div class="container">
         <div class="row">
-            <div class="col-xs-6">
+            <div class="mt-4 col-12 col-lg-4 offset-lg-4">
                 <div class="b-contacts__form">
-                    <header class="b-contacts__form-header s-lineDownLeft wow zoomInUp" data-wow-delay="0.5s">
+                    <header class="b-contacts__form-header">
                         <h2 class="s-titleDet"><?= Html::encode($this->title) ?></h2>
                     </header>
-                    <p class=" wow zoomInUp" data-wow-delay="0.5s">
+                    <p>
                         <?= Yii::t('app', 'Thank you for registering on our website')?>.<br>
                         <?= Yii::t('app', 'Please activate your registration by clicking on the link provided in your email')?>.
                     </p>
@@ -44,5 +35,5 @@ $appData = AppData::getData();
             </div>
         </div>
     </div>
-</section><!--b-contacts-->
+</div>
 

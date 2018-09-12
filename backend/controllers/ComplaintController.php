@@ -36,13 +36,16 @@ class ComplaintController extends Controller
             Yii::$app->user->denyAccess();
         }
 
-        $query = Complaint::find();
+        $query = Complaint::find()->indexBy('id')->orderBy([
+            'id' => SORT_DESC
+        ]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
                 'pageSize' => 20,
             ],
         ]);
+
         return $this->render('index', [
             'dataProvider' => $dataProvider
         ]);
@@ -55,9 +58,10 @@ class ComplaintController extends Controller
         }
 
         if (Yii::$app->request->isAjax) {
-            if (Complaint::findOne($id)->delete()) {
+            $model = Complaint::findOne($id);
+            $model->viewed = Complaint::VIEWED;
+            if ($model->save()) {
                 return $this->actionIndex();
-
             }
 
         }

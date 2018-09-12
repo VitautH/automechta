@@ -1,10 +1,12 @@
 <?php
 
 namespace common\models;
+
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
-
+use DateTime;
 use Yii;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "credit_application".
@@ -34,9 +36,13 @@ class CreditApplication extends \yii\db\ActiveRecord
 {
     const STATUS_PUBLISHED = 1;
     const STATUS_UNPUBLISHED = 2;
-
+    const STATUS_CREATE_BY_MANAGER = 3;
     const SEX_MALE = 1;
     const SEX_FEMALE = 2;
+    const ARRIVED = 1;
+    const NO_ARRIVED = 0;
+    const PHONED = 1;
+    const NO_PHONED = 0;
 
     const FAMILY_STATUS_MARRIED = 1;
     const FAMILY_STATUS_SINGLE = 2;
@@ -58,11 +64,11 @@ class CreditApplication extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['status', 'sex', 'family_status', 'previous_conviction', 'salary', 'loans_payment', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
-            [['phone'],'required'],
-            [['name','firstname', 'dob', 'sex', 'family_status', 'job', 'experience', 'salary', 'loans_payment', 'product', 'credit_amount', 'term', 'information_on_income'], 'safe'],
+            [['status', 'sex', 'family_status', 'previous_conviction', 'salary', 'loans_payment', 'created_at', 'updated_at', 'created_by', 'updated_by', 'is_arrive', 'is_phoned'], 'integer'],
+            [['phone'], 'required'],
+            [['name', 'firstname', 'dob', 'sex', 'family_status', 'job', 'experience', 'salary', 'loans_payment', 'product', 'credit_amount', 'term', 'date_arrive', 'information_on_income'], 'safe'],
             [['name', 'lastname', 'firstname', 'job', 'experience', 'product', 'credit_amount', 'information_on_income'], 'string'],
-            [['phone', 'dob', 'term'], 'string', 'max' => 256],
+            [['phone', 'dob', 'term', 'note'], 'string', 'max' => 256],
             ['phone', 'string', 'min' => 9, 'message' => 'Телефон должен содержать минимум 9 символа.'],
         ];
     }
@@ -95,13 +101,16 @@ class CreditApplication extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
             'created_by' => Yii::t('app', 'Created By'),
             'updated_by' => Yii::t('app', 'Updated By'),
+            'note' => Yii::t('app', 'Заметка'),
+            'date_arrive' => Yii::t('app', 'Дата приезда'),
         ];
     }
 
     /**
      * @return array
      */
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             [
                 'class' => TimestampBehavior::className(),
@@ -112,14 +121,24 @@ class CreditApplication extends \yii\db\ActiveRecord
         ];
     }
 
+
     /**
      * @return array
      */
     public static function getStatuses()
     {
         return [
-            self::STATUS_PUBLISHED => Yii::t('app', 'New'),
-            self::STATUS_UNPUBLISHED => Yii::t('app', 'Viewed'),
+            self::STATUS_PUBLISHED => Yii::t('app', 'Нов.'),
+            self::STATUS_UNPUBLISHED => Yii::t('app', 'Просм.'),
+            self::STATUS_CREATE_BY_MANAGER => 'Добавлен менеджером',
+        ];
+    }
+
+    public static function getStatusArrive()
+    {
+        return [
+            self::ARRIVED => 'Да',
+            self::NO_ARRIVED => 'Нет',
         ];
     }
 
@@ -173,7 +192,7 @@ class CreditApplication extends \yii\db\ActiveRecord
     public static function getTermList()
     {
 
-        return [   
+        return [
             '6m' => Yii::t('app', '6 month'),
             '12m' => Yii::t('app', 'One year'),
             '24m' => Yii::t('app', '2 years'),
@@ -190,5 +209,26 @@ class CreditApplication extends \yii\db\ActiveRecord
     public static function find()
     {
         return new CreditApplicationQuery(get_called_class());
+    }
+
+    public static function getMonthPayment($priceByn)
+    {
+        $appData = AppData::getData();
+        $i = ($appData['prior_bank'] / 12) / 100;
+        $n1 = $i * pow((1 + $i), 60);
+        $n2 = pow((1 + $i), 60) - 1;
+        $k = $n1 / $n2;
+        $sum = ($k * $priceByn);
+        $sumMonth = floor($sum);
+
+        return $sumMonth;
+    }
+
+    public static function dateToUnix($date)
+    {
+        $date = new DateTime($date);
+        $date->format('Y-m-d');
+
+        return $date->getTimestamp();
     }
 }

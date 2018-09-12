@@ -29,142 +29,236 @@ class AppData extends \yii\db\ActiveRecord
      * @var array
      */
     public static $fields = [
-        'phone' => [
+
+            'phone_credit_provider_1' => [
+                'data_type'=>'credit_data',
+                'i18n' => false,
+                'widget' => 'select',
+                'label' => 'Оператор кредит. телефон 1',
+            ],
+            'phone_credit_provider_2' => [
+                'data_type'=>'credit_data',
+                'i18n' => false,
+                'widget' => 'select',
+                'label' => 'Оператор кредит. телефон 2',
+            ],
+            'phone_credit_provider_3' => [
+                'data_type'=>'credit_data',
+                'i18n' => false,
+                'widget' => 'select',
+                'label' => 'Оператор кредит. телефон 3',
+            ],
+            'phone_credit_1' => [
+                'data_type'=>'credit_data',
+                'i18n' => false,
+                'widget' => 'input',
+                'label' => 'Кредит. телефон 1',
+            ],
+            'phone_credit_2' => [
+                'data_type'=>'credit_data',
+                'i18n' => false,
+                'widget' => 'input',
+                'label' => 'Кредит. телефон 2',
+            ],
+            'phone_credit_3' => [
+                'data_type'=>'credit_data',
+                'i18n' => false,
+                'widget' => 'input',
+                'label' => 'Кредит. телефон 3',
+            ],
+        'prior_bank' => [
+            'data_type'=> 'main_data',
             'i18n' => false,
             'widget' => 'input',
-            'label' => 'Phone',
+            'label' => 'Приорбанк %',
         ],
-        'phone_2' => [
+        'vtb_bank' => [
+            'data_type'=> 'main_data',
             'i18n' => false,
             'widget' => 'input',
-            'label' => 'Phone 2',
+            'label' => 'ВТБ %',
         ],
-        'phone_3' => [
+        'idea_bank' => [
+            'data_type'=> 'main_data',
             'i18n' => false,
             'widget' => 'input',
-            'label' => 'Phone 3',
+            'label' => 'Идея банк %',
         ],
+        'bta_bank' => [
+            'data_type'=> 'main_data',
+            'i18n' => false,
+            'widget' => 'input',
+            'label' => 'БТА %',
+        ],
+        'status_bank' => [
+            'data_type'=> 'main_data',
+            'i18n' => false,
+            'widget' => 'input',
+            'label' => 'СтатусБанк %',
+        ],
+
+//        'phone' => [
+//            'i18n' => false,
+//            'data_type'=>'main_data',
+//            'widget' => 'input',
+//            'label' => 'Phone',
+//        ],
+//        'phone_2' => [
+//            'i18n' => false,
+//            'data_type'=>'main_data',
+//            'widget' => 'input',
+//            'label' => 'Phone 2',
+//        ],
+//        'phone_3' => [
+//            'i18n' => false,
+//            'data_type'=>'main_data',
+//            'widget' => 'input',
+//            'label' => 'Phone 3',
+//        ],
         'logoText' => [
             'i18n' => true,
+            'data_type'=>'main_data',
             'widget' => 'input',
             'label' => 'Text under logo',
         ],
         'address' => [
             'i18n' => true,
+            'data_type'=>'main_data',
             'widget' => 'textarea',
             'label' => 'Address',
         ],
-        'fax' => [
-            'i18n' => false,
-            'widget' => 'input',
-            'label' => 'FAX',
-        ],
         'email' => [
             'i18n' => false,
+            'data_type'=>'main_data',
             'widget' => 'input',
             'label' => 'Email',
         ],
         'adminEmail' => [
             'i18n' => false,
+            'data_type'=>'main_data',
             'widget' => 'input',
             'label' => 'Admin Email',
         ],
         'supportEmail' => [
             'i18n' => false,
+            'data_type'=>'main_data',
             'widget' => 'input',
             'label' => 'Support Email',
         ],
         'contacts' => [
             'i18n' => true,
+            'data_type'=>'main_data',
             'widget' => 'textarea',
             'label' => 'Contacts',
-            'options' => ['class'=>'js-wysiwyg']
+            'options' => ['class' => 'js-wysiwyg']
         ],
-        'openingHours' => [
-            'i18n' => true,
-            'widget' => 'textarea',
-            'label' => 'Opening Hours',
-            'options' => ['class'=>'js-wysiwyg']
-        ],
+//        'openingHours' => [
+//            'i18n' => true,
+//            'data_type'=>'main_data',
+//            'widget' => 'textarea',
+//            'label' => 'Opening Hours',
+//            'options' => ['class' => 'js-wysiwyg']
+//        ],
         'openingHoursFooter' => [
             'i18n' => true,
+            'data_type'=>'main_data',
             'widget' => 'textarea',
-            'label' => 'Opening Hours Footer',
-            'options' => ['class'=>'js-wysiwyg']
+            'label' => 'Время работы',
+            'options' => ['class' => 'js-wysiwyg']
         ],
-        'aboutUsFooter' => [
+        'credit_information' => [
+            'data_type'=> 'main_data',
             'i18n' => true,
             'widget' => 'textarea',
-            'label' => 'About Us Footer',
-            'options' => ['class'=>'js-wysiwyg']
+            'label' => 'Описание по кредиту',
+            'options' => ['class' => 'js-wysiwyg']
         ],
+//        'aboutUsFooter' => [
+//            'i18n' => true,
+//            'data_type'=>'main_data',
+//            'widget' => 'textarea',
+//            'label' => 'About Us Footer',
+//            'options' => ['class' => 'js-wysiwyg']
+//        ],
         'aboutUsHeader' => [
             'i18n' => true,
+            'data_type'=>'main_data',
             'widget' => 'input',
             'label' => 'About Us Header',
         ],
         'aboutUs' => [
             'i18n' => true,
+            'data_type'=>'main_data',
             'widget' => 'textarea',
             'label' => 'About Us',
-            'options' => ['class'=>'js-wysiwyg']
+            'options' => ['class' => 'js-wysiwyg']
         ],
         'allAboutCredit' => [
             'i18n' => true,
+            'data_type'=>'main_data',
             'widget' => 'textarea',
             'label' => 'All about credit',
-            'options' => ['class'=>'js-wysiwyg']
+            'options' => ['class' => 'js-wysiwyg']
         ],
         'appName' => [
             'i18n' => false,
+            'data_type'=>'main_data',
             'widget' => 'textarea',
             'label' => 'Application name',
         ],
         'map' => [
             'i18n' => false,
+            'data_type'=>'main_data',
             'widget' => 'textarea',
             'label' => 'Map',
         ],
         'footerMap' => [
             'i18n' => false,
+            'data_type'=>'main_data',
             'widget' => 'textarea',
             'label' => 'Map in footer',
         ],
-        'loanRate' => [
-            'i18n' => false,
-            'widget' => 'input',
-            'label' => 'Loan rate, %',
-        ],
+//        'loanRate' => [
+//            'i18n' => false,
+//            'widget' => 'input',
+//            'label' => 'Loan rate, %',
+//        ],
         'usdRate' => [
             'i18n' => false,
+            'data_type'=>'main_data',
             'widget' => 'input',
             'label' => 'USD rate',
         ],
         'favicon' => [
             'i18n' => false,
+            'data_type'=>'main_data',
             'widget' => 'upload',
             'label' => 'Favicon',
             'upload_id' => 1,
         ],
         'logo' => [
             'i18n' => false,
+            'data_type'=>'main_data',
             'widget' => 'upload',
             'label' => 'Logo',
             'upload_id' => 2,
         ],
         'headerBackground' => [
             'i18n' => false,
+            'data_type'=>'main_data',
             'widget' => 'upload',
             'label' => 'Header background',
             'upload_id' => 3,
         ],
         'aboutUsPhoto' => [
             'i18n' => false,
+            'data_type'=>'main_data',
             'widget' => 'upload',
             'label' => 'Photo on page about Us',
             'upload_id' => 4,
         ],
     ];
+
 
     /**
      * @inheritdoc
@@ -201,7 +295,8 @@ class AppData extends \yii\db\ActiveRecord
         ];
     }
 
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             [
                 'class' => TimestampBehavior::className(),
@@ -248,7 +343,7 @@ class AppData extends \yii\db\ActiveRecord
                 if ($fieldData['i18n']) {
                     //todo create empty values?
                 } else {
-                    AppDataI18n::deleteAll('parent_id='.$model->id);
+                    AppDataI18n::deleteAll('parent_id=' . $model->id);
                 }
             }
             $models[] = $model;
@@ -262,7 +357,7 @@ class AppData extends \yii\db\ActiveRecord
     public static function cleanData()
     {
         $models = self::find()->all();
-        foreach($models as $model) {
+        foreach ($models as $model) {
             if (!isset(self::$fields[$model->data_key])) {
                 $model->delete();
             }
@@ -276,11 +371,11 @@ class AppData extends \yii\db\ActiveRecord
     {
         $result = [];
         $models = self::find()->all();
-        foreach($models as $model) {
+        foreach ($models as $model) {
             if (self::$fields[$model->data_key]['widget'] === 'upload') {
                 $upload = UploadsModel::find()
                     ->where('linked_table=:linked_table AND linked_id=:linked_id')
-                    ->params([':linked_table'=>$model->tableName(), ':linked_id' => self::$fields[$model->data_key]['upload_id']])
+                    ->params([':linked_table' => $model->tableName(), ':linked_id' => self::$fields[$model->data_key]['upload_id']])
                     ->one();
                 $result[$model->data_key] = $upload;
             } else {

@@ -27,4 +27,8 @@ class AutoModels extends \yii\db\ActiveRecord
             [['model', 'years', 'description'], 'string'],
         ];
     }
+
+    public function getModels(){
+        return $this->hasMany(AutoMakes::className(), ['make_id' => 'id']);
+    }
 }

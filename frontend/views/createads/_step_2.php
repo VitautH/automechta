@@ -1,6 +1,11 @@
 <?
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use frontend\assets\AppAsset;
+
+$this->registerJs("require(['controllers/catalog/create']);", \yii\web\View::POS_HEAD);
+$this->registerCssFile("/css/style.css");
+AppAsset::register($this);
 ?>
 <div class="row">
     <header class="col-xs-12 s-headerSubmit s-headerSubmit s-lineDownLeft wow zoomInUp" data-wow-delay="0.5s">

@@ -1,0 +1,946 @@
+/******************** car styles ****************/
+.car-image {
+
+}
+.card-carousel {
+    display: none;
+}
+.card-carousel .car-image .count-image {
+    background: #4a4a4a;
+    width: auto;
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 14px;
+    text-align: center;
+    position: relative;
+    right: 0;
+    top: 5px;
+    color: white;
+    float: right;
+    margin-right: 5px;
+}
+.car-image img {
+    width: 100%;
+}
+.publication-info-mobile {
+    font-size: 9px;
+    margin-top: 15px;
+}
+.publication-info-mobile span {
+    margin-right: 3%;
+}
+.publication-info-mobile a i {
+    font-size: 14px;
+}
+.publication-info-mobile a {
+    display: inline-block;
+    padding: 5px;
+}
+.add-car-to-fav {
+    font-size: 11px;
+}
+.add-car-to-fav span {
+    margin-right: 0;
+}
+.add-car-to-fav:hover {
+    background: #f5f5f5;
+}
+.add-car-to-fav:hover i {
+    font-weight: 600;
+}
+.car-info {
+    margin-top: 25px;
+}
+.car-info h2 {
+    font-size: 21px;
+    margin-bottom: 5px;
+}
+.car-info span {
+    font-size: 14px;
+}
+.car-info strong {
+    font-size: 14px;
+}
+.car-price .price-rb {
+    font-size: 17px;
+}
+.car-price .price-dol {
+    font-size: 15px;
+}
+.car-price {
+    margin-bottom: 20px;
+}
+.location {
+    margin-top: 20px;
+}
+.car-info .location span {
+    font-size: 15px;
+}
+.location i {
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+.seller-phone {
+    margin-top: 10px;
+    margin-bottom: 17px;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #db4544;
+    background: transparent;
+    cursor: pointer;
+}
+.seller-phone:hover {
+    background: #f5f5f5;
+}
+.seller-phone i {
+    color: #000!important;
+}
+.credit-consultation {
+    width: 100%;
+    padding: 12px;
+}
+.online-request {
+    margin-top: 16px;
+    padding: 27px 20px;
+    color: #fff;
+    text-align: center;
+    background: url("../theme/images/request-mob.jpg") no-repeat center;
+    background-size: cover;
+}
+.online-request h2 {
+    font-size: 21px;
+    margin-bottom: 12px;
+}
+.online-request .custom-button {
+    margin-top: 16px;
+    font-size: 16px;
+}
+.car-info-tabs .nav-tabs {
+    margin-bottom: 10px;
+    margin-top: 25px;
+    font-size: 14px;
+}
+.car-info-tabs .nav-link {
+    padding: 0.5rem;
+}
+.car-info-tab-content p {
+    font-size: 13px;
+}
+.options h2 {
+    font-size: 14px;
+}
+.options ul {
+    padding-left: 0;
+    list-style-type: none;
+    column-count: 2;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-gap: 10px;
+    -webkit-column-gap: 10px;
+    -moz-column-gap: 10px;
+}
+
+.options ul li {
+    font-size: 12px;
+}
+.options ul li:before {
+    content: url("../theme/images/options-mark.png");
+    margin-right: 5px;
+    display: inline-block;
+}
+.credit-calculator {
+    border: 2px solid #db4544;
+    background: #f5f5f5;
+    padding: 15px;
+    margin-top: 11px;
+    margin-bottom: 33px;
+}
+[role=button] {
+    cursor: pointer;
+}
+.credit-calculator label,
+.credit-calculator input,
+.credit-calculator select,
+.complay-form select {
+    display: block;
+    width: 100%;
+}
+.credit-calculator label {
+    font-size: 12px;
+    margin-bottom: 5px;
+    padding-top: 11px;
+}
+.credit-calculator input,
+.credit-calculator select,
+.complay-form select,
+.complay-form textarea {
+    font-size: 14px;
+    background: #fff;
+    border: 1px solid #cccccc;
+}
+
+.complay-form {
+    padding: 10px;
+    border: 1px solid #db4544;
+    background: #f5f5f5;
+    z-index: 999;
+    display: none;
+}
+.complay-form .custom-button {
+    margin-top: 10px;
+    width: 100%;
+    font-size: 14px;
+}
+.complay-form textarea {
+    resize: none;
+    width: 100%;
+    margin-top: 10px;
+}
+.credit-calculator h2 {
+    font-size: 20px;
+}
+.credit-calculator p {
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 9px;
+    font-size: 16px;
+}
+.credit-calculator .custom-button {
+    width: 100%;
+    font-weight: normal;
+    padding: 13px;
+    font-size: 14px;
+}
+.credit-calculator .custom-button i {
+    font-size: 10px;
+}
+.download-income-card {
+    width: 100%;
+    font-size: 13px;
+    padding: 15px 0;
+}
+.about-credit {
+    margin-top: 33px;
+    background: #f5f5f5;
+}
+
+.header-about-credit {
+    background: #db4544;
+    color: #fff;
+    padding: 13px 0;
+    font-size: 14px;
+    margin: 0;
+}
+.header-about-credit strong {
+    font-size: 19px;
+}
+.about-credit ul {
+    padding: 10px 16px;
+    list-style-type: none;
+    margin-bottom: 6px;
+}
+.about-credit ul li {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+.about-credit ul li:before {
+    content: '\2713';
+    display: inline-block;
+    margin-right: 16px;
+    color: #00a651;
+    font-weight: 600;
+}
+.about-credit p {
+    padding: 0 16px 5px;
+    margin-bottom: 20px;
+}
+.about-credit p strong {
+    font-size: 19px;
+}
+.popular-videos {
+    margin-top: 12px;
+    overflow: hidden;
+}
+.popular-videos h2 {
+    font-size: 14px;
+}
+.videos-container,
+.enc-container {
+    flex-wrap: nowrap!important;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch!important;
+}
+.car-video {
+    margin-bottom: 10px;
+}
+.video-item {
+    flex: none;
+    width: 240px;
+}
+.video-item iframe {
+    width: 100%;
+}
+.video-description {
+    font-size: 13px;
+}
+.encyclopedia {
+    margin-top: 25px;
+}
+.encyclopedia h2 {
+    font-size: 14px;
+}
+.enc-block {
+    width: 120px;
+    margin-right: 10px;
+}
+.enc-image {
+    width: 120px;
+    height: 90px;
+    overflow: hidden;
+    position: relative;
+}
+.enc-image .image {
+
+    background-size: contain;
+    width: 120px;
+    height: 90px;
+    background-repeat: no-repeat;
+}
+.enc-image img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-height: 100%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+.enc-block p {
+    font-size: 10px;
+}
+.show-all-mod {
+    font-size: 12px;
+    text-decoration: underline;
+    margin-bottom: 25px;
+}
+.show-all-mod i {
+    font-size: 8px;
+}
+/***************** relative product ****************/
+.relative-products {
+    margin-top: 20px;
+}
+.relative-products h2 {
+    font-size: 21px;
+}
+.description-text p {
+    font-size: 12px;
+    line-height: 15px;
+    margin: 0;
+}
+footer .container {
+    padding: 0 15px;
+}
+/****************** fixed buttons ******************/
+.fixed-contacts {
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    bottom: 12px;
+    width: 100%;
+}
+.fixed-contacts button, .fixed-contacts a button {
+    padding: 14px;
+    color: #fff;
+    background: #00a651;
+    border: 0;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 10px;
+}
+.fixed-contacts a button {
+    padding-bottom: 17px!important;
+    padding-top: 18px!important;
+}
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    z-index: 999;
+}
+.modal-complay-success {
+    width: 30%!important;
+}
+.modal-contact, .modal-contact-credit, .modal-complay-success{
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 90%;
+    background: #fff;
+    padding: 15px;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+.modal-contact #close, .modal-contact-credit #close-credit, .modal-complay-success #close-complay{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.modal-contact-credit .credit-cuns a {
+    font-size: 18px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.modal-contact-credit .credit-cuns a img {
+    padding-right: 10px;
+}
+.modal-contact span,.modal-contact-credit span,  .modal-complay-success span {
+    display: block;
+    font-size: 12px;
+}
+.modal-contact h2,.modal-contact-credit h2, .modal-complay-success  h2 {
+    font-size: 21px;
+    margin-bottom: 20px;
+}
+.modal-contact p, .modal-contact-credit p, .modal-complay-success p {
+    font-size: 16px;
+    font-weight: 600;
+}
+.open-modal {
+    display: block;
+}
+
+.publication-info.in-favorite .fa-star {
+    font-weight: 900!important;
+    color: #db4544!important;
+    background: none!important;
+    box-shadow: none!important;
+}
+.publication-info .add-tooltip,.publication-info a:hover  .add-tooltip {
+    display: none;
+}
+.card-product-page .favorite i {
+    color: black;
+    font-size: 17px;
+}
+.card-product-page .relative-products .add-car-to-fav:hover {
+background: none!important;padding: 0!important;
+}
+.card-product-page .relative-products .add-car-to-fav:hover .fa-star {
+    color: #db4544 !important;
+}
+.publication-info .in-favorite {
+     background: transparent!important;
+     box-shadow:none!important;
+    color: #db4544!important;
+}
+
+.publication-info-mobile .in-favorite {
+    background: transparent!important;
+    box-shadow:none!important;
+    color: #db4544!important;
+}
+
+#credit-info h2 {
+    font-size: 20px!important;
+    text-align: left!important;
+}
+
+#credit-info h3 {
+    font-size: 16px!important;
+}
+.credit-calculator input, .credit-calculator select, .complay-form select, .complay-form textarea {
+    padding: 7px 15px!important;
+}
+
+.show-all-phone:hover ul.phone-view-all {
+    display:block!important;
+}
+
+ul.phone-view-all {
+    display: none;
+    left: 5px!important;
+    padding-left: 0!important;
+    padding-right: 0!important;
+}
+
+ul.phone-view-all li.dropdown-item {
+    padding-left: 10px!important;
+}
+ul.phone-view-all li a i {
+    margin-right: 10px;
+}
+
+span.auction {
+    font-size: 11px;
+    color: #339966;
+    margin-left: 10px;
+    font-weight: 600;
+    font-family: 'HelveticaRoman', sans-serif;
+    display: flex;
+}
+span.auction:before {
+    content: '\2713';
+    display: inline-block;
+    margin-right: 2px;
+}
+.relative-products .description-header h2 a {
+    font-size: 16px!important;
+}
+
+.relative-products .description-text {
+    color:black;
+}
+
+.slick-slide {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+/***************** media queries ********************/
+@media screen and (max-width: 450px) {
+    .credit-calculator select,
+    .complay-form select {
+        height: 37px;
+    }
+    .relative-products .description-text {
+        height: 35px!important;
+        font-size: 12px!important;
+        overflow: hidden;
+    }
+    .description-header {
+        flex-wrap: wrap;
+    }
+    .car-price span.auction {
+        font-size: 10px;
+        float: unset!important;
+        display: inline-block!important;
+    }
+    .relative-products  .in-favorite {
+        background:transparent!important;
+        box-shadow: none!important;
+        padding: 0!important;
+    }
+    .description-header h2 {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    .description-header span {
+        margin-left: 0;
+        margin-right: 8px;
+    }
+    .relative-products .catalog-item-img img {
+        height: 45% !important;
+        top: 45% !important;
+        width: 100%!important;
+        height: auto !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .car-price .hidden-desktop{
+        display: none!important;
+    }
+   .relative-products .catalog-item-img img {
+        height: 45% !important;
+        top: 45% !important;
+        width: 100%!important;
+        height: auto !important;
+    }
+    .credit-calculator input,
+    .credit-calculator select,
+    .complay-form select,
+    .complay-form textarea {
+        padding: 7px 15px!important;
+    }
+
+    #credit-info h2 {
+        font-size: 22px!important;
+    }
+
+    #credit-info h3 {
+        font-size: 18px!important;
+    }
+
+    .hidden-mobile.row {
+        display: flex!important;
+    }
+    .publication-info {
+        margin-top: 52px;
+    }
+    .publication-info a {
+        padding: 5px 10px;
+        display: inline-block;
+        font-size: 14px;
+    }
+    .publication-info a:hover {
+        background: #f5f5f5;
+    }
+    .publication-info a i {
+        font-size: 16px;
+    }
+    .publication-info a span {
+        font-size: 14px;
+    }
+    .publication-info span {
+        font-size: 12px;
+    }
+    .car-info {
+        margin-top: 17px;
+    }
+    .car-info h2 {
+        font-size: 27px;
+    }
+    .car-price {
+        margin-top: 15px;
+        margin-bottom: 9px;
+    }
+    .car-price .price-rb {
+        font-size: 22px;
+        margin-right: 35px;
+    }
+    .car-price .price-dol {
+        font-size: 18px;
+    }
+    .car-info span {
+        font-size: 16px;
+        display: inline-block;
+        margin-bottom: 11px;
+    }
+    .car-info strong {
+        font-size: 16px;
+    }
+    .online-request {
+        text-align: left;
+    }
+    .header-about-credit {
+        padding: 5px 0;
+    }
+    .header-about-credit strong {
+        font-size: 26px;
+    }
+    .header-about-credit span {
+        font-size: 16px;
+    }
+    .about-credit ul {
+        padding: 22px 16px 11px;
+    }
+    .about-credit ul li {
+        font-size: 16px;
+    }
+    .about-credit p {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+    .about-credit p strong {
+        font-size: 19px;
+    }
+    .credit-cuns {
+        border-top: 1px solid #999999;
+        margin: 20px 16px;
+        padding-top: 26px;
+    }
+    .credit-cuns h2 {
+        font-size: 21px;
+        margin-bottom: 21px;
+    }
+    .credit-cuns a {
+        display: block;
+        font-size: 18px;
+        position: relative;
+        padding-left: 40px;
+    }
+    .credit-cuns img {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        -webkit-transform: translate(0, -50%);
+        -moz-transform: translate(0, -50%);
+        -ms-transform: translate(0, -50%);
+        -o-transform: translate(0, -50%);
+        transform: translate(0, -50%);
+    }
+    .credit-cuns .time-work {
+        padding: 0;
+        margin-top: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        padding-bottom: 20px;
+    }
+    .buying-types {
+        margin-top: 33px;
+        margin-bottom: 22px;
+    }
+    .buying-types h5 {
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+    .buying-types .custom-button {
+        margin-right: 0;
+        border: 1px solid #db4544;
+        background: transparent;
+        color: #000;
+    }
+    .custom-button:hover span  {
+        color:white!important;
+    }
+    .buying-types .custom-button:hover {
+        background: #db4544!important;
+        color: #fff!important;
+    }
+    .credit-calculator {
+        padding: 15px 15px;
+    }
+    .credit-calculator h2 {
+        font-size: 21px;
+    }
+    .credit-calculator label {
+        font-size: 17px;
+        margin-bottom: 9px;
+        padding-top: 5px;
+    }
+    .credit-calculator input,
+    .credit-calculator select {
+        font-size: 18px;
+        padding: 5px 15px;
+    }
+    .credit-calculator p {
+        font-size: 15px;
+    }
+    .credit-calculator .custom-button {
+        margin: 0 auto;
+        display: block;
+        width: auto;
+    }
+    .download-income-card {
+        font-size: 18px;
+        padding: 23px 0;
+    }
+    .fotorama__nav--thumbs {
+        text-align: left;
+    }
+    .fotorama__thumb-border {
+        border-color: #db4544;
+    }
+    .car-info .nav-tabs .nav-link {
+        font-size: 15px;
+    }
+    .car-info .nav-tabs {
+        padding-left: 16px;
+        margin-bottom: 26px;
+    }
+    .car-info .nav-tabs .nav-link:hover,
+    .car-info .nav-tabs .nav-link:focus,
+    .car-info .nav-tabs .nav-link:active,
+    .car-info .nav-tabs .nav-link.active {
+        border-width: 3px;
+    }
+    .car-info .tab-content {
+        font-size: 16px;
+    }
+    .options {
+        margin-top:30px;
+    }
+    .options ul {
+        column-count: 2;
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-gap: 20px;
+        -webkit-column-gap: 20px;
+        -moz-column-gap: 20px;
+    }
+    .car-info .options h2 {
+        font-size: 19px;
+        margin-bottom: 22px;
+    }
+    .options ul li {
+        font-size: 17px;
+        margin-bottom: 5px;
+    }
+    .options ul li:before {
+        content: url("../theme/images/options-mark-desktop.png");
+        margin-right: 10px;
+    }
+    .seller-info {
+        margin-top: 25px;
+        padding: 16px;
+        background: #f5f5f5;
+    }
+    .seller-info a {
+        font-size: 16px;
+        font-weight: 600;
+    }
+    .seller-info span {
+        margin-bottom: 0;
+        font-size: 15px;
+        font-weight: 600;
+    }
+    .seller-info .custom-button {
+        background: transparent;
+        border: 2px solid #db4544;
+        color: #000;
+        padding: 12px 30px;
+    }
+    .seller-info .custom-button:hover {
+        background: #db4544;
+        color: #fff;
+    }
+    .seller-info .custom-button:hover i {
+        color: #fff!important;
+    }
+    .seller-info .custom-button i {
+        color: #000!important;
+    }
+    .popular-videos {
+        margin-top: 62px;
+    }
+    .popular-videos h2 {
+        font-size: 20px;
+    }
+    .video-item {
+        flex: inherit;
+        width: auto;
+    }
+    .video-description {
+        font-size: 17px;
+        font-weight: 600;
+    }
+    .encyclopedia {
+        margin-top: 60px;
+    }
+    .enc-block {
+        width: auto;
+        margin-right: 15px;
+    }
+    .enc-image {
+        width: 215px;
+        height: 152px;
+    }
+    .encyclopedia     .enc-image .image {
+
+        background-size: contain;
+        width: 215px;
+        height: 150px;
+        background-repeat: no-repeat;
+    }
+    .encyclopedia h2 {
+        font-size: 17px;
+        margin-bottom: 15px;
+    }
+    .enc-block p {
+        font-size: 15px;
+        font-weight: 600;
+        margin-top: 11px;
+    }
+    .show-all-mod {
+        font-size: 16px;
+        font-weight: 600;
+        display: inline-block;
+        margin-top: 21px;
+    }
+    .show-all-mod i {
+        font-size: 12px;
+    }
+    .relative-products {
+        margin-top: 60px;
+    }
+
+    .description-header {
+        width: 90%;
+    }
+    .description-text p {
+        width: 90%;
+        overflow: hidden;
+    }
+.relative-products .favorite {
+     right: 5px;
+ }
+    .relative-products .favorite .star {
+        padding: 0!important;
+    }
+
+
+    .relative-products h2 {
+        font-size: 24px;
+        margin-bottom: 19px;
+    }
+    .relative-products .catalog-cars-container {
+        display: flex;
+        justify-content: space-between;
+    }
+    .relative-products .catalog-item {
+        display: block;
+        width: 24%;
+        box-shadow: 0 0 3px #e0e0e0;
+    }
+    .relative-products .catalog-item-img {
+        width: auto;
+        max-height: 192px;
+        overflow: hidden;
+    }
+    .relative-products .catalog-item-img img {
+        position: static;
+        left: auto;
+        top: auto;
+        width: 100%;
+        height: auto;
+        -webkit-transform: translate(0, 0);
+        -moz-transform: translate(0, 0);
+        -ms-transform: translate(0, 0);
+        -o-transform: translate(0, 0);
+        transform: translate(0, 0);
+    }
+    .relative-products .description-header span {
+        display: none;
+    }
+    .relative-products .description-text {
+        height: 40px;
+        font-size: 14px;
+        overflow: hidden;
+    }
+    .relative-products .description-text p {
+        font-size: 14px;
+        line-height: 17px;
+    }
+    .relative-products .catalog-item-description {
+        padding-top: 25px;
+    }
+    .relative-products .description-header h2 {
+        font-size: 20px;
+        margin-bottom: 0;
+    }
+    .relative-products .description-price .price-rb {
+        font-size: 14px;
+        margin-right: 5px;
+    }
+    .relative-products .description-price .price-dol {
+        font-size: 12px;
+    }
+    .relative-products .favorite .add-to-favorite {
+        font-size: 17px;
+    }
+    .relative-products .add-tooltip {
+        font-size: 13px;
+        min-width: 120px;
+    }
+    .complay-form {
+        position: absolute;
+        top: 100%;
+        right: 15px;
+    }
+}

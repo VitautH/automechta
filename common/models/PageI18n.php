@@ -34,6 +34,7 @@ class PageI18n extends \yii\db\ActiveRecord
         return [
             [['parent_id'], 'integer'],
             [['header'], 'required'],
+            [['header','description'],'filter', 'filter' => 'strip_tags'],
             [['header', 'description', 'content'], 'string'],
             [['language'], 'string', 'max' => 32]
         ];

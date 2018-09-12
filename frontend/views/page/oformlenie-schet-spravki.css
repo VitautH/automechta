@@ -1,0 +1,336 @@
+.oformlenie-schet-spravki .header {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.oformlenie-schet-spravki h3 {
+    font-size: 22px;
+}
+
+.oformlenie-schet-spravki h4 {
+    font-size: 18px;
+}
+
+.oformlenie-schet-spravki .image img {
+    width: 100%;
+}
+
+.oformlenie-schet-spravki .about-vykup {
+    margin-top: 40px;
+}
+
+.oformlenie-schet-spravki p {
+    text-align: justify;
+    font-size: 14px;
+}
+
+.oformlenie-schet-spravki .text-block h3 {
+    font-size: 22px;
+    margin-top: 50px;
+}
+
+.oformlenie-schet-spravki .text-block p, .oformlenie-schet-spravki .about-vykup p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.oformlenie-schet-spravki .right-schet-spravka {
+    margin-top: 40px;
+}
+
+.oformlenie-schet-spravki .documents {
+    background: whitesmoke;
+    padding: 20px;
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
+
+.oformlenie-schet-spravki .documents h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.oformlenie-schet-spravki .bottom {
+    margin-top: 40px;
+}
+
+.oformlenie-schet-spravki .bottom table {
+    border: 2px solid whitesmoke;
+}
+.oformlenie-schet-spravki .bottom .table-striped tbody tr:nth-of-type(odd) {
+    background-color:white;
+}
+.oformlenie-schet-spravki .bottom .table-striped tbody tr:nth-of-type(even) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.oformlenie-schet-spravki .bottom table  th {
+    padding: 20px;
+}
+.oformlenie-schet-spravki table td {
+    font-size: 14px;
+}
+.oformlenie-schet-spravki .bottom .table td {
+    width: 50%;
+    vertical-align: middle;
+}
+
+.oformlenie-schet-spravki .bottom table thead {
+    background-color: whitesmoke;
+    padding: 10px;
+}
+
+.oformlenie-schet-spravki .bottom table thead h3 {
+    text-align: center;
+    font-size: 22px;
+}
+
+.oformlenie-schet-spravki .bottom table thead span {
+    text-align: center;
+    display: block;
+    font-weight: normal;
+}
+
+.oformlenie-schet-spravki .bottom .table-striped tbody tr:nth-of-type(even) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.oformlenie-schet-spravki .table td {
+    padding: 15px;
+    vertical-align: middle;
+    border-top: 1px solid #dee2e6;
+    width: 50%;
+}
+
+.oformlenie-schet-spravki .price {
+    margin-top: 40px;
+}
+
+.oformlenie-schet-spravki .price table {
+    position: relative;
+    left: 30%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 40%;
+    max-width: 100%;
+}
+
+.oformlenie-schet-spravki .price table td:first-child {
+    width: 70%;
+}
+ .oformlenie-schet-spravki .price table .table-striped tbody tr:nth-of-type(even) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+.oformlenie-schet-spravki .price table .table-striped tbody tr:nth-of-type(odd) {
+    background-color: white;
+}
+
+.oformlenie-schet-spravki .schet-spravka-block {
+    background-color: whitesmoke;
+    margin-top: 40px;
+    padding: 20px;
+}
+
+.oformlenie-schet-spravki .schet-spravka-block .images img {
+    width: 100%;
+}
+
+.oformlenie-schet-spravki .schet-spravka-block h4 {
+    margin-bottom: 20px;
+}
+
+.oformlenie-schet-spravki .right-schet-spravka .block {
+    margin-bottom: 20px;
+}
+.oformlenie-schet-spravki .content {
+    margin-top: 20px;
+}
+
+.oformlenie-schet-spravki .contact {
+    background: whitesmoke;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.oformlenie-schet-spravki .contact h3 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.oformlenie-schet-spravki .contact .phone-block i {
+    position: relative;
+    display: block;
+    top: 40%;
+    color: #db4544;
+    font-size: 18px;
+}
+
+.oformlenie-schet-spravki .contact .phone-block a {
+    margin-bottom: 12px;
+    display: block;
+    margin-left: 5px;
+    font-size: 18px;
+    vertical-align: middle;
+    margin-top: 8px;
+}
+
+.oformlenie-schet-spravki .contact .open-hours, .oformlenie-schet-spravki .contact .address {
+    margin-bottom: 14px;
+    margin-top: 8px;
+    font-size: 18px;
+}
+
+.oformlenie-schet-spravki .contact .open-hours i, .oformlenie-schet-spravki .contact .address i, .oformlenie-schet-spravki .contact .email i {
+    color: #db4544;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.oformlenie-schet-spravki .contact .custom-button {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+
+
+.oformlenie-schet-spravki .documents .creative {
+    background: url(../theme/images/creative.png) no-repeat center;
+    background-size: 83px 80px;
+}
+
+.oformlenie-schet-spravki .schet-spravka-block p i {
+    color: green;
+    font-size: 18px;
+    margin-right: 20px;
+}
+@media screen and (max-width: 599px) {
+    .oformlenie-schet-spravki .header {
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    .oformlenie-schet-spravki .documents .creative {
+        background: url(../theme/images/creative.png) no-repeat left;
+        background-size: 83px 80px;
+        height: 80px;
+        margin-left: 15px;
+    }
+
+    .oformlenie-schet-spravki .header h3 {
+        font-size: 18px;
+    }
+
+    .oformlenie-schet-spravki .text-block h3 {
+        font-size: 18px;
+        margin-top: 20px;
+    }
+
+    .oformlenie-schet-spravki .text-block p, .oformlenie-schet-spravki.about-vykup p {
+        font-size: 14px;
+        margin-bottom: unset;
+    }
+
+    .oformlenie-schet-spravki .documents {
+        margin-top: 20px;
+    }
+
+    .oformlenie-schet-spravki .about-vykup {
+        margin-top: 10px;
+    }
+
+    .oformlenie-schet-spravki .documents .col {
+        padding-left: 35px;
+    }
+
+    .oformlenie-schet-spravki.bottom .text-block h3 {
+        font-size: 18px;
+        margin-top: unset;
+        margin-bottom: 15px;
+    }
+
+    .oformlenie-schet-spravki .contact h3 {
+        text-align: left;
+        margin-bottom: 10px;
+    }
+
+    .oformlenie-schet-spravki .contact .phone-block {
+        margin-bottom: 10px;
+    }
+
+    .oformlenie-schet-spravki .contact .phone-block a {
+        display: block;
+        margin-left: 5px;
+        font-size: 16px;
+        vertical-align: middle;
+        margin-bottom: 5px;
+        margin-top: 0;
+    }
+
+    .oformlenie-schet-spravki .contact .phone-block i {
+        top: 35%;
+    }
+
+    .oformlenie-schet-spravki .contact .open-hours, .oformlenie-schet-spravki .contact .address {
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+
+    .oformlenie-schet-spravki h3 {
+        font-size: 18px !important;
+    }
+
+    .oformlenie-schet-spravki p {
+        font-size: 14px !important;
+    }
+
+    .oformlenie-schet-spravki ul {
+        margin-left: 15px;
+    }
+
+    .oformlenie-schet-spravki .contact {
+        padding: 15px;
+    }
+
+    .oformlenie-schet-spravki .call-back-block {
+        position: unset;
+        bottom: unset;
+    }
+
+    .oformlenie-schet-spravki .call-back-block .custom-button {
+        width: 100%;
+    }
+    .oformlenie-schet-spravki .bottom table thead span,     .oformlenie-schet-spravki .bottom table thead  h3 {
+        text-align: left;
+    }
+
+    .oformlenie-schet-spravki .bottom .table td {
+        width: 50%;
+        vertical-align: top;
+        padding: 10px;
+        text-align: left;
+        font-size: 12px;
+    }
+
+    .oformlenie-schet-spravki .bottom .table td p {
+        font-size: 12px!important;
+        text-align: left;
+    }
+
+    .oformlenie-schet-spravki .price table {
+        position: unset;
+        left: 0;
+        width: 100%;
+    }
+
+    .oformlenie-schet-spravki .price table td:first-child {
+        width: 60%;
+    }
+    .oformlenie-schet-spravki .schet-spravka-block .images img {
+        margin-bottom: 20px;
+    }
+
+    .oformlenie-schet-spravki  .schet-spravka-block .col-12{
+        padding: 0;
+    }
+}
